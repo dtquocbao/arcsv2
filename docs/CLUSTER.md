@@ -105,6 +105,38 @@ Copy or generate `workflows/config/label.yaml` with **absolute host paths** unde
 runs inside the container, so those paths must be identical in both places.
 Grace Singularity auto-binds `/scratch`. Do not remap the tree to `/data`.
 
+### Prefetch CRAMs (compute nodes have no internet)
+
+`fetch_region` streams remote CRAM URLs. That works only if the job has the
+Grace proxy (`run_label.sh` exports `http_proxy` and `https_proxy`, and the
+SLURM profile passes them into the container). If you would rather not stream,
+download CRAM + `.crai` once in a `short` job and point `cram:` at the local
+files. Use Aspera when you have a key. Otherwise `samtools view` after
+`module load WebProxy`:
+
+```bash
+srun -A 132702112504 -p short -c 4 --mem=16G -t 04:00:00 --pty bash
+module load WebProxy
+export http_proxy=http://10.73.132.63:8080 https_proxy=http://10.73.132.63:8080
+export ARCSV2_SIF=$SCRATCH/arcsv2/sif/arcsv2_1.6.1.sif
+DEST=$SCRATCH/arcsv2/data/samples/HG01884/reads
+mkdir -p "$DEST"
+singularity exec "$ARCSV2_SIF" samtools view -C \
+  -T /scratch/user/dtquocbao/arcsv2/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa \
+  -o "$DEST/HG01884.cram" \
+  "https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/additional_698_related/data/ERR3988940/HG01884.final.cram"
+singularity exec "$ARCSV2_SIF" samtools index "$DEST/HG01884.cram"
+```
+
+A whole CRAM can outlive `short`. Resubmit that job on `medium` if it hits the
+walltime. Then set `cram:` to the absolute local path
+(`/scratch/user/dtquocbao/arcsv2/data/samples/HG01884/reads/HG01884.cram`).
+
+After `merge` for a sample, delete that sample's per-chromosome BAMs and its
+CRAM (H5). Build each `.mmi` just before `label` and delete it after. Keep
+results and labels. `$SCRATCH` will not hold assemblies plus indexes for the
+whole cohort.
+
 ## 3. Dry-run (no SLURM jobs)
 
 From the repo checkout:
@@ -181,11 +213,13 @@ Status table: `…/results/batch1/batch_status.tsv` (see U4).
 
 | Rule | Memory | Time |
 |:--|:--|:--|
-| `call` | `max(4000, ceil(chrom_Mb × 30.68 × 1.2))` MiB | ~12 min/Mb, floor 3 h |
-| `label` | `label_mem_mb` from config (default 32000) | 8 h |
-| `index_haps` | 16000 MiB | 6 h |
+| `call` | `max(4000, ceil(chrom_Mb × 30.68 × 1.2))` MiB, times `attempt` | `max(60, ceil(chrom_Mb × 0.5))` min, times `attempt` (chr1 ≈ 125 min) |
+| `label` | `label_mem_mb` from config (default 32000), times `attempt` | `label_runtime_min` (default 480 min), times `attempt` |
+| `index_haps` | 16000 MiB, times `attempt` | `index_runtime_min` (default 360 min), times `attempt` |
 
-Tune `mem_mb_per_mb`, `label_mem_mb`, and `threads` in `label.yaml` if jobs OOM or timeout.
+`attempt` starts at 1. A retry doubles runtime and memory, then triples them. Grace bills `max(cores, mem/7.5 GB)`. `workflows/config/label.grace.example.yaml` sets `label_mem_mb: 30000` and 4 threads so a label job is not charged for extra cores. Laptop defaults stay in `label.yaml`.
+
+Tune `mem_mb_per_mb`, `call_min_per_mb`, `label_mem_mb`, and `threads` in the config if jobs OOM or timeout.
 
 ## 8. Related scripts
 

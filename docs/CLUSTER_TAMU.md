@@ -35,3 +35,16 @@ Checked against Snakemake 8.30.0 and plugin 2.8.0 source:
 `--cleanenv` stays in the Grace and FASTER profiles. The image sets `ENV PATH="/opt/conda/bin:$PATH"` in the Dockerfile, and Singularity applies image environment variables after `--cleanenv`, so `arcsv2` remains on `PATH`. The proxy is passed back with `--env` because `--cleanenv` would drop `http_proxy`. This was not executed here (no `singularity` binary on the laptop). If a Grace job reports `arcsv2: command not found`, remove `--cleanenv` from `apptainer-args`.
 
 Launch with `scripts/hpc/run_label.sh`. The controller is one process: tmux on a login node, or a 1-core `long` job. TODO(Bao): confirm HPRC policy on long-running login processes.
+
+## Network
+
+`scripts/hpc/run_label.sh` sets `http_proxy` and `https_proxy` to
+`http://10.73.132.63:8080` before Snakemake starts. SLURM forwards them
+(`--export=ALL`), and the profile's `apptainer-args` pass them into the
+container so `fetch_region` can stream remote CRAMs.
+
+To avoid streaming, prefetch CRAM + `.crai` in one `short` job (Aspera, or
+`samtools view` after `module load WebProxy`) under
+`$SCRATCH/arcsv2/data/samples/<ID>/reads/` and point `cram:` at those files.
+The commands are in `docs/CLUSTER.md`. After `merge`, delete that sample's
+BAMs and CRAM (H5). Delete each `.mmi` after `label`.

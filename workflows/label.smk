@@ -45,41 +45,32 @@ if os.path.isfile(REF_FAI):
 MEM_MB_PER_MB = float(config.get("mem_mb_per_mb", 30.68))
 MEM_MB_FLOOR = int(config.get("mem_mb_floor", 4000))
 
+# Call walltime is minutes: max(floor, ceil(chrom_Mb * min_per_mb)).
+# chr1 (248.96 Mb) at 0.5 min/Mb is ceil(124.5) = 125 min, not the old
+# max(180, Mb*12) ≈ 50 h. Retries multiply runtime and mem_mb by attempt
+# (attempt 1 is the base). The SLURM plugin wants runtime in minutes.
+FETCH_RUNTIME_MIN = 90
+MERGE_RUNTIME_MIN = 120
+DATASET_RUNTIME_MIN = 60
 
-def _runtime_hms(minutes: int) -> str:
-    minutes = max(1, int(minutes))
-    hours, mins = divmod(minutes, 60)
-    return f"{hours}:{mins:02d}:00"
 
-
-def call_runtime_slurm(wildcards) -> str:
-    """SLURM ``--time`` from chromosome length (generous for whole-genome call)."""
+def call_runtime_min(wildcards) -> int:
+    """Base call runtime in minutes. Unknown contigs use the floor."""
+    floor = int(config.get("call_runtime_floor_min", 60))
     length = CHROM_LEN_BP.get(wildcards.chrom)
     if length is None:
-        return _runtime_hms(240)
+        return floor
+    per_mb = float(config.get("call_min_per_mb", 0.5))
     mb = length / 1_000_000.0
-    return _runtime_hms(max(180, int(mb * 12)))
+    return max(floor, int(math.ceil(mb * per_mb)))
 
 
-def fetch_runtime_slurm(wildcards) -> str:
-    del wildcards
-    return _runtime_hms(90)
+def index_runtime_min(_wildcards) -> int:
+    return int(config.get("index_runtime_min", 360))
 
 
-def merge_runtime_slurm(_wildcards) -> str:
-    return _runtime_hms(120)
-
-
-def index_runtime_slurm(_wildcards) -> str:
-    return _runtime_hms(360)
-
-
-def label_runtime_slurm(_wildcards) -> str:
-    return _runtime_hms(480)
-
-
-def dataset_runtime_slurm(_wildcards) -> str:
-    return _runtime_hms(60)
+def label_runtime_min(_wildcards) -> int:
+    return int(config.get("label_runtime_min", 480))
 
 
 def call_mem_mb(wildcards) -> int:
@@ -151,8 +142,8 @@ rule fetch_region:
         bam=data("work/{sample}/{chrom}.bam"),
         bai=data("work/{sample}/{chrom}.bam.bai"),
     resources:
-        mem_mb=4000,
-        runtime=fetch_runtime_slurm,
+        mem_mb=lambda wc, attempt: 4000 * attempt,
+        runtime=lambda wc, attempt: FETCH_RUNTIME_MIN * attempt,
     params:
         reference=config["reference"],
         cram=lambda wildcards: config["cram"][wildcards.sample],
@@ -171,8 +162,8 @@ rule call:
         results("{sample}/{chrom}/arcsv_out.tab"),
     threads: int(config.get("threads", 4))
     resources:
-        mem_mb=call_mem_mb,
-        runtime=call_runtime_slurm,
+        mem_mb=lambda wc, attempt: call_mem_mb(wc) * attempt,
+        runtime=lambda wc, attempt: call_runtime_min(wc) * attempt,
     params:
         reference=config["reference"],
         gaps=config["gaps"],
@@ -195,8 +186,8 @@ rule merge:
     output:
         results("{sample}/merged.tab"),
     resources:
-        mem_mb=8000,
-        runtime=merge_runtime_slurm,
+        mem_mb=lambda wc, attempt: 8000 * attempt,
+        runtime=lambda wc, attempt: MERGE_RUNTIME_MIN * attempt,
     params:
         beds=merge_filter_bed_args(),
     conda:
@@ -205,17 +196,25 @@ rule merge:
         "arcsv2 merge-filter {input:q} {params.beds} -o {output:q}"
 
 rule index_haps:
+    """Build one haplotype index, then reject a too-small or unloadable .mmi.
+
+    The size check is the HG00140 failure (stale index, mass no_hit labels).
+    ``ml-label`` repeats it, with a smoke alignment, before mapping.
+    """
     input:
         lambda wildcards: hap_fasta(wildcards.sample, wildcards.which),
     output:
         data("haps/{sample}.{which}.mmi"),
     resources:
-        mem_mb=16000,
-        runtime=index_runtime_slurm,
+        mem_mb=lambda wc, attempt: 16000 * attempt,
+        runtime=lambda wc, attempt: index_runtime_min(wc) * attempt,
+    params:
+        reference=config["reference"],
     conda:
         "../environment.yml"
     shell:
-        "minimap2 -d {output:q} {input:q}"
+        "minimap2 -d {output:q} {input:q} && "
+        "arcsv2 mmi-validate {output:q} --fasta {input:q} --reference {params.reference:q}"
 
 def label_mem_mb(_wildcards) -> int:
     return int(config.get("label_mem_mb", 32000))
@@ -236,8 +235,8 @@ rule label:
         labels("{sample}.labeled.tsv"),
     threads: label_threads
     resources:
-        mem_mb=label_mem_mb,
-        runtime=label_runtime_slurm,
+        mem_mb=lambda wc, attempt: label_mem_mb(wc) * attempt,
+        runtime=lambda wc, attempt: label_runtime_min(wc) * attempt,
     params:
         reference=config["reference"],
         unreliable=config.get("unreliable", ""),
@@ -258,8 +257,8 @@ rule dataset:
         tsv=labels("dataset.tsv"),
         summary=labels("dataset.summary.json"),
     resources:
-        mem_mb=4000,
-        runtime=dataset_runtime_slurm,
+        mem_mb=lambda wc, attempt: 4000 * attempt,
+        runtime=lambda wc, attempt: DATASET_RUNTIME_MIN * attempt,
     conda:
         "../environment.yml"
     shell:

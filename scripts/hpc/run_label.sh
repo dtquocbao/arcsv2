@@ -40,8 +40,11 @@ else
 fi
 
 export ARCSV2_SIF="${ARCSV2_SIF:-${PREFIX}/sif/arcsv2_1.6.1.sif}"
-export http_proxy="${http_proxy:-http://10.73.132.63:8080}"
-export https_proxy="${https_proxy:-http://10.73.132.63:8080}"
+# Grace compute nodes have no direct internet. Set these before snakemake
+# starts: the profile expands $http_proxy into apptainer-args, and SLURM's
+# default --export=ALL forwards the variables into each job.
+export http_proxy=http://10.73.132.63:8080
+export https_proxy=http://10.73.132.63:8080
 export SINGULARITY_CACHEDIR="${SINGULARITY_CACHEDIR:-${PREFIX}/singularity-cache}"
 export APPTAINER_CACHEDIR="${APPTAINER_CACHEDIR:-${SINGULARITY_CACHEDIR}}"
 mkdir -p "${SINGULARITY_CACHEDIR}"

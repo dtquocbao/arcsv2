@@ -1,0 +1,15 @@
+# Grace service-unit settings. Copy the keys you need into the cluster
+# label config. Do not replace laptop workflows/config/label.yaml.
+#
+# Grace bills max(cores, memory / 7.5 GB) per node-hour. A job that asks for
+# 1 thread and 32 GB is charged as 32/7.5 ≈ 5 cores. Matching threads to
+# memory keeps the charge on the cores you actually use:
+#   label_mem_mb 30000 is 30 GB, and 4 threads * 7.5 GB = 30 GB, so a label
+#   job is billed for 4 cores.
+#   call threads 4 covers the length-scaled call memory (chr1 is about 9 GB,
+#   under 4 * 7.5 GB).
+# Paths (data_root, reference, gaps, cram, BEDs) stay absolute under
+# /scratch/user/dtquocbao/arcsv2/... and are not set here.
+label_mem_mb: 30000
+label_threads: 4
+threads: 4

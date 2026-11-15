@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 import yaml
@@ -80,19 +81,68 @@ def test_site_slurm_profiles():
     assert "TODO(Bao): confirm partitions" in faster_text
 
 
+# GRCh38 primary-assembly lengths (chr1 ≈ 248.96 Mb → ceil(124.5) = 125 min).
+_GRCH38_BP = {"chr1": 248_956_422, "chr20": 64_444_167}
+
+
+def _load_helpers(rel: str) -> dict:
+    """Exec the Python helpers above the first Snakemake rule."""
+    text = (ROOT / rel).read_text(encoding="utf-8")
+    text = text.split("\nrule ", 1)[0]
+    text = re.sub(r"^configfile:.*$", "config = {}", text, flags=re.M)
+    text = re.sub(r"^([ \t]*)container:.*$", r"\1pass", text, flags=re.M)
+    ns: dict = {"__name__": "workflow_helpers"}
+    exec(compile(text, rel, "exec"), ns, ns)
+    ns["CHROM_LEN_BP"].clear()
+    ns["CHROM_LEN_BP"].update(_GRCH38_BP)
+    return ns
+
+
+def test_call_runtime_and_attempt_scaling():
+    for rel in ("workflows/label.smk", "workflows/Snakefile"):
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        assert "lambda wc, attempt: call_runtime_min(wc) * attempt" in text
+        assert "lambda wc, attempt: call_mem_mb(wc) * attempt" in text
+        assert "mb * 12" not in text
+        ns = _load_helpers(rel)
+        wc1 = SimpleNamespace(chrom="chr1")
+        wc20 = SimpleNamespace(chrom="chr20")
+
+        def runtime(wc, attempt, helpers=ns):
+            return helpers["call_runtime_min"](wc) * attempt
+
+        def memory(wc, attempt, helpers=ns):
+            return helpers["call_mem_mb"](wc) * attempt
+
+        assert 60 <= runtime(wc1, 1) <= 1440
+        assert runtime(wc20, 1) >= 60
+        assert runtime(wc1, 2) == 2 * runtime(wc1, 1)
+        assert memory(wc1, 2) == 2 * memory(wc1, 1)
+        assert runtime(wc20, 2) == 2 * runtime(wc20, 1)
+        assert memory(wc20, 2) == 2 * memory(wc20, 1)
+
+    label = (ROOT / "workflows/label.smk").read_text(encoding="utf-8")
+    assert "lambda wc, attempt: index_runtime_min(wc) * attempt" in label
+    assert "lambda wc, attempt: label_runtime_min(wc) * attempt" in label
+    ns = _load_helpers("workflows/label.smk")
+    assert ns["index_runtime_min"](None) == 360
+    assert ns["label_runtime_min"](None) == 480
+    grace = yaml.safe_load(
+        (ROOT / "workflows/config/label.grace.example.yaml").read_text(encoding="utf-8")
+    )
+    assert grace["label_mem_mb"] == 30000
+    assert grace["label_threads"] == 4
+    assert grace["threads"] == 4
+    laptop = yaml.safe_load((ROOT / "workflows/config/label.yaml").read_text(encoding="utf-8"))
+    assert "label_mem_mb" not in laptop
+
+
 def test_call_mem_formula_matches_label_smk():
     mem_mb_per_mb = 30.68
     floor = 4000
     mb = _chrom_mb("chrSim")
     expected = max(floor, int(math.ceil(mb * mem_mb_per_mb * 1.2)))
     assert expected >= floor
-
-
-def test_runtime_helpers():
-    minutes = max(180, int(_chrom_mb("chr1") * 12)) if _chrom_mb("chr1") > 1 else 180
-    hours, mins = divmod(minutes, 60)
-    hms = f"{hours}:{mins:02d}:00"
-    assert hms.count(":") == 2
 
 
 def _slurm_plugin_importable() -> bool:
@@ -132,7 +182,7 @@ def test_slurm_profile_dryrun_two_samples():
             "workflows/label.smk",
             "-n",
             "--profile",
-            "workflows/profiles/slurm",
+            "workflows/profiles/slurm-grace",
             "--configfile",
             "workflows/config/label.cluster_smoke.yaml",
         ],

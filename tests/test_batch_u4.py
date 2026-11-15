@@ -16,7 +16,6 @@ from arcsv2.batch import (
 from arcsv2.input_checks import InputCheckError
 from arcsv2.mmi_validate import (
     check_no_hit_fraction,
-    min_expected_mmi_bytes,
     no_hit_fraction,
     validate_mmi_size,
 )
@@ -63,6 +62,25 @@ def test_mmi_size_too_small(tmp_path: Path):
     mmi.write_bytes(b"y" * 100)
     with pytest.raises(InputCheckError, match="too small"):
         validate_mmi_size(mmi, fa, hap_name="hap1")
+
+
+def test_mmi_validate_cli_rejects_small_index(tmp_path: Path):
+    from typer.testing import CliRunner
+
+    from arcsv2.cli import app
+
+    fa = tmp_path / "hap1.fa.gz"
+    fa.write_bytes(b"x" * 1000)
+    mmi = tmp_path / "hap1.mmi"
+    mmi.write_bytes(b"y" * 100)
+    result = CliRunner().invoke(app, ["mmi-validate", str(mmi), "--fasta", str(fa)])
+    assert result.exit_code != 0
+    assert "too small" in result.output
+
+
+def test_index_haps_runs_mmi_validate():
+    text = Path(__file__).resolve().parents[1].joinpath("workflows", "label.smk").read_text(encoding="utf-8")
+    assert "arcsv2 mmi-validate {output:q} --fasta {input:q}" in text
 
 
 def test_no_hit_fraction_gate():

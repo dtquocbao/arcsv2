@@ -371,6 +371,40 @@ def ml_label_cmd(
     typer.echo(f"wrote {len(labeled)} labels to {out}")
 
 
+@app.command("mmi-validate")
+def mmi_validate_cmd(
+    mmi: Path = typer.Argument(..., help="minimap2 haplotype index (.mmi)"),
+    fasta: Path | None = typer.Option(
+        None,
+        "--fasta",
+        help="FASTA this index was built from. Enables the size check (HG00140).",
+    ),
+    reference: Path | None = typer.Option(
+        None,
+        "--reference",
+        "-R",
+        help="Reference FASTA for a one-locus smoke alignment.",
+    ),
+) -> None:
+    """Fail if a haplotype index is missing, too small, or fails a smoke alignment.
+
+    ``ml-label`` runs the same checks on both haplotypes before mapping.
+    """
+    from arcsv2.input_checks import InputCheckError
+    from arcsv2.mmi_validate import validate_mmi_size, validate_mmi_smoke
+
+    try:
+        if fasta is not None:
+            validate_mmi_size(mmi, fasta, hap_name=mmi.name)
+        if reference is not None:
+            validate_mmi_smoke(mmi, reference, hap_name=mmi.name)
+        if fasta is None and reference is None and not mmi.is_file():
+            raise InputCheckError(f"Haplotype index missing: {mmi}", "Rebuild with minimap2 -d.")
+    except InputCheckError as exc:
+        raise typer.BadParameter(str(exc)) from None
+    typer.echo(f"ok {mmi}")
+
+
 @app.command("ml-dataset")
 def ml_dataset_cmd(
     tables: list[Path] = typer.Argument(...),

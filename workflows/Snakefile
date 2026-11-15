@@ -71,6 +71,17 @@ def call_mem_mb(wildcards) -> int:
     return max(MEM_MB_FLOOR, int(math.ceil(chrom_mb * MEM_MB_PER_MB * 1.2)))
 
 
+def call_runtime_min(wildcards) -> int:
+    """Same minutes formula as workflows/label.smk. Unknown contigs use the floor."""
+    floor = int(config.get("call_runtime_floor_min", 60))
+    length = CHROM_LEN_BP.get(wildcards.chrom)
+    if length is None:
+        return floor
+    per_mb = float(config.get("call_min_per_mb", 0.5))
+    mb = length / 1_000_000.0
+    return max(floor, int(math.ceil(mb * per_mb)))
+
+
 rule all:
     input:
         expand(results("{sample}/merged.tab"), sample=SAMPLES),
@@ -84,7 +95,8 @@ rule call_chrom:
         results("{sample}/{chrom}/arcsv_out.tab"),
     threads: int(config.get("threads", 4))
     resources:
-        mem_mb=call_mem_mb,
+        mem_mb=lambda wc, attempt: call_mem_mb(wc) * attempt,
+        runtime=lambda wc, attempt: call_runtime_min(wc) * attempt,
     params:
         reference=config["reference"],
         gaps=config["gaps"],
