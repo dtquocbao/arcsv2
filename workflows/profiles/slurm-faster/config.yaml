@@ -1,0 +1,31 @@
+# FASTER (faster.hprc.tamu.edu). Same Snakemake 8 SLURM profile as slurm-grace,
+# with this project's FASTER account.
+#
+# TODO(Bao): confirm partitions with `sinfo` before the first submit.
+# HPRC's FASTER batch guide (https://hprc.tamu.edu/kb/User-Guides/FASTER/Batch/,
+# queue table dated 2022-08-17 and still published) lists:
+#   cpu          default, 7 days, no GPU
+#   development  1 hour, 1 node
+#   gpu          7 days, requires --gres
+# ARC-SV2 uses no GPU, so every rule below asks for `cpu`. Grace's short/medium
+# names are not on this cluster. `development` is only 1 hour; do not move
+# call or label there without checking walltime.
+#
+# --cleanenv: same rationale as workflows/profiles/slurm-grace/config.yaml.
+executor: slurm
+jobs: 100                 # stay under fair-share; raise only after H4
+restart-times: 2
+latency-wait: 120
+printshellcmds: true
+software-deployment-method: apptainer
+apptainer-args: "--cleanenv --env http_proxy=$http_proxy,https_proxy=$https_proxy"  # see F4
+default-resources:
+  slurm_account: "142702113847"
+  slurm_partition: "cpu"
+  runtime: 60                 # minutes (int) for the slurm plugin
+  mem_mb: 4000
+set-resources:
+  dataset:
+    slurm_partition: "cpu"
+  merge:
+    slurm_partition: "cpu"

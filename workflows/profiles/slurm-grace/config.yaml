@@ -1,0 +1,27 @@
+# Grace (grace.hprc.tamu.edu). Snakemake 8 SLURM executor plugin.
+# The controller runs on the host: sbatch is not in the SIF. Rules run in the
+# container via the global `container:` directive and software-deployment-method.
+# `runtime` is minutes (int). Plugin 2.8.0 passes it to `sbatch -t`.
+#
+# --cleanenv stays. The image sets PATH in Dockerfile ENV
+# (`ENV PATH="/opt/conda/bin:$PATH"`), and Singularity applies image ENV after
+# --cleanenv, so `arcsv2` stays on PATH. --env puts the proxy back; cleanenv
+# would otherwise drop it. Not executed on the laptop (no singularity binary).
+# If a job fails with `arcsv2: command not found`, drop --cleanenv.
+executor: slurm
+jobs: 100                 # stay under fair-share; raise only after H4
+restart-times: 2
+latency-wait: 120
+printshellcmds: true
+software-deployment-method: apptainer
+apptainer-args: "--cleanenv --env http_proxy=$http_proxy,https_proxy=$https_proxy"  # see F4
+default-resources:
+  slurm_account: "132702112504"
+  slurm_partition: "medium"   # 1 day; every rule fits after F3
+  runtime: 60                 # minutes (int) for the slurm plugin
+  mem_mb: 4000
+set-resources:
+  dataset:
+    slurm_partition: "short"
+  merge:
+    slurm_partition: "short"

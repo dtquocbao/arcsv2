@@ -22,6 +22,14 @@ import math
 import os
 import shlex
 
+# Global container: every rule runs inside the SIF when --sdm apptainer is set.
+# Empty config and unset ARCSV2_SIF leave CI/laptop runs on the host (Snakemake
+# ignores container: unless that deployment method is passed). Paths in the
+# config must be the same on the host and in the container (Grace binds /scratch).
+_SIF = str(config.get("container") or os.environ.get("ARCSV2_SIF") or "").strip()
+if _SIF:
+    container: _SIF
+
 DATA = config.get("data_root", ".").rstrip("/") or "."
 RESULTS = config.get("results_dir", "results").rstrip("/") or "results"
 LABELS = config.get("labels_dir", "labels").rstrip("/") or "labels"

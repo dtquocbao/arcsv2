@@ -99,7 +99,11 @@ Match the ML-0 layout (recommended). On Grace use `$SCRATCH/arcsv2/...`:
 | `…/haps/<ID>.hap{1,2}.fa.gz` | HPRC haplotypes |
 | `…/haps/<ID>.hap{1,2}.mmi` | minimap2 indexes (build just-in-time; delete after label) |
 
-Copy or generate `workflows/config/label.yaml` with `data_root` pointing at that tree.
+Copy or generate `workflows/config/label.yaml` with **absolute host paths** under
+`/scratch/user/dtquocbao/arcsv2/...` for `data_root`, `reference`, `gaps`,
+`cram`, and the filter BEDs. Snakemake checks inputs on the host and the shell
+runs inside the container, so those paths must be identical in both places.
+Grace Singularity auto-binds `/scratch`. Do not remap the tree to `/data`.
 
 ## 3. Dry-run (no SLURM jobs)
 
@@ -129,14 +133,16 @@ snakemake -s workflows/label.smk \
   --profile workflows/profiles/slurm \
   --configfile workflows/config/label.yaml \
   --jobs 200 \
-  --software-deployment-method singularity \
-  --container-image "$ARCSV2_SIF" \
-  --singularity-args "--bind $SCRATCH/arcsv2:/data --bind $PWD:$PWD"
+  --software-deployment-method apptainer
 ```
 
-If your Snakemake build only accepts `apptainer` as the method name, use
-`--software-deployment-method apptainer` with `APPTAINER_CMD=singularity` and
-`--apptainer-args` instead of `--singularity-args`.
+Snakemake 8 accepts `conda`, `apptainer`, and `env-modules` (not `singularity`).
+Point the apptainer method at Grace's binary with `APPTAINER_CMD=singularity`.
+The image comes from `container:` in `workflows/label.smk` (`ARCSV2_SIF`, or
+`container:` in the config). Leave `container:` empty and export `ARCSV2_SIF`
+to the `.sif` path. Do not pass `--bind $SCRATCH/arcsv2:/data`. Cluster configs
+use the same absolute `/scratch/user/dtquocbao/arcsv2/...` paths on the host and
+inside the container.
 
 Edit `workflows/profiles/slurm/config.yaml` defaults:
 
@@ -152,9 +158,13 @@ Logs: `logs/slurm/{rule}-<jobid>.out|err`
 For call-only cohorts (no hap labeling):
 
 ```bash
-singularity exec --bind $SCRATCH/arcsv2:/data "$ARCSV2_SIF" \
-  arcsv2 batch --manifest samples.tsv --out /data/results/batch1 --chroms chr20
+singularity exec "$ARCSV2_SIF" \
+  arcsv2 batch --manifest samples.tsv \
+  --out /scratch/user/dtquocbao/arcsv2/results/batch1 --chroms chr20
 ```
+
+Singularity already binds `/scratch`. Point `--out` at that absolute path; do
+not bind the tree onto `/data`.
 
 Status table: `…/results/batch1/batch_status.tsv` (see U4).
 

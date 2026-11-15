@@ -10,6 +10,11 @@ configfile: "workflows/config/data.yaml"
 import math
 import os
 
+# Same global container as workflows/label.smk. See that file for path rules.
+_SIF = str(config.get("container") or os.environ.get("ARCSV2_SIF") or "").strip()
+if _SIF:
+    container: _SIF
+
 DATA = str(config.get("data_root", ".")).rstrip("/") or "."
 RESULTS = str(config.get("results_dir", "results")).rstrip("/") or "results"
 SAMPLES = list(config.get("samples") or [])

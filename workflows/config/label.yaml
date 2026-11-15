@@ -1,6 +1,9 @@
 # Default chr20 benchmark config (= caller-v1 / v2fix11 settings).
 # simplify_blocks_diploid with sequence + flank-preserving guard; point cuts OFF.
 # Golden: export/v2fix11/ (validated 222, precision 59.0%).
+# Empty container: laptop/CI stay on the host. On Grace set ARCSV2_SIF (or a
+# .sif path here). Do not remap cluster paths to /data; use absolute /scratch paths.
+container: ""
 data_root: /data
 results_dir: results
 labels_dir: labels
