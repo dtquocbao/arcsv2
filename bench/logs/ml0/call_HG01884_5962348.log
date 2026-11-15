@@ -1,0 +1,28 @@
+[call:chr20     0.0s] start: /data/work/HG01884/chr20.bam (chr20:5942348-5982348)
+[call:chr20     0.0s] load_bam: /data/work/HG01884/chr20.bam (engine=rust)
+[call:chr20     0.0s] load_bam done: 10,022 alignments -> 4,955 pairs, 91 breakpoints, 41 splits (insert_stats=4,935, engine=rust)
+[call:chr20     0.0s] loaded: 4955 pairs, 91 clip/split bps, 41 splits
+[call:chr20     0.0s] fit_libs: 4,955 pairs
+[call:chr20     0.1s] discover: scan 4,955 pairs for DRPs
+[call:chr20     0.1s] discover: Del: 12 DRPs + 4 null reps
+[call:chr20     0.1s] discover: Del: null rep 2/4
+[call:chr20     0.1s] discover: Del: null rep 4/4
+[call:chr20     0.1s] discover: Dup: 1 DRPs + 4 null reps
+[call:chr20     0.1s] discover: Dup: null rep 2/4
+[call:chr20     0.1s] discover: Dup: null rep 4/4
+[call:chr20     0.1s] discover: Ins: 3 DRPs + 4 null reps
+[call:chr20     0.1s] discover: Ins: null rep 2/4
+[call:chr20     0.1s] discover: Ins: null rep 4/4
+[call:chr20     0.1s] discover done: 9 breakpoints
+[call:chr20     0.1s] blocks: 9 breakpoints -> 10 blocks (chrom_len=64,444,167)
+[call:chr20     0.1s] build_graph: 4,955 pairs x 10 blocks (rust)
+[call:chr20     0.1s] build_graph done: 19 edges
+[call:chr20     0.1s] insertions: test novel insertion sites
+[call:chr20     0.1s] insertions: 1 candidate sites, 5 sizes, 19 edges
+[call:chr20     0.1s] insertions done: 0 insertions placed
+[call:chr20     0.1s] genotype: 2 loci (of 2 merged)
+[call:chr20     0.2s] genotype: locus 1/2 done
+[call:chr20     0.2s] genotype: locus 2/2 done
+[call:chr20     0.2s] genotype done: 1 calls
+[call:chr20     0.2s] done: 1 calls -> /tmp/ml0_s1_windows/HG01884_5962348/arcsv_out.tab
+wrote 1 calls to /tmp/ml0_s1_windows/HG01884_5962348/arcsv_out.tab

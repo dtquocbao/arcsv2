@@ -1,0 +1,21 @@
+loading python threads=1 ...
+python: n=8087727 wall=927.4s tracemalloc_peak=1.364GB
+loading rust threads=1 ...
+rust@1: n=8087727 wall=328.9s tracemalloc_peak=1.178GB
+PASS arrays identical
+  splits 4413 vs 4413; clips 353774 vs 353774; extras 33288 vs 33288
+loading rust threads=8 ...
+rust@8: n=8087727 wall=311.5s tracemalloc_peak=1.178GB
+FAIL arrays:
+  start1: 8087669 mism first@14 py=60302 rust=60115
+  end1: 8087659 mism first@14 py=60345 rust=60265
+  start2: 8087638 mism first@14 py=0 rust=60302
+  end2: 8087612 mism first@14 py=0 rust=60452
+  insert: 8065723 mism first@14 py=0 rust=337
+  mate_len: 6484 mism first@567442 py=0 rust=150
+  qname_hash: 8087713 mism first@14 py=3123177675 rust=3610386960
+  mapq1: 718838 mism first@14 py=0 rust=60
+  mapq2: 742822 mism first@14 py=0 rust=60
+  lib_id: 7408311 mism first@14 py=600 rust=649
+  flags: 53798 mism first@14 py=4 rust=2
+  splits 4413 vs 4413; clips 353774 vs 353774; extras 33288 vs 33288

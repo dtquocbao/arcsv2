@@ -1,0 +1,56 @@
+# Fixed project name so Docker Desktop groups every container under "arcsv2",
+# independent of the checkout folder. Wrappers, the dashboard and the
+# devcontainer all use this file. See docs/CROSS_PLATFORM.md.
+
+name: arcsv2
+
+x-common: &common
+  image: arcsv2:dev
+  working_dir: /work
+  environment:
+    PYTHONPATH: /work/python
+  volumes:
+    - .:/work
+    - arcsv2-data:/data
+  labels:
+    org.arcsv2.role: runtime
+
+services:
+  cli:
+    <<: *common
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles: ["cli"]
+
+  dashboard:
+    <<: *common
+    # No fixed container_name: wrappers use `run --rm` so --results args reach arcsv2.
+    command: ["dashboard", "--results", "/data", "--host", "0.0.0.0"]
+    ports:
+      - "8501:8501"
+    profiles: ["dashboard"]
+
+  # Not behind a profile: Cursor/VS Code runServices may ignore profiles.
+  dev:
+    <<: *common
+    container_name: arcsv2-dev
+    entrypoint: ["sleep", "infinity"]
+
+  # Named volumes start as root; mambauser needs write access to /data.
+  init-data:
+    image: arcsv2:dev
+    user: root
+    volumes:
+      - arcsv2-data:/data
+    entrypoint:
+      [
+        "bash",
+        "-lc",
+        "chown -R mambauser:mambauser /data && chmod 775 /data && echo /data ready",
+      ]
+    profiles: ["init"]
+
+volumes:
+  arcsv2-data:
+    name: arcsv2-data

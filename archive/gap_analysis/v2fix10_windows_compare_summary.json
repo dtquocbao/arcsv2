@@ -1,0 +1,137 @@
+{
+  "windows": [
+    {
+      "sample": "NA19700",
+      "lo": 61500000,
+      "hi": 64500000,
+      "tag": "lostDEL",
+      "arm": "A_current",
+      "validated": 15,
+      "n01": 40,
+      "precision": 0.375,
+      "per_class": {
+        "complex": {
+          "0": 10,
+          "1": 2
+        },
+        "ALL": {
+          "0": 25,
+          "1": 15
+        },
+        "DEL": {
+          "0": 11,
+          "1": 9
+        },
+        "DUP": {
+          "0": 4,
+          "1": 4
+        },
+        "INS": {}
+      },
+      "orig_tps": 18,
+      "orig_tps_recovered": 12
+    },
+    {
+      "sample": "NA19700",
+      "lo": 61500000,
+      "hi": 64500000,
+      "tag": "lostDEL",
+      "arm": "B_v2fix8",
+      "validated": 14,
+      "n01": 30,
+      "precision": 0.4666666666666667,
+      "per_class": {
+        "DEL": {
+          "0": 8,
+          "1": 8
+        },
+        "ALL": {
+          "0": 16,
+          "1": 14
+        },
+        "complex": {
+          "0": 5,
+          "1": 2
+        },
+        "DUP": {
+          "0": 3,
+          "1": 4
+        },
+        "INS": {}
+      },
+      "orig_tps": 18,
+      "orig_tps_recovered": 11
+    },
+    {
+      "sample": "HG01884",
+      "lo": 60000000,
+      "hi": 65000000,
+      "tag": "complex",
+      "arm": "A_current",
+      "validated": 23,
+      "n01": 50,
+      "precision": 0.46,
+      "per_class": {
+        "DEL": {
+          "1": 16,
+          "0": 12
+        },
+        "ALL": {
+          "1": 23,
+          "0": 27
+        },
+        "DUP": {
+          "1": 5,
+          "0": 1
+        },
+        "complex": {
+          "1": 2,
+          "0": 14
+        },
+        "INS": {}
+      },
+      "orig_tps": 30,
+      "orig_tps_recovered": 21
+    },
+    {
+      "sample": "HG01884",
+      "lo": 60000000,
+      "hi": 65000000,
+      "tag": "complex",
+      "arm": "B_v2fix8",
+      "validated": 20,
+      "n01": 36,
+      "precision": 0.5555555555555556,
+      "per_class": {
+        "complex": {
+          "0": 6,
+          "1": 2
+        },
+        "ALL": {
+          "0": 16,
+          "1": 20
+        },
+        "DEL": {
+          "1": 13,
+          "0": 8
+        },
+        "DUP": {
+          "1": 5,
+          "0": 2
+        },
+        "INS": {}
+      },
+      "orig_tps": 30,
+      "orig_tps_recovered": 19
+    }
+  ],
+  "aggregate": {
+    "A_validated": 38,
+    "A_n01": 90,
+    "A_precision": 0.4222222222222222,
+    "B_validated": 34,
+    "B_n01": 66,
+    "B_precision": 0.5151515151515151,
+    "decision": "PASS"
+  }
+}

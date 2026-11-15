@@ -1,0 +1,499 @@
+=== chr1 verify start 2026-10-05T19:50:08Z ===
+[call:chr1     0.0s] start: /data/work/HG01884/chr1.bam (chr1)
+[call:chr1     0.0s] load_bam: /data/work/HG01884/chr1.bam (engine=rust)
+[call:chr1   814.4s] load_bam done: 59,192,263 alignments -> 29,449,918 pairs, 85664 breakpoints, 10086 splits (insert_stats=29,208,695, engine=rust)
+[call:chr1   814.4s] loaded: 29449918 pairs, 85664 clip/split bps, 10086 splits
+[call:chr1   814.4s] fit_libs: 29,449,918 pairs
+[call:chr1   909.5s] discover: scan 29,449,918 pairs for DRPs
+[call:chr1   970.6s] discover: Del: 67,184 DRPs + 4 null reps
+[call:chr1   974.0s] discover: Del: null rep 2/4
+[call:chr1   974.6s] discover: Del: null rep 4/4
+[call:chr1   974.6s] discover: Dup: 24,020 DRPs + 4 null reps
+[call:chr1   975.9s] discover: Dup: null rep 2/4
+[call:chr1   976.1s] discover: Dup: null rep 4/4
+[call:chr1   976.1s] discover: Ins: 22,554 DRPs + 4 null reps
+[call:chr1   976.3s] discover: Ins: null rep 2/4
+[call:chr1   976.5s] discover: Ins: null rep 4/4
+[call:chr1   976.5s] discover: InvL: 1,001 DRPs + 4 null reps
+[call:chr1   976.5s] discover: InvL: null rep 2/4
+[call:chr1   976.5s] discover: InvL: null rep 4/4
+[call:chr1   976.5s] discover: InvR: 977 DRPs + 4 null reps
+[call:chr1   976.5s] discover: InvR: null rep 2/4
+[call:chr1   976.5s] discover: InvR: null rep 4/4
+[call:chr1   977.1s] discover done: 67,227 breakpoints
+[call:chr1   977.6s] blocks: 67,227 breakpoints -> 67,228 blocks (chrom_len=248,956,422)
+[call:chr1   977.7s] build_graph: 29,449,918 pairs x 67,228 blocks (rust)
+[call:chr1   989.5s] build_graph done: 199,713 edges
+[call:chr1   989.7s] insertions: test novel insertion sites
+[call:chr1   989.7s] insertions: 6798 candidate sites, 5 sizes, 199713 edges
+[call:chr1  1005.7s] insertions: 339/6798 sites (30 kept)
+[call:chr1  1014.5s] insertions: 678/6798 sites (64 kept)
+[call:chr1  1024.3s] insertions: 1017/6798 sites (89 kept)
+[call:chr1  1032.5s] insertions: 1356/6798 sites (112 kept)
+[call:chr1  1041.5s] insertions: 1695/6798 sites (125 kept)
+[call:chr1  1051.7s] insertions: 2034/6798 sites (146 kept)
+[call:chr1  1064.2s] insertions: 2373/6798 sites (159 kept)
+[call:chr1  1078.3s] insertions: 2712/6798 sites (174 kept)
+[call:chr1  1092.2s] insertions: 3051/6798 sites (184 kept)
+[call:chr1  1106.8s] insertions: 3390/6798 sites (194 kept)
+[call:chr1  1326.7s] insertions: 3729/6798 sites (214 kept)
+[call:chr1  1457.6s] insertions: 4068/6798 sites (226 kept)
+[call:chr1  1468.9s] insertions: 4407/6798 sites (252 kept)
+[call:chr1  1484.1s] insertions: 4746/6798 sites (270 kept)
+[call:chr1  1498.1s] insertions: 5085/6798 sites (285 kept)
+[call:chr1  1512.4s] insertions: 5424/6798 sites (293 kept)
+[call:chr1  1525.2s] insertions: 5763/6798 sites (306 kept)
+[call:chr1  1540.9s] insertions: 6102/6798 sites (332 kept)
+[call:chr1  1553.7s] insertions: 6441/6798 sites (351 kept)
+[call:chr1  1566.4s] insertions: 6780/6798 sites (373 kept)
+[call:chr1  1567.0s] insertions done: 380 insertions placed
+[call:chr1  1575.8s] genotype: 11010 loci (of 11010 merged)
+[call:chr1  1576.1s] genotype: locus 1/11010 done
+[call:chr1  1576.7s] genotype: locus 25/11010 done
+[call:chr1  1577.8s] genotype: locus 50/11010 done
+[call:chr1  1578.5s] genotype: locus 75/11010 done
+[call:chr1  1579.4s] genotype: locus 100/11010 done
+[call:chr1  1580.3s] genotype: locus 125/11010 done
+[call:chr1  1581.1s] genotype: locus 150/11010 done
+[call:chr1  1581.7s] genotype: locus 175/11010 done
+[call:chr1  1582.7s] genotype: locus 200/11010 done
+[call:chr1  1583.7s] genotype: locus 225/11010 done
+[call:chr1  1584.7s] genotype: locus 250/11010 done
+[call:chr1  1585.4s] genotype: locus 275/11010 done
+[call:chr1  1586.0s] genotype: locus 300/11010 done
+[call:chr1  1586.8s] genotype: locus 325/11010 done
+[call:chr1  1587.7s] genotype: locus 350/11010 done
+[call:chr1  1588.2s] genotype: locus 375/11010 done
+[call:chr1  1589.3s] genotype: locus 400/11010 done
+[call:chr1  1590.2s] genotype: locus 425/11010 done
+[call:chr1  1591.1s] genotype: locus 450/11010 done
+[call:chr1  1592.0s] genotype: locus 475/11010 done
+[call:chr1  1592.8s] genotype: locus 500/11010 done
+[call:chr1  1593.8s] genotype: locus 525/11010 done
+[call:chr1  1594.7s] genotype: locus 550/11010 done
+[call:chr1  1595.9s] genotype: locus 575/11010 done
+[call:chr1  1596.8s] genotype: locus 600/11010 done
+[call:chr1  1597.7s] genotype: locus 625/11010 done
+[call:chr1  1598.3s] genotype: locus 650/11010 done
+[call:chr1  1599.0s] genotype: locus 675/11010 done
+[call:chr1  1599.7s] genotype: locus 700/11010 done
+[call:chr1  1600.2s] genotype: locus 725/11010 done
+[call:chr1  1600.8s] genotype: locus 750/11010 done
+[call:chr1  1601.3s] genotype: locus 775/11010 done
+[call:chr1  1601.9s] genotype: locus 800/11010 done
+[call:chr1  1602.7s] genotype: locus 825/11010 done
+[call:chr1  1603.2s] genotype: locus 850/11010 done
+[call:chr1  1603.9s] genotype: locus 875/11010 done
+[call:chr1  1604.5s] genotype: locus 900/11010 done
+[call:chr1  1605.1s] genotype: locus 925/11010 done
+[call:chr1  1605.6s] genotype: locus 950/11010 done
+[call:chr1  1606.3s] genotype: locus 975/11010 done
+[call:chr1  1606.9s] genotype: locus 1000/11010 done
+[call:chr1  1607.5s] genotype: locus 1025/11010 done
+[call:chr1  1608.0s] genotype: locus 1050/11010 done
+[call:chr1  1608.6s] genotype: locus 1075/11010 done
+[call:chr1  1609.3s] genotype: locus 1100/11010 done
+[call:chr1  1610.1s] genotype: locus 1125/11010 done
+[call:chr1  1610.9s] genotype: locus 1150/11010 done
+[call:chr1  1611.5s] genotype: locus 1175/11010 done
+[call:chr1  1612.2s] genotype: locus 1200/11010 done
+[call:chr1  1613.0s] genotype: locus 1225/11010 done
+[call:chr1  1613.9s] genotype: locus 1250/11010 done
+[call:chr1  1614.5s] genotype: locus 1275/11010 done
+[call:chr1  1615.2s] genotype: locus 1300/11010 done
+[call:chr1  1616.0s] genotype: locus 1325/11010 done
+[call:chr1  1616.9s] genotype: locus 1350/11010 done
+[call:chr1  1617.6s] genotype: locus 1375/11010 done
+[call:chr1  1618.5s] genotype: locus 1400/11010 done
+[call:chr1  1619.3s] genotype: locus 1425/11010 done
+[call:chr1  1620.1s] genotype: locus 1450/11010 done
+[call:chr1  1620.7s] genotype: locus 1475/11010 done
+[call:chr1  1621.3s] genotype: locus 1500/11010 done
+[call:chr1  1621.8s] genotype: locus 1525/11010 done
+[call:chr1  1622.5s] genotype: locus 1550/11010 done
+[call:chr1  1623.0s] genotype: locus 1575/11010 done
+[call:chr1  1623.7s] genotype: locus 1600/11010 done
+[call:chr1  1624.3s] genotype: locus 1625/11010 done
+[call:chr1  1624.8s] genotype: locus 1650/11010 done
+[call:chr1  1625.4s] genotype: locus 1675/11010 done
+[call:chr1  1626.1s] genotype: locus 1700/11010 done
+[call:chr1  1626.6s] genotype: locus 1725/11010 done
+[call:chr1  1627.1s] genotype: locus 1750/11010 done
+[call:chr1  1627.7s] genotype: locus 1775/11010 done
+[call:chr1  1628.4s] genotype: locus 1800/11010 done
+[call:chr1  1629.1s] genotype: locus 1825/11010 done
+[call:chr1  1629.7s] genotype: locus 1850/11010 done
+[call:chr1  1630.2s] genotype: locus 1875/11010 done
+[call:chr1  1630.8s] genotype: locus 1900/11010 done
+[call:chr1  1631.4s] genotype: locus 1925/11010 done
+[call:chr1  1632.1s] genotype: locus 1950/11010 done
+[call:chr1  1632.7s] genotype: locus 1975/11010 done
+[call:chr1  1633.3s] genotype: locus 2000/11010 done
+[call:chr1  1633.9s] genotype: locus 2025/11010 done
+[call:chr1  1634.5s] genotype: locus 2050/11010 done
+[call:chr1  1635.1s] genotype: locus 2075/11010 done
+[call:chr1  1635.7s] genotype: locus 2100/11010 done
+[call:chr1  1636.6s] genotype: locus 2125/11010 done
+[call:chr1  1637.2s] genotype: locus 2150/11010 done
+[call:chr1  1638.1s] genotype: locus 2175/11010 done
+[call:chr1  1638.7s] genotype: locus 2200/11010 done
+[call:chr1  1639.4s] genotype: locus 2225/11010 done
+[call:chr1  1639.8s] genotype: locus 2250/11010 done
+[call:chr1  1640.5s] genotype: locus 2275/11010 done
+[call:chr1  1641.1s] genotype: locus 2300/11010 done
+[call:chr1  1641.6s] genotype: locus 2325/11010 done
+[call:chr1  1642.3s] genotype: locus 2350/11010 done
+[call:chr1  1642.9s] genotype: locus 2375/11010 done
+[call:chr1  1643.4s] genotype: locus 2400/11010 done
+[call:chr1  1643.9s] genotype: locus 2425/11010 done
+[call:chr1  1644.5s] genotype: locus 2450/11010 done
+[call:chr1  1645.1s] genotype: locus 2475/11010 done
+[call:chr1  1645.7s] genotype: locus 2500/11010 done
+[call:chr1  1646.2s] genotype: locus 2525/11010 done
+[call:chr1  1646.8s] genotype: locus 2550/11010 done
+[call:chr1  1647.3s] genotype: locus 2575/11010 done
+[call:chr1  1647.8s] genotype: locus 2600/11010 done
+[call:chr1  1648.4s] genotype: locus 2625/11010 done
+[call:chr1  1649.0s] genotype: locus 2650/11010 done
+[call:chr1  1649.7s] genotype: locus 2675/11010 done
+[call:chr1  1650.2s] genotype: locus 2700/11010 done
+[call:chr1  1650.7s] genotype: locus 2725/11010 done
+[call:chr1  1651.3s] genotype: locus 2750/11010 done
+[call:chr1  1651.9s] genotype: locus 2775/11010 done
+[call:chr1  1652.6s] genotype: locus 2800/11010 done
+[call:chr1  1653.1s] genotype: locus 2825/11010 done
+[call:chr1  1653.9s] genotype: locus 2850/11010 done
+[call:chr1  1654.5s] genotype: locus 2875/11010 done
+[call:chr1  1655.1s] genotype: locus 2900/11010 done
+[call:chr1  1655.8s] genotype: locus 2925/11010 done
+[call:chr1  1656.5s] genotype: locus 2950/11010 done
+[call:chr1  1656.9s] genotype: locus 2975/11010 done
+[call:chr1  1657.8s] genotype: locus 3000/11010 done
+[call:chr1  1658.4s] genotype: locus 3025/11010 done
+[call:chr1  1658.9s] genotype: locus 3050/11010 done
+[call:chr1  1659.6s] genotype: locus 3075/11010 done
+[call:chr1  1660.2s] genotype: locus 3100/11010 done
+[call:chr1  1660.9s] genotype: locus 3125/11010 done
+[call:chr1  1661.9s] genotype: locus 3150/11010 done
+[call:chr1  1662.5s] genotype: locus 3175/11010 done
+[call:chr1  1663.2s] genotype: locus 3200/11010 done
+[call:chr1  1663.9s] genotype: locus 3225/11010 done
+[call:chr1  1664.4s] genotype: locus 3250/11010 done
+[call:chr1  1665.1s] genotype: locus 3275/11010 done
+[call:chr1  1665.7s] genotype: locus 3300/11010 done
+[call:chr1  1666.2s] genotype: locus 3325/11010 done
+[call:chr1  1666.8s] genotype: locus 3350/11010 done
+[call:chr1  1667.5s] genotype: locus 3375/11010 done
+[call:chr1  1668.1s] genotype: locus 3400/11010 done
+[call:chr1  1668.6s] genotype: locus 3425/11010 done
+[call:chr1  1669.2s] genotype: locus 3450/11010 done
+[call:chr1  1670.0s] genotype: locus 3475/11010 done
+[call:chr1  1670.7s] genotype: locus 3500/11010 done
+[call:chr1  1671.5s] genotype: locus 3525/11010 done
+[call:chr1  1672.1s] genotype: locus 3550/11010 done
+[call:chr1  1672.9s] genotype: locus 3575/11010 done
+[call:chr1  1673.5s] genotype: locus 3600/11010 done
+[call:chr1  1674.0s] genotype: locus 3625/11010 done
+[call:chr1  1674.6s] genotype: locus 3650/11010 done
+[call:chr1  1675.2s] genotype: locus 3675/11010 done
+[call:chr1  1675.8s] genotype: locus 3700/11010 done
+[call:chr1  1676.4s] genotype: locus 3725/11010 done
+[call:chr1  1677.1s] genotype: locus 3750/11010 done
+[call:chr1  1677.8s] genotype: locus 3775/11010 done
+[call:chr1  1678.5s] genotype: locus 3800/11010 done
+[call:chr1  1679.3s] genotype: locus 3825/11010 done
+[call:chr1  1680.1s] genotype: locus 3850/11010 done
+[call:chr1  1680.8s] genotype: locus 3875/11010 done
+[call:chr1  1681.4s] genotype: locus 3900/11010 done
+[call:chr1  1681.9s] genotype: locus 3925/11010 done
+[call:chr1  1682.5s] genotype: locus 3950/11010 done
+[call:chr1  1683.2s] genotype: locus 3975/11010 done
+[call:chr1  1683.9s] genotype: locus 4000/11010 done
+[call:chr1  1684.5s] genotype: locus 4025/11010 done
+[call:chr1  1685.1s] genotype: locus 4050/11010 done
+[call:chr1  1685.6s] genotype: locus 4075/11010 done
+[call:chr1  1686.1s] genotype: locus 4100/11010 done
+[call:chr1  1686.6s] genotype: locus 4125/11010 done
+[call:chr1  1687.3s] genotype: locus 4150/11010 done
+[call:chr1  1688.0s] genotype: locus 4175/11010 done
+[call:chr1  1688.7s] genotype: locus 4200/11010 done
+[call:chr1  1689.2s] genotype: locus 4225/11010 done
+[call:chr1  1689.8s] genotype: locus 4250/11010 done
+[call:chr1  1690.5s] genotype: locus 4275/11010 done
+[call:chr1  1691.1s] genotype: locus 4300/11010 done
+[call:chr1  1691.6s] genotype: locus 4325/11010 done
+[call:chr1  1692.1s] genotype: locus 4350/11010 done
+[call:chr1  1692.7s] genotype: locus 4375/11010 done
+[call:chr1  1693.3s] genotype: locus 4400/11010 done
+[call:chr1  1693.9s] genotype: locus 4425/11010 done
+[call:chr1  1694.5s] genotype: locus 4450/11010 done
+[call:chr1  1695.2s] genotype: locus 4475/11010 done
+[call:chr1  1695.8s] genotype: locus 4500/11010 done
+[call:chr1  1696.4s] genotype: locus 4525/11010 done
+[call:chr1  1697.0s] genotype: locus 4550/11010 done
+[call:chr1  1697.6s] genotype: locus 4575/11010 done
+[call:chr1  1698.3s] genotype: locus 4600/11010 done
+[call:chr1  1698.9s] genotype: locus 4625/11010 done
+[call:chr1  1699.6s] genotype: locus 4650/11010 done
+[call:chr1  1700.5s] genotype: locus 4675/11010 done
+[call:chr1  1701.0s] genotype: locus 4700/11010 done
+[call:chr1  1701.7s] genotype: locus 4725/11010 done
+[call:chr1  1702.3s] genotype: locus 4750/11010 done
+[call:chr1  1702.9s] genotype: locus 4775/11010 done
+[call:chr1  1703.6s] genotype: locus 4800/11010 done
+[call:chr1  1704.2s] genotype: locus 4825/11010 done
+[call:chr1  1704.9s] genotype: locus 4850/11010 done
+[call:chr1  1705.5s] genotype: locus 4875/11010 done
+[call:chr1  1706.1s] genotype: locus 4900/11010 done
+[call:chr1  1706.7s] genotype: locus 4925/11010 done
+[call:chr1  1707.4s] genotype: locus 4950/11010 done
+[call:chr1  1708.1s] genotype: locus 4975/11010 done
+[call:chr1  1708.6s] genotype: locus 5000/11010 done
+[call:chr1  1709.3s] genotype: locus 5025/11010 done
+[call:chr1  1710.0s] genotype: locus 5050/11010 done
+[call:chr1  1710.6s] genotype: locus 5075/11010 done
+[call:chr1  1711.1s] genotype: locus 5100/11010 done
+[call:chr1  1711.8s] genotype: locus 5125/11010 done
+[call:chr1  1712.4s] genotype: locus 5150/11010 done
+[call:chr1  1713.0s] genotype: locus 5175/11010 done
+[call:chr1  1713.6s] genotype: locus 5200/11010 done
+[call:chr1  1714.2s] genotype: locus 5225/11010 done
+[call:chr1  1714.8s] genotype: locus 5250/11010 done
+[call:chr1  1715.3s] genotype: locus 5275/11010 done
+[call:chr1  1715.9s] genotype: locus 5300/11010 done
+[call:chr1  1716.5s] genotype: locus 5325/11010 done
+[call:chr1  1717.1s] genotype: locus 5350/11010 done
+[call:chr1  1717.6s] genotype: locus 5375/11010 done
+[call:chr1  1718.2s] genotype: locus 5400/11010 done
+[call:chr1  1718.7s] genotype: locus 5425/11010 done
+[call:chr1  1719.3s] genotype: locus 5450/11010 done
+[call:chr1  1720.0s] genotype: locus 5475/11010 done
+[call:chr1  1720.5s] genotype: locus 5500/11010 done
+[call:chr1  1721.1s] genotype: locus 5525/11010 done
+[call:chr1  1721.7s] genotype: locus 5550/11010 done
+[call:chr1  1722.3s] genotype: locus 5575/11010 done
+[call:chr1  1722.8s] genotype: locus 5600/11010 done
+[call:chr1  1723.4s] genotype: locus 5625/11010 done
+[call:chr1  1723.9s] genotype: locus 5650/11010 done
+[call:chr1  1724.4s] genotype: locus 5675/11010 done
+[call:chr1  1725.0s] genotype: locus 5700/11010 done
+[call:chr1  1725.6s] genotype: locus 5725/11010 done
+[call:chr1  1726.1s] genotype: locus 5750/11010 done
+[call:chr1  1726.7s] genotype: locus 5775/11010 done
+[call:chr1  1727.3s] genotype: locus 5800/11010 done
+[call:chr1  1727.8s] genotype: locus 5825/11010 done
+[call:chr1  1728.3s] genotype: locus 5850/11010 done
+[call:chr1  1728.8s] genotype: locus 5875/11010 done
+[call:chr1  1729.5s] genotype: locus 5900/11010 done
+[call:chr1  1730.0s] genotype: locus 5925/11010 done
+[call:chr1  1730.8s] genotype: locus 5950/11010 done
+[call:chr1  1731.3s] genotype: locus 5975/11010 done
+[call:chr1  1731.9s] genotype: locus 6000/11010 done
+[call:chr1  1732.7s] genotype: locus 6025/11010 done
+[call:chr1  1733.4s] genotype: locus 6050/11010 done
+[call:chr1  1733.9s] genotype: locus 6075/11010 done
+[call:chr1  1734.4s] genotype: locus 6100/11010 done
+[call:chr1  1734.9s] genotype: locus 6125/11010 done
+[call:chr1  1735.5s] genotype: locus 6150/11010 done
+[call:chr1  1736.2s] genotype: locus 6175/11010 done
+[call:chr1  1736.9s] genotype: locus 6200/11010 done
+[call:chr1  1737.4s] genotype: locus 6225/11010 done
+[call:chr1  1738.4s] genotype: locus 6250/11010 done
+[call:chr1  1739.1s] genotype: locus 6275/11010 done
+[call:chr1  1739.6s] genotype: locus 6300/11010 done
+[call:chr1  1740.2s] genotype: locus 6325/11010 done
+[call:chr1  1740.7s] genotype: locus 6350/11010 done
+[call:chr1  1741.4s] genotype: locus 6375/11010 done
+[call:chr1  1741.9s] genotype: locus 6400/11010 done
+[call:chr1  1742.7s] genotype: locus 6425/11010 done
+[call:chr1  1743.2s] genotype: locus 6450/11010 done
+[call:chr1  1743.8s] genotype: locus 6475/11010 done
+[call:chr1  1744.4s] genotype: locus 6500/11010 done
+[call:chr1  1745.0s] genotype: locus 6525/11010 done
+[call:chr1  1745.6s] genotype: locus 6550/11010 done
+[call:chr1  1746.1s] genotype: locus 6575/11010 done
+[call:chr1  1746.7s] genotype: locus 6600/11010 done
+[call:chr1  1747.2s] genotype: locus 6625/11010 done
+[call:chr1  1747.8s] genotype: locus 6650/11010 done
+[call:chr1  1748.5s] genotype: locus 6675/11010 done
+[call:chr1  1749.0s] genotype: locus 6700/11010 done
+[call:chr1  1749.5s] genotype: locus 6725/11010 done
+[call:chr1  1750.0s] genotype: locus 6750/11010 done
+[call:chr1  1750.6s] genotype: locus 6775/11010 done
+[call:chr1  1751.2s] genotype: locus 6800/11010 done
+[call:chr1  1751.8s] genotype: locus 6825/11010 done
+[call:chr1  1752.3s] genotype: locus 6850/11010 done
+[call:chr1  1752.9s] genotype: locus 6875/11010 done
+[call:chr1  1753.4s] genotype: locus 6900/11010 done
+[call:chr1  1754.1s] genotype: locus 6925/11010 done
+[call:chr1  1754.6s] genotype: locus 6950/11010 done
+[call:chr1  1755.3s] genotype: locus 6975/11010 done
+[call:chr1  1755.9s] genotype: locus 7000/11010 done
+[call:chr1  1756.5s] genotype: locus 7025/11010 done
+[call:chr1  1757.0s] genotype: locus 7050/11010 done
+[call:chr1  1757.7s] genotype: locus 7075/11010 done
+[call:chr1  1758.2s] genotype: locus 7100/11010 done
+[call:chr1  1758.8s] genotype: locus 7125/11010 done
+[call:chr1  1759.3s] genotype: locus 7150/11010 done
+[call:chr1  1759.9s] genotype: locus 7175/11010 done
+[call:chr1  1760.4s] genotype: locus 7200/11010 done
+[call:chr1  1761.1s] genotype: locus 7225/11010 done
+[call:chr1  1761.7s] genotype: locus 7250/11010 done
+[call:chr1  1762.2s] genotype: locus 7275/11010 done
+[call:chr1  1762.8s] genotype: locus 7300/11010 done
+[call:chr1  1763.5s] genotype: locus 7325/11010 done
+[call:chr1  1764.0s] genotype: locus 7350/11010 done
+[call:chr1  1764.5s] genotype: locus 7375/11010 done
+[call:chr1  1765.0s] genotype: locus 7400/11010 done
+[call:chr1  1765.5s] genotype: locus 7425/11010 done
+[call:chr1  1766.3s] genotype: locus 7450/11010 done
+[call:chr1  1766.9s] genotype: locus 7475/11010 done
+[call:chr1  1767.4s] genotype: locus 7500/11010 done
+[call:chr1  1768.0s] genotype: locus 7525/11010 done
+[call:chr1  1768.6s] genotype: locus 7550/11010 done
+[call:chr1  1769.1s] genotype: locus 7575/11010 done
+[call:chr1  1769.6s] genotype: locus 7600/11010 done
+[call:chr1  1770.1s] genotype: locus 7625/11010 done
+[call:chr1  1770.7s] genotype: locus 7650/11010 done
+[call:chr1  1771.3s] genotype: locus 7675/11010 done
+[call:chr1  1771.9s] genotype: locus 7700/11010 done
+[call:chr1  1772.7s] genotype: locus 7725/11010 done
+[call:chr1  1773.4s] genotype: locus 7750/11010 done
+[call:chr1  1774.1s] genotype: locus 7775/11010 done
+[call:chr1  1774.6s] genotype: locus 7800/11010 done
+[call:chr1  1775.4s] genotype: locus 7825/11010 done
+[call:chr1  1775.9s] genotype: locus 7850/11010 done
+[call:chr1  1776.5s] genotype: locus 7875/11010 done
+[call:chr1  1777.2s] genotype: locus 7900/11010 done
+[call:chr1  1777.7s] genotype: locus 7925/11010 done
+[call:chr1  1778.3s] genotype: locus 7950/11010 done
+[call:chr1  1779.0s] genotype: locus 7975/11010 done
+[call:chr1  1779.6s] genotype: locus 8000/11010 done
+[call:chr1  1780.1s] genotype: locus 8025/11010 done
+[call:chr1  1780.6s] genotype: locus 8050/11010 done
+[call:chr1  1781.3s] genotype: locus 8075/11010 done
+[call:chr1  1781.8s] genotype: locus 8100/11010 done
+[call:chr1  1782.4s] genotype: locus 8125/11010 done
+[call:chr1  1782.9s] genotype: locus 8150/11010 done
+[call:chr1  1783.5s] genotype: locus 8175/11010 done
+[call:chr1  1784.0s] genotype: locus 8200/11010 done
+[call:chr1  1784.7s] genotype: locus 8225/11010 done
+[call:chr1  1785.2s] genotype: locus 8250/11010 done
+[call:chr1  1785.8s] genotype: locus 8275/11010 done
+[call:chr1  1786.4s] genotype: locus 8300/11010 done
+[call:chr1  1787.1s] genotype: locus 8325/11010 done
+[call:chr1  1787.7s] genotype: locus 8350/11010 done
+[call:chr1  1788.2s] genotype: locus 8375/11010 done
+[call:chr1  1788.8s] genotype: locus 8400/11010 done
+[call:chr1  1789.3s] genotype: locus 8425/11010 done
+[call:chr1  1789.9s] genotype: locus 8450/11010 done
+[call:chr1  1790.6s] genotype: locus 8475/11010 done
+[call:chr1  1791.1s] genotype: locus 8500/11010 done
+[call:chr1  1791.6s] genotype: locus 8525/11010 done
+[call:chr1  1792.1s] genotype: locus 8550/11010 done
+[call:chr1  1792.8s] genotype: locus 8575/11010 done
+[call:chr1  1793.3s] genotype: locus 8600/11010 done
+[call:chr1  1793.9s] genotype: locus 8625/11010 done
+[call:chr1  1794.4s] genotype: locus 8650/11010 done
+[call:chr1  1794.9s] genotype: locus 8675/11010 done
+[call:chr1  1795.5s] genotype: locus 8700/11010 done
+[call:chr1  1796.1s] genotype: locus 8725/11010 done
+[call:chr1  1796.6s] genotype: locus 8750/11010 done
+[call:chr1  1797.3s] genotype: locus 8775/11010 done
+[call:chr1  1797.9s] genotype: locus 8800/11010 done
+[call:chr1  1798.5s] genotype: locus 8825/11010 done
+[call:chr1  1799.1s] genotype: locus 8850/11010 done
+[call:chr1  1799.7s] genotype: locus 8875/11010 done
+[call:chr1  1800.2s] genotype: locus 8900/11010 done
+[call:chr1  1800.9s] genotype: locus 8925/11010 done
+[call:chr1  1801.5s] genotype: locus 8950/11010 done
+[call:chr1  1802.2s] genotype: locus 8975/11010 done
+[call:chr1  1802.8s] genotype: locus 9000/11010 done
+[call:chr1  1803.3s] genotype: locus 9025/11010 done
+[call:chr1  1804.0s] genotype: locus 9050/11010 done
+[call:chr1  1804.6s] genotype: locus 9075/11010 done
+[call:chr1  1805.0s] genotype: locus 9100/11010 done
+[call:chr1  1805.6s] genotype: locus 9125/11010 done
+[call:chr1  1806.2s] genotype: locus 9150/11010 done
+[call:chr1  1807.0s] genotype: locus 9175/11010 done
+[call:chr1  1807.4s] genotype: locus 9200/11010 done
+[call:chr1  1808.0s] genotype: locus 9225/11010 done
+[call:chr1  1808.6s] genotype: locus 9250/11010 done
+[call:chr1  1809.2s] genotype: locus 9275/11010 done
+[call:chr1  1809.9s] genotype: locus 9300/11010 done
+[call:chr1  1810.4s] genotype: locus 9325/11010 done
+[call:chr1  1811.2s] genotype: locus 9350/11010 done
+[call:chr1  1811.8s] genotype: locus 9375/11010 done
+[call:chr1  1812.5s] genotype: locus 9400/11010 done
+[call:chr1  1813.1s] genotype: locus 9425/11010 done
+[call:chr1  1813.7s] genotype: locus 9450/11010 done
+[call:chr1  1814.3s] genotype: locus 9475/11010 done
+[call:chr1  1814.9s] genotype: locus 9500/11010 done
+[call:chr1  1815.5s] genotype: locus 9525/11010 done
+[call:chr1  1816.0s] genotype: locus 9550/11010 done
+[call:chr1  1816.6s] genotype: locus 9575/11010 done
+[call:chr1  1817.3s] genotype: locus 9600/11010 done
+[call:chr1  1817.9s] genotype: locus 9625/11010 done
+[call:chr1  1818.4s] genotype: locus 9650/11010 done
+[call:chr1  1818.9s] genotype: locus 9675/11010 done
+[call:chr1  1819.5s] genotype: locus 9700/11010 done
+[call:chr1  1820.0s] genotype: locus 9725/11010 done
+[call:chr1  1820.8s] genotype: locus 9750/11010 done
+[call:chr1  1821.3s] genotype: locus 9775/11010 done
+[call:chr1  1821.8s] genotype: locus 9800/11010 done
+[call:chr1  1822.4s] genotype: locus 9825/11010 done
+[call:chr1  1823.3s] genotype: locus 9850/11010 done
+[call:chr1  1823.8s] genotype: locus 9875/11010 done
+[call:chr1  1824.5s] genotype: locus 9900/11010 done
+[call:chr1  1825.2s] genotype: locus 9925/11010 done
+[call:chr1  1825.9s] genotype: locus 9950/11010 done
+[call:chr1  1826.5s] genotype: locus 9975/11010 done
+[call:chr1  1827.2s] genotype: locus 10000/11010 done
+[call:chr1  1828.0s] genotype: locus 10025/11010 done
+[call:chr1  1828.7s] genotype: locus 10050/11010 done
+[call:chr1  1829.5s] genotype: locus 10075/11010 done
+[call:chr1  1830.4s] genotype: locus 10100/11010 done
+[call:chr1  1831.4s] genotype: locus 10125/11010 done
+[call:chr1  1832.4s] genotype: locus 10150/11010 done
+[call:chr1  1833.5s] genotype: locus 10175/11010 done
+[call:chr1  1834.3s] genotype: locus 10200/11010 done
+[call:chr1  1835.2s] genotype: locus 10225/11010 done
+[call:chr1  1835.9s] genotype: locus 10250/11010 done
+[call:chr1  1836.5s] genotype: locus 10275/11010 done
+[call:chr1  1837.1s] genotype: locus 10300/11010 done
+[call:chr1  1837.8s] genotype: locus 10325/11010 done
+[call:chr1  1838.6s] genotype: locus 10350/11010 done
+[call:chr1  1839.4s] genotype: locus 10375/11010 done
+[call:chr1  1840.0s] genotype: locus 10400/11010 done
+[call:chr1  1840.7s] genotype: locus 10425/11010 done
+[call:chr1  1841.3s] genotype: locus 10450/11010 done
+[call:chr1  1842.0s] genotype: locus 10475/11010 done
+[call:chr1  1842.8s] genotype: locus 10500/11010 done
+[call:chr1  1843.7s] genotype: locus 10525/11010 done
+[call:chr1  1844.5s] genotype: locus 10550/11010 done
+[call:chr1  1845.3s] genotype: locus 10575/11010 done
+[call:chr1  1846.2s] genotype: locus 10600/11010 done
+[call:chr1  1847.0s] genotype: locus 10625/11010 done
+[call:chr1  1847.6s] genotype: locus 10650/11010 done
+[call:chr1  1848.2s] genotype: locus 10675/11010 done
+[call:chr1  1849.0s] genotype: locus 10700/11010 done
+[call:chr1  1849.8s] genotype: locus 10725/11010 done
+[call:chr1  1850.6s] genotype: locus 10750/11010 done
+[call:chr1  1851.4s] genotype: locus 10775/11010 done
+[call:chr1  1852.1s] genotype: locus 10800/11010 done
+[call:chr1  1852.6s] genotype: locus 10825/11010 done
+[call:chr1  1853.3s] genotype: locus 10850/11010 done
+[call:chr1  1854.0s] genotype: locus 10875/11010 done
+[call:chr1  1854.8s] genotype: locus 10900/11010 done
+[call:chr1  1855.5s] genotype: locus 10925/11010 done
+[call:chr1  1856.3s] genotype: locus 10950/11010 done
+[call:chr1  1857.4s] genotype: locus 10975/11010 done
+[call:chr1  1858.1s] genotype: locus 11000/11010 done
+[call:chr1  1865.2s] genotype: locus 11010/11010 done
+[call:chr1  1865.2s] genotype done: 881 calls
+[call:chr1  1865.4s] done: 881 calls -> /data/results_m4_chr1_verify/HG01884/chr1/arcsv_out.tab
+wrote 881 calls to /data/results_m4_chr1_verify/HG01884/chr1/arcsv_out.tab
+SAMPLE=HG01884 elapsed_sec=1867.2 max_rss_kb=5962312 rc=0
+=== diff vs python /data/results_chr1 ===
+IDENTICAL: /data/results_m4_chr1_verify/HG01884/chr1/arcsv_out.tab == /data/results_chr1/HG01884/chr1/arcsv_out.tab
+=== chr1 verify done 2026-10-05T20:21:15Z ===

@@ -1,0 +1,320 @@
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-05 19:40:51
+  Workflow ID: 5bb4a7bb-c8a1-47b0-9c6e-bd8d0b89bc75
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: d0f870d9dd36
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.gate_m4.yaml --config results_dir=results_gate_m4_verify labels_dir=labels_gate_m4_verify -j 2 --cores 16
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.gate_m4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 37a457acdf97e23d299f2964b4f235f8
+
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 16
+Rules claiming more threads will be scaled down.
+Conda environments: ignored
+Job stats:
+job        count
+-------  -------
+call           1
+merge          2
+label          2
+dataset        1
+all            1
+total          7
+
+Select jobs to execute...
+Execute 2 jobs...
+
+[Mon Oct  5 19:40:52 2026]
+localrule merge:
+    input: /data/results_gate_m4_verify/HG01884/chr20/arcsv_out.tab
+    output: /data/results_gate_m4_verify/HG01884/merged.tab
+    jobid: 3
+    reason: Missing output files: /data/results_gate_m4_verify/HG01884/merged.tab
+    wildcards: sample=HG01884
+    resources: tmpdir=/tmp
+[Mon Oct  5 19:40:52 2026]
+localrule call:
+    input: /data/work/NA19700/chr20.bam, /data/work/NA19700/chr20.bam.bai
+    output: /data/results_gate_m4_verify/NA19700/chr20/arcsv_out.tab
+    jobid: 10
+    reason: Missing output files: /data/results_gate_m4_verify/NA19700/chr20/arcsv_out.tab
+    wildcards: sample=NA19700, chrom=chr20
+    threads: 8
+    resources: tmpdir=/tmp, mem_mb=8000, mem=8 GB, mem_mib=7630
+wrote 280 merged calls to /data/results_gate_m4_verify/HG01884/merged.tab
+[Mon Oct  5 19:40:53 2026]
+Finished jobid: 3 (Rule: merge)
+1 of 7 steps (14%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct  5 19:40:53 2026]
+localrule label:
+    input: /data/results_gate_m4_verify/HG01884/merged.tab, /data/haps/HG01884.hap1.fa.gz, /data/haps/HG01884.hap2.fa.gz, /data/haps/HG01884.hap1.mmi, /data/haps/HG01884.hap2.mmi
+    output: /data/labels_gate_m4_verify/HG01884.labeled.tsv
+    jobid: 2
+    reason: Missing output files: /data/labels_gate_m4_verify/HG01884.labeled.tsv; Input files updated by another job: /data/results_gate_m4_verify/HG01884/merged.tab
+    wildcards: sample=HG01884
+    threads: 8
+    resources: tmpdir=/tmp
+[call:chr20     0.0s] start: /data/work/NA19700/chr20.bam (chr20)
+[call:chr20     0.0s] load_bam: /data/work/NA19700/chr20.bam (engine=rust)
+wrote 280 labels to /data/labels_gate_m4_verify/HG01884.labeled.tsv
+[Mon Oct  5 19:41:47 2026]
+Finished jobid: 2 (Rule: label)
+2 of 7 steps (29%) done
+[call:chr20    98.2s] load_bam done: 15,402,874 alignments -> 7,489,995 pairs, 33094 breakpoints, 4421 splits (insert_stats=7,441,328, engine=rust)
+[call:chr20    98.2s] loaded: 7489995 pairs, 33094 clip/split bps, 4421 splits
+[call:chr20    98.2s] fit_libs: 7,489,995 pairs
+[call:chr20   126.0s] discover: scan 7,489,995 pairs for DRPs
+[call:chr20   141.8s] discover: Del: 18,268 DRPs + 4 null reps
+[call:chr20   142.3s] discover: Del: null rep 2/4
+[call:chr20   142.5s] discover: Del: null rep 4/4
+[call:chr20   142.5s] discover: Dup: 9,019 DRPs + 4 null reps
+[call:chr20   142.9s] discover: Dup: null rep 2/4
+[call:chr20   142.9s] discover: Dup: null rep 4/4
+[call:chr20   142.9s] discover: Ins: 8,866 DRPs + 4 null reps
+[call:chr20   143.1s] discover: Ins: null rep 2/4
+[call:chr20   143.1s] discover: Ins: null rep 4/4
+[call:chr20   143.1s] discover: InvL: 514 DRPs + 4 null reps
+[call:chr20   143.2s] discover: InvL: null rep 2/4
+[call:chr20   143.2s] discover: InvL: null rep 4/4
+[call:chr20   143.2s] discover: InvR: 448 DRPs + 4 null reps
+[call:chr20   143.2s] discover: InvR: null rep 2/4
+[call:chr20   143.2s] discover: InvR: null rep 4/4
+[call:chr20   143.8s] discover done: 24,782 breakpoints
+[call:chr20   143.9s] blocks: 24,782 breakpoints -> 24,783 blocks (chrom_len=64,444,167)
+[call:chr20   143.9s] build_graph: 7,489,995 pairs x 24,783 blocks (rust)
+[call:chr20   146.6s] build_graph done: 90,843 edges
+[call:chr20   146.7s] insertions: test novel insertion sites
+[call:chr20   146.7s] insertions: 2582 candidate sites, 5 sizes, 90843 edges
+[call:chr20   150.4s] insertions: 129/2582 sites (12 kept)
+[call:chr20   153.5s] insertions: 258/2582 sites (14 kept)
+[call:chr20   157.8s] insertions: 387/2582 sites (17 kept)
+[call:chr20   161.8s] insertions: 516/2582 sites (21 kept)
+[call:chr20   165.9s] insertions: 645/2582 sites (35 kept)
+[call:chr20   170.7s] insertions: 774/2582 sites (47 kept)
+[call:chr20   173.6s] insertions: 903/2582 sites (49 kept)
+[call:chr20   184.4s] insertions: 1032/2582 sites (49 kept)
+[call:chr20   213.7s] insertions: 1161/2582 sites (49 kept)
+[call:chr20   240.4s] insertions: 1290/2582 sites (49 kept)
+[call:chr20   249.1s] insertions: 1419/2582 sites (49 kept)
+[call:chr20   252.7s] insertions: 1548/2582 sites (49 kept)
+[call:chr20   255.7s] insertions: 1677/2582 sites (58 kept)
+[call:chr20   259.8s] insertions: 1806/2582 sites (72 kept)
+[call:chr20   263.2s] insertions: 1935/2582 sites (79 kept)
+[call:chr20   267.0s] insertions: 2064/2582 sites (83 kept)
+[call:chr20   269.8s] insertions: 2193/2582 sites (88 kept)
+[call:chr20   274.0s] insertions: 2322/2582 sites (106 kept)
+[call:chr20   277.8s] insertions: 2451/2582 sites (152 kept)
+[call:chr20   280.7s] insertions: 2580/2582 sites (184 kept)
+[call:chr20   280.7s] insertions done: 184 insertions placed
+[call:chr20   281.5s] genotype: 3219 loci (of 3219 merged)
+[call:chr20   281.7s] genotype: locus 1/3219 done
+[call:chr20   281.9s] genotype: locus 25/3219 done
+[call:chr20   282.1s] genotype: locus 50/3219 done
+[call:chr20   282.4s] genotype: locus 75/3219 done
+[call:chr20   282.6s] genotype: locus 100/3219 done
+[call:chr20   282.9s] genotype: locus 125/3219 done
+[call:chr20   283.2s] genotype: locus 150/3219 done
+[call:chr20   283.4s] genotype: locus 175/3219 done
+[call:chr20   283.6s] genotype: locus 200/3219 done
+[call:chr20   283.8s] genotype: locus 225/3219 done
+[call:chr20   284.1s] genotype: locus 250/3219 done
+[call:chr20   284.3s] genotype: locus 275/3219 done
+[call:chr20   284.5s] genotype: locus 300/3219 done
+[call:chr20   284.7s] genotype: locus 325/3219 done
+[call:chr20   284.9s] genotype: locus 350/3219 done
+[call:chr20   285.2s] genotype: locus 375/3219 done
+[call:chr20   285.4s] genotype: locus 400/3219 done
+[call:chr20   285.7s] genotype: locus 425/3219 done
+[call:chr20   285.9s] genotype: locus 450/3219 done
+[call:chr20   286.1s] genotype: locus 475/3219 done
+[call:chr20   286.3s] genotype: locus 500/3219 done
+[call:chr20   286.5s] genotype: locus 525/3219 done
+[call:chr20   286.7s] genotype: locus 550/3219 done
+[call:chr20   286.9s] genotype: locus 575/3219 done
+[call:chr20   287.2s] genotype: locus 600/3219 done
+[call:chr20   287.4s] genotype: locus 625/3219 done
+[call:chr20   287.7s] genotype: locus 650/3219 done
+[call:chr20   287.9s] genotype: locus 675/3219 done
+[call:chr20   288.1s] genotype: locus 700/3219 done
+[call:chr20   288.4s] genotype: locus 725/3219 done
+[call:chr20   288.6s] genotype: locus 750/3219 done
+[call:chr20   288.9s] genotype: locus 775/3219 done
+[call:chr20   289.3s] genotype: locus 800/3219 done
+[call:chr20   289.7s] genotype: locus 825/3219 done
+[call:chr20   290.0s] genotype: locus 850/3219 done
+[call:chr20   290.8s] genotype: locus 875/3219 done
+[call:chr20   291.2s] genotype: locus 900/3219 done
+[call:chr20   291.5s] genotype: locus 925/3219 done
+[call:chr20   291.9s] genotype: locus 950/3219 done
+[call:chr20   292.2s] genotype: locus 975/3219 done
+[call:chr20   292.5s] genotype: locus 1000/3219 done
+[call:chr20   293.3s] genotype: locus 1025/3219 done
+[call:chr20   294.1s] genotype: locus 1050/3219 done
+[call:chr20   295.2s] genotype: locus 1075/3219 done
+[call:chr20   296.1s] genotype: locus 1100/3219 done
+[call:chr20   296.8s] genotype: locus 1125/3219 done
+[call:chr20   297.4s] genotype: locus 1150/3219 done
+[call:chr20   297.9s] genotype: locus 1175/3219 done
+[call:chr20   298.3s] genotype: locus 1200/3219 done
+[call:chr20   298.8s] genotype: locus 1225/3219 done
+[call:chr20   299.4s] genotype: locus 1250/3219 done
+[call:chr20   299.8s] genotype: locus 1275/3219 done
+[call:chr20   300.2s] genotype: locus 1300/3219 done
+[call:chr20   300.5s] genotype: locus 1325/3219 done
+[call:chr20   300.8s] genotype: locus 1350/3219 done
+[call:chr20   300.9s] genotype: locus 1375/3219 done
+[call:chr20   301.2s] genotype: locus 1400/3219 done
+[call:chr20   301.4s] genotype: locus 1425/3219 done
+[call:chr20   301.6s] genotype: locus 1450/3219 done
+[call:chr20   301.9s] genotype: locus 1475/3219 done
+[call:chr20   302.2s] genotype: locus 1500/3219 done
+[call:chr20   302.4s] genotype: locus 1525/3219 done
+[call:chr20   302.7s] genotype: locus 1550/3219 done
+[call:chr20   303.0s] genotype: locus 1575/3219 done
+[call:chr20   303.3s] genotype: locus 1600/3219 done
+[call:chr20   303.5s] genotype: locus 1625/3219 done
+[call:chr20   303.9s] genotype: locus 1650/3219 done
+[call:chr20   304.2s] genotype: locus 1675/3219 done
+[call:chr20   304.5s] genotype: locus 1700/3219 done
+[call:chr20   304.8s] genotype: locus 1725/3219 done
+[call:chr20   305.0s] genotype: locus 1750/3219 done
+[call:chr20   305.2s] genotype: locus 1775/3219 done
+[call:chr20   305.5s] genotype: locus 1800/3219 done
+[call:chr20   305.8s] genotype: locus 1825/3219 done
+[call:chr20   306.1s] genotype: locus 1850/3219 done
+[call:chr20   306.3s] genotype: locus 1875/3219 done
+[call:chr20   306.7s] genotype: locus 1900/3219 done
+[call:chr20   307.0s] genotype: locus 1925/3219 done
+[call:chr20   307.3s] genotype: locus 1950/3219 done
+[call:chr20   307.6s] genotype: locus 1975/3219 done
+[call:chr20   308.0s] genotype: locus 2000/3219 done
+[call:chr20   308.3s] genotype: locus 2025/3219 done
+[call:chr20   308.7s] genotype: locus 2050/3219 done
+[call:chr20   309.0s] genotype: locus 2075/3219 done
+[call:chr20   309.4s] genotype: locus 2100/3219 done
+[call:chr20   309.9s] genotype: locus 2125/3219 done
+[call:chr20   310.2s] genotype: locus 2150/3219 done
+[call:chr20   310.5s] genotype: locus 2175/3219 done
+[call:chr20   310.9s] genotype: locus 2200/3219 done
+[call:chr20   311.2s] genotype: locus 2225/3219 done
+[call:chr20   311.6s] genotype: locus 2250/3219 done
+[call:chr20   311.8s] genotype: locus 2275/3219 done
+[call:chr20   312.1s] genotype: locus 2300/3219 done
+[call:chr20   312.4s] genotype: locus 2325/3219 done
+[call:chr20   312.6s] genotype: locus 2350/3219 done
+[call:chr20   312.9s] genotype: locus 2375/3219 done
+[call:chr20   313.2s] genotype: locus 2400/3219 done
+[call:chr20   313.4s] genotype: locus 2425/3219 done
+[call:chr20   313.6s] genotype: locus 2450/3219 done
+[call:chr20   313.8s] genotype: locus 2475/3219 done
+[call:chr20   314.1s] genotype: locus 2500/3219 done
+[call:chr20   314.3s] genotype: locus 2525/3219 done
+[call:chr20   314.6s] genotype: locus 2550/3219 done
+[call:chr20   314.8s] genotype: locus 2575/3219 done
+[call:chr20   315.1s] genotype: locus 2600/3219 done
+[call:chr20   315.2s] genotype: locus 2625/3219 done
+[call:chr20   315.6s] genotype: locus 2650/3219 done
+[call:chr20   316.0s] genotype: locus 2675/3219 done
+[call:chr20   316.5s] genotype: locus 2700/3219 done
+[call:chr20   317.0s] genotype: locus 2725/3219 done
+[call:chr20   317.4s] genotype: locus 2750/3219 done
+[call:chr20   317.8s] genotype: locus 2775/3219 done
+[call:chr20   318.1s] genotype: locus 2800/3219 done
+[call:chr20   318.6s] genotype: locus 2825/3219 done
+[call:chr20   319.0s] genotype: locus 2850/3219 done
+[call:chr20   319.4s] genotype: locus 2875/3219 done
+[call:chr20   319.9s] genotype: locus 2900/3219 done
+[call:chr20   320.5s] genotype: locus 2925/3219 done
+[call:chr20   320.9s] genotype: locus 2950/3219 done
+[call:chr20   321.3s] genotype: locus 2975/3219 done
+[call:chr20   321.6s] genotype: locus 3000/3219 done
+[call:chr20   322.4s] genotype: locus 3025/3219 done
+[call:chr20   322.7s] genotype: locus 3050/3219 done
+[call:chr20   323.2s] genotype: locus 3075/3219 done
+[call:chr20   323.7s] genotype: locus 3100/3219 done
+[call:chr20   324.5s] genotype: locus 3125/3219 done
+[call:chr20   324.9s] genotype: locus 3150/3219 done
+[call:chr20   325.2s] genotype: locus 3175/3219 done
+[call:chr20   325.7s] genotype: locus 3200/3219 done
+[call:chr20   328.7s] genotype: locus 3219/3219 done
+[call:chr20   328.7s] genotype done: 345 calls
+[call:chr20   328.7s] done: 345 calls -> /data/results_gate_m4_verify/NA19700/chr20/arcsv_out.tab
+wrote 345 calls to /data/results_gate_m4_verify/NA19700/chr20/arcsv_out.tab
+[Mon Oct  5 19:46:26 2026]
+Finished jobid: 10 (Rule: call)
+3 of 7 steps (43%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct  5 19:46:26 2026]
+localrule merge:
+    input: /data/results_gate_m4_verify/NA19700/chr20/arcsv_out.tab
+    output: /data/results_gate_m4_verify/NA19700/merged.tab
+    jobid: 9
+    reason: Missing output files: /data/results_gate_m4_verify/NA19700/merged.tab; Input files updated by another job: /data/results_gate_m4_verify/NA19700/chr20/arcsv_out.tab
+    wildcards: sample=NA19700
+    resources: tmpdir=/tmp
+wrote 271 merged calls to /data/results_gate_m4_verify/NA19700/merged.tab
+[Mon Oct  5 19:46:27 2026]
+Finished jobid: 9 (Rule: merge)
+4 of 7 steps (57%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct  5 19:46:27 2026]
+localrule label:
+    input: /data/results_gate_m4_verify/NA19700/merged.tab, /data/haps/NA19700.hap1.fa.gz, /data/haps/NA19700.hap2.fa.gz, /data/haps/NA19700.hap1.mmi, /data/haps/NA19700.hap2.mmi
+    output: /data/labels_gate_m4_verify/NA19700.labeled.tsv
+    jobid: 8
+    reason: Missing output files: /data/labels_gate_m4_verify/NA19700.labeled.tsv; Input files updated by another job: /data/results_gate_m4_verify/NA19700/merged.tab
+    wildcards: sample=NA19700
+    threads: 8
+    resources: tmpdir=/tmp
+wrote 271 labels to /data/labels_gate_m4_verify/NA19700.labeled.tsv
+[Mon Oct  5 19:47:24 2026]
+Finished jobid: 8 (Rule: label)
+5 of 7 steps (71%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct  5 19:47:24 2026]
+localrule dataset:
+    input: /data/labels_gate_m4_verify/HG01884.labeled.tsv, /data/labels_gate_m4_verify/NA19700.labeled.tsv
+    output: /data/labels_gate_m4_verify/dataset.tsv, /data/labels_gate_m4_verify/dataset.summary.json
+    jobid: 1
+    reason: Missing output files: /data/labels_gate_m4_verify/dataset.tsv, /data/labels_gate_m4_verify/dataset.summary.json; Input files updated by another job: /data/labels_gate_m4_verify/NA19700.labeled.tsv, /data/labels_gate_m4_verify/HG01884.labeled.tsv
+    resources: tmpdir=/tmp
+wrote 376 labeled calls to /data/labels_gate_m4_verify/dataset.tsv
+[Mon Oct  5 19:47:25 2026]
+Finished jobid: 1 (Rule: dataset)
+6 of 7 steps (86%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Oct  5 19:47:25 2026]
+localrule all:
+    input: /data/labels_gate_m4_verify/dataset.tsv, /data/labels_gate_m4_verify/dataset.summary.json
+    jobid: 0
+    reason: Input files updated by another job: /data/labels_gate_m4_verify/dataset.tsv, /data/labels_gate_m4_verify/dataset.summary.json
+    resources: tmpdir=/tmp
+[Mon Oct  5 19:47:25 2026]
+Finished jobid: 0 (Rule: all)
+7 of 7 steps (100%) done
+Complete log(s): /work/.snakemake/log/2026-10-05T194051.184177.snakemake.log
+Elapsed time: 0:06:34.383563
+SAMPLE=GATE elapsed_sec=397.3 max_rss_kb=8297296 rc=0

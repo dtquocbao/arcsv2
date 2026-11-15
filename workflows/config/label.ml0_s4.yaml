@@ -1,0 +1,126 @@
+# ML-0 S4: 40 samples, whole genome (chr1-22 + chrX). Image arcsv2:ml0.
+# Same settings as S3 pilot. Reuses results_ml0_s3 / labels_ml0_s3 so completed
+# pilot outputs and snakemake metadata remain valid for --rerun-incomplete.
+data_root: /data
+results_dir: results_ml0_s3
+labels_dir: labels_ml0_s3
+reference: /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa
+gaps: /data/ref/gaps.bed
+unreliable: /data/ref/unreliable.bed
+simple_repeats: /data/ref/simple_repeats.bed
+segdups: /data/ref/segdups.bed
+# 10x blacklist omitted (HTTP 403); simple_repeats+segdups+gaps still on.
+blacklist: ""
+chroms:
+  - chr1
+  - chr2
+  - chr3
+  - chr4
+  - chr5
+  - chr6
+  - chr7
+  - chr8
+  - chr9
+  - chr10
+  - chr11
+  - chr12
+  - chr13
+  - chr14
+  - chr15
+  - chr16
+  - chr17
+  - chr18
+  - chr19
+  - chr20
+  - chr21
+  - chr22
+  - chrX
+samples:
+  - HG01884
+  - HG01150
+  - HG00126
+  - HG02055
+  - NA19700
+  - HG02922
+  - HG02572
+  - NA19036
+  - HG03098
+  - NA18505
+  - HG01346
+  - NA19682
+  - NA19776
+  - HG01928
+  - HG01940
+  - HG00642
+  - HG00738
+  - HG02155
+  - HG02391
+  - NA18565
+  - NA18608
+  - HG00408
+  - HG00609
+  - NA18940
+  - HG02080
+  - HG00272
+  - HG00320
+  - HG00140
+  - HG01784
+  - HG01786
+  - NA20752
+  - NA20762
+  - HG03804
+  - HG03816
+  - NA20850
+  - NA21102
+  - HG03742
+  - HG03784
+  - HG02602
+  - HG03688
+cram:
+  HG01884: /data/samples/HG01884/reads/HG01884.cram
+  HG01150: /data/samples/HG01150/reads/HG01150.cram
+  HG00126: /data/samples/HG00126/reads/HG00126.cram
+  HG02055: /data/samples/HG02055/reads/HG02055.cram
+  NA19700: /data/samples/NA19700/reads/NA19700.cram
+  HG02922: /data/samples/HG02922/reads/HG02922.cram
+  HG02572: /data/samples/HG02572/reads/HG02572.cram
+  NA19036: /data/samples/NA19036/reads/NA19036.cram
+  HG03098: /data/samples/HG03098/reads/HG03098.cram
+  NA18505: /data/samples/NA18505/reads/NA18505.cram
+  HG01346: /data/samples/HG01346/reads/HG01346.cram
+  NA19682: /data/samples/NA19682/reads/NA19682.cram
+  NA19776: /data/samples/NA19776/reads/NA19776.cram
+  HG01928: /data/samples/HG01928/reads/HG01928.cram
+  HG01940: /data/samples/HG01940/reads/HG01940.cram
+  HG00642: /data/samples/HG00642/reads/HG00642.cram
+  HG00738: /data/samples/HG00738/reads/HG00738.cram
+  HG02155: /data/samples/HG02155/reads/HG02155.cram
+  HG02391: /data/samples/HG02391/reads/HG02391.cram
+  NA18565: /data/samples/NA18565/reads/NA18565.cram
+  NA18608: /data/samples/NA18608/reads/NA18608.cram
+  HG00408: /data/samples/HG00408/reads/HG00408.cram
+  HG00609: /data/samples/HG00609/reads/HG00609.cram
+  NA18940: /data/samples/NA18940/reads/NA18940.cram
+  HG02080: /data/samples/HG02080/reads/HG02080.cram
+  HG00272: /data/samples/HG00272/reads/HG00272.cram
+  HG00320: /data/samples/HG00320/reads/HG00320.cram
+  HG00140: /data/samples/HG00140/reads/HG00140.cram
+  HG01784: /data/samples/HG01784/reads/HG01784.cram
+  HG01786: /data/samples/HG01786/reads/HG01786.cram
+  NA20752: /data/samples/NA20752/reads/NA20752.cram
+  NA20762: /data/samples/NA20762/reads/NA20762.cram
+  HG03804: /data/samples/HG03804/reads/HG03804.cram
+  HG03816: /data/samples/HG03816/reads/HG03816.cram
+  NA20850: /data/samples/NA20850/reads/NA20850.cram
+  NA21102: /data/samples/NA21102/reads/NA21102.cram
+  HG03742: /data/samples/HG03742/reads/HG03742.cram
+  HG03784: /data/samples/HG03784/reads/HG03784.cram
+  HG02602: /data/samples/HG02602/reads/HG02602.cram
+  HG03688: /data/samples/HG03688/reads/HG03688.cram
+sequential: true
+threads: 4
+# Whole-genome .mmi + mappy: cap concurrent labels under --resources mem_mb=100000.
+label_mem_mb: 60000
+label_threads: 2
+mem_mb_mode: scaled
+engine: rust

@@ -1,0 +1,25 @@
+=== m4 profile start 2026-10-05T16:04:52Z ===
+{"stage": "start", "wall_s": 0.0, "rss_kb": 47128, "rss_mb": 46.0, "peak_rss_mb": 46.0}
+[m4prof:chr1     0.0s] load_bam: /data/work/HG01884/chr1.bam (engine=rust)
+[m4prof:chr1   934.1s] load_bam done: 59,192,263 alignments -> 29,449,918 pairs, 85664 breakpoints, 10086 splits (insert_stats=29,208,695, engine=rust)
+{"stage": "after_load", "wall_s": 934.4, "rss_kb": 13297892, "rss_mb": 12986.2, "peak_rss_mb": 12986.2, "n_pairs": 29449918, "pairs_nbytes": 1560845654, "bytes_per_pair": 53.0, "n_splits": 10086, "n_extras": 85664}
+{"stage": "after_fit_libs", "wall_s": 1034.2, "rss_kb": 13297892, "rss_mb": 12986.2, "peak_rss_mb": 12986.2}
+[m4prof:chr1  1034.3s] discover: scan 29,449,918 pairs for DRPs
+[m4prof:chr1  1097.5s] discover: Del: 67,184 DRPs + 4 null reps
+[m4prof:chr1  1100.9s] discover: Del: null rep 2/4
+[m4prof:chr1  1101.6s] discover: Del: null rep 4/4
+[m4prof:chr1  1101.6s] discover: Dup: 24,020 DRPs + 4 null reps
+[m4prof:chr1  1102.9s] discover: Dup: null rep 2/4
+[m4prof:chr1  1103.1s] discover: Dup: null rep 4/4
+[m4prof:chr1  1103.1s] discover: Ins: 22,554 DRPs + 4 null reps
+[m4prof:chr1  1103.3s] discover: Ins: null rep 2/4
+[m4prof:chr1  1103.4s] discover: Ins: null rep 4/4
+[m4prof:chr1  1103.4s] discover: InvL: 1,001 DRPs + 4 null reps
+[m4prof:chr1  1103.5s] discover: InvL: null rep 2/4
+[m4prof:chr1  1103.5s] discover: InvL: null rep 4/4
+[m4prof:chr1  1103.5s] discover: InvR: 977 DRPs + 4 null reps
+[m4prof:chr1  1103.5s] discover: InvR: null rep 2/4
+[m4prof:chr1  1103.5s] discover: InvR: null rep 4/4
+[m4prof:chr1  1104.1s] discover done: 67,231 breakpoints
+{"stage": "after_blocks", "wall_s": 1104.8, "rss_kb": 13297928, "rss_mb": 12986.3, "peak_rss_mb": 12986.3, "n_breakpoints": 67231, "n_blocks": 67232}
+[m4prof:chr1  1104.8s] build_graph: 29,449,918 pairs x 67,232 blocks (rust)

@@ -1,0 +1,8 @@
+# Pin exact URLs and checksums before download. Never use "latest".
+# Copy to samples.tsv and fill. scripts/fetch_data.py refuses REPLACE_ placeholders.
+# Prefer: python scripts/fetch_data.py --auto --n-samples 6 --chroms chr20
+# Checksums: md5:<hex>, sha256:<hex>, bare 32-char MD5, or none for .crai/.fai/.gzi.
+# Intersect HPRC Release 2 with NYGC 1KGP high-coverage; see docs/PRODUCTION_PLAN.md §3.1.
+# HG002 is not in 1KGP; keep it out of --auto.
+sample	population	sex	cram_url	crai_url	hap1_url	hap2_url	cram_checksum	crai_checksum	hap1_checksum	hap2_checksum
+# HG002	AJ	male	REPLACE_CRAM_URL	REPLACE_CRAI_URL	REPLACE_HAP1_URL	REPLACE_HAP2_URL	REPLACE_CRAM_SUM	none	REPLACE_HAP1_SUM	REPLACE_HAP2_SUM

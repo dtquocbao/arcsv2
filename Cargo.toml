@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+members = ["core/arcsv-core", "native/arcsv2-native"]
+
+[profile.release]
+# Bit-identical with Python: no fast-math style flags; ordered float reduces.
+lto = false
+codegen-units = 1

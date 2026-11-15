@@ -1,0 +1,2 @@
+chrom	minbp	maxbp	id	svtype	complextype	num_sv	bp	bp_uncertainty	reference	rearrangement	len_affected	filter	sv_bp	sv_bp_uncertainty	gt	af	inslen	sr_support	pe_support	score_vs_ref	score_vs_next	rearrangement_next	num_paths	blocks	blocks_point	bp_point_source
+chr20	5962341	5962685	chr20_5953459-5963611	DEL	NA	1	5953459,5962341,5962670,5963611	0,15,15,0	ABC	AC	329	PASS	5962341,5962685	15,15	HOM	1.000000	NA	41	27	481.78	67.31	ABC/AC	2	5953459-5962341,5962356-5962670,5962685-5963611	5953459-5962354,5962354-5962670,5962670-5963611	clip,clip

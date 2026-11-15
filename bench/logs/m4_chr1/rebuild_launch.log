@@ -1,0 +1,208 @@
+=== rebuild native 2026-10-05T19:20:07Z ===
+installing clang/libclang via micromamba...
+
+Pinned packages:
+
+  - python=3.11
+
+
+Transaction
+
+  Prefix: /opt/conda
+
+  Updating specs:
+
+   - clangdev
+   - libclang
+
+
+  Package                   Version  Build                   Channel          Size
+────────────────────────────────────────────────────────────────────────────────────
+  Install:
+────────────────────────────────────────────────────────────────────────────────────
+
+  + binutils                 2.46.1  default_h4852527_102    conda-forge      35kB
+  + clang                    23.1.2  default_cfg_hc1abcf6_0  conda-forge      34kB
+  + clang-23                 23.1.2  default_hfab3205_0      conda-forge     974kB
+  + clang-format             23.1.2  default_he6de646_0      conda-forge      34kB
+  + clang-format-23          23.1.2  default_h0acdd01_0      conda-forge      74kB
+  + clang-scan-deps          23.1.2  default_h0acdd01_0      conda-forge     112kB
+  + clang-tools              23.1.2  default_hd43de2f_0      conda-forge      12MB
+  + clang_impl_linux-64      23.1.2  default_he0f7a93_0      conda-forge      34kB
+  + clangdev                 23.1.2  default_hc3663a8_0      conda-forge      64MB
+  + clangxx                  23.1.2  default_cfg_hbe11dda_0  conda-forge      34kB
+  + clangxx_impl_linux-64    23.1.2  default_h165e814_0      conda-forge      34kB
+  + compiler-rt              23.1.2  ha770c72_0              conda-forge      17kB
+  + compiler-rt23            23.1.2  h7148c6a_0              conda-forge     117kB
+  + compiler-rt23_linux-64   23.1.2  h0e38de2_0              conda-forge      46MB
+  + compiler-rt_linux-64     23.1.2  ha770c72_0              conda-forge      17kB
+  + libclang                 23.1.2  default_hd8d1270_0      conda-forge      34kB
+  + libclang-cpp             23.1.2  default_hfab3205_0      conda-forge      34kB
+  + libclang-cpp23.1         23.1.2  default_h0acdd01_0      conda-forge      25MB
+  + libclang13               23.1.2  default_hfab3205_0      conda-forge      15MB
+  + libcompiler-rt           23.1.2  h7148c6a_0              conda-forge      11MB
+  + libllvm23                23.1.2  h474f4eb_0              conda-forge      45MB
+  + llvm-openmp              23.1.2  h7148c6a_0              conda-forge       6MB
+  + llvm-tools               23.1.2  h7148c6a_0              conda-forge      52kB
+  + llvm-tools-23            23.1.2  h7399f5f_0              conda-forge      25MB
+  + llvmdev                  23.1.2  h7399f5f_0              conda-forge      63MB
+
+  Summary:
+
+  Install: 25 packages
+
+  Total download: 315MB
+
+────────────────────────────────────────────────────────────────────────────────────
+
+
+
+Transaction starting
+Linking libllvm23-23.1.2-h474f4eb_0
+Linking llvm-openmp-23.1.2-h7148c6a_0
+Linking libcompiler-rt-23.1.2-h7148c6a_0
+Linking binutils-2.46.1-default_h4852527_102
+Linking llvm-tools-23-23.1.2-h7399f5f_0
+Linking libclang-cpp23.1-23.1.2-default_h0acdd01_0
+Linking llvm-tools-23.1.2-h7148c6a_0
+Linking clang-format-23-23.1.2-default_h0acdd01_0
+Linking libclang13-23.1.2-default_hfab3205_0
+Linking libclang-cpp-23.1.2-default_hfab3205_0
+Linking llvmdev-23.1.2-h7399f5f_0
+Linking clang-format-23.1.2-default_he6de646_0
+Linking clang-scan-deps-23.1.2-default_h0acdd01_0
+Linking libclang-23.1.2-default_hd8d1270_0
+Linking clang-tools-23.1.2-default_hd43de2f_0
+Linking compiler-rt23_linux-64-23.1.2-h0e38de2_0
+Linking compiler-rt_linux-64-23.1.2-ha770c72_0
+Linking compiler-rt23-23.1.2-h7148c6a_0
+Linking compiler-rt-23.1.2-ha770c72_0
+Linking clang-23-23.1.2-default_hfab3205_0
+Linking clang_impl_linux-64-23.1.2-default_he0f7a93_0
+Linking clangxx_impl_linux-64-23.1.2-default_h165e814_0
+Linking clang-23.1.2-default_cfg_hc1abcf6_0
+Linking clangxx-23.1.2-default_cfg_hbe11dda_0
+Linking clangdev-23.1.2-default_hc3663a8_0
+
+Transaction finished
+
+To activate this environment, use:
+
+    micromamba activate base
+
+Or to execute a single command in this environment, use:
+
+    micromamba run -n base mycommand
+
+OPENSSL_NO_VENDOR=1 LIBCLANG_PATH=/opt/conda/lib patchelf=/opt/conda/bin/patchelf
+openssl.pc: 3.6.4
+🐍 Found CPython 3.11 at /opt/conda/bin/python3
+🔗 Found pyo3 bindings
+📡 Using build options features from pyproject.toml
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling libc v0.2.190
+   Compiling target-lexicon v0.12.16
+   Compiling icu_normalizer_data v2.3.0
+   Compiling icu_properties_data v2.3.0
+   Compiling generic-array v0.14.7
+   Compiling crossbeam-epoch v0.9.21
+   Compiling rustversion v1.0.23
+   Compiling bindgen v0.72.1
+   Compiling thiserror v1.0.69
+   Compiling thiserror v2.0.21
+   Compiling rayon-core v1.13.0
+   Compiling pyo3-build-config v0.22.6
+   Compiling crossbeam-deque v0.8.8
+   Compiling jobserver v0.1.35
+   Compiling clang-sys v1.9.1
+   Compiling syn v3.0.6
+   Compiling syn v2.0.119
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling cc v1.6.0
+   Compiling digest v0.10.7
+   Compiling rayon v1.12.0
+   Compiling cmake v0.1.58
+   Compiling openssl-src v300.6.1+3.6.3
+   Compiling sha2 v0.10.9
+   Compiling synstructure v0.14.0
+   Compiling openssl-sys v0.9.117
+   Compiling libz-sys v1.1.29
+   Compiling bzip2-sys v0.1.13+1.0.8
+   Compiling lzma-sys v0.1.20
+   Compiling curl-sys v0.4.90+curl-8.21.0
+   Compiling pyo3-ffi v0.22.6
+   Compiling pyo3-macros-backend v0.22.6
+   Compiling pyo3 v0.22.6
+   Compiling zerofrom-derive v0.1.8
+   Compiling yoke-derive v0.8.4
+   Compiling zerovec-derive v0.11.6
+   Compiling displaydoc v0.2.7
+   Compiling thiserror-impl v2.0.21
+   Compiling thiserror-impl v1.0.69
+   Compiling derive-new v0.6.0
+   Compiling strum_macros v0.26.4
+   Compiling derive-new v0.7.0
+   Compiling zerofrom v0.1.8
+   Compiling yoke v0.8.3
+   Compiling zerovec v0.11.8
+   Compiling zerotrie v0.2.5
+   Compiling pyo3-macros v0.22.6
+   Compiling tinystr v0.8.4
+   Compiling potential_utf v0.1.6
+   Compiling icu_collections v2.3.0
+   Compiling icu_locale_core v2.3.0
+   Compiling bio-types v1.0.4
+   Compiling icu_provider v2.3.1
+   Compiling icu_properties v2.3.0
+   Compiling icu_normalizer v2.3.0
+   Compiling hts-sys v2.2.1
+   Compiling idna_adapter v1.2.2
+   Compiling idna v1.1.0
+   Compiling url v2.5.8
+   Compiling numpy v0.22.1
+   Compiling rust-htslib v0.49.0
+   Compiling arcsv2-native v0.1.0 (/work/native/arcsv2-native)
+warning: function `arr_u16` is never used
+   --> native/arcsv2-native/src/lib.rs:161:4
+    |
+161 | fn arr_u16(a: PyReadonlyArray1<'_, u16>) -> PyResult<Vec<u16>> {
+    |    ^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `nm` is never read
+  --> native/arcsv2-native/src/bam_load.rs:44:9
+   |
+34 | pub struct CompactRead {
+   |            ----------- field in this struct
+...
+44 |     pub nm: Option<i64>,
+   |         ^^
+   |
+   = note: `CompactRead` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: `arcsv2-native` (lib) generated 2 warnings
+    Finished `release` profile [optimized] target(s) in 1m 29s
+🔗 External shared libraries to be copied into the wheel:
+  /work/target/maturin/libarcsv2_native.so requires:
+    libcrypto.so.3 => /opt/conda/lib/libcrypto.so.3
+    libssl.so.3 => /opt/conda/lib/libssl.so.3
+🖨  Copied external shared libraries to package arcsv2_native.libs directory:
+    /opt/conda/lib/libcrypto.so.3
+    /opt/conda/lib/libssl.so.3
+📦 Built wheel for CPython 3.11 to /work/target/wheels/arcsv2_native-0.1.0-cp311-cp311-manylinux_2_34_x86_64.whl
+WHEEL=/work/target/wheels/arcsv2_native-0.1.0-cp311-cp311-manylinux_2_34_x86_64.whl
+Processing ./target/wheels/arcsv2_native-0.1.0-cp311-cp311-manylinux_2_34_x86_64.whl
+Installing collected packages: arcsv2-native
+  Attempting uninstall: arcsv2-native
+    Found existing installation: arcsv2-native 0.1.0
+    Uninstalling arcsv2-native-0.1.0:
+      Successfully uninstalled arcsv2-native-0.1.0
+Successfully installed arcsv2-native-0.1.0
+0.1.0 True
+/opt/conda/lib/python3.11/site-packages/arcsv2_native/__init__.py
+2026-10-05T19:22:24Z
+keys ok True True
+=== rebuild done 2026-10-05T19:22:25Z ===

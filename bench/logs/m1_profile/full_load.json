@@ -1,0 +1,11 @@
+{
+  "n_pairs": 8087727,
+  "pair_obj_bytes": 56.0,
+  "pair_attr_bytes": 395.0,
+  "bytes_per_pair_est": 451.0,
+  "pairs_total_est_mb": 3545.97,
+  "rss_mb": 3932.2,
+  "wall_s": 266.6,
+  "n_splits": 4413,
+  "n_extras": 33288
+}

@@ -1,0 +1,125 @@
+{
+  "windows": [
+    {
+      "sample": "NA19700",
+      "lo": 61500000,
+      "hi": 64500000,
+      "tag": "lostDEL",
+      "arm": "A_current",
+      "validated": 12,
+      "n01": 39,
+      "precision": 30.77,
+      "DEL": {
+        "0": 13,
+        "1": 6
+      },
+      "DUP": {
+        "1": 5,
+        "0": 11
+      },
+      "complex": {
+        "0": 3,
+        "1": 1
+      },
+      "orig_tp": 9,
+      "orig_n": 18
+    },
+    {
+      "sample": "NA19700",
+      "lo": 61500000,
+      "hi": 64500000,
+      "tag": "lostDEL",
+      "arm": "B_v2fix8",
+      "validated": 14,
+      "n01": 30,
+      "precision": 46.67,
+      "DEL": {
+        "0": 8,
+        "1": 8
+      },
+      "DUP": {
+        "0": 3,
+        "1": 4
+      },
+      "complex": {
+        "0": 5,
+        "1": 2
+      },
+      "orig_tp": 10,
+      "orig_n": 18
+    },
+    {
+      "sample": "HG01884",
+      "lo": 60000000,
+      "hi": 65000000,
+      "tag": "complex",
+      "arm": "A_current",
+      "validated": 20,
+      "n01": 48,
+      "precision": 41.67,
+      "DEL": {
+        "1": 12,
+        "0": 15
+      },
+      "DUP": {
+        "1": 7,
+        "0": 9
+      },
+      "complex": {
+        "1": 1,
+        "0": 4
+      },
+      "orig_tp": 16,
+      "orig_n": 30
+    },
+    {
+      "sample": "HG01884",
+      "lo": 60000000,
+      "hi": 65000000,
+      "tag": "complex",
+      "arm": "B_v2fix8",
+      "validated": 20,
+      "n01": 36,
+      "precision": 55.56,
+      "DEL": {
+        "1": 13,
+        "0": 8
+      },
+      "DUP": {
+        "1": 5,
+        "0": 2
+      },
+      "complex": {
+        "0": 6,
+        "1": 2
+      },
+      "orig_tp": 18,
+      "orig_n": 30
+    }
+  ],
+  "aggregate": {
+    "A_current": {
+      "validated": 32,
+      "n01": 87,
+      "precision": 36.78,
+      "orig_tp": 25,
+      "orig_n": 48
+    },
+    "B_v2fix8": {
+      "validated": 34,
+      "n01": 66,
+      "precision": 51.52,
+      "orig_tp": 28,
+      "orig_n": 48
+    }
+  },
+  "gate": {
+    "validated_ge_v2fix8": false,
+    "precision_within_2pts": false,
+    "result": "FAIL",
+    "A_validated": 32,
+    "B_validated": 34,
+    "A_precision": 36.78,
+    "B_precision": 51.52
+  }
+}

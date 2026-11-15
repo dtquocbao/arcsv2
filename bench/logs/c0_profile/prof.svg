@@ -1,0 +1,491 @@
+<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" width="1200" height="506" onload="init(evt)" viewBox="0 0 1200 506" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:fg="http://github.com/jonhoo/inferno"><!--Flame graph stack visualization. See https://github.com/brendangregg/FlameGraph for latest version, and http://www.brendangregg.com/flamegraphs.html for examples.--><!--NOTES: --><defs><linearGradient id="background" y1="0" y2="1" x1="0" x2="0"><stop stop-color="#eeeeee" offset="5%"/><stop stop-color="#eeeeb0" offset="95%"/></linearGradient></defs><style type="text/css">
+text { font-family:monospace; font-size:12px }
+#title { text-anchor:middle; font-size:17px; }
+#matched { text-anchor:end; }
+#search { text-anchor:end; opacity:0.1; cursor:pointer; }
+#search:hover, #search.show { opacity:1; }
+#subtitle { text-anchor:middle; font-color:rgb(160,160,160); }
+#unzoom { cursor:pointer; }
+#frames > *:hover { stroke:black; stroke-width:0.5; cursor:pointer; }
+.hide { display:none; }
+.parent { opacity:0.5; }
+</style><script type="text/ecmascript"><![CDATA[
+        var nametype = 'Function:';
+        var fontsize = 12;
+        var fontwidth = 0.59;
+        var xpad = 10;
+        var inverted = true;
+        var searchcolor = 'rgb(230,0,230)';
+        var fluiddrawing = true;
+        var truncate_text_right = false;
+    ]]><![CDATA["use strict";
+var details, searchbtn, unzoombtn, matchedtxt, svg, searching, frames, known_font_width;
+function init(evt) {
+    details = document.getElementById("details").firstChild;
+    searchbtn = document.getElementById("search");
+    unzoombtn = document.getElementById("unzoom");
+    matchedtxt = document.getElementById("matched");
+    svg = document.getElementsByTagName("svg")[0];
+    frames = document.getElementById("frames");
+    known_font_width = get_monospace_width(frames);
+    total_samples = parseInt(frames.attributes.total_samples.value);
+    searching = 0;
+
+    // Use GET parameters to restore a flamegraph's state.
+    var restore_state = function() {
+        var params = get_params();
+        if (params.x && params.y)
+            zoom(find_group(document.querySelector('[*|x="' + params.x + '"][y="' + params.y + '"]')));
+        if (params.s)
+            search(params.s);
+    };
+
+    if (fluiddrawing) {
+        // Make width dynamic so the SVG fits its parent's width.
+        svg.removeAttribute("width");
+        // Edge requires us to have a viewBox that gets updated with size changes.
+        var isEdge = /Edge\/\d./i.test(navigator.userAgent);
+        if (!isEdge) {
+            svg.removeAttribute("viewBox");
+        }
+        var update_for_width_change = function() {
+            if (isEdge) {
+                svg.attributes.viewBox.value = "0 0 " + svg.width.baseVal.value + " " + svg.height.baseVal.value;
+            }
+
+            // Keep consistent padding on left and right of frames container.
+            frames.attributes.width.value = svg.width.baseVal.value - xpad * 2;
+
+            // Text truncation needs to be adjusted for the current width.
+            update_text_for_elements(frames.children);
+
+            // Keep search elements at a fixed distance from right edge.
+            var svgWidth = svg.width.baseVal.value;
+            searchbtn.attributes.x.value = svgWidth - xpad;
+            matchedtxt.attributes.x.value = svgWidth - xpad;
+        };
+        window.addEventListener('resize', function() {
+            update_for_width_change();
+        });
+        // This needs to be done asynchronously for Safari to work.
+        setTimeout(function() {
+            unzoom();
+            update_for_width_change();
+            restore_state();
+        }, 0);
+    } else {
+        restore_state();
+    }
+}
+// event listeners
+window.addEventListener("click", function(e) {
+    var target = find_group(e.target);
+    if (target) {
+        if (target.nodeName == "a") {
+            if (e.ctrlKey === false) return;
+            e.preventDefault();
+        }
+        if (target.classList.contains("parent")) unzoom();
+        zoom(target);
+
+        // set parameters for zoom state
+        var el = target.querySelector("rect");
+        if (el && el.attributes && el.attributes.y && el.attributes["fg:x"]) {
+            var params = get_params()
+            params.x = el.attributes["fg:x"].value;
+            params.y = el.attributes.y.value;
+            history.replaceState(null, null, parse_params(params));
+        }
+    }
+    else if (e.target.id == "unzoom") {
+        unzoom();
+
+        // remove zoom state
+        var params = get_params();
+        if (params.x) delete params.x;
+        if (params.y) delete params.y;
+        history.replaceState(null, null, parse_params(params));
+    }
+    else if (e.target.id == "search") search_prompt();
+}, false)
+// mouse-over for info
+// show
+window.addEventListener("mouseover", function(e) {
+    var target = find_group(e.target);
+    if (target) details.nodeValue = nametype + " " + g_to_text(target);
+}, false)
+// clear
+window.addEventListener("mouseout", function(e) {
+    var target = find_group(e.target);
+    if (target) details.nodeValue = ' ';
+}, false)
+// ctrl-F for search
+window.addEventListener("keydown",function (e) {
+    if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+        e.preventDefault();
+        search_prompt();
+    }
+}, false)
+// functions
+function get_params() {
+    var params = {};
+    var paramsarr = window.location.search.substr(1).split('&');
+    for (var i = 0; i < paramsarr.length; ++i) {
+        var tmp = paramsarr[i].split("=");
+        if (!tmp[0] || !tmp[1]) continue;
+        params[tmp[0]]  = decodeURIComponent(tmp[1]);
+    }
+    return params;
+}
+function parse_params(params) {
+    var uri = "?";
+    for (var key in params) {
+        uri += key + '=' + encodeURIComponent(params[key]) + '&';
+    }
+    if (uri.slice(-1) == "&")
+        uri = uri.substring(0, uri.length - 1);
+    if (uri == '?')
+        uri = window.location.href.split('?')[0];
+    return uri;
+}
+function find_child(node, selector) {
+    var children = node.querySelectorAll(selector);
+    if (children.length) return children[0];
+    return;
+}
+function find_group(node) {
+    var parent = node.parentElement;
+    if (!parent) return;
+    if (parent.id == "frames") return node;
+    return find_group(parent);
+}
+function orig_save(e, attr, val) {
+    if (e.attributes["fg:orig_" + attr] != undefined) return;
+    if (e.attributes[attr] == undefined) return;
+    if (val == undefined) val = e.attributes[attr].value;
+    e.setAttribute("fg:orig_" + attr, val);
+}
+function orig_load(e, attr) {
+    if (e.attributes["fg:orig_"+attr] == undefined) return;
+    e.attributes[attr].value = e.attributes["fg:orig_" + attr].value;
+    e.removeAttribute("fg:orig_" + attr);
+}
+function g_to_text(e) {
+    var text = find_child(e, "title").firstChild.nodeValue;
+    return (text)
+}
+function g_to_func(e) {
+    var func = g_to_text(e);
+    // if there's any manipulation we want to do to the function
+    // name before it's searched, do it here before returning.
+    return (func);
+}
+function get_monospace_width(frames) {
+    // Given the id="frames" element, return the width of text characters if
+    // this is a monospace font, otherwise return 0.
+    text = find_child(frames.children[0], "text");
+    originalContent = text.textContent;
+    text.textContent = "!";
+    bangWidth = text.getComputedTextLength();
+    text.textContent = "W";
+    wWidth = text.getComputedTextLength();
+    text.textContent = originalContent;
+    if (bangWidth === wWidth) {
+        return bangWidth;
+    } else {
+        return 0;
+    }
+}
+function update_text_for_elements(elements) {
+    // In order to render quickly in the browser, you want to do one pass of
+    // reading attributes, and one pass of mutating attributes. See
+    // https://web.dev/avoid-large-complex-layouts-and-layout-thrashing/ for details.
+
+    // Fall back to inefficient calculation, if we're variable-width font.
+    // TODO This should be optimized somehow too.
+    if (known_font_width === 0) {
+        for (var i = 0; i < elements.length; i++) {
+            update_text(elements[i]);
+        }
+        return;
+    }
+
+    var textElemNewAttributes = [];
+    for (var i = 0; i < elements.length; i++) {
+        var e = elements[i];
+        var r = find_child(e, "rect");
+        var t = find_child(e, "text");
+        var w = parseFloat(r.attributes.width.value) * frames.attributes.width.value / 100 - 3;
+        var txt = find_child(e, "title").textContent.replace(/\([^(]*\)$/,"");
+        var newX = format_percent((parseFloat(r.attributes.x.value) + (100 * 3 / frames.attributes.width.value)));
+
+        // Smaller than this size won't fit anything
+        if (w < 2 * known_font_width) {
+            textElemNewAttributes.push([newX, ""]);
+            continue;
+        }
+
+        // Fit in full text width
+        if (txt.length * known_font_width < w) {
+            textElemNewAttributes.push([newX, txt]);
+            continue;
+        }
+
+        var substringLength = Math.floor(w / known_font_width) - 2;
+        if (truncate_text_right) {
+            // Truncate the right side of the text.
+            textElemNewAttributes.push([newX, txt.substring(0, substringLength) + ".."]);
+            continue;
+        } else {
+            // Truncate the left side of the text.
+            textElemNewAttributes.push([newX, ".." + txt.substring(txt.length - substringLength, txt.length)]);
+            continue;
+        }
+    }
+
+    console.assert(textElemNewAttributes.length === elements.length, "Resize failed, please file a bug at https://github.com/jonhoo/inferno/");
+
+    // Now that we know new textContent, set it all in one go so we don't refresh a bazillion times.
+    for (var i = 0; i < elements.length; i++) {
+        var e = elements[i];
+        var values = textElemNewAttributes[i];
+        var t = find_child(e, "text");
+        t.attributes.x.value = values[0];
+        t.textContent = values[1];
+    }
+}
+
+function update_text(e) {
+    var r = find_child(e, "rect");
+    var t = find_child(e, "text");
+    var w = parseFloat(r.attributes.width.value) * frames.attributes.width.value / 100 - 3;
+    var txt = find_child(e, "title").textContent.replace(/\([^(]*\)$/,"");
+    t.attributes.x.value = format_percent((parseFloat(r.attributes.x.value) + (100 * 3 / frames.attributes.width.value)));
+
+    // Smaller than this size won't fit anything
+    if (w < 2 * fontsize * fontwidth) {
+        t.textContent = "";
+        return;
+    }
+    t.textContent = txt;
+    // Fit in full text width
+    if (t.getComputedTextLength() < w)
+        return;
+    if (truncate_text_right) {
+        // Truncate the right side of the text.
+        for (var x = txt.length - 2; x > 0; x--) {
+            if (t.getSubStringLength(0, x + 2) <= w) {
+                t.textContent = txt.substring(0, x) + "..";
+                return;
+            }
+        }
+    } else {
+        // Truncate the left side of the text.
+        for (var x = 2; x < txt.length; x++) {
+            if (t.getSubStringLength(x - 2, txt.length) <= w) {
+                t.textContent = ".." + txt.substring(x, txt.length);
+                return;
+            }
+        }
+    }
+    t.textContent = "";
+}
+// zoom
+function zoom_reset(e) {
+    if (e.tagName == "rect") {
+        e.attributes.x.value = format_percent(100 * parseInt(e.attributes["fg:x"].value) / total_samples);
+        e.attributes.width.value = format_percent(100 * parseInt(e.attributes["fg:w"].value) / total_samples);
+    }
+    if (e.childNodes == undefined) return;
+    for(var i = 0, c = e.childNodes; i < c.length; i++) {
+        zoom_reset(c[i]);
+    }
+}
+function zoom_child(e, x, zoomed_width_samples) {
+    if (e.tagName == "text") {
+        var parent_x = parseFloat(find_child(e.parentNode, "rect[x]").attributes.x.value);
+        e.attributes.x.value = format_percent(parent_x + (100 * 3 / frames.attributes.width.value));
+    } else if (e.tagName == "rect") {
+        e.attributes.x.value = format_percent(100 * (parseInt(e.attributes["fg:x"].value) - x) / zoomed_width_samples);
+        e.attributes.width.value = format_percent(100 * parseInt(e.attributes["fg:w"].value) / zoomed_width_samples);
+    }
+    if (e.childNodes == undefined) return;
+    for(var i = 0, c = e.childNodes; i < c.length; i++) {
+        zoom_child(c[i], x, zoomed_width_samples);
+    }
+}
+function zoom_parent(e) {
+    if (e.attributes) {
+        if (e.attributes.x != undefined) {
+            e.attributes.x.value = "0.0%";
+        }
+        if (e.attributes.width != undefined) {
+            e.attributes.width.value = "100.0%";
+        }
+    }
+    if (e.childNodes == undefined) return;
+    for(var i = 0, c = e.childNodes; i < c.length; i++) {
+        zoom_parent(c[i]);
+    }
+}
+function zoom(node) {
+    var attr = find_child(node, "rect").attributes;
+    var width = parseInt(attr["fg:w"].value);
+    var xmin = parseInt(attr["fg:x"].value);
+    var xmax = xmin + width;
+    var ymin = parseFloat(attr.y.value);
+    unzoombtn.classList.remove("hide");
+    var el = frames.children;
+    var to_update_text = [];
+    for (var i = 0; i < el.length; i++) {
+        var e = el[i];
+        var a = find_child(e, "rect").attributes;
+        var ex = parseInt(a["fg:x"].value);
+        var ew = parseInt(a["fg:w"].value);
+        // Is it an ancestor
+        if (!inverted) {
+            var upstack = parseFloat(a.y.value) > ymin;
+        } else {
+            var upstack = parseFloat(a.y.value) < ymin;
+        }
+        if (upstack) {
+            // Direct ancestor
+            if (ex <= xmin && (ex+ew) >= xmax) {
+                e.classList.add("parent");
+                zoom_parent(e);
+                to_update_text.push(e);
+            }
+            // not in current path
+            else
+                e.classList.add("hide");
+        }
+        // Children maybe
+        else {
+            // no common path
+            if (ex < xmin || ex >= xmax) {
+                e.classList.add("hide");
+            }
+            else {
+                zoom_child(e, xmin, width);
+                to_update_text.push(e);
+            }
+        }
+    }
+    update_text_for_elements(to_update_text);
+}
+function unzoom() {
+    unzoombtn.classList.add("hide");
+    var el = frames.children;
+    for(var i = 0; i < el.length; i++) {
+        el[i].classList.remove("parent");
+        el[i].classList.remove("hide");
+        zoom_reset(el[i]);
+    }
+    update_text_for_elements(el);
+}
+// search
+function reset_search() {
+    var el = document.querySelectorAll("#frames rect");
+    for (var i = 0; i < el.length; i++) {
+        orig_load(el[i], "fill")
+    }
+    var params = get_params();
+    delete params.s;
+    history.replaceState(null, null, parse_params(params));
+}
+function search_prompt() {
+    if (!searching) {
+        var term = prompt("Enter a search term (regexp " +
+            "allowed, eg: ^ext4_)", "");
+        if (term != null) {
+            search(term)
+        }
+    } else {
+        reset_search();
+        searching = 0;
+        searchbtn.classList.remove("show");
+        searchbtn.firstChild.nodeValue = "Search"
+        matchedtxt.classList.add("hide");
+        matchedtxt.firstChild.nodeValue = ""
+    }
+}
+function search(term) {
+    var re = new RegExp(term);
+    var el = frames.children;
+    var matches = new Object();
+    var maxwidth = 0;
+    for (var i = 0; i < el.length; i++) {
+        var e = el[i];
+        // Skip over frames which are either not visible, or below the zoomed-to frame
+        if (e.classList.contains("hide") || e.classList.contains("parent")) {
+            continue;
+        }
+        var func = g_to_func(e);
+        var rect = find_child(e, "rect");
+        if (func == null || rect == null)
+            continue;
+        // Save max width. Only works as we have a root frame
+        var w = parseInt(rect.attributes["fg:w"].value);
+        if (w > maxwidth)
+            maxwidth = w;
+        if (func.match(re)) {
+            // highlight
+            var x = parseInt(rect.attributes["fg:x"].value);
+            orig_save(rect, "fill");
+            rect.attributes.fill.value = searchcolor;
+            // remember matches
+            if (matches[x] == undefined) {
+                matches[x] = w;
+            } else {
+                if (w > matches[x]) {
+                    // overwrite with parent
+                    matches[x] = w;
+                }
+            }
+            searching = 1;
+        }
+    }
+    if (!searching)
+        return;
+    var params = get_params();
+    params.s = term;
+    history.replaceState(null, null, parse_params(params));
+
+    searchbtn.classList.add("show");
+    searchbtn.firstChild.nodeValue = "Reset Search";
+    // calculate percent matched, excluding vertical overlap
+    var count = 0;
+    var lastx = -1;
+    var lastw = 0;
+    var keys = Array();
+    for (k in matches) {
+        if (matches.hasOwnProperty(k))
+            keys.push(k);
+    }
+    // sort the matched frames by their x location
+    // ascending, then width descending
+    keys.sort(function(a, b){
+        return a - b;
+    });
+    // Step through frames saving only the biggest bottom-up frames
+    // thanks to the sort order. This relies on the tree property
+    // where children are always smaller than their parents.
+    for (var k in keys) {
+        var x = parseInt(keys[k]);
+        var w = matches[keys[k]];
+        if (x >= lastx + lastw) {
+            count += w;
+            lastx = x;
+            lastw = w;
+        }
+    }
+    // display matched percent
+    matchedtxt.classList.remove("hide");
+    var pct = 100 * count / maxwidth;
+    if (pct != 100) pct = pct.toFixed(1);
+    matchedtxt.firstChild.nodeValue = "Matched: " + pct + "%";
+}
+function format_percent(n) {
+    return n.toFixed(4) + "%";
+}
+]]></script><rect x="0" y="0" width="100%" height="506" fill="url(#background)"/><text id="title" fill="rgb(0,0,0)" x="50.0000%" y="24.00">py-spy record --native --pid 27 -o /work/scratch/c0_profile/prof.svg --rate 50</text><text id="details" fill="rgb(0,0,0)" x="10" y="40.00"> </text><text id="unzoom" class="hide" fill="rgb(0,0,0)" x="10" y="24.00">Reset Zoom</text><text id="search" fill="rgb(0,0,0)" x="1190" y="24.00">Search</text><text id="matched" fill="rgb(0,0,0)" x="1190" y="495.00"> </text><svg id="frames" x="10" width="1180" total_samples="228151"><g><title>bgzf_read_small (pysam/libchtslib.cpython-311-x86_64-linux-gnu.so) (367 samples, 0.16%)</title><rect x="0.2095%" y="436" width="0.1609%" height="15" fill="rgb(227,0,7)" fg:x="478" fg:w="367"/><text x="0.4595%" y="446.50"></text></g><g><title>bgzf_read (pysam/libchtslib.cpython-311-x86_64-linux-gnu.so) (331 samples, 0.15%)</title><rect x="0.2253%" y="452" width="0.1451%" height="15" fill="rgb(217,0,24)" fg:x="514" fg:w="331"/><text x="0.4753%" y="462.50"></text></g><g><title>bgzf_read_block (pysam/libchtslib.cpython-311-x86_64-linux-gnu.so) (330 samples, 0.14%)</title><rect x="0.2257%" y="468" width="0.1446%" height="15" fill="rgb(221,193,54)" fg:x="515" fg:w="330"/><text x="0.4757%" y="478.50"></text></g><g><title>hts_itr_next (pysam/libchtslib.cpython-311-x86_64-linux-gnu.so) (454 samples, 0.20%)</title><rect x="0.1788%" y="356" width="0.1990%" height="15" fill="rgb(248,212,6)" fg:x="408" fg:w="454"/><text x="0.4288%" y="366.50"></text></g><g><title>sam_readrec (pysam/libchtslib.cpython-311-x86_64-linux-gnu.so) (444 samples, 0.19%)</title><rect x="0.1832%" y="372" width="0.1946%" height="15" fill="rgb(208,68,35)" fg:x="418" fg:w="444"/><text x="0.4332%" y="382.50"></text></g><g><title>sam_read1 (pysam/libchtslib.cpython-311-x86_64-linux-gnu.so) (432 samples, 0.19%)</title><rect x="0.1885%" y="388" width="0.1893%" height="15" fill="rgb(232,128,0)" fg:x="430" fg:w="432"/><text x="0.4385%" y="398.50"></text></g><g><title>sam_read1_bam (pysam/libchtslib.cpython-311-x86_64-linux-gnu.so) (428 samples, 0.19%)</title><rect x="0.1902%" y="404" width="0.1876%" height="15" fill="rgb(207,160,47)" fg:x="434" fg:w="428"/><text x="0.4402%" y="414.50"></text></g><g><title>bam_read1 (pysam/libchtslib.cpython-311-x86_64-linux-gnu.so) (425 samples, 0.19%)</title><rect x="0.1915%" y="420" width="0.1863%" height="15" fill="rgb(228,23,34)" fg:x="437" fg:w="425"/><text x="0.4415%" y="430.50"></text></g><g><title>IteratorRowRegion_cnext (pysam/libcalignmentfile.cpython-311-x86_64-linux-gnu.so) (497 samples, 0.22%)</title><rect x="0.1674%" y="340" width="0.2178%" height="15" fill="rgb(218,30,26)" fg:x="382" fg:w="497"/><text x="0.4174%" y="350.50"></text></g><g><title>__next__ (pysam/libcalignmentfile.cpython-311-x86_64-linux-gnu.so) (862 samples, 0.38%)</title><rect x="0.1560%" y="308" width="0.3778%" height="15" fill="rgb(220,122,19)" fg:x="356" fg:w="862"/><text x="0.4060%" y="318.50"></text></g><g><title>__next__ (pysam/libcalignmentfile.cpython-311-x86_64-linux-gnu.so) (851 samples, 0.37%)</title><rect x="0.1609%" y="324" width="0.3730%" height="15" fill="rgb(250,228,42)" fg:x="367" fg:w="851"/><text x="0.4109%" y="334.50"></text></g><g><title>libcalignedsegment_makeAlignedSegment (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (335 samples, 0.15%)</title><rect x="0.3870%" y="340" width="0.1468%" height="15" fill="rgb(240,193,28)" fg:x="883" fg:w="335"/><text x="0.6370%" y="350.50"></text></g><g><title>iter_bam (arcsv2/samio.py:255) (1,029 samples, 0.45%)</title><rect x="0.1517%" y="292" width="0.4510%" height="15" fill="rgb(216,20,37)" fg:x="346" fg:w="1029"/><text x="0.4017%" y="302.50"></text></g><g><title>bam_aux_get (pysam/libchtslib.cpython-311-x86_64-linux-gnu.so) (275 samples, 0.12%)</title><rect x="0.7692%" y="388" width="0.1205%" height="15" fill="rgb(206,188,39)" fg:x="1755" fg:w="275"/><text x="1.0192%" y="398.50"></text></g><g><title>AlignedSegment_has_tag (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (614 samples, 0.27%)</title><rect x="0.7364%" y="372" width="0.2691%" height="15" fill="rgb(217,207,13)" fg:x="1680" fg:w="614"/><text x="0.9864%" y="382.50"></text></g><g><title>libcutils_force_bytes (pysam/libcutils.cpython-311-x86_64-linux-gnu.so) (264 samples, 0.12%)</title><rect x="0.8898%" y="388" width="0.1157%" height="15" fill="rgb(231,73,38)" fg:x="2030" fg:w="264"/><text x="1.1398%" y="398.50"></text></g><g><title>_from_pysam (arcsv2/samio.py:204) (781 samples, 0.34%)</title><rect x="0.6640%" y="308" width="0.3423%" height="15" fill="rgb(225,20,46)" fg:x="1515" fg:w="781"/><text x="0.9140%" y="318.50"></text></g><g><title>__Pyx_CyFunction_Vectorcall_FASTCALL_KEYWORDS (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (696 samples, 0.31%)</title><rect x="0.7013%" y="324" width="0.3051%" height="15" fill="rgb(210,31,41)" fg:x="1600" fg:w="696"/><text x="0.9513%" y="334.50"></text></g><g><title>has_tag (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (686 samples, 0.30%)</title><rect x="0.7057%" y="340" width="0.3007%" height="15" fill="rgb(221,200,47)" fg:x="1610" fg:w="686"/><text x="0.9557%" y="350.50"></text></g><g><title>has_tag (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (622 samples, 0.27%)</title><rect x="0.7337%" y="356" width="0.2726%" height="15" fill="rgb(226,26,5)" fg:x="1674" fg:w="622"/><text x="0.9837%" y="366.50"></text></g><g><title>__Pyx__PyUnicode_EqualsUCS4 (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (274 samples, 0.12%)</title><rect x="1.0927%" y="388" width="0.1201%" height="15" fill="rgb(249,33,26)" fg:x="2493" fg:w="274"/><text x="1.3427%" y="398.50"></text></g><g><title>__Pyx_CyFunction_Vectorcall_FASTCALL_KEYWORDS (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (662 samples, 0.29%)</title><rect x="1.0423%" y="324" width="0.2902%" height="15" fill="rgb(235,183,28)" fg:x="2378" fg:w="662"/><text x="1.2923%" y="334.50"></text></g><g><title>get_tag (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (660 samples, 0.29%)</title><rect x="1.0432%" y="340" width="0.2893%" height="15" fill="rgb(221,5,38)" fg:x="2380" fg:w="660"/><text x="1.2932%" y="350.50"></text></g><g><title>get_tag (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (629 samples, 0.28%)</title><rect x="1.0568%" y="356" width="0.2757%" height="15" fill="rgb(247,18,42)" fg:x="2411" fg:w="629"/><text x="1.3068%" y="366.50"></text></g><g><title>AlignedSegment_get_tag (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (627 samples, 0.27%)</title><rect x="1.0576%" y="372" width="0.2748%" height="15" fill="rgb(241,131,45)" fg:x="2413" fg:w="627"/><text x="1.3076%" y="382.50"></text></g><g><title>_from_pysam (arcsv2/samio.py:205) (746 samples, 0.33%)</title><rect x="1.0064%" y="308" width="0.3270%" height="15" fill="rgb(249,31,29)" fg:x="2296" fg:w="746"/><text x="1.2564%" y="318.50"></text></g><g><title>&lt;genexpr&gt; (arcsv2/samio.py:209) (10,312 samples, 4.52%)</title><rect x="2.5014%" y="340" width="4.5198%" height="15" fill="rgb(225,111,53)" fg:x="5707" fg:w="10312"/><text x="2.7514%" y="350.50">&lt;gene..</text></g><g><title>_from_pysam (arcsv2/samio.py:209) (12,959 samples, 5.68%)</title><rect x="1.4337%" y="308" width="5.6800%" height="15" fill="rgb(238,160,17)" fg:x="3271" fg:w="12959"/><text x="1.6837%" y="318.50">_from_p..</text></g><g><title>unicode_join (python3.11) (12,554 samples, 5.50%)</title><rect x="1.6112%" y="324" width="5.5025%" height="15" fill="rgb(214,148,48)" fg:x="3676" fg:w="12554"/><text x="1.8612%" y="334.50">unicode..</text></g><g><title>_from_pysam (arcsv2/samio.py:212) (596 samples, 0.26%)</title><rect x="7.2071%" y="308" width="0.2612%" height="15" fill="rgb(232,36,49)" fg:x="16443" fg:w="596"/><text x="7.4571%" y="318.50"></text></g><g><title>__Pyx_CyFunction_Vectorcall_FASTCALL_KEYWORDS (pysam/libcalignmentfile.cpython-311-x86_64-linux-gnu.so) (357 samples, 0.16%)</title><rect x="7.6353%" y="372" width="0.1565%" height="15" fill="rgb(209,103,24)" fg:x="17420" fg:w="357"/><text x="7.8853%" y="382.50"></text></g><g><title>get_reference_name (pysam/libcalignmentfile.cpython-311-x86_64-linux-gnu.so) (350 samples, 0.15%)</title><rect x="7.6384%" y="388" width="0.1534%" height="15" fill="rgb(229,88,8)" fg:x="17427" fg:w="350"/><text x="7.8884%" y="398.50"></text></g><g><title>get_reference_name (pysam/libcalignmentfile.cpython-311-x86_64-linux-gnu.so) (317 samples, 0.14%)</title><rect x="7.6528%" y="404" width="0.1389%" height="15" fill="rgb(213,181,19)" fg:x="17460" fg:w="317"/><text x="7.9028%" y="414.50"></text></g><g><title>__pyx_getprop_5pysam_18libcalignedsegment_14AlignedSegment_reference_name (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (465 samples, 0.20%)</title><rect x="7.6011%" y="324" width="0.2038%" height="15" fill="rgb(254,191,54)" fg:x="17342" fg:w="465"/><text x="7.8511%" y="334.50"></text></g><g><title>__get__ (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (465 samples, 0.20%)</title><rect x="7.6011%" y="340" width="0.2038%" height="15" fill="rgb(241,83,37)" fg:x="17342" fg:w="465"/><text x="7.8511%" y="350.50"></text></g><g><title>reference_name___get__ (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (465 samples, 0.20%)</title><rect x="7.6011%" y="356" width="0.2038%" height="15" fill="rgb(233,36,39)" fg:x="17342" fg:w="465"/><text x="7.8511%" y="366.50"></text></g><g><title>_from_pysam (arcsv2/samio.py:215) (546 samples, 0.24%)</title><rect x="7.5678%" y="308" width="0.2393%" height="15" fill="rgb(226,3,54)" fg:x="17266" fg:w="546"/><text x="7.8178%" y="318.50"></text></g><g><title>_from_pysam (arcsv2/samio.py:219) (514 samples, 0.23%)</title><rect x="7.8913%" y="308" width="0.2253%" height="15" fill="rgb(245,192,40)" fg:x="18004" fg:w="514"/><text x="8.1413%" y="318.50"></text></g><g><title>__pyx_getprop_5pysam_18libcalignedsegment_14AlignedSegment_query_sequence (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (483 samples, 0.21%)</title><rect x="7.9049%" y="324" width="0.2117%" height="15" fill="rgb(238,167,29)" fg:x="18035" fg:w="483"/><text x="8.1549%" y="334.50"></text></g><g><title>__get__ (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (482 samples, 0.21%)</title><rect x="7.9053%" y="340" width="0.2113%" height="15" fill="rgb(232,182,51)" fg:x="18036" fg:w="482"/><text x="8.1553%" y="350.50"></text></g><g><title>query_sequence___get__ (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (479 samples, 0.21%)</title><rect x="7.9066%" y="356" width="0.2099%" height="15" fill="rgb(231,60,39)" fg:x="18039" fg:w="479"/><text x="8.1566%" y="366.50"></text></g><g><title>libcalignedsegment_getSequenceInRange (pysam/libcalignedsegment.cpython-311-x86_64-linux-gnu.so) (452 samples, 0.20%)</title><rect x="7.9184%" y="372" width="0.1981%" height="15" fill="rgb(208,69,12)" fg:x="18066" fg:w="452"/><text x="8.1684%" y="382.50"></text></g><g><title>iter_bam (arcsv2/samio.py:256) (17,228 samples, 7.55%)</title><rect x="0.6027%" y="292" width="7.5511%" height="15" fill="rgb(235,93,37)" fg:x="1375" fg:w="17228"/><text x="0.8527%" y="302.50">iter_bam (..</text></g><g><title>_iter_alignments (arcsv2/samio.py:268) (18,465 samples, 8.09%)</title><rect x="0.1429%" y="276" width="8.0933%" height="15" fill="rgb(213,116,39)" fg:x="326" fg:w="18465"/><text x="0.3929%" y="286.50">_iter_align..</text></g><g><title>load_region (arcsv2/samio.py:381) (18,579 samples, 8.14%)</title><rect x="0.0999%" y="260" width="8.1433%" height="15" fill="rgb(222,207,29)" fg:x="228" fg:w="18579"/><text x="0.3499%" y="270.50">load_region..</text></g><g><title>load_region (arcsv2/samio.py:391) (320 samples, 0.14%)</title><rect x="8.3440%" y="260" width="0.1403%" height="15" fill="rgb(206,96,30)" fg:x="19037" fg:w="320"/><text x="8.5940%" y="270.50"></text></g><g><title>insert_length (arcsv2/samio.py:182) (624 samples, 0.27%)</title><rect x="8.7389%" y="308" width="0.2735%" height="15" fill="rgb(218,138,4)" fg:x="19938" fg:w="624"/><text x="8.9889%" y="318.50"></text></g><g><title>aligned_length (arcsv2/engine/evidence.py:52) (594 samples, 0.26%)</title><rect x="8.7521%" y="324" width="0.2604%" height="15" fill="rgb(250,191,14)" fg:x="19968" fg:w="594"/><text x="9.0021%" y="334.50"></text></g><g><title>cigar_ops (arcsv2/engine/evidence.py:48) (423 samples, 0.19%)</title><rect x="8.8270%" y="340" width="0.1854%" height="15" fill="rgb(239,60,40)" fg:x="20139" fg:w="423"/><text x="9.0770%" y="350.50"></text></g><g><title>insert_length (arcsv2/samio.py:183) (351 samples, 0.15%)</title><rect x="9.0125%" y="308" width="0.1538%" height="15" fill="rgb(206,27,48)" fg:x="20562" fg:w="351"/><text x="9.2625%" y="318.50"></text></g><g><title>aligned_length (arcsv2/engine/evidence.py:52) (317 samples, 0.14%)</title><rect x="9.0274%" y="324" width="0.1389%" height="15" fill="rgb(225,35,8)" fg:x="20596" fg:w="317"/><text x="9.2774%" y="334.50"></text></g><g><title>_softclip_counts (arcsv2/engine/evidence.py:57) (246 samples, 0.11%)</title><rect x="9.2325%" y="324" width="0.1078%" height="15" fill="rgb(250,213,24)" fg:x="21064" fg:w="246"/><text x="9.4825%" y="334.50"></text></g><g><title>cigar_ops (arcsv2/engine/evidence.py:48) (234 samples, 0.10%)</title><rect x="9.2377%" y="340" width="0.1026%" height="15" fill="rgb(247,123,22)" fg:x="21076" fg:w="234"/><text x="9.4877%" y="350.50"></text></g><g><title>insert_length (arcsv2/samio.py:194) (402 samples, 0.18%)</title><rect x="9.2128%" y="308" width="0.1762%" height="15" fill="rgb(231,138,38)" fg:x="21019" fg:w="402"/><text x="9.4628%" y="318.50"></text></g><g><title>insert_length (arcsv2/samio.py:195) (317 samples, 0.14%)</title><rect x="9.3890%" y="308" width="0.1389%" height="15" fill="rgb(231,145,46)" fg:x="21421" fg:w="317"/><text x="9.6390%" y="318.50"></text></g><g><title>emit_pair (arcsv2/samio.py:334) (1,983 samples, 0.87%)</title><rect x="8.6741%" y="292" width="0.8692%" height="15" fill="rgb(251,118,11)" fg:x="19790" fg:w="1983"/><text x="8.9241%" y="302.50"></text></g><g><title>emit_pair (arcsv2/samio.py:336) (366 samples, 0.16%)</title><rect x="9.5463%" y="292" width="0.1604%" height="15" fill="rgb(217,147,25)" fg:x="21780" fg:w="366"/><text x="9.7963%" y="302.50"></text></g><g><title>emit_pair (arcsv2/samio.py:338) (316 samples, 0.14%)</title><rect x="9.7072%" y="292" width="0.1385%" height="15" fill="rgb(247,81,37)" fg:x="22147" fg:w="316"/><text x="9.9572%" y="302.50"></text></g><g><title>aligned_length (arcsv2/engine/evidence.py:52) (298 samples, 0.13%)</title><rect x="9.7151%" y="308" width="0.1306%" height="15" fill="rgb(209,12,38)" fg:x="22165" fg:w="298"/><text x="9.9651%" y="318.50"></text></g><g><title>emit_pair (arcsv2/samio.py:340) (332 samples, 0.15%)</title><rect x="9.8479%" y="292" width="0.1455%" height="15" fill="rgb(227,1,9)" fg:x="22468" fg:w="332"/><text x="10.0979%" y="302.50"></text></g><g><title>aligned_length (arcsv2/engine/evidence.py:52) (305 samples, 0.13%)</title><rect x="9.8597%" y="308" width="0.1337%" height="15" fill="rgb(248,47,43)" fg:x="22495" fg:w="305"/><text x="10.1097%" y="318.50"></text></g><g><title>emit_pair (arcsv2/samio.py:347) (397 samples, 0.17%)</title><rect x="10.0149%" y="292" width="0.1740%" height="15" fill="rgb(221,10,30)" fg:x="22849" fg:w="397"/><text x="10.2649%" y="302.50"></text></g><g><title>_lib_id (arcsv2/samio.py:152) (340 samples, 0.15%)</title><rect x="10.0398%" y="308" width="0.1490%" height="15" fill="rgb(210,229,1)" fg:x="22906" fg:w="340"/><text x="10.2898%" y="318.50"></text></g><g><title>take (arcsv2/samio.py:308) (589 samples, 0.26%)</title><rect x="10.3055%" y="308" width="0.2582%" height="15" fill="rgb(222,148,37)" fg:x="23512" fg:w="589"/><text x="10.5555%" y="318.50"></text></g><g><title>_aligned_end (arcsv2/samio.py:91) (528 samples, 0.23%)</title><rect x="10.3322%" y="324" width="0.2314%" height="15" fill="rgb(234,67,33)" fg:x="23573" fg:w="528"/><text x="10.5822%" y="334.50"></text></g><g><title>aligned_length (arcsv2/engine/evidence.py:52) (439 samples, 0.19%)</title><rect x="10.3712%" y="340" width="0.1924%" height="15" fill="rgb(247,98,35)" fg:x="23662" fg:w="439"/><text x="10.6212%" y="350.50"></text></g><g><title>cigar_ops (arcsv2/engine/evidence.py:48) (324 samples, 0.14%)</title><rect x="10.4216%" y="356" width="0.1420%" height="15" fill="rgb(247,138,52)" fg:x="23777" fg:w="324"/><text x="10.6716%" y="366.50"></text></g><g><title>softclips_from_alignment (arcsv2/engine/evidence.py:110) (294 samples, 0.13%)</title><rect x="10.6399%" y="324" width="0.1289%" height="15" fill="rgb(213,79,30)" fg:x="24275" fg:w="294"/><text x="10.8899%" y="334.50"></text></g><g><title>take (arcsv2/samio.py:322) (498 samples, 0.22%)</title><rect x="10.6180%" y="308" width="0.2183%" height="15" fill="rgb(246,177,23)" fg:x="24225" fg:w="498"/><text x="10.8680%" y="318.50"></text></g><g><title>emit_pair (arcsv2/samio.py:352) (1,272 samples, 0.56%)</title><rect x="10.2866%" y="292" width="0.5575%" height="15" fill="rgb(230,62,27)" fg:x="23469" fg:w="1272"/><text x="10.5366%" y="302.50"></text></g><g><title>take (arcsv2/samio.py:308) (418 samples, 0.18%)</title><rect x="10.8617%" y="308" width="0.1832%" height="15" fill="rgb(216,154,8)" fg:x="24781" fg:w="418"/><text x="11.1117%" y="318.50"></text></g><g><title>_aligned_end (arcsv2/samio.py:91) (373 samples, 0.16%)</title><rect x="10.8814%" y="324" width="0.1635%" height="15" fill="rgb(244,35,45)" fg:x="24826" fg:w="373"/><text x="11.1314%" y="334.50"></text></g><g><title>aligned_length (arcsv2/engine/evidence.py:52) (317 samples, 0.14%)</title><rect x="10.9059%" y="340" width="0.1389%" height="15" fill="rgb(251,115,12)" fg:x="24882" fg:w="317"/><text x="11.1559%" y="350.50"></text></g><g><title>softclips_from_alignment (arcsv2/engine/evidence.py:110) (301 samples, 0.13%)</title><rect x="11.1076%" y="324" width="0.1319%" height="15" fill="rgb(240,54,50)" fg:x="25342" fg:w="301"/><text x="11.3576%" y="334.50"></text></g><g><title>take (arcsv2/samio.py:322) (475 samples, 0.21%)</title><rect x="11.0856%" y="308" width="0.2082%" height="15" fill="rgb(233,84,52)" fg:x="25292" fg:w="475"/><text x="11.3356%" y="318.50"></text></g><g><title>load_region (arcsv2/samio.py:395) (6,381 samples, 2.80%)</title><rect x="8.5018%" y="260" width="2.7968%" height="15" fill="rgb(207,117,47)" fg:x="19397" fg:w="6381"/><text x="8.7518%" y="270.50">lo..</text></g><g><title>emit_joined (arcsv2/samio.py:379) (6,033 samples, 2.64%)</title><rect x="8.6544%" y="276" width="2.6443%" height="15" fill="rgb(249,43,39)" fg:x="19745" fg:w="6033"/><text x="8.9044%" y="286.50">em..</text></g><g><title>emit_pair (arcsv2/samio.py:353) (1,037 samples, 0.45%)</title><rect x="10.8441%" y="292" width="0.4545%" height="15" fill="rgb(209,38,44)" fg:x="24741" fg:w="1037"/><text x="11.0941%" y="302.50"></text></g><g><title>cluster_softclips (arcsv2/engine/breakpoints.py:170) (240 samples, 0.11%)</title><rect x="11.3631%" y="292" width="0.1052%" height="15" fill="rgb(236,212,23)" fg:x="25925" fg:w="240"/><text x="11.6131%" y="302.50"></text></g><g><title>clip_breakpoints (arcsv2/engine/evidence.py:148) (269 samples, 0.12%)</title><rect x="11.3513%" y="276" width="0.1179%" height="15" fill="rgb(242,79,21)" fg:x="25898" fg:w="269"/><text x="11.6013%" y="286.50"></text></g><g><title>clip_breakpoints (arcsv2/engine/evidence.py:151) (1,158 samples, 0.51%)</title><rect x="11.4714%" y="276" width="0.5076%" height="15" fill="rgb(211,96,35)" fg:x="26172" fg:w="1158"/><text x="11.7214%" y="286.50"></text></g><g><title>merge_microhomology (arcsv2/engine/breakpoints.py:198) (740 samples, 0.32%)</title><rect x="11.6546%" y="292" width="0.3243%" height="15" fill="rgb(253,215,40)" fg:x="26590" fg:w="740"/><text x="11.9046%" y="302.50"></text></g><g><title>load_region (arcsv2/samio.py:418) (1,435 samples, 0.63%)</title><rect x="11.3508%" y="260" width="0.6290%" height="15" fill="rgb(211,81,21)" fg:x="25897" fg:w="1435"/><text x="11.6008%" y="270.50"></text></g><g><title>call_sam (arcsv2/pipeline.py:76) (27,109 samples, 11.88%)</title><rect x="0.0982%" y="244" width="11.8820%" height="15" fill="rgb(208,190,38)" fg:x="224" fg:w="27109"/><text x="0.3482%" y="254.50">call_sam (arcsv2/p..</text></g><g><title>fit_library (arcsv2/engine/library.py:278) (256 samples, 0.11%)</title><rect x="12.0907%" y="292" width="0.1122%" height="15" fill="rgb(235,213,38)" fg:x="27585" fg:w="256"/><text x="12.3407%" y="302.50"></text></g><g><title>call_evidence (arcsv2/engine/caller.py:1736) (768 samples, 0.34%)</title><rect x="11.9912%" y="260" width="0.3366%" height="15" fill="rgb(237,122,38)" fg:x="27358" fg:w="768"/><text x="12.2412%" y="270.50"></text></g><g><title>_fit_libs (arcsv2/engine/caller.py:162) (541 samples, 0.24%)</title><rect x="12.0907%" y="276" width="0.2371%" height="15" fill="rgb(244,218,35)" fg:x="27585" fg:w="541"/><text x="12.3407%" y="286.50"></text></g><g><title>call_evidence (arcsv2/engine/caller.py:1741) (259 samples, 0.11%)</title><rect x="12.3278%" y="260" width="0.1135%" height="15" fill="rgb(240,68,47)" fg:x="28126" fg:w="259"/><text x="12.5778%" y="270.50"></text></g><g><title>_stamp_clip_positions (arcsv2/engine/caller.py:1367) (255 samples, 0.11%)</title><rect x="12.4457%" y="276" width="0.1118%" height="15" fill="rgb(210,16,53)" fg:x="28395" fg:w="255"/><text x="12.6957%" y="286.50"></text></g><g><title>_stamp_clip_positions (arcsv2/engine/caller.py:1368) (3,083 samples, 1.35%)</title><rect x="12.5575%" y="276" width="1.3513%" height="15" fill="rgb(235,124,12)" fg:x="28650" fg:w="3083"/><text x="12.8075%" y="286.50"></text></g><g><title>_stamp_clip_positions (arcsv2/engine/caller.py:1370) (5,531 samples, 2.42%)</title><rect x="13.9644%" y="276" width="2.4243%" height="15" fill="rgb(224,169,11)" fg:x="31860" fg:w="5531"/><text x="14.2144%" y="286.50">_s..</text></g><g><title>call_evidence (arcsv2/engine/caller.py:1756) (9,013 samples, 3.95%)</title><rect x="12.4440%" y="260" width="3.9505%" height="15" fill="rgb(250,166,2)" fg:x="28391" fg:w="9013"/><text x="12.6940%" y="270.50">call..</text></g><g><title>overlapping_vertices (arcsv2/engine/graph.py:358) (376 samples, 0.16%)</title><rect x="16.5522%" y="324" width="0.1648%" height="15" fill="rgb(242,216,29)" fg:x="37764" fg:w="376"/><text x="16.8022%" y="334.50"></text></g><g><title>_in_one_bp_gap (arcsv2/engine/graph.py:331) (398 samples, 0.17%)</title><rect x="16.7784%" y="340" width="0.1744%" height="15" fill="rgb(230,116,27)" fg:x="38280" fg:w="398"/><text x="17.0284%" y="350.50"></text></g><g><title>overlapping_vertices (arcsv2/engine/graph.py:376) (468 samples, 0.21%)</title><rect x="16.7718%" y="324" width="0.2051%" height="15" fill="rgb(228,99,48)" fg:x="38265" fg:w="468"/><text x="17.0218%" y="334.50"></text></g><g><title>_end_vertices (arcsv2/engine/caller.py:490) (1,105 samples, 0.48%)</title><rect x="16.5347%" y="308" width="0.4843%" height="15" fill="rgb(253,11,6)" fg:x="37724" fg:w="1105"/><text x="16.7847%" y="318.50"></text></g><g><title>_resolve_end (arcsv2/engine/caller.py:574) (1,183 samples, 0.52%)</title><rect x="16.5228%" y="292" width="0.5185%" height="15" fill="rgb(247,143,39)" fg:x="37697" fg:w="1183"/><text x="16.7728%" y="302.50"></text></g><g><title>build_graph (arcsv2/engine/caller.py:727) (1,362 samples, 0.60%)</title><rect x="16.4597%" y="276" width="0.5970%" height="15" fill="rgb(236,97,10)" fg:x="37553" fg:w="1362"/><text x="16.7097%" y="286.50"></text></g><g><title>overlapping_vertices (arcsv2/engine/graph.py:358) (378 samples, 0.17%)</title><rect x="17.1505%" y="324" width="0.1657%" height="15" fill="rgb(233,208,19)" fg:x="39129" fg:w="378"/><text x="17.4005%" y="334.50"></text></g><g><title>_in_one_bp_gap (arcsv2/engine/graph.py:331) (384 samples, 0.17%)</title><rect x="17.3692%" y="340" width="0.1683%" height="15" fill="rgb(216,164,2)" fg:x="39628" fg:w="384"/><text x="17.6192%" y="350.50"></text></g><g><title>overlapping_vertices (arcsv2/engine/graph.py:376) (429 samples, 0.19%)</title><rect x="17.3631%" y="324" width="0.1880%" height="15" fill="rgb(220,129,5)" fg:x="39614" fg:w="429"/><text x="17.6131%" y="334.50"></text></g><g><title>_end_vertices (arcsv2/engine/caller.py:490) (1,454 samples, 0.64%)</title><rect x="17.1391%" y="308" width="0.6373%" height="15" fill="rgb(242,17,10)" fg:x="39103" fg:w="1454"/><text x="17.3891%" y="318.50"></text></g><g><title>overlapping_vertices (arcsv2/engine/graph.py:381) (506 samples, 0.22%)</title><rect x="17.5546%" y="324" width="0.2218%" height="15" fill="rgb(242,107,0)" fg:x="40051" fg:w="506"/><text x="17.8046%" y="334.50"></text></g><g><title>gc_collect_with_callback (python3.11) (430 samples, 0.19%)</title><rect x="17.5879%" y="340" width="0.1885%" height="15" fill="rgb(251,28,31)" fg:x="40127" fg:w="430"/><text x="17.8379%" y="350.50"></text></g><g><title>gc_collect_main (python3.11) (430 samples, 0.19%)</title><rect x="17.5879%" y="356" width="0.1885%" height="15" fill="rgb(233,223,10)" fg:x="40127" fg:w="430"/><text x="17.8379%" y="366.50"></text></g><g><title>_resolve_end (arcsv2/engine/caller.py:574) (1,520 samples, 0.67%)</title><rect x="17.1312%" y="292" width="0.6662%" height="15" fill="rgb(215,21,27)" fg:x="39085" fg:w="1520"/><text x="17.3812%" y="302.50"></text></g><g><title>build_graph (arcsv2/engine/caller.py:730) (1,725 samples, 0.76%)</title><rect x="17.0655%" y="276" width="0.7561%" height="15" fill="rgb(232,23,21)" fg:x="38935" fg:w="1725"/><text x="17.3155%" y="286.50"></text></g><g><title>build_graph (arcsv2/engine/caller.py:747) (292 samples, 0.13%)</title><rect x="17.9302%" y="276" width="0.1280%" height="15" fill="rgb(244,5,23)" fg:x="40908" fg:w="292"/><text x="18.1802%" y="286.50"></text></g><g><title>block_distance (arcsv2/engine/graph.py:282) (291 samples, 0.13%)</title><rect x="18.3181%" y="324" width="0.1275%" height="15" fill="rgb(226,81,46)" fg:x="41793" fg:w="291"/><text x="18.5681%" y="334.50"></text></g><g><title>_pair_supported (arcsv2/engine/caller.py:351) (680 samples, 0.30%)</title><rect x="18.1560%" y="292" width="0.2980%" height="15" fill="rgb(247,70,30)" fg:x="41423" fg:w="680"/><text x="18.4060%" y="302.50"></text></g><g><title>_adjacency_insert (arcsv2/engine/caller.py:270) (530 samples, 0.23%)</title><rect x="18.2217%" y="308" width="0.2323%" height="15" fill="rgb(212,68,19)" fg:x="41573" fg:w="530"/><text x="18.4717%" y="318.50"></text></g><g><title>build_graph (arcsv2/engine/caller.py:759) (745 samples, 0.33%)</title><rect x="18.1327%" y="276" width="0.3265%" height="15" fill="rgb(240,187,13)" fg:x="41370" fg:w="745"/><text x="18.3827%" y="286.50"></text></g><g><title>block_distance (arcsv2/engine/graph.py:282) (276 samples, 0.12%)</title><rect x="18.6749%" y="308" width="0.1210%" height="15" fill="rgb(223,113,26)" fg:x="42607" fg:w="276"/><text x="18.9249%" y="318.50"></text></g><g><title>build_graph (arcsv2/engine/caller.py:767) (760 samples, 0.33%)</title><rect x="18.4689%" y="276" width="0.3331%" height="15" fill="rgb(206,192,2)" fg:x="42137" fg:w="760"/><text x="18.7189%" y="286.50"></text></g><g><title>_adjacency_insert (arcsv2/engine/caller.py:270) (543 samples, 0.24%)</title><rect x="18.5640%" y="292" width="0.2380%" height="15" fill="rgb(241,108,4)" fg:x="42354" fg:w="543"/><text x="18.8140%" y="302.50"></text></g><g><title>build_graph (arcsv2/engine/caller.py:776) (274 samples, 0.12%)</title><rect x="18.8875%" y="276" width="0.1201%" height="15" fill="rgb(247,173,49)" fg:x="43092" fg:w="274"/><text x="19.1375%" y="286.50"></text></g><g><title>call_evidence (arcsv2/engine/caller.py:1758) (6,535 samples, 2.86%)</title><rect x="16.3984%" y="260" width="2.8643%" height="15" fill="rgb(224,114,35)" fg:x="37413" fg:w="6535"/><text x="16.6484%" y="270.50">ca..</text></g><g><title>_boundary_index (arcsv2/engine/caller.py:1508) (238 samples, 0.10%)</title><rect x="19.2977%" y="292" width="0.1043%" height="15" fill="rgb(245,159,27)" fg:x="44028" fg:w="238"/><text x="19.5477%" y="302.50"></text></g><g><title>place_novel_insertions (arcsv2/engine/caller.py:1622) (410 samples, 0.18%)</title><rect x="19.2649%" y="276" width="0.1797%" height="15" fill="rgb(245,172,44)" fg:x="43953" fg:w="410"/><text x="19.5149%" y="286.50"></text></g><g><title>place_novel_insertions (arcsv2/engine/caller.py:1628) (280 samples, 0.12%)</title><rect x="19.4450%" y="276" width="0.1227%" height="15" fill="rgb(236,23,11)" fg:x="44364" fg:w="280"/><text x="19.6950%" y="286.50"></text></g><g><title>normalizer (arcsv2/engine/likelihood.py:55) (412 samples, 0.18%)</title><rect x="19.7580%" y="308" width="0.1806%" height="15" fill="rgb(205,117,38)" fg:x="45078" fg:w="412"/><text x="20.0080%" y="318.50"></text></g><g><title>gc_collect_with_callback (python3.11) (3,350 samples, 1.47%)</title><rect x="20.5561%" y="340" width="1.4683%" height="15" fill="rgb(237,72,25)" fg:x="46899" fg:w="3350"/><text x="20.8061%" y="350.50"></text></g><g><title>gc_collect_main (python3.11) (3,349 samples, 1.47%)</title><rect x="20.5566%" y="356" width="1.4679%" height="15" fill="rgb(244,70,9)" fg:x="46900" fg:w="3349"/><text x="20.8066%" y="366.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:140) (5,176 samples, 2.27%)</title><rect x="19.7580%" y="292" width="2.2687%" height="15" fill="rgb(217,125,39)" fg:x="45078" fg:w="5176"/><text x="20.0080%" y="302.50">s..</text></g><g><title>normalizer (arcsv2/engine/likelihood.py:57) (4,764 samples, 2.09%)</title><rect x="19.9385%" y="308" width="2.0881%" height="15" fill="rgb(235,36,10)" fg:x="45490" fg:w="4764"/><text x="20.1885%" y="318.50">n..</text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:47) (4,493 samples, 1.97%)</title><rect x="20.0573%" y="324" width="1.9693%" height="15" fill="rgb(251,123,47)" fg:x="45761" fg:w="4493"/><text x="20.3073%" y="334.50">_..</text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:43) (247 samples, 0.11%)</title><rect x="22.0271%" y="308" width="0.1083%" height="15" fill="rgb(221,13,13)" fg:x="50255" fg:w="247"/><text x="22.2771%" y="318.50"></text></g><g><title>gc_collect_with_callback (python3.11) (1,511 samples, 0.66%)</title><rect x="22.6201%" y="324" width="0.6623%" height="15" fill="rgb(238,131,9)" fg:x="51608" fg:w="1511"/><text x="22.8701%" y="334.50"></text></g><g><title>gc_collect_main (python3.11) (1,511 samples, 0.66%)</title><rect x="22.6201%" y="340" width="0.6623%" height="15" fill="rgb(211,50,8)" fg:x="51608" fg:w="1511"/><text x="22.8701%" y="350.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:142) (2,866 samples, 1.26%)</title><rect x="22.0271%" y="292" width="1.2562%" height="15" fill="rgb(245,182,24)" fg:x="50255" fg:w="2866"/><text x="22.2771%" y="302.50"></text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:47) (2,522 samples, 1.11%)</title><rect x="22.1779%" y="308" width="1.1054%" height="15" fill="rgb(242,14,37)" fg:x="50599" fg:w="2522"/><text x="22.4279%" y="318.50"></text></g><g><title>_hanging_probability (arcsv2/engine/likelihood.py:95) (831 samples, 0.36%)</title><rect x="23.3275%" y="308" width="0.3642%" height="15" fill="rgb(246,228,12)" fg:x="53222" fg:w="831"/><text x="23.5775%" y="318.50"></text></g><g><title>&lt;genexpr&gt; (arcsv2/engine/likelihood.py:95) (733 samples, 0.32%)</title><rect x="23.3705%" y="324" width="0.3213%" height="15" fill="rgb(213,55,15)" fg:x="53320" fg:w="733"/><text x="23.6205%" y="334.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:148) (859 samples, 0.38%)</title><rect x="23.3258%" y="292" width="0.3765%" height="15" fill="rgb(209,9,3)" fg:x="53218" fg:w="859"/><text x="23.5758%" y="302.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:398) (568 samples, 0.25%)</title><rect x="23.7299%" y="308" width="0.2490%" height="15" fill="rgb(230,59,30)" fg:x="54140" fg:w="568"/><text x="23.9799%" y="318.50"></text></g><g><title>&lt;listcomp&gt; (arcsv2/engine/graph.py:398) (503 samples, 0.22%)</title><rect x="23.7584%" y="324" width="0.2205%" height="15" fill="rgb(209,121,21)" fg:x="54205" fg:w="503"/><text x="24.0084%" y="334.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:399) (516 samples, 0.23%)</title><rect x="23.9789%" y="308" width="0.2262%" height="15" fill="rgb(220,109,13)" fg:x="54708" fg:w="516"/><text x="24.2289%" y="318.50"></text></g><g><title>&lt;listcomp&gt; (arcsv2/engine/graph.py:399) (456 samples, 0.20%)</title><rect x="24.0052%" y="324" width="0.1999%" height="15" fill="rgb(232,18,1)" fg:x="54768" fg:w="456"/><text x="24.2552%" y="334.50"></text></g><g><title>block_distance (arcsv2/engine/graph.py:282) (453 samples, 0.20%)</title><rect x="24.3856%" y="324" width="0.1986%" height="15" fill="rgb(215,41,42)" fg:x="55636" fg:w="453"/><text x="24.6356%" y="334.50"></text></g><g><title>&lt;genexpr&gt; (arcsv2/engine/graph.py:282) (409 samples, 0.18%)</title><rect x="24.4049%" y="340" width="0.1793%" height="15" fill="rgb(224,123,36)" fg:x="55680" fg:w="409"/><text x="24.6549%" y="350.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:151) (2,013 samples, 0.88%)</title><rect x="23.7032%" y="292" width="0.8823%" height="15" fill="rgb(240,125,3)" fg:x="54079" fg:w="2013"/><text x="23.9532%" y="302.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:407) (745 samples, 0.33%)</title><rect x="24.2589%" y="308" width="0.3265%" height="15" fill="rgb(205,98,50)" fg:x="55347" fg:w="745"/><text x="24.5089%" y="318.50"></text></g><g><title>place_novel_insertions (arcsv2/engine/caller.py:1634) (11,556 samples, 5.07%)</title><rect x="19.5682%" y="276" width="5.0651%" height="15" fill="rgb(205,185,37)" fg:x="44645" fg:w="11556"/><text x="19.8182%" y="286.50">place_..</text></g><g><title>place_novel_insertions (arcsv2/engine/caller.py:1640) (338 samples, 0.15%)</title><rect x="24.6525%" y="276" width="0.1481%" height="15" fill="rgb(238,207,15)" fg:x="56245" fg:w="338"/><text x="24.9025%" y="286.50"></text></g><g><title>compute_normalizing_constant (arcsv2/engine/normalizer.py:203) (256 samples, 0.11%)</title><rect x="26.3606%" y="324" width="0.1122%" height="15" fill="rgb(213,199,42)" fg:x="60142" fg:w="256"/><text x="26.6106%" y="334.50"></text></g><g><title>normalizer (arcsv2/engine/likelihood.py:55) (1,999 samples, 0.88%)</title><rect x="25.6975%" y="308" width="0.8762%" height="15" fill="rgb(235,201,11)" fg:x="58629" fg:w="1999"/><text x="25.9475%" y="318.50"></text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:43) (551 samples, 0.24%)</title><rect x="26.5736%" y="324" width="0.2415%" height="15" fill="rgb(207,46,11)" fg:x="60628" fg:w="551"/><text x="26.8236%" y="334.50"></text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:44) (715 samples, 0.31%)</title><rect x="26.8151%" y="324" width="0.3134%" height="15" fill="rgb(241,35,35)" fg:x="61179" fg:w="715"/><text x="27.0651%" y="334.50"></text></g><g><title>gc_collect_with_callback (python3.11) (9,605 samples, 4.21%)</title><rect x="29.5874%" y="340" width="4.2099%" height="15" fill="rgb(243,32,47)" fg:x="67504" fg:w="9605"/><text x="29.8374%" y="350.50">gc_co..</text></g><g><title>gc_collect_main (python3.11) (9,605 samples, 4.21%)</title><rect x="29.5874%" y="356" width="4.2099%" height="15" fill="rgb(247,202,23)" fg:x="67504" fg:w="9605"/><text x="29.8374%" y="366.50">gc_co..</text></g><g><title>score_path (arcsv2/engine/likelihood.py:140) (18,503 samples, 8.11%)</title><rect x="25.6966%" y="292" width="8.1100%" height="15" fill="rgb(219,102,11)" fg:x="58627" fg:w="18503"/><text x="25.9466%" y="302.50">score_path ..</text></g><g><title>normalizer (arcsv2/engine/likelihood.py:57) (16,502 samples, 7.23%)</title><rect x="26.5736%" y="308" width="7.2329%" height="15" fill="rgb(243,110,44)" fg:x="60628" fg:w="16502"/><text x="26.8236%" y="318.50">normalizer..</text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:47) (15,163 samples, 6.65%)</title><rect x="27.1605%" y="324" width="6.6460%" height="15" fill="rgb(222,74,54)" fg:x="61967" fg:w="15163"/><text x="27.4105%" y="334.50">_hap_bloc..</text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:43) (1,206 samples, 0.53%)</title><rect x="33.8092%" y="308" width="0.5286%" height="15" fill="rgb(216,99,12)" fg:x="77136" fg:w="1206"/><text x="34.0592%" y="318.50"></text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:44) (385 samples, 0.17%)</title><rect x="34.3378%" y="308" width="0.1687%" height="15" fill="rgb(226,22,26)" fg:x="78342" fg:w="385"/><text x="34.5878%" y="318.50"></text></g><g><title>gc_collect_with_callback (python3.11) (10,008 samples, 4.39%)</title><rect x="36.6025%" y="324" width="4.3866%" height="15" fill="rgb(217,163,10)" fg:x="83509" fg:w="10008"/><text x="36.8525%" y="334.50">gc_co..</text></g><g><title>gc_collect_main (python3.11) (10,007 samples, 4.39%)</title><rect x="36.6030%" y="340" width="4.3861%" height="15" fill="rgb(213,25,53)" fg:x="83510" fg:w="10007"/><text x="36.8530%" y="350.50">gc_co..</text></g><g><title>score_path (arcsv2/engine/likelihood.py:142) (16,403 samples, 7.19%)</title><rect x="33.8092%" y="292" width="7.1895%" height="15" fill="rgb(252,105,26)" fg:x="77136" fg:w="16403"/><text x="34.0592%" y="302.50">score_path..</text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:47) (14,751 samples, 6.47%)</title><rect x="34.5333%" y="308" width="6.4655%" height="15" fill="rgb(220,39,43)" fg:x="78788" fg:w="14751"/><text x="34.7833%" y="318.50">_hap_blo..</text></g><g><title>score_path (arcsv2/engine/likelihood.py:146) (254 samples, 0.11%)</title><rect x="41.1109%" y="292" width="0.1113%" height="15" fill="rgb(229,68,48)" fg:x="93795" fg:w="254"/><text x="41.3609%" y="302.50"></text></g><g><title>is_insertion (arcsv2/engine/normalizer.py:29) (293 samples, 0.13%)</title><rect x="42.4600%" y="340" width="0.1284%" height="15" fill="rgb(252,8,32)" fg:x="96873" fg:w="293"/><text x="42.7100%" y="350.50"></text></g><g><title>_hanging_probability (arcsv2/engine/likelihood.py:95) (4,115 samples, 1.80%)</title><rect x="41.2380%" y="308" width="1.8036%" height="15" fill="rgb(223,20,43)" fg:x="94085" fg:w="4115"/><text x="41.4880%" y="318.50">_..</text></g><g><title>&lt;genexpr&gt; (arcsv2/engine/likelihood.py:95) (3,646 samples, 1.60%)</title><rect x="41.4436%" y="324" width="1.5981%" height="15" fill="rgb(229,81,49)" fg:x="94554" fg:w="3646"/><text x="41.6936%" y="334.50"></text></g><g><title>is_insertion (arcsv2/engine/normalizer.py:30) (1,034 samples, 0.45%)</title><rect x="42.5885%" y="340" width="0.4532%" height="15" fill="rgb(236,28,36)" fg:x="97166" fg:w="1034"/><text x="42.8385%" y="350.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:148) (4,260 samples, 1.87%)</title><rect x="41.2280%" y="292" width="1.8672%" height="15" fill="rgb(249,185,26)" fg:x="94062" fg:w="4260"/><text x="41.4780%" y="302.50">s..</text></g><g><title>placement_distances (arcsv2/engine/graph.py:398) (2,737 samples, 1.20%)</title><rect x="43.1968%" y="308" width="1.1996%" height="15" fill="rgb(249,174,33)" fg:x="98554" fg:w="2737"/><text x="43.4468%" y="318.50"></text></g><g><title>&lt;listcomp&gt; (arcsv2/engine/graph.py:398) (2,449 samples, 1.07%)</title><rect x="43.3231%" y="324" width="1.0734%" height="15" fill="rgb(233,201,37)" fg:x="98842" fg:w="2449"/><text x="43.5731%" y="334.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:399) (2,759 samples, 1.21%)</title><rect x="44.3965%" y="308" width="1.2093%" height="15" fill="rgb(221,78,26)" fg:x="101291" fg:w="2759"/><text x="44.6465%" y="318.50"></text></g><g><title>&lt;listcomp&gt; (arcsv2/engine/graph.py:399) (2,434 samples, 1.07%)</title><rect x="44.5389%" y="324" width="1.0668%" height="15" fill="rgb(250,127,30)" fg:x="101616" fg:w="2434"/><text x="44.7889%" y="334.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:405) (422 samples, 0.18%)</title><rect x="45.6579%" y="308" width="0.1850%" height="15" fill="rgb(230,49,44)" fg:x="104169" fg:w="422"/><text x="45.9079%" y="318.50"></text></g><g><title>block_distance (arcsv2/engine/graph.py:281) (645 samples, 0.28%)</title><rect x="46.0625%" y="324" width="0.2827%" height="15" fill="rgb(229,67,23)" fg:x="105092" fg:w="645"/><text x="46.3125%" y="334.50"></text></g><g><title>__len__ (arcsv2/engine/graph.py:29) (339 samples, 0.15%)</title><rect x="46.1966%" y="340" width="0.1486%" height="15" fill="rgb(249,83,47)" fg:x="105398" fg:w="339"/><text x="46.4466%" y="350.50"></text></g><g><title>block_distance (arcsv2/engine/graph.py:282) (1,751 samples, 0.77%)</title><rect x="46.3452%" y="324" width="0.7675%" height="15" fill="rgb(215,43,3)" fg:x="105737" fg:w="1751"/><text x="46.5952%" y="334.50"></text></g><g><title>&lt;genexpr&gt; (arcsv2/engine/graph.py:282) (1,576 samples, 0.69%)</title><rect x="46.4219%" y="340" width="0.6908%" height="15" fill="rgb(238,154,13)" fg:x="105912" fg:w="1576"/><text x="46.6719%" y="350.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:407) (2,914 samples, 1.28%)</title><rect x="45.8438%" y="308" width="1.2772%" height="15" fill="rgb(219,56,2)" fg:x="104593" fg:w="2914"/><text x="46.0938%" y="318.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:151) (9,166 samples, 4.02%)</title><rect x="43.1043%" y="292" width="4.0175%" height="15" fill="rgb(233,0,4)" fg:x="98343" fg:w="9166"/><text x="43.3543%" y="302.50">scor..</text></g><g><title>score_path (arcsv2/engine/likelihood.py:154) (324 samples, 0.14%)</title><rect x="47.1955%" y="292" width="0.1420%" height="15" fill="rgb(235,30,7)" fg:x="107677" fg:w="324"/><text x="47.4455%" y="302.50"></text></g><g><title>f (arcsv2/engine/library.py:242) (264 samples, 0.12%)</title><rect x="47.2218%" y="308" width="0.1157%" height="15" fill="rgb(250,79,13)" fg:x="107737" fg:w="264"/><text x="47.4718%" y="318.50"></text></g><g><title>place_novel_insertions (arcsv2/engine/caller.py:1646) (51,446 samples, 22.55%)</title><rect x="24.8042%" y="276" width="22.5491%" height="15" fill="rgb(211,146,34)" fg:x="56591" fg:w="51446"/><text x="25.0542%" y="286.50">place_novel_insertions (arcsv2/engin..</text></g><g><title>place_novel_insertions (arcsv2/engine/caller.py:1648) (243 samples, 0.11%)</title><rect x="47.4230%" y="276" width="0.1065%" height="15" fill="rgb(228,22,38)" fg:x="108196" fg:w="243"/><text x="47.6730%" y="286.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:140) (1,267 samples, 0.56%)</title><rect x="47.5777%" y="292" width="0.5553%" height="15" fill="rgb(235,168,5)" fg:x="108549" fg:w="1267"/><text x="47.8277%" y="302.50"></text></g><g><title>normalizer (arcsv2/engine/likelihood.py:57) (1,183 samples, 0.52%)</title><rect x="47.6145%" y="308" width="0.5185%" height="15" fill="rgb(221,155,16)" fg:x="108633" fg:w="1183"/><text x="47.8645%" y="318.50"></text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:47) (1,123 samples, 0.49%)</title><rect x="47.6408%" y="324" width="0.4922%" height="15" fill="rgb(215,215,53)" fg:x="108693" fg:w="1123"/><text x="47.8908%" y="334.50"></text></g><g><title>gc_collect_with_callback (python3.11) (888 samples, 0.39%)</title><rect x="47.7438%" y="340" width="0.3892%" height="15" fill="rgb(223,4,10)" fg:x="108928" fg:w="888"/><text x="47.9938%" y="350.50"></text></g><g><title>gc_collect_main (python3.11) (888 samples, 0.39%)</title><rect x="47.7438%" y="356" width="0.3892%" height="15" fill="rgb(234,103,6)" fg:x="108928" fg:w="888"/><text x="47.9938%" y="366.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:142) (514 samples, 0.23%)</title><rect x="48.1330%" y="292" width="0.2253%" height="15" fill="rgb(227,97,0)" fg:x="109816" fg:w="514"/><text x="48.3830%" y="302.50"></text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:47) (444 samples, 0.19%)</title><rect x="48.1637%" y="308" width="0.1946%" height="15" fill="rgb(234,150,53)" fg:x="109886" fg:w="444"/><text x="48.4137%" y="318.50"></text></g><g><title>_hanging_probability (arcsv2/engine/likelihood.py:95) (793 samples, 0.35%)</title><rect x="48.3627%" y="308" width="0.3476%" height="15" fill="rgb(228,201,54)" fg:x="110340" fg:w="793"/><text x="48.6127%" y="318.50"></text></g><g><title>&lt;genexpr&gt; (arcsv2/engine/likelihood.py:95) (704 samples, 0.31%)</title><rect x="48.4017%" y="324" width="0.3086%" height="15" fill="rgb(222,22,37)" fg:x="110429" fg:w="704"/><text x="48.6517%" y="334.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:148) (814 samples, 0.36%)</title><rect x="48.3627%" y="292" width="0.3568%" height="15" fill="rgb(237,53,32)" fg:x="110340" fg:w="814"/><text x="48.6127%" y="302.50"></text></g><g><title>place_novel_insertions (arcsv2/engine/caller.py:1669) (2,826 samples, 1.24%)</title><rect x="47.5383%" y="276" width="1.2387%" height="15" fill="rgb(233,25,53)" fg:x="108459" fg:w="2826"/><text x="47.7883%" y="286.50"></text></g><g><title>call_evidence (arcsv2/engine/caller.py:1761) (67,582 samples, 29.62%)</title><rect x="19.2627%" y="260" width="29.6216%" height="15" fill="rgb(210,40,34)" fg:x="43948" fg:w="67582"/><text x="19.5127%" y="270.50">call_evidence (arcsv2/engine/caller.py:1761)</text></g><g><title>place_novel_insertions (arcsv2/engine/caller.py:1683) (235 samples, 0.10%)</title><rect x="48.7813%" y="276" width="0.1030%" height="15" fill="rgb(241,220,44)" fg:x="111295" fg:w="235"/><text x="49.0313%" y="286.50"></text></g><g><title>genotype_locus (arcsv2/engine/likelihood.py:350) (15,484 samples, 6.79%)</title><rect x="48.9943%" y="292" width="6.7867%" height="15" fill="rgb(235,28,35)" fg:x="111781" fg:w="15484"/><text x="49.2443%" y="302.50">genotype_..</text></g><g><title>&lt;lambda&gt; (arcsv2/engine/likelihood.py:350) (6,185 samples, 2.71%)</title><rect x="53.0701%" y="308" width="2.7109%" height="15" fill="rgb(210,56,17)" fg:x="121080" fg:w="6185"/><text x="53.3201%" y="318.50">&lt;l..</text></g><g><title>key (arcsv2/engine/graph.py:67) (5,823 samples, 2.55%)</title><rect x="53.2288%" y="324" width="2.5523%" height="15" fill="rgb(224,130,29)" fg:x="121442" fg:w="5823"/><text x="53.4788%" y="334.50">ke..</text></g><g><title>gc_collect_with_callback (python3.11) (339 samples, 0.15%)</title><rect x="55.6325%" y="340" width="0.1486%" height="15" fill="rgb(235,212,8)" fg:x="126926" fg:w="339"/><text x="55.8825%" y="350.50"></text></g><g><title>gc_collect_main (python3.11) (337 samples, 0.15%)</title><rect x="55.6333%" y="356" width="0.1477%" height="15" fill="rgb(223,33,50)" fg:x="126928" fg:w="337"/><text x="55.8833%" y="366.50"></text></g><g><title>genotype_locus (arcsv2/engine/likelihood.py:351) (3,316 samples, 1.45%)</title><rect x="55.7810%" y="292" width="1.4534%" height="15" fill="rgb(219,149,13)" fg:x="127265" fg:w="3316"/><text x="56.0310%" y="302.50"></text></g><g><title>normalizer (arcsv2/engine/likelihood.py:55) (3,190 samples, 1.40%)</title><rect x="58.7940%" y="340" width="1.3982%" height="15" fill="rgb(250,156,29)" fg:x="134139" fg:w="3190"/><text x="59.0440%" y="350.50"></text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:43) (2,491 samples, 1.09%)</title><rect x="60.1926%" y="356" width="1.0918%" height="15" fill="rgb(216,193,19)" fg:x="137330" fg:w="2491"/><text x="60.4426%" y="366.50"></text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:44) (731 samples, 0.32%)</title><rect x="61.2844%" y="356" width="0.3204%" height="15" fill="rgb(216,135,14)" fg:x="139821" fg:w="731"/><text x="61.5344%" y="366.50"></text></g><g><title>__init__ (&lt;string&gt;:3) (343 samples, 0.15%)</title><rect x="65.4790%" y="372" width="0.1503%" height="15" fill="rgb(241,47,5)" fg:x="149391" fg:w="343"/><text x="65.7290%" y="382.50"></text></g><g><title>__init__ (&lt;string&gt;:4) (308 samples, 0.13%)</title><rect x="65.6293%" y="372" width="0.1350%" height="15" fill="rgb(233,42,35)" fg:x="149734" fg:w="308"/><text x="65.8793%" y="382.50"></text></g><g><title>__init__ (&lt;string&gt;:5) (351 samples, 0.15%)</title><rect x="65.7643%" y="372" width="0.1538%" height="15" fill="rgb(231,13,6)" fg:x="150042" fg:w="351"/><text x="66.0143%" y="382.50"></text></g><g><title>__init__ (&lt;string&gt;:6) (362 samples, 0.16%)</title><rect x="65.9182%" y="372" width="0.1587%" height="15" fill="rgb(207,181,40)" fg:x="150393" fg:w="362"/><text x="66.1682%" y="382.50"></text></g><g><title>__init__ (&lt;string&gt;:7) (356 samples, 0.16%)</title><rect x="66.0769%" y="372" width="0.1560%" height="15" fill="rgb(254,173,49)" fg:x="150755" fg:w="356"/><text x="66.3269%" y="382.50"></text></g><g><title>gc_collect_with_callback (python3.11) (20,724 samples, 9.08%)</title><rect x="66.2329%" y="372" width="9.0835%" height="15" fill="rgb(221,1,38)" fg:x="151111" fg:w="20724"/><text x="66.4829%" y="382.50">gc_collect_wi..</text></g><g><title>gc_collect_main (python3.11) (20,722 samples, 9.08%)</title><rect x="66.2338%" y="388" width="9.0826%" height="15" fill="rgb(206,124,46)" fg:x="151113" fg:w="20722"/><text x="66.4838%" y="398.50">gc_collect_ma..</text></g><g><title>normalizer (arcsv2/engine/likelihood.py:57) (34,559 samples, 15.15%)</title><rect x="60.1922%" y="340" width="15.1474%" height="15" fill="rgb(249,21,11)" fg:x="137329" fg:w="34559"/><text x="60.4422%" y="350.50">normalizer (arcsv2/engi..</text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:47) (31,125 samples, 13.64%)</title><rect x="61.6973%" y="356" width="13.6423%" height="15" fill="rgb(222,201,40)" fg:x="140763" fg:w="31125"/><text x="61.9473%" y="366.50">_hap_blocks (arcsv2/e..</text></g><g><title>score_path (arcsv2/engine/likelihood.py:140) (37,754 samples, 16.55%)</title><rect x="58.7926%" y="324" width="16.5478%" height="15" fill="rgb(235,61,29)" fg:x="134136" fg:w="37754"/><text x="59.0426%" y="334.50">score_path (arcsv2/engine/..</text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:43) (2,392 samples, 1.05%)</title><rect x="75.3457%" y="340" width="1.0484%" height="15" fill="rgb(219,207,3)" fg:x="171902" fg:w="2392"/><text x="75.5957%" y="350.50"></text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:44) (724 samples, 0.32%)</title><rect x="76.3941%" y="340" width="0.3173%" height="15" fill="rgb(222,56,46)" fg:x="174294" fg:w="724"/><text x="76.6441%" y="350.50"></text></g><g><title>__init__ (&lt;string&gt;:2) (250 samples, 0.11%)</title><rect x="79.9571%" y="356" width="0.1096%" height="15" fill="rgb(239,76,54)" fg:x="182423" fg:w="250"/><text x="80.2071%" y="366.50"></text></g><g><title>__init__ (&lt;string&gt;:3) (304 samples, 0.13%)</title><rect x="80.0667%" y="356" width="0.1332%" height="15" fill="rgb(231,124,27)" fg:x="182673" fg:w="304"/><text x="80.3167%" y="366.50"></text></g><g><title>__init__ (&lt;string&gt;:4) (328 samples, 0.14%)</title><rect x="80.2000%" y="356" width="0.1438%" height="15" fill="rgb(249,195,6)" fg:x="182977" fg:w="328"/><text x="80.4500%" y="366.50"></text></g><g><title>__init__ (&lt;string&gt;:5) (322 samples, 0.14%)</title><rect x="80.3437%" y="356" width="0.1411%" height="15" fill="rgb(237,174,47)" fg:x="183305" fg:w="322"/><text x="80.5937%" y="366.50"></text></g><g><title>__init__ (&lt;string&gt;:6) (323 samples, 0.14%)</title><rect x="80.4849%" y="356" width="0.1416%" height="15" fill="rgb(206,201,31)" fg:x="183627" fg:w="323"/><text x="80.7349%" y="366.50"></text></g><g><title>__init__ (&lt;string&gt;:7) (344 samples, 0.15%)</title><rect x="80.6264%" y="356" width="0.1508%" height="15" fill="rgb(231,57,52)" fg:x="183950" fg:w="344"/><text x="80.8764%" y="366.50"></text></g><g><title>gc_collect_with_callback (python3.11) (20,258 samples, 8.88%)</title><rect x="80.7781%" y="356" width="8.8792%" height="15" fill="rgb(248,177,22)" fg:x="184296" fg:w="20258"/><text x="81.0281%" y="366.50">gc_collect_wi..</text></g><g><title>gc_collect_main (python3.11) (20,258 samples, 8.88%)</title><rect x="80.7781%" y="372" width="8.8792%" height="15" fill="rgb(215,211,37)" fg:x="184296" fg:w="20258"/><text x="81.0281%" y="382.50">gc_collect_ma..</text></g><g><title>score_path (arcsv2/engine/likelihood.py:142) (32,698 samples, 14.33%)</title><rect x="75.3448%" y="324" width="14.3317%" height="15" fill="rgb(241,128,51)" fg:x="171900" fg:w="32698"/><text x="75.5948%" y="334.50">score_path (arcsv2/eng..</text></g><g><title>_hap_blocks (arcsv2/engine/likelihood.py:47) (29,383 samples, 12.88%)</title><rect x="76.7978%" y="340" width="12.8788%" height="15" fill="rgb(227,165,31)" fg:x="175215" fg:w="29383"/><text x="77.0478%" y="350.50">_hap_blocks (arcsv2..</text></g><g><title>is_insertion (arcsv2/engine/normalizer.py:29) (1,007 samples, 0.44%)</title><rect x="94.0995%" y="372" width="0.4414%" height="15" fill="rgb(228,167,24)" fg:x="214689" fg:w="1007"/><text x="94.3495%" y="382.50"></text></g><g><title>_hanging_probability (arcsv2/engine/likelihood.py:95) (14,485 samples, 6.35%)</title><rect x="89.8839%" y="340" width="6.3489%" height="15" fill="rgb(228,143,12)" fg:x="205071" fg:w="14485"/><text x="90.1339%" y="350.50">_hanging..</text></g><g><title>&lt;genexpr&gt; (arcsv2/engine/likelihood.py:95) (12,907 samples, 5.66%)</title><rect x="90.5755%" y="356" width="5.6572%" height="15" fill="rgb(249,149,8)" fg:x="206649" fg:w="12907"/><text x="90.8255%" y="366.50">&lt;genexp..</text></g><g><title>is_insertion (arcsv2/engine/normalizer.py:30) (3,860 samples, 1.69%)</title><rect x="94.5409%" y="372" width="1.6919%" height="15" fill="rgb(243,35,44)" fg:x="215696" fg:w="3860"/><text x="94.7909%" y="382.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:148) (14,833 samples, 6.50%)</title><rect x="89.8558%" y="324" width="6.5014%" height="15" fill="rgb(246,89,9)" fg:x="205007" fg:w="14833"/><text x="90.1058%" y="334.50">score_pat..</text></g><g><title>_hanging_probability (arcsv2/engine/likelihood.py:99) (278 samples, 0.12%)</title><rect x="96.2354%" y="340" width="0.1218%" height="15" fill="rgb(233,213,13)" fg:x="219562" fg:w="278"/><text x="96.4854%" y="350.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:398) (1,337 samples, 0.59%)</title><rect x="96.4813%" y="340" width="0.5860%" height="15" fill="rgb(233,141,41)" fg:x="220123" fg:w="1337"/><text x="96.7313%" y="350.50"></text></g><g><title>&lt;listcomp&gt; (arcsv2/engine/graph.py:398) (936 samples, 0.41%)</title><rect x="96.6570%" y="356" width="0.4103%" height="15" fill="rgb(239,167,4)" fg:x="220524" fg:w="936"/><text x="96.9070%" y="366.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:399) (1,313 samples, 0.58%)</title><rect x="97.0673%" y="340" width="0.5755%" height="15" fill="rgb(209,217,16)" fg:x="221460" fg:w="1313"/><text x="97.3173%" y="350.50"></text></g><g><title>&lt;listcomp&gt; (arcsv2/engine/graph.py:399) (939 samples, 0.41%)</title><rect x="97.2312%" y="356" width="0.4116%" height="15" fill="rgb(219,88,35)" fg:x="221834" fg:w="939"/><text x="97.4812%" y="366.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:405) (253 samples, 0.11%)</title><rect x="97.7318%" y="340" width="0.1109%" height="15" fill="rgb(220,193,23)" fg:x="222976" fg:w="253"/><text x="97.9818%" y="350.50"></text></g><g><title>block_distance (arcsv2/engine/graph.py:282) (333 samples, 0.15%)</title><rect x="98.1674%" y="356" width="0.1460%" height="15" fill="rgb(230,90,52)" fg:x="223970" fg:w="333"/><text x="98.4174%" y="366.50"></text></g><g><title>&lt;genexpr&gt; (arcsv2/engine/graph.py:282) (275 samples, 0.12%)</title><rect x="98.1929%" y="372" width="0.1205%" height="15" fill="rgb(252,106,19)" fg:x="224028" fg:w="275"/><text x="98.4429%" y="382.50"></text></g><g><title>placement_distances (arcsv2/engine/graph.py:407) (1,072 samples, 0.47%)</title><rect x="97.8462%" y="340" width="0.4699%" height="15" fill="rgb(206,74,20)" fg:x="223237" fg:w="1072"/><text x="98.0962%" y="350.50"></text></g><g><title>score_path (arcsv2/engine/likelihood.py:151) (4,447 samples, 1.95%)</title><rect x="96.3673%" y="324" width="1.9491%" height="15" fill="rgb(230,138,44)" fg:x="219863" fg:w="4447"/><text x="96.6173%" y="334.50">s..</text></g><g><title>score_path (arcsv2/engine/likelihood.py:154) (500 samples, 0.22%)</title><rect x="98.3520%" y="324" width="0.2192%" height="15" fill="rgb(235,182,43)" fg:x="224391" fg:w="500"/><text x="98.6020%" y="334.50"></text></g><g><title>f (arcsv2/engine/library.py:242) (396 samples, 0.17%)</title><rect x="98.3976%" y="340" width="0.1736%" height="15" fill="rgb(242,16,51)" fg:x="224495" fg:w="396"/><text x="98.6476%" y="350.50"></text></g><g><title>eval_pmf (arcsv2/engine/library.py:132) (248 samples, 0.11%)</title><rect x="98.4624%" y="356" width="0.1087%" height="15" fill="rgb(248,9,4)" fg:x="224643" fg:w="248"/><text x="98.7124%" y="366.50"></text></g><g><title>genotype_locus (arcsv2/engine/likelihood.py:359) (94,357 samples, 41.36%)</title><rect x="57.2419%" y="292" width="41.3573%" height="15" fill="rgb(210,31,22)" fg:x="130598" fg:w="94357"/><text x="57.4919%" y="302.50">genotype_locus (arcsv2/engine/likelihood.py:359)</text></g><g><title>&lt;dictcomp&gt; (arcsv2/engine/likelihood.py:359) (94,355 samples, 41.36%)</title><rect x="57.2428%" y="308" width="41.3564%" height="15" fill="rgb(239,54,39)" fg:x="130600" fg:w="94355"/><text x="57.4928%" y="318.50">&lt;dictcomp&gt; (arcsv2/engine/likelihood.py:359)</text></g><g><title>best_for (arcsv2/engine/likelihood.py:365) (250 samples, 0.11%)</title><rect x="98.5996%" y="324" width="0.1096%" height="15" fill="rgb(230,99,41)" fg:x="224956" fg:w="250"/><text x="98.8496%" y="334.50"></text></g><g><title>genotype_locus (arcsv2/engine/likelihood.py:369) (536 samples, 0.23%)</title><rect x="98.5992%" y="292" width="0.2349%" height="15" fill="rgb(253,106,12)" fg:x="224955" fg:w="536"/><text x="98.8492%" y="302.50"></text></g><g><title>&lt;lambda&gt; (arcsv2/engine/likelihood.py:369) (536 samples, 0.23%)</title><rect x="98.5992%" y="308" width="0.2349%" height="15" fill="rgb(213,46,41)" fg:x="224955" fg:w="536"/><text x="98.8492%" y="318.50"></text></g><g><title>best_for (arcsv2/engine/likelihood.py:366) (285 samples, 0.12%)</title><rect x="98.7092%" y="324" width="0.1249%" height="15" fill="rgb(215,133,35)" fg:x="225206" fg:w="285"/><text x="98.9592%" y="334.50"></text></g><g><title>log_diploid (arcsv2/engine/likelihood.py:185) (369 samples, 0.16%)</title><rect x="98.8999%" y="324" width="0.1617%" height="15" fill="rgb(213,28,5)" fg:x="225641" fg:w="369"/><text x="99.1499%" y="334.50"></text></g><g><title>log_diploid (arcsv2/engine/likelihood.py:186) (1,251 samples, 0.55%)</title><rect x="99.0616%" y="324" width="0.5483%" height="15" fill="rgb(215,77,49)" fg:x="226010" fg:w="1251"/><text x="99.3116%" y="334.50"></text></g><g><title>genotype_locus (arcsv2/engine/likelihood.py:401) (1,633 samples, 0.72%)</title><rect x="98.8972%" y="292" width="0.7158%" height="15" fill="rgb(248,100,22)" fg:x="225635" fg:w="1633"/><text x="99.1472%" y="302.50"></text></g><g><title>ll (arcsv2/engine/likelihood.py:388) (1,633 samples, 0.72%)</title><rect x="98.8972%" y="308" width="0.7158%" height="15" fill="rgb(208,67,9)" fg:x="225635" fg:w="1633"/><text x="99.1472%" y="318.50"></text></g><g><title>_evaluate_locus (arcsv2/engine/caller.py:1308) (115,565 samples, 50.65%)</title><rect x="48.9838%" y="276" width="50.6529%" height="15" fill="rgb(219,133,21)" fg:x="111757" fg:w="115565"/><text x="49.2338%" y="286.50">_evaluate_locus (arcsv2/engine/caller.py:1308)</text></g><g><title>_support_for_junction (arcsv2/engine/caller.py:865) (231 samples, 0.10%)</title><rect x="99.8444%" y="308" width="0.1012%" height="15" fill="rgb(246,46,29)" fg:x="227796" fg:w="231"/><text x="100.0944%" y="318.50"></text></g><g><title>_row_for_genotype (arcsv2/engine/caller.py:1220) (469 samples, 0.21%)</title><rect x="99.7922%" y="292" width="0.2056%" height="15" fill="rgb(246,185,52)" fg:x="227677" fg:w="469"/><text x="100.0422%" y="302.50"></text></g><g><title>call_sam (arcsv2/pipeline.py:83) (200,814 samples, 88.02%)</title><rect x="11.9802%" y="244" width="88.0180%" height="15" fill="rgb(252,136,11)" fg:x="27333" fg:w="200814"/><text x="12.2302%" y="254.50">call_sam (arcsv2/pipeline.py:83)</text></g><g><title>call_evidence (arcsv2/engine/caller.py:1799) (116,528 samples, 51.07%)</title><rect x="48.9233%" y="260" width="51.0749%" height="15" fill="rgb(219,138,53)" fg:x="111619" fg:w="116528"/><text x="49.1733%" y="270.50">call_evidence (arcsv2/engine/caller.py:1799)</text></g><g><title>_evaluate_locus (arcsv2/engine/caller.py:1319) (825 samples, 0.36%)</title><rect x="99.6366%" y="276" width="0.3616%" height="15" fill="rgb(211,51,23)" fg:x="227322" fg:w="825"/><text x="99.8866%" y="286.50"></text></g><g><title>&lt;module&gt; (arcsv2:6) (228,149 samples, 100.00%)</title><rect x="0.0000%" y="84" width="99.9991%" height="15" fill="rgb(247,221,28)" fg:x="0" fg:w="228149"/><text x="0.2500%" y="94.50">&lt;module&gt; (arcsv2:6)</text></g><g><title>__call__ (typer/main.py:1137) (228,149 samples, 100.00%)</title><rect x="0.0000%" y="100" width="99.9991%" height="15" fill="rgb(251,222,45)" fg:x="0" fg:w="228149"/><text x="0.2500%" y="110.50">__call__ (typer/main.py:1137)</text></g><g><title>__call__ (typer/_click/core.py:801) (228,149 samples, 100.00%)</title><rect x="0.0000%" y="116" width="99.9991%" height="15" fill="rgb(217,162,53)" fg:x="0" fg:w="228149"/><text x="0.2500%" y="126.50">__call__ (typer/_click/core.py:801)</text></g><g><title>main (typer/core.py:1197) (228,149 samples, 100.00%)</title><rect x="0.0000%" y="132" width="99.9991%" height="15" fill="rgb(229,93,14)" fg:x="0" fg:w="228149"/><text x="0.2500%" y="142.50">main (typer/core.py:1197)</text></g><g><title>_main (typer/core.py:187) (228,149 samples, 100.00%)</title><rect x="0.0000%" y="148" width="99.9991%" height="15" fill="rgb(209,67,49)" fg:x="0" fg:w="228149"/><text x="0.2500%" y="158.50">_main (typer/core.py:187)</text></g><g><title>invoke (typer/core.py:1119) (228,149 samples, 100.00%)</title><rect x="0.0000%" y="164" width="99.9991%" height="15" fill="rgb(213,87,29)" fg:x="0" fg:w="228149"/><text x="0.2500%" y="174.50">invoke (typer/core.py:1119)</text></g><g><title>invoke (typer/_click/core.py:740) (228,149 samples, 100.00%)</title><rect x="0.0000%" y="180" width="99.9991%" height="15" fill="rgb(205,151,52)" fg:x="0" fg:w="228149"/><text x="0.2500%" y="190.50">invoke (typer/_click/core.py:740)</text></g><g><title>invoke (typer/_click/core.py:483) (228,149 samples, 100.00%)</title><rect x="0.0000%" y="196" width="99.9991%" height="15" fill="rgb(253,215,39)" fg:x="0" fg:w="228149"/><text x="0.2500%" y="206.50">invoke (typer/_click/core.py:483)</text></g><g><title>wrapper (typer/main.py:1524) (228,149 samples, 100.00%)</title><rect x="0.0000%" y="212" width="99.9991%" height="15" fill="rgb(221,220,41)" fg:x="0" fg:w="228149"/><text x="0.2500%" y="222.50">wrapper (typer/main.py:1524)</text></g><g><title>call (arcsv2/cli.py:58) (227,977 samples, 99.92%)</title><rect x="0.0754%" y="228" width="99.9237%" height="15" fill="rgb(218,133,21)" fg:x="172" fg:w="227977"/><text x="0.3254%" y="238.50">call (arcsv2/cli.py:58)</text></g><g><title>0x7f6e804a324a (libc.so.6) (228,150 samples, 100.00%)</title><rect x="0.0000%" y="68" width="99.9996%" height="15" fill="rgb(221,193,43)" fg:x="0" fg:w="228150"/><text x="0.2500%" y="78.50">0x7f6e804a324a (libc.so.6)</text></g><g><title>all (228,151 samples, 100%)</title><rect x="0.0000%" y="52" width="100.0000%" height="15" fill="rgb(240,128,52)" fg:x="0" fg:w="228151"/><text x="0.2500%" y="62.50"></text></g></svg></svg>

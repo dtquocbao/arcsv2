@@ -1,0 +1,1003 @@
+﻿START_S4 2026-10-06T02:49:18Z
+S4_HAPS_FETCH 2026-10-06T02:49:18Z
+===== RESTART Mon 10/05/2026 22:00:35.47 =====
+START_S4 2026-10-06T03:00:36Z
+S4_HAPS_FETCH 2026-10-06T03:00:36Z
+===== RESTART Mon 10/05/2026 22:27:36.77 =====
+START_S4 2026-10-06T03:27:37Z
+S4_HAPS_FETCH 2026-10-06T03:27:37Z
+===== RESTART Mon 10/05/2026 22:41:53.35 =====
+START_S4 2026-10-06T03:41:53Z
+S4_HAPS_FETCH 2026-10-06T03:41:53Z
+wrote /data/manifest.lock.json (80 files)
+S4_HAPS_DONE 2026-10-06T04:18:16Z
+S4_SNAKEMAKE_ATTEMPT 1 2026-10-06T04:18:16Z
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-06 04:18:17
+  Workflow ID: 18245a5e-a78f-4e29-b268-3b36b1da281f
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 436e4c78ccad
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: e3c11a5d7766419e63767288e2176aad
+
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 22
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=Resource("mem_mb", 100000)
+Conda environments: ignored
+Job stats:
+job             count
+------------  -------
+call              916
+fetch_region      850
+index_haps         80
+merge              40
+label              40
+dataset             1
+all                 1
+total            1928
+
+Select jobs to execute...
+Execute 7 jobs...
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG01884/chr10.bam, /data/work/HG01884/chr10.bam.bai
+    output: /data/results_ml0_s3/HG01884/chr10/arcsv_out.tab
+    jobid: 22
+    reason: Missing output files: /data/results_ml0_s3/HG01884/chr10/arcsv_out.tab
+    wildcards: sample=HG01884, chrom=chr10
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=4926, mem=4.93 GB, mem_mib=4698
+Shell command: arcsv2 call -i /data/work/HG01884/chr10.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01884/chr10 --region chr10 --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG00126/chrX.bam, /data/work/HG00126/chrX.bam.bai
+    output: /data/results_ml0_s3/HG00126/chrX/arcsv_out.tab
+    jobid: 148
+    reason: Missing output files: /data/results_ml0_s3/HG00126/chrX/arcsv_out.tab
+    wildcards: sample=HG00126, chrom=chrX
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=5745, mem=5.75 GB, mem_mib=5479
+Shell command: arcsv2 call -i /data/work/HG00126/chrX.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG00126/chrX --region chrX --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG01150/chrX.bam, /data/work/HG01150/chrX.bam.bai
+    output: /data/results_ml0_s3/HG01150/chrX/arcsv_out.tab
+    jobid: 98
+    reason: Missing output files: /data/results_ml0_s3/HG01150/chrX/arcsv_out.tab
+    wildcards: sample=HG01150, chrom=chrX
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=5745, mem=5.75 GB, mem_mib=5479
+Shell command: arcsv2 call -i /data/work/HG01150/chrX.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01150/chrX --region chrX --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG01150/chr10.bam, /data/work/HG01150/chr10.bam.bai
+    output: /data/results_ml0_s3/HG01150/chr10/arcsv_out.tab
+    jobid: 72
+    reason: Missing output files: /data/results_ml0_s3/HG01150/chr10/arcsv_out.tab
+    wildcards: sample=HG01150, chrom=chr10
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=4926, mem=4.93 GB, mem_mib=4698
+Shell command: arcsv2 call -i /data/work/HG01150/chr10.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01150/chr10 --region chr10 --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG00126/chr10.bam, /data/work/HG00126/chr10.bam.bai
+    output: /data/results_ml0_s3/HG00126/chr10/arcsv_out.tab
+    jobid: 122
+    reason: Missing output files: /data/results_ml0_s3/HG00126/chr10/arcsv_out.tab
+    wildcards: sample=HG00126, chrom=chr10
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=4926, mem=4.93 GB, mem_mib=4698
+Shell command: arcsv2 call -i /data/work/HG00126/chr10.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG00126/chr10 --region chr10 --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule fetch_region:
+    output: /data/work/HG03816/chr2.bam, /data/work/HG03816/chr2.bam.bai
+    jobid: 1657
+    reason: Missing output files: /data/work/HG03816/chr2.bam.bai, /data/work/HG03816/chr2.bam
+    wildcards: sample=HG03816, chrom=chr2
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG03816/reads/HG03816.cram chr2 | samtools sort -o /data/work/HG03816/chr2.bam
+samtools index /data/work/HG03816/chr2.bam /data/work/HG03816/chr2.bam.bai
+[E::hts_open_format] Failed to open file "/data/samples/HG03816/reads/HG03816.cram" : No such file or directory
+samtools view: failed to open "/data/samples/HG03816/reads/HG03816.cram" for reading: No such file or directory
+[W::hts_set_opt] Cannot change block size for this format
+samtools sort: failed to read header from "-"
+
+[Tue Oct  6 04:18:19 2026]
+localrule fetch_region:
+    output: /data/work/HG02055/chr16.bam, /data/work/HG02055/chr16.bam.bai
+    jobid: 185
+    reason: Missing output files: /data/work/HG02055/chr16.bam.bai, /data/work/HG02055/chr16.bam
+    wildcards: sample=HG02055, chrom=chr16
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG02055/reads/HG02055.cram chr16 | samtools sort -o /data/work/HG02055/chr16.bam
+samtools index /data/work/HG02055/chr16.bam /data/work/HG02055/chr16.bam.bai
+RuleException:
+CalledProcessError in file "/work/workflows/label.smk", line 117:
+Command 'set -euo pipefail;  samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG03816/reads/HG03816.cram chr2 | samtools sort -o /data/work/HG03816/chr2.bam
+samtools index /data/work/HG03816/chr2.bam /data/work/HG03816/chr2.bam.bai' returned non-zero exit status 1.
+[Tue Oct  6 04:18:19 2026]
+Error in rule fetch_region:
+    message: None
+    jobid: 1657
+    output: /data/work/HG03816/chr2.bam, /data/work/HG03816/chr2.bam.bai
+    shell:
+        samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG03816/reads/HG03816.cram chr2 | samtools sort -o /data/work/HG03816/chr2.bam
+samtools index /data/work/HG03816/chr2.bam /data/work/HG03816/chr2.bam.bai
+        (command exited with non-zero exit code)
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Oct  6 04:18:20 2026]
+localrule index_haps:
+    input: /data/haps/HG01346.hap2.fa.gz
+    output: /data/haps/HG01346.hap2.mmi
+    jobid: 551
+    reason: Missing output files: /data/haps/HG01346.hap2.mmi
+    wildcards: sample=HG01346, which=hap2
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG01346.hap2.mmi /data/haps/HG01346.hap2.fa.gz
+Select jobs to execute...
+[call:chr10     0.0s] start: /data/work/HG00126/chr10.bam (chr10)
+[call:chr10     0.0s] start: /data/work/HG01150/chr10.bam (chr10)
+[call:chr10     0.0s] start: /data/work/HG01884/chr10.bam (chr10)
+[call:chr10     0.1s] load_bam: /data/work/HG01884/chr10.bam (engine=rust)
+[call:chr10     0.1s] load_bam: /data/work/HG00126/chr10.bam (engine=rust)
+[call:chr10     0.1s] load_bam: /data/work/HG01150/chr10.bam (engine=rust)
+[call:chrX     0.0s] start: /data/work/HG00126/chrX.bam (chrX)
+[call:chrX     0.0s] start: /data/work/HG01150/chrX.bam (chrX)
+[call:chrX     0.0s] load_bam: /data/work/HG00126/chrX.bam (engine=rust)
+[call:chrX     0.0s] load_bam: /data/work/HG01150/chrX.bam (engine=rust)
+[M::mm_idx_gen::82.624*1.94] collected minimizers
+[M::mm_idx_gen::99.223*2.11] sorted minimizers
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[M::main::128.171*1.86] loaded/built the index for 81 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 81
+[M::mm_idx_stat::129.170*1.85] distinct minimizers: 100080141 (38.85% are singletons); average occurrences: 5.706; average spacing: 5.312; total length: 3033882538
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG01346.hap2.mmi /data/haps/HG01346.hap2.fa.gz
+[M::main] Real time: 129.572 sec; CPU: 239.801 sec; Peak RSS: 11.473 GB
+[Tue Oct  6 04:20:31 2026]
+Finished jobid: 551 (Rule: index_haps)
+1 of 1928 steps (0.1%) done
+Execute 1 jobs...
+
+[Tue Oct  6 04:20:31 2026]
+localrule index_haps:
+    input: /data/haps/NA21102.hap2.fa.gz
+    output: /data/haps/NA21102.hap2.mmi
+    jobid: 1801
+    reason: Missing output files: /data/haps/NA21102.hap2.mmi
+    wildcards: sample=NA21102, which=hap2
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/NA21102.hap2.mmi /data/haps/NA21102.hap2.fa.gz
+Select jobs to execute...
+[M::mm_idx_gen::68.678*1.80] collected minimizers
+[call:chrX   158.2s] load_bam done: 22,205,177 alignments -> 10,970,546 pairs, 27772 breakpoints, 3786 splits (insert_stats=10,935,004, engine=rust)
+[call:chrX   158.2s] loaded: 10970546 pairs, 27772 clip/split bps, 3786 splits
+[call:chrX   158.2s] fit_libs: 10,970,546 pairs
+[M::mm_idx_gen::85.276*2.03] sorted minimizers
+[M::main::119.023*1.74] loaded/built the index for 64 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 64
+[M::mm_idx_stat::119.909*1.73] distinct minimizers: 100086529 (38.84% are singletons); average occurrences: 5.703; average spacing: 5.323; total length: 3038379095
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/NA21102.hap2.mmi /data/haps/NA21102.hap2.fa.gz
+[M::main] Real time: 120.334 sec; CPU: 208.026 sec; Peak RSS: 11.486 GB
+[Tue Oct  6 04:22:32 2026]
+Finished jobid: 1801 (Rule: index_haps)
+2 of 1928 steps (0.1%) done
+Execute 1 jobs...
+
+[Tue Oct  6 04:22:32 2026]
+localrule fetch_region:
+    output: /data/work/NA20752/chr12.bam, /data/work/NA20752/chr12.bam.bai
+    jobid: 1527
+    reason: Missing output files: /data/work/NA20752/chr12.bam, /data/work/NA20752/chr12.bam.bai
+    wildcards: sample=NA20752, chrom=chr12
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/NA20752/reads/NA20752.cram chr12 | samtools sort -o /data/work/NA20752/chr12.bam
+samtools index /data/work/NA20752/chr12.bam /data/work/NA20752/chr12.bam.bai
+[E::hts_open_format] Failed to open file "/data/samples/NA20752/reads/NA20752.cram" : No such file or directory
+samtools view: failed to open "/data/samples/NA20752/reads/NA20752.cram" for reading: No such file or directory
+[W::hts_set_opt] Cannot change block size for this format
+samtools sort: failed to read header from "-"
+RuleException:
+CalledProcessError in file "/work/workflows/label.smk", line 117:
+Command 'set -euo pipefail;  samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/NA20752/reads/NA20752.cram chr12 | samtools sort -o /data/work/NA20752/chr12.bam
+samtools index /data/work/NA20752/chr12.bam /data/work/NA20752/chr12.bam.bai' returned non-zero exit status 1.
+[Tue Oct  6 04:22:32 2026]
+Error in rule fetch_region:
+    message: None
+    jobid: 1527
+    output: /data/work/NA20752/chr12.bam, /data/work/NA20752/chr12.bam.bai
+    shell:
+        samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/NA20752/reads/NA20752.cram chr12 | samtools sort -o /data/work/NA20752/chr12.bam
+samtools index /data/work/NA20752/chr12.bam /data/work/NA20752/chr12.bam.bai
+        (command exited with non-zero exit code)
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Oct  6 04:22:32 2026]
+localrule fetch_region:
+    output: /data/work/HG02572/chr6.bam, /data/work/HG02572/chr6.bam.bai
+    jobid: 315
+    reason: Missing output files: /data/work/HG02572/chr6.bam, /data/work/HG02572/chr6.bam.bai
+    wildcards: sample=HG02572, chrom=chr6
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG02572/reads/HG02572.cram chr6 | samtools sort -o /data/work/HG02572/chr6.bam
+samtools index /data/work/HG02572/chr6.bam /data/work/HG02572/chr6.bam.bai
+Select jobs to execute...
+[Tue Oct  6 04:22:49 2026]
+Finished jobid: 185 (Rule: fetch_region)
+3 of 1928 steps (0.2%) done
+Execute 1 jobs...
+
+[Tue Oct  6 04:22:50 2026]
+localrule fetch_region:
+    output: /data/work/NA19036/chr11.bam, /data/work/NA19036/chr11.bam.bai
+    jobid: 375
+    reason: Missing output files: /data/work/NA19036/chr11.bam.bai, /data/work/NA19036/chr11.bam
+    wildcards: sample=NA19036, chrom=chr11
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/NA19036/reads/NA19036.cram chr11 | samtools sort -o /data/work/NA19036/chr11.bam
+samtools index /data/work/NA19036/chr11.bam /data/work/NA19036/chr11.bam.bai
+Select jobs to execute...
+[call:chrX   221.5s] discover: scan 10,970,546 pairs for DRPs
+[call:chrX   251.7s] discover: Del: 25,916 DRPs + 4 null reps
+[call:chrX   252.1s] discover: Del: null rep 2/4
+[call:chrX   252.6s] discover: Del: null rep 4/4
+[call:chrX   252.6s] discover: Dup: 5,363 DRPs + 4 null reps
+[call:chrX   252.7s] discover: Dup: null rep 2/4
+[call:chrX   252.7s] discover: Dup: null rep 4/4
+[call:chrX   252.7s] discover: Ins: 9,328 DRPs + 4 null reps
+[call:chrX   253.3s] discover: Ins: null rep 2/4
+[call:chrX   253.5s] discover: Ins: null rep 4/4
+[call:chrX   253.5s] discover: InvL: 381 DRPs + 4 null reps
+[call:chrX   253.5s] discover: InvL: null rep 2/4
+[call:chrX   253.5s] discover: InvL: null rep 4/4
+[call:chrX   253.5s] discover: InvR: 387 DRPs + 4 null reps
+[call:chrX   253.5s] discover: InvR: null rep 2/4
+[call:chrX   253.5s] discover: InvR: null rep 4/4
+[call:chrX   253.8s] discover done: 20,821 breakpoints
+[call:chrX   254.0s] blocks: 20,821 breakpoints -> 20,822 blocks (chrom_len=156,040,895)
+[call:chrX   254.0s] build_graph: 10,970,546 pairs x 20,822 blocks (rust)
+[call:chrX   259.0s] build_graph done: 51,186 edges
+[call:chrX   259.2s] insertions: test novel insertion sites
+[call:chrX   259.2s] insertions: 1365 candidate sites, 5 sizes, 51186 edges
+[call:chrX   261.0s] insertions: 68/1365 sites (3 kept)
+[call:chrX   262.4s] insertions: 136/1365 sites (6 kept)
+[call:chrX   263.0s] load_bam done: 34,229,963 alignments -> 16,993,481 pairs, 38246 breakpoints, 4605 splits (insert_stats=16,937,624, engine=rust)
+[call:chrX   263.0s] loaded: 16993481 pairs, 38246 clip/split bps, 4605 splits
+[call:chrX   263.0s] fit_libs: 16,993,481 pairs
+[call:chrX   263.7s] insertions: 204/1365 sites (17 kept)
+[call:chrX   265.3s] insertions: 272/1365 sites (21 kept)
+[call:chrX   267.4s] insertions: 340/1365 sites (35 kept)
+[call:chrX   269.5s] insertions: 408/1365 sites (38 kept)
+[call:chrX   272.3s] insertions: 476/1365 sites (40 kept)
+[call:chrX   275.1s] insertions: 544/1365 sites (42 kept)
+[call:chrX   278.1s] insertions: 612/1365 sites (45 kept)
+[call:chrX   280.9s] insertions: 680/1365 sites (51 kept)
+[call:chrX   283.7s] insertions: 748/1365 sites (54 kept)
+[call:chrX   287.1s] insertions: 816/1365 sites (57 kept)
+[call:chrX   290.6s] insertions: 884/1365 sites (61 kept)
+[call:chrX   294.2s] insertions: 952/1365 sites (66 kept)
+[call:chrX   297.1s] insertions: 1020/1365 sites (67 kept)
+[call:chrX   299.9s] insertions: 1088/1365 sites (72 kept)
+[call:chrX   303.0s] insertions: 1156/1365 sites (75 kept)
+[call:chrX   306.8s] insertions: 1224/1365 sites (80 kept)
+[call:chrX   310.1s] insertions: 1292/1365 sites (81 kept)
+[call:chrX   314.2s] insertions: 1360/1365 sites (86 kept)
+[call:chrX   314.4s] insertions done: 86 insertions placed
+[call:chrX   315.8s] genotype: 2931 loci (of 2931 merged)
+[call:chrX   316.2s] genotype: locus 1/2931 done
+[call:chrX   319.3s] genotype: locus 25/2931 done
+[call:chrX   320.5s] genotype: locus 50/2931 done
+[call:chrX   321.5s] genotype: locus 75/2931 done
+[call:chrX   322.3s] genotype: locus 100/2931 done
+[call:chrX   326.3s] genotype: locus 125/2931 done
+[call:chrX   328.1s] genotype: locus 150/2931 done
+[call:chrX   331.4s] genotype: locus 175/2931 done
+[call:chrX   333.2s] genotype: locus 200/2931 done
+[call:chrX   334.2s] genotype: locus 225/2931 done
+[call:chrX   335.7s] genotype: locus 250/2931 done
+[call:chrX   337.1s] genotype: locus 275/2931 done
+[call:chrX   338.1s] genotype: locus 300/2931 done
+[call:chrX   339.2s] genotype: locus 325/2931 done
+[call:chrX   340.0s] genotype: locus 350/2931 done
+[call:chrX   340.6s] genotype: locus 375/2931 done
+[call:chrX   341.7s] genotype: locus 400/2931 done
+[call:chrX   342.7s] genotype: locus 425/2931 done
+[call:chrX   343.5s] genotype: locus 450/2931 done
+[call:chrX   344.4s] genotype: locus 475/2931 done
+[call:chrX   344.9s] genotype: locus 500/2931 done
+[call:chrX   345.5s] genotype: locus 525/2931 done
+[call:chrX   346.0s] genotype: locus 550/2931 done
+[call:chrX   346.8s] genotype: locus 575/2931 done
+[call:chrX   347.3s] genotype: locus 600/2931 done
+[call:chrX   348.0s] genotype: locus 625/2931 done
+[call:chrX   348.5s] genotype: locus 650/2931 done
+[call:chrX   349.1s] genotype: locus 675/2931 done
+[call:chrX   349.7s] genotype: locus 700/2931 done
+[call:chrX   350.3s] genotype: locus 725/2931 done
+[call:chrX   350.9s] genotype: locus 750/2931 done
+[call:chrX   351.4s] genotype: locus 775/2931 done
+[call:chrX   351.8s] genotype: locus 800/2931 done
+[call:chrX   352.4s] genotype: locus 825/2931 done
+[call:chrX   352.9s] genotype: locus 850/2931 done
+[call:chrX   353.5s] genotype: locus 875/2931 done
+[call:chrX   354.0s] genotype: locus 900/2931 done
+[call:chrX   354.5s] genotype: locus 925/2931 done
+[call:chrX   355.3s] genotype: locus 950/2931 done
+[call:chrX   356.0s] genotype: locus 975/2931 done
+[call:chrX   356.7s] genotype: locus 1000/2931 done
+[call:chrX   357.3s] genotype: locus 1025/2931 done
+[call:chrX   357.9s] genotype: locus 1050/2931 done
+[call:chrX   358.6s] genotype: locus 1075/2931 done
+[call:chrX   359.3s] genotype: locus 1100/2931 done
+[call:chrX   360.2s] genotype: locus 1125/2931 done
+[call:chrX   361.1s] genotype: locus 1150/2931 done
+[call:chrX   361.6s] genotype: locus 1175/2931 done
+[call:chrX   362.5s] genotype: locus 1200/2931 done
+[call:chrX   362.6s] discover: scan 16,993,481 pairs for DRPs
+[call:chrX   363.3s] genotype: locus 1225/2931 done
+[call:chrX   364.1s] genotype: locus 1250/2931 done
+[call:chrX   364.8s] genotype: locus 1275/2931 done
+[call:chrX   365.5s] genotype: locus 1300/2931 done
+[call:chrX   366.0s] genotype: locus 1325/2931 done
+[call:chrX   366.7s] genotype: locus 1350/2931 done
+[call:chrX   367.4s] genotype: locus 1375/2931 done
+[call:chrX   368.0s] genotype: locus 1400/2931 done
+[call:chrX   368.6s] genotype: locus 1425/2931 done
+[call:chrX   369.1s] genotype: locus 1450/2931 done
+[call:chrX   369.7s] genotype: locus 1475/2931 done
+[call:chrX   370.2s] genotype: locus 1500/2931 done
+[call:chrX   370.8s] genotype: locus 1525/2931 done
+[call:chrX   371.8s] genotype: locus 1550/2931 done
+[call:chrX   372.8s] genotype: locus 1575/2931 done
+[call:chrX   374.0s] genotype: locus 1600/2931 done
+[call:chrX   375.0s] genotype: locus 1625/2931 done
+[call:chrX   377.0s] genotype: locus 1650/2931 done
+[call:chrX   377.8s] genotype: locus 1675/2931 done
+[call:chrX   378.6s] genotype: locus 1700/2931 done
+[call:chrX   379.1s] genotype: locus 1725/2931 done
+[call:chrX   379.6s] genotype: locus 1750/2931 done
+[call:chrX   380.3s] genotype: locus 1775/2931 done
+[call:chrX   380.8s] genotype: locus 1800/2931 done
+[call:chrX   381.4s] genotype: locus 1825/2931 done
+[call:chrX   382.1s] genotype: locus 1850/2931 done
+[call:chrX   382.7s] genotype: locus 1875/2931 done
+[call:chrX   383.2s] genotype: locus 1900/2931 done
+[call:chrX   383.9s] genotype: locus 1925/2931 done
+[call:chrX   384.5s] genotype: locus 1950/2931 done
+[call:chrX   385.2s] genotype: locus 1975/2931 done
+[call:chrX   385.6s] genotype: locus 2000/2931 done
+[call:chrX   386.3s] genotype: locus 2025/2931 done
+[call:chrX   386.9s] genotype: locus 2050/2931 done
+[call:chrX   387.7s] genotype: locus 2075/2931 done
+[call:chrX   388.4s] genotype: locus 2100/2931 done
+[call:chrX   389.1s] genotype: locus 2125/2931 done
+[call:chrX   389.7s] genotype: locus 2150/2931 done
+[call:chrX   390.3s] genotype: locus 2175/2931 done
+[call:chrX   391.1s] genotype: locus 2200/2931 done
+[call:chrX   391.6s] genotype: locus 2225/2931 done
+[call:chrX   392.0s] genotype: locus 2250/2931 done
+[call:chrX   392.5s] genotype: locus 2275/2931 done
+[call:chrX   393.2s] genotype: locus 2300/2931 done
+[call:chrX   393.6s] genotype: locus 2325/2931 done
+[call:chrX   394.1s] genotype: locus 2350/2931 done
+[call:chrX   394.7s] genotype: locus 2375/2931 done
+[call:chrX   395.4s] genotype: locus 2400/2931 done
+[call:chrX   395.9s] genotype: locus 2425/2931 done
+[call:chrX   396.5s] genotype: locus 2450/2931 done
+[call:chrX   397.2s] genotype: locus 2475/2931 done
+[call:chrX   397.8s] genotype: locus 2500/2931 done
+[call:chrX   398.6s] genotype: locus 2525/2931 done
+[call:chrX   399.2s] genotype: locus 2550/2931 done
+[call:chrX   399.8s] genotype: locus 2575/2931 done
+[call:chrX   400.8s] genotype: locus 2600/2931 done
+[call:chrX   401.6s] genotype: locus 2625/2931 done
+[call:chrX   402.4s] genotype: locus 2650/2931 done
+[call:chrX   403.2s] genotype: locus 2675/2931 done
+[call:chrX   403.9s] genotype: locus 2700/2931 done
+[call:chrX   404.5s] genotype: locus 2725/2931 done
+[call:chrX   405.3s] genotype: locus 2750/2931 done
+[call:chrX   406.2s] genotype: locus 2775/2931 done
+[call:chrX   407.1s] genotype: locus 2800/2931 done
+[call:chrX   408.2s] genotype: locus 2825/2931 done
+[call:chrX   409.0s] genotype: locus 2850/2931 done
+[call:chrX   410.0s] genotype: locus 2875/2931 done
+[call:chrX   410.8s] genotype: locus 2900/2931 done
+[call:chrX   412.6s] genotype: locus 2925/2931 done
+[call:chrX   417.9s] genotype: locus 2931/2931 done
+[call:chrX   417.9s] genotype done: 352 calls
+[call:chrX   418.0s] done: 352 calls -> /data/results_ml0_s3/HG00126/chrX/arcsv_out.tab
+wrote 352 calls to /data/results_ml0_s3/HG00126/chrX/arcsv_out.tab
+[Tue Oct  6 04:26:10 2026]
+Finished jobid: 148 (Rule: call)
+4 of 1928 steps (0.2%) done
+Execute 1 jobs...
+
+[Tue Oct  6 04:26:10 2026]
+localrule call:
+    input: /data/work/HG01884/chr9.bam, /data/work/HG01884/chr9.bam.bai
+    output: /data/results_ml0_s3/HG01884/chr9/arcsv_out.tab
+    jobid: 20
+    reason: Missing output files: /data/results_ml0_s3/HG01884/chr9/arcsv_out.tab
+    wildcards: sample=HG01884, chrom=chr9
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=5096, mem=5.1 GB, mem_mib=4860
+Shell command: arcsv2 call -i /data/work/HG01884/chr9.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01884/chr9 --region chr9 --threads 4 --engine rust
+Select jobs to execute...
+[call:chrX   421.8s] discover: Del: 38,738 DRPs + 4 null reps
+[call:chrX   422.8s] discover: Del: null rep 2/4
+[call:chr9     0.0s] start: /data/work/HG01884/chr9.bam (chr9)
+[call:chr9     0.0s] load_bam: /data/work/HG01884/chr9.bam (engine=rust)
+[call:chrX   423.6s] discover: Del: null rep 4/4
+[call:chrX   423.6s] discover: Dup: 6,213 DRPs + 4 null reps
+[call:chrX   423.7s] discover: Dup: null rep 2/4
+[bam_sort_core] merging from 24 files and 1 in-memory blocks...
+[call:chrX   423.8s] discover: Dup: null rep 4/4
+[call:chrX   423.8s] discover: Ins: 19,380 DRPs + 4 null reps
+[call:chrX   424.1s] discover: Ins: null rep 2/4
+[call:chrX   424.3s] discover: Ins: null rep 4/4
+[call:chrX   424.3s] discover: InvL: 440 DRPs + 4 null reps
+[call:chrX   424.4s] discover: InvL: null rep 2/4
+[call:chrX   424.4s] discover: InvL: null rep 4/4
+[call:chrX   424.4s] discover: InvR: 410 DRPs + 4 null reps
+[call:chrX   424.4s] discover: InvR: null rep 2/4
+[call:chrX   424.4s] discover: InvR: null rep 4/4
+[call:chrX   424.8s] discover done: 30,099 breakpoints
+[call:chrX   425.0s] blocks: 30,099 breakpoints -> 30,100 blocks (chrom_len=156,040,895)
+[call:chrX   425.0s] build_graph: 16,993,481 pairs x 30,100 blocks (rust)
+[call:chrX   435.3s] build_graph done: 76,081 edges
+[call:chrX   435.5s] insertions: test novel insertion sites
+[call:chrX   435.5s] insertions: 2109 candidate sites, 5 sizes, 76081 edges
+[call:chrX   438.3s] insertions: 105/2109 sites (6 kept)
+[call:chrX   440.5s] insertions: 210/2109 sites (19 kept)
+[call:chrX   444.5s] insertions: 315/2109 sites (24 kept)
+[call:chrX   449.9s] insertions: 420/2109 sites (26 kept)
+[call:chrX   455.4s] insertions: 525/2109 sites (29 kept)
+[call:chrX   460.7s] insertions: 630/2109 sites (33 kept)
+[bam_sort_core] merging from 28 files and 1 in-memory blocks...
+[call:chrX   466.4s] insertions: 735/2109 sites (40 kept)
+[call:chrX   471.6s] insertions: 840/2109 sites (43 kept)
+[call:chrX   475.9s] insertions: 945/2109 sites (51 kept)
+[call:chrX   482.4s] insertions: 1050/2109 sites (60 kept)
+[call:chrX   488.0s] insertions: 1155/2109 sites (62 kept)
+[call:chrX   494.7s] insertions: 1260/2109 sites (69 kept)
+[call:chrX   500.2s] insertions: 1365/2109 sites (72 kept)
+[call:chrX   506.2s] insertions: 1470/2109 sites (78 kept)
+[call:chrX   512.4s] insertions: 1575/2109 sites (85 kept)
+[call:chrX   518.3s] insertions: 1680/2109 sites (88 kept)
+[call:chrX   524.5s] insertions: 1785/2109 sites (95 kept)
+[call:chrX   530.3s] insertions: 1890/2109 sites (105 kept)
+[call:chrX   535.7s] insertions: 1995/2109 sites (110 kept)
+[call:chrX   541.8s] insertions: 2100/2109 sites (121 kept)
+[call:chrX   542.1s] insertions done: 125 insertions placed
+[call:chrX   544.3s] genotype: 5279 loci (of 5279 merged)
+[call:chrX   545.0s] genotype: locus 1/5279 done
+[call:chrX   546.1s] genotype: locus 25/5279 done
+[call:chrX   547.1s] genotype: locus 50/5279 done
+[call:chrX   548.3s] genotype: locus 75/5279 done
+
+===== SNIP: middle omitted; full log in release asset =====
+
+        "large_gap": 1112,
+        "low_identity": 2248,
+        "low_mapq": 166,
+        "no_hit": 187,
+        "validated": 4199
+      }
+    },
+    "deletion": {
+      "0": 16196,
+      "1": 87245,
+      "NA": 901,
+      "reasons": {
+        "ambiguous": 901,
+        "clipped": 4789,
+        "large_gap": 1095,
+        "low_identity": 4827,
+        "low_mapq": 3229,
+        "no_hit": 2256,
+        "validated": 87245
+      }
+    },
+    "duplication": {
+      "0": 3879,
+      "1": 12845,
+      "NA": 195,
+      "reasons": {
+        "ambiguous": 195,
+        "clipped": 1032,
+        "large_gap": 423,
+        "low_identity": 1907,
+        "low_mapq": 180,
+        "no_hit": 337,
+        "validated": 12845
+      }
+    },
+    "insertion": {
+      "0": 0,
+      "1": 0,
+      "NA": 78495,
+      "reasons": {
+        "no_sequence": 78495
+      }
+    },
+    "inversion": {
+      "0": 101,
+      "1": 141,
+      "NA": 103,
+      "reasons": {
+        "ambiguous": 103,
+        "clipped": 32,
+        "large_gap": 21,
+        "low_identity": 35,
+        "low_mapq": 9,
+        "no_hit": 4,
+        "validated": 141
+      }
+    }
+  },
+  "feature_schema": "arcsv2-f1",
+  "label_version": "arcsv2-label-1",
+  "samples": {
+    "HG00126": {
+      "0": 562,
+      "1": 2573,
+      "NA": 1682,
+      "reasons": {
+        "ambiguous": 44,
+        "clipped": 179,
+        "large_gap": 84,
+        "low_identity": 201,
+        "low_mapq": 95,
+        "no_hit": 3,
+        "no_sequence": 1638,
+        "validated": 2573
+      }
+    },
+    "HG00140": {
+      "0": 2701,
+      "1": 365,
+      "NA": 1604,
+      "reasons": {
+        "ambiguous": 6,
+        "clipped": 145,
+        "large_gap": 6,
+        "low_identity": 67,
+        "low_mapq": 24,
+        "no_hit": 2459,
+        "no_sequence": 1598,
+        "validated": 365
+      }
+    },
+    "HG00272": {
+      "0": 538,
+      "1": 2554,
+      "NA": 1508,
+      "reasons": {
+        "ambiguous": 45,
+        "clipped": 175,
+        "large_gap": 72,
+        "low_identity": 192,
+        "low_mapq": 93,
+        "no_hit": 6,
+        "no_sequence": 1463,
+        "validated": 2554
+      }
+    },
+    "HG00320": {
+      "0": 607,
+      "1": 2550,
+      "NA": 1717,
+      "reasons": {
+        "ambiguous": 38,
+        "clipped": 202,
+        "large_gap": 71,
+        "low_identity": 245,
+        "low_mapq": 83,
+        "no_hit": 6,
+        "no_sequence": 1679,
+        "validated": 2550
+      }
+    },
+    "HG00408": {
+      "0": 549,
+      "1": 2552,
+      "NA": 2237,
+      "reasons": {
+        "ambiguous": 42,
+        "clipped": 176,
+        "large_gap": 65,
+        "low_identity": 215,
+        "low_mapq": 83,
+        "no_hit": 10,
+        "no_sequence": 2195,
+        "validated": 2552
+      }
+    },
+    "HG00609": {
+      "0": 587,
+      "1": 2543,
+      "NA": 2449,
+      "reasons": {
+        "ambiguous": 35,
+        "clipped": 203,
+        "large_gap": 59,
+        "low_identity": 240,
+        "low_mapq": 81,
+        "no_hit": 4,
+        "no_sequence": 2414,
+        "validated": 2543
+      }
+    },
+    "HG00642": {
+      "0": 528,
+      "1": 2633,
+      "NA": 2232,
+      "reasons": {
+        "ambiguous": 29,
+        "clipped": 176,
+        "large_gap": 55,
+        "low_identity": 210,
+        "low_mapq": 77,
+        "no_hit": 10,
+        "no_sequence": 2203,
+        "validated": 2633
+      }
+    },
+    "HG00738": {
+      "0": 552,
+      "1": 2562,
+      "NA": 2250,
+      "reasons": {
+        "ambiguous": 44,
+        "clipped": 177,
+        "large_gap": 62,
+        "low_identity": 199,
+        "low_mapq": 101,
+        "no_hit": 13,
+        "no_sequence": 2206,
+        "validated": 2562
+      }
+    },
+    "HG01150": {
+      "0": 626,
+      "1": 2625,
+      "NA": 2395,
+      "reasons": {
+        "ambiguous": 47,
+        "clipped": 189,
+        "large_gap": 67,
+        "low_identity": 2
+START_S4 2026-10-12T23:56:50Z
+S4_HAPS_SKIP manifest present 2026-10-12T23:56:50Z
+S4_PROGRESS labeled=40/40 calls=920 crams=0 free_gb=305
+S4_SNAKEMAKE_ATTEMPT 1 2026-10-12T23:56:50Z
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:56:50
+  Workflow ID: db897de8-acc9-4827-8733-250354a8316a
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+S4_SNAKEMAKE_RC rc=0 attempt=1
+S4_DATASET_READY
+END_S4 2026-10-12T23:57:34Z elapsed_s=44
+total 148M
+-rw-r--r-- 1 mambauser mambauser 2.2M Oct  8 02:18 HG00126.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.0M Oct 11 03:32 HG00140.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.1M Oct 10 17:57 HG00272.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.2M Oct 11 03:29 HG00320.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.3M Oct 10 07:04 HG00408.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.5M Oct 10 07:03 HG00609.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.4M Oct  9 06:14 HG00642.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.4M Oct 12 12:12 HG00738.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.5M Oct  8 02:18 HG01150.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.4M Oct  8 18:21 HG01346.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.1M Oct 11 03:37 HG01784.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.2M Oct 11 04:23 HG01786.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.6M Oct  8 01:50 HG01884.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.3M Oct 12 12:08 HG01928.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.3M Oct  9 06:23 HG01940.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.7M Oct  8 01:46 HG02055.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.5M Oct 10 17:17 HG02080.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.1M Oct  9 21:04 HG02155.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.1M Oct  9 21:01 HG02391.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.7M Oct  8 02:31 HG02572.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.5M Oct 12 19:38 HG02602.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.4M Oct  8 02:03 HG02922.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.8M Oct  8 06:53 HG03098.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.5M Oct 12 19:33 HG03688.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.2M Oct 12 22:45 HG03742.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.2M Oct 12 20:59 HG03784.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.4M Oct 11 17:31 HG03804.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.4M Oct 11 17:33 HG03816.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.6M Oct  8 18:27 NA18505.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.3M Oct  9 21:02 NA18565.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.2M Oct  9 21:05 NA18608.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.2M Oct 10 07:22 NA18940.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.5M Oct  8 01:58 NA19036.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.1M Oct  8 18:06 NA19682.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.4M Oct  8 01:29 NA19700.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.1M Oct  8 18:08 NA19776.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.1M Oct 11 16:46 NA20752.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.3M Oct 11 17:50 NA20762.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.3M Oct 12 13:36 NA20850.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser 2.2M Oct 12 20:18 NA21102.labeled.tsv
+-rw-r--r-- 1 mambauser mambauser  14K Oct 12 22:45 dataset.summary.json
+-rw-r--r-- 1 mambauser mambauser  57M Oct 12 22:45 dataset.tsv
+413M	/data/results_ml0_s3
+148M	/data/labels_ml0_s3
+69G	/data/samples
+4.0K	/data/work
+{
+  "classes": {
+    "complex": {
+      "0": 5434,
+      "1": 4199,
+      "NA": 407,
+      "reasons": {
+        "ambiguous": 407,
+        "clipped": 1721,
+        "large_gap": 1112,
+        "low_identity": 2248,
+        "low_mapq": 166,
+        "no_hit": 187,
+        "validated": 4199
+      }
+    },
+    "deletion": {
+      "0": 16196,
+      "1": 87245,
+      "NA": 901,
+      "reasons": {
+        "ambiguous": 901,
+        "clipped": 4789,
+        "large_gap": 1095,
+        "low_identity": 4827,
+        "low_mapq": 3229,
+        "no_hit": 2256,
+        "validated": 87245
+      }
+    },
+    "duplication": {
+      "0": 3879,
+      "1": 12845,
+      "NA": 195,
+      "reasons": {
+        "ambiguous": 195,
+        "clipped": 1032,
+        "large_gap": 423,
+        "low_identity": 1907,
+        "low_mapq": 180,
+        "no_hit": 337,
+        "validated": 12845
+      }
+    },
+    "insertion": {
+      "0": 0,
+      "1": 0,
+      "NA": 78495,
+      "reasons": {
+        "no_sequence": 78495
+      }
+    },
+    "inversion": {
+      "0": 101,
+      "1": 141,
+      "NA": 103,
+      "reasons": {
+        "ambiguous": 103,
+        "clipped": 32,
+        "large_gap": 21,
+        "low_identity": 35,
+        "low_mapq": 9,
+        "no_hit": 4,
+        "validated": 141
+      }
+    }
+  },
+  "feature_schema": "arcsv2-f1",
+  "label_version": "arcsv2-label-1",
+  "samples": {
+    "HG00126": {
+      "0": 562,
+      "1": 2573,
+      "NA": 1682,
+      "reasons": {
+        "ambiguous": 44,
+        "clipped": 179,
+        "large_gap": 84,
+        "low_identity": 201,
+        "low_mapq": 95,
+        "no_hit": 3,
+        "no_sequence": 1638,
+        "validated": 2573
+      }
+    },
+    "HG00140": {
+      "0": 2701,
+      "1": 365,
+      "NA": 1604,
+      "reasons": {
+        "ambiguous": 6,
+        "clipped": 145,
+        "large_gap": 6,
+        "low_identity": 67,
+        "low_mapq": 24,
+        "no_hit": 2459,
+        "no_sequence": 1598,
+        "validated": 365
+      }
+    },
+    "HG00272": {
+      "0": 538,
+      "1": 2554,
+      "NA": 1508,
+      "reasons": {
+        "ambiguous": 45,
+        "clipped": 175,
+        "large_gap": 72,
+        "low_identity": 192,
+        "low_mapq": 93,
+        "no_hit": 6,
+        "no_sequence": 1463,
+        "validated": 2554
+      }
+    },
+    "HG00320": {
+      "0": 607,
+      "1": 2550,
+      "NA": 1717,
+      "reasons": {
+        "ambiguous": 38,
+        "clipped": 202,
+        "large_gap": 71,
+        "low_identity": 245,
+        "low_mapq": 83,
+        "no_hit": 6,
+        "no_sequence": 1679,
+        "validated": 2550
+      }
+    },
+    "HG00408": {
+      "0": 549,
+      "1": 2552,
+      "NA": 2237,
+      "reasons": {
+        "ambiguous": 42,
+        "clipped": 176,
+        "large_gap": 65,
+        "low_identity": 215,
+        "low_mapq": 83,
+        "no_hit": 10,
+        "no_sequence": 2195,
+        "validated": 2552
+      }
+    },
+    "HG00609": {
+      "0": 587,
+      "1": 2543,
+      "NA": 2449,
+      "reasons": {
+        "ambiguous": 35,
+        "clipped": 203,
+        "large_gap": 59,
+        "low_identity": 240,
+        "low_mapq": 81,
+        "no_hit": 4,
+        "no_sequence": 2414,
+        "validated": 2543
+      }
+    },
+    "HG00642": {
+      "0": 528,
+      "1": 2633,
+      "NA": 2232,
+      "reasons": {
+        "ambiguous": 29,
+        "clipped": 176,
+        "large_gap": 55,
+        "low_identity": 210,
+        "low_mapq": 77,
+        "no_hit": 10,
+        "no_sequence": 2203,
+        "validated": 2633
+      }
+    },
+    "HG00738": {
+      "0": 552,
+      "1": 2562,
+      "NA": 2250,
+      "reasons": {
+        "ambiguous": 44,
+        "clipped": 177,
+        "large_gap": 62,
+        "low_identity": 199,
+        "low_mapq": 101,
+        "no_hit": 13,
+        "no_sequence": 2206,
+        "validated": 2562
+      }
+    },
+    "HG01150": {
+      "0": 626,
+      "1": 2625,
+      "NA": 2395,
+      "reasons": {
+        "ambiguous": 47,
+        "clipped": 189,
+        "large_gap": 67,
+        "low_identity": 2
+START_S4 2026-10-12T23:57:34Z
+S4_HAPS_SKIP manifest present 2026-10-12T23:57:34Z
+S4_PROGRESS labeled=40/40 calls=920 crams=0 free_gb=305
+S4_SNAKEMAKE_ATTEMPT 1 2026-10-12T23:57:34Z
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:57:35
+  Workflow ID: 8eb79723-8896-4968-918a-87e8ea64cd3d
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.

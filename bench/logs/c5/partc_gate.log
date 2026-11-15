@@ -1,0 +1,24 @@
+=== Part C gate start 2026-10-05T00:14:27+00:00 HEAD= ===
+python ok 1791158017.72449
+--- call HG01884 threads=8 start 2026-10-05T00:14:27+00:00 ---
+[call:chr20     0.0s] start: /data/work/HG01884/chr20.bam (chr20)
+[call:chr20     0.0s] load_bam: /data/work/HG01884/chr20.bam
+[call:chr20     6.5s] load_bam: 500,000 alignments, 243,857 pairs (insert_stats=243,002, pos ~2,086,418)
+[call:chr20    13.2s] load_bam: 1,000,000 alignments, 492,269 pairs (insert_stats=490,663, pos ~4,084,171)
+[call:chr20    19.8s] load_bam: 1,500,000 alignments, 740,395 pairs (insert_stats=738,148, pos ~6,119,779)
+[call:chr20    26.4s] load_bam: 2,000,000 alignments, 989,317 pairs (insert_stats=986,607, pos ~8,335,379)
+[call:chr20    33.0s] load_bam: 2,500,000 alignments, 1,238,203 pairs (insert_stats=1,235,041, pos ~10,496,603)
+[call:chr20    40.4s] load_bam: 3,000,000 alignments, 1,487,111 pairs (insert_stats=1,483,548, pos ~12,725,506)
+[call:chr20    50.2s] load_bam: 3,500,000 alignments, 1,735,845 pairs (insert_stats=1,731,840, pos ~14,918,800)
+[call:chr20    63.7s] load_bam: 4,000,000 alignments, 1,984,653 pairs (insert_stats=1,980,188, pos ~17,107,087)
+
+
+SAMPLE=HG01884 elapsed_sec=72.4 max_rss_kb=968148
+[call:chr20     0.0s] start: /data/work/HG01884/chr20.bam (chr20)
+[call:chr20     0.0s] load_bam: /data/work/HG01884/chr20.bam
+[call:chr20     7.6s] load_bam: 500,000 alignments, 243,857 pairs (insert_stats=243,002, pos ~2,086,418)
+[call:chr20    18.4s] load_bam: 1,000,000 alignments, 492,269 pairs (insert_stats=490,663, pos ~4,084,171)
+[call:chr20    30.4s] load_bam: 1,500,000 alignments, 740,395 pairs (insert_stats=738,148, pos ~6,119,779)
+
+
+SAMPLE=HG01884 elapsed_sec=38.9 max_rss_kb=417756

@@ -1,0 +1,8 @@
+mode=full engine_graph=python n_pairs=8087727 n_blocks=24737 n_bp=24736
+load_s=141.985 fit_discover_blocks_s=45.198
+block_prep_s=59.460
+build_graph_s=137.486
+n_edges=92846
+peak_rss_kb=6298976
+wall_stage_total_s=384.128
+rss_after_load_kb=6298976 rss_after_blocks_kb=6298976 rss_after_graph_kb=6298976

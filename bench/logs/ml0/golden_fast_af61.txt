@@ -1,0 +1,8 @@
+OK fast/HG01884_2659058.merged.tab: 1 calls near 2659058 (DUP ABBC)
+OK fast/HG01884_5962348.merged.tab: 1 calls near 5962348 (DEL)
+OK fast/NA19700_52764531.merged.tab: 1 calls near 52764531 (DUP ABBC same-block support==2)
+OK fast/HG01884_60792115.merged.tab: 1 calls near 60792115 (DUP ABBC)
+OK fast/HG01884_13358681.merged.tab: 0 calls near 13358681 (weak-DEL uncalled)
+OK fast/HG01884_23857951.merged.tab: 0 calls near 23857951 (weak-DEL uncalled)
+OK fast/HG01884_63458085.merged.tab: 0 calls near 63458085 (weak-DEL uncalled)
+PASS fast golden check

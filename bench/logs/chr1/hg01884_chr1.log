@@ -1,0 +1,664 @@
+=== chr1 start 2026-10-05T11:34:01Z ===
+fetching chr1 BAM...
+-rw-r--r-- 1 mambauser mambauser 3.1G Oct  5 11:43 /data/work/HG01884/chr1.bam
+-rw-r--r-- 1 mambauser mambauser 715K Oct  5 11:43 /data/work/HG01884/chr1.bam.bai
+[call:chr1     0.0s] start: /data/work/HG01884/chr1.bam (chr1)
+[call:chr1     0.0s] load_bam: /data/work/HG01884/chr1.bam
+[call:chr1     7.0s] load_bam: 500,000 alignments, 246,410 pairs (insert_stats=245,127, pos ~1,764,904)
+[call:chr1    14.3s] load_bam: 1,000,000 alignments, 495,228 pairs (insert_stats=488,590, pos ~3,381,219)
+[call:chr1    20.7s] load_bam: 1,500,000 alignments, 743,781 pairs (insert_stats=736,251, pos ~5,417,099)
+[call:chr1    27.0s] load_bam: 2,000,000 alignments, 991,535 pairs (insert_stats=983,083, pos ~7,354,148)
+[call:chr1    33.2s] load_bam: 2,500,000 alignments, 1,239,672 pairs (insert_stats=1,230,387, pos ~9,346,542)
+[call:chr1    39.5s] load_bam: 3,000,000 alignments, 1,487,875 pairs (insert_stats=1,477,751, pos ~11,260,691)
+[call:chr1    45.9s] load_bam: 3,500,000 alignments, 1,736,311 pairs (insert_stats=1,725,274, pos ~13,293,443)
+[call:chr1    52.1s] load_bam: 4,000,000 alignments, 1,984,840 pairs (insert_stats=1,973,106, pos ~15,377,374)
+[call:chr1    58.6s] load_bam: 4,500,000 alignments, 2,233,388 pairs (insert_stats=2,220,724, pos ~17,086,416)
+[call:chr1    65.2s] load_bam: 5,000,000 alignments, 2,482,123 pairs (insert_stats=2,468,672, pos ~19,129,337)
+[call:chr1    71.8s] load_bam: 5,500,000 alignments, 2,730,648 pairs (insert_stats=2,716,489, pos ~21,141,963)
+[call:chr1    78.1s] load_bam: 6,000,000 alignments, 2,978,981 pairs (insert_stats=2,963,972, pos ~23,105,525)
+[call:chr1    84.7s] load_bam: 6,500,000 alignments, 3,227,074 pairs (insert_stats=3,211,204, pos ~25,055,159)
+[call:chr1    91.1s] load_bam: 7,000,000 alignments, 3,475,518 pairs (insert_stats=3,458,796, pos ~26,983,248)
+[call:chr1    97.6s] load_bam: 7,500,000 alignments, 3,723,544 pairs (insert_stats=3,705,824, pos ~28,900,520)
+[call:chr1   104.0s] load_bam: 8,000,000 alignments, 3,972,010 pairs (insert_stats=3,953,467, pos ~30,956,775)
+[call:chr1   110.5s] load_bam: 8,500,000 alignments, 4,220,208 pairs (insert_stats=4,200,717, pos ~32,911,082)
+[call:chr1   116.7s] load_bam: 9,000,000 alignments, 4,469,049 pairs (insert_stats=4,448,950, pos ~35,001,305)
+[call:chr1   123.0s] load_bam: 9,500,000 alignments, 4,717,655 pairs (insert_stats=4,696,767, pos ~37,008,690)
+[call:chr1   129.7s] load_bam: 10,000,000 alignments, 4,966,224 pairs (insert_stats=4,944,584, pos ~39,038,268)
+[call:chr1   136.1s] load_bam: 10,500,000 alignments, 5,214,691 pairs (insert_stats=5,192,255, pos ~41,014,508)
+[call:chr1   142.7s] load_bam: 11,000,000 alignments, 5,463,181 pairs (insert_stats=5,440,004, pos ~43,041,245)
+[call:chr1   149.0s] load_bam: 11,500,000 alignments, 5,711,811 pairs (insert_stats=5,687,775, pos ~45,026,958)
+[call:chr1   155.4s] load_bam: 12,000,000 alignments, 5,960,060 pairs (insert_stats=5,935,191, pos ~47,020,026)
+[call:chr1   161.5s] load_bam: 12,500,000 alignments, 6,208,901 pairs (insert_stats=6,183,331, pos ~49,144,232)
+[call:chr1   167.6s] load_bam: 13,000,000 alignments, 6,457,651 pairs (insert_stats=6,431,556, pos ~51,293,038)
+[call:chr1   174.0s] load_bam: 13,500,000 alignments, 6,706,238 pairs (insert_stats=6,679,348, pos ~53,309,465)
+[call:chr1   180.4s] load_bam: 14,000,000 alignments, 6,955,062 pairs (insert_stats=6,927,332, pos ~55,317,085)
+[call:chr1   186.6s] load_bam: 14,500,000 alignments, 7,203,784 pairs (insert_stats=7,175,513, pos ~57,547,473)
+[call:chr1   192.9s] load_bam: 15,000,000 alignments, 7,452,726 pairs (insert_stats=7,423,914, pos ~59,693,036)
+[call:chr1   199.6s] load_bam: 15,500,000 alignments, 7,701,532 pairs (insert_stats=7,672,175, pos ~61,898,507)
+[call:chr1   206.1s] load_bam: 16,000,000 alignments, 7,949,972 pairs (insert_stats=7,919,947, pos ~64,022,682)
+[call:chr1   212.4s] load_bam: 16,500,000 alignments, 8,198,383 pairs (insert_stats=8,167,728, pos ~66,166,742)
+[call:chr1   218.7s] load_bam: 17,000,000 alignments, 8,447,182 pairs (insert_stats=8,416,036, pos ~68,257,402)
+[call:chr1   224.8s] load_bam: 17,500,000 alignments, 8,695,465 pairs (insert_stats=8,663,790, pos ~70,477,774)
+[call:chr1   230.9s] load_bam: 18,000,000 alignments, 8,944,291 pairs (insert_stats=8,912,201, pos ~72,750,819)
+[call:chr1   237.0s] load_bam: 18,500,000 alignments, 9,192,568 pairs (insert_stats=9,160,011, pos ~75,031,130)
+[call:chr1   243.2s] load_bam: 19,000,000 alignments, 9,441,460 pairs (insert_stats=9,408,419, pos ~77,255,464)
+[call:chr1   249.3s] load_bam: 19,500,000 alignments, 9,690,222 pairs (insert_stats=9,656,676, pos ~79,412,721)
+[call:chr1   255.5s] load_bam: 20,000,000 alignments, 9,938,971 pairs (insert_stats=9,904,919, pos ~81,669,800)
+[call:chr1   262.0s] load_bam: 20,500,000 alignments, 10,187,698 pairs (insert_stats=10,153,210, pos ~83,939,760)
+[call:chr1   268.2s] load_bam: 21,000,000 alignments, 10,436,560 pairs (insert_stats=10,401,536, pos ~86,081,394)
+[call:chr1   274.8s] load_bam: 21,500,000 alignments, 10,685,512 pairs (insert_stats=10,649,956, pos ~88,239,150)
+[call:chr1   281.0s] load_bam: 22,000,000 alignments, 10,934,282 pairs (insert_stats=10,898,199, pos ~90,336,894)
+[call:chr1   287.3s] load_bam: 22,500,000 alignments, 11,183,036 pairs (insert_stats=11,146,340, pos ~92,487,730)
+[call:chr1   293.5s] load_bam: 23,000,000 alignments, 11,431,873 pairs (insert_stats=11,394,522, pos ~94,581,112)
+[call:chr1   299.6s] load_bam: 23,500,000 alignments, 11,680,835 pairs (insert_stats=11,642,982, pos ~96,807,176)
+[call:chr1   305.7s] load_bam: 24,000,000 alignments, 11,929,762 pairs (insert_stats=11,891,476, pos ~99,042,645)
+[call:chr1   311.8s] load_bam: 24,500,000 alignments, 12,178,560 pairs (insert_stats=12,139,732, pos ~101,159,209)
+[call:chr1   318.0s] load_bam: 25,000,000 alignments, 12,427,200 pairs (insert_stats=12,387,878, pos ~103,352,954)
+[call:chr1   324.1s] load_bam: 25,500,000 alignments, 12,676,010 pairs (insert_stats=12,636,135, pos ~105,564,553)
+[call:chr1   330.8s] load_bam: 26,000,000 alignments, 12,925,048 pairs (insert_stats=12,884,713, pos ~107,833,383)
+[call:chr1   337.3s] load_bam: 26,500,000 alignments, 13,173,618 pairs (insert_stats=13,132,515, pos ~109,904,699)
+[call:chr1   343.7s] load_bam: 27,000,000 alignments, 13,422,562 pairs (insert_stats=13,380,868, pos ~111,938,010)
+[call:chr1   350.2s] load_bam: 27,500,000 alignments, 13,670,911 pairs (insert_stats=13,628,407, pos ~114,002,785)
+[call:chr1   356.3s] load_bam: 28,000,000 alignments, 13,919,687 pairs (insert_stats=13,876,610, pos ~116,148,186)
+[call:chr1   362.3s] load_bam: 28,500,000 alignments, 14,168,810 pairs (insert_stats=14,125,184, pos ~118,258,098)
+[call:chr1   368.6s] load_bam: 29,000,000 alignments, 14,417,623 pairs (insert_stats=14,373,379, pos ~120,478,525)
+[call:chr1   375.2s] load_bam: 29,500,000 alignments, 14,661,463 pairs (insert_stats=14,616,460, pos ~122,539,288)
+[call:chr1   383.2s] load_bam: 30,000,000 alignments, 14,883,706 pairs (insert_stats=14,834,454, pos ~123,097,991)
+[call:chr1   391.3s] load_bam: 30,500,000 alignments, 15,118,749 pairs (insert_stats=15,056,048, pos ~123,667,792)
+[call:chr1   400.4s] load_bam: 31,000,000 alignments, 15,371,913 pairs (insert_stats=15,286,811, pos ~124,173,472)
+[call:chr1   409.2s] load_bam: 31,500,000 alignments, 15,639,555 pairs (insert_stats=15,525,246, pos ~124,599,822)
+[call:chr1   417.4s] load_bam: 32,000,000 alignments, 15,907,428 pairs (insert_stats=15,766,351, pos ~125,161,129)
+[call:chr1   425.5s] load_bam: 32,500,000 alignments, 16,145,004 pairs (insert_stats=16,003,413, pos ~125,181,634)
+[call:chr1   433.9s] load_bam: 33,000,000 alignments, 16,391,639 pairs (insert_stats=16,237,764, pos ~143,213,221)
+[call:chr1   442.4s] load_bam: 33,500,000 alignments, 16,650,300 pairs (insert_stats=16,480,410, pos ~143,227,818)
+[call:chr1   451.1s] load_bam: 34,000,000 alignments, 16,914,096 pairs (insert_stats=16,718,142, pos ~143,265,994)
+[call:chr1   458.1s] load_bam: 34,500,000 alignments, 17,163,185 pairs (insert_stats=16,963,726, pos ~145,246,022)
+[call:chr1   464.8s] load_bam: 35,000,000 alignments, 17,412,039 pairs (insert_stats=17,211,574, pos ~147,232,893)
+[call:chr1   471.6s] load_bam: 35,500,000 alignments, 17,661,367 pairs (insert_stats=17,459,708, pos ~149,265,866)
+[call:chr1   478.2s] load_bam: 36,000,000 alignments, 17,910,252 pairs (insert_stats=17,707,365, pos ~151,203,358)
+[call:chr1   484.5s] load_bam: 36,500,000 alignments, 18,158,619 pairs (insert_stats=17,954,815, pos ~153,310,119)
+[call:chr1   491.0s] load_bam: 37,000,000 alignments, 18,407,383 pairs (insert_stats=18,202,370, pos ~155,240,924)
+[call:chr1   497.4s] load_bam: 37,500,000 alignments, 18,656,053 pairs (insert_stats=18,449,863, pos ~157,174,210)
+[call:chr1   503.7s] load_bam: 38,000,000 alignments, 18,905,114 pairs (insert_stats=18,698,295, pos ~159,313,831)
+[call:chr1   510.0s] load_bam: 38,500,000 alignments, 19,153,869 pairs (insert_stats=18,946,253, pos ~161,348,834)
+[call:chr1   516.3s] load_bam: 39,000,000 alignments, 19,402,801 pairs (insert_stats=19,194,412, pos ~163,295,316)
+[call:chr1   522.3s] load_bam: 39,500,000 alignments, 19,651,781 pairs (insert_stats=19,442,813, pos ~165,525,819)
+[call:chr1   529.0s] load_bam: 40,000,000 alignments, 19,900,379 pairs (insert_stats=19,690,574, pos ~167,631,008)
+[call:chr1   535.7s] load_bam: 40,500,000 alignments, 20,149,238 pairs (insert_stats=19,938,829, pos ~169,720,711)
+[call:chr1   542.1s] load_bam: 41,000,000 alignments, 20,398,243 pairs (insert_stats=20,187,184, pos ~171,865,046)
+[call:chr1   548.5s] load_bam: 41,500,000 alignments, 20,647,168 pairs (insert_stats=20,435,533, pos ~173,974,955)
+[call:chr1   554.9s] load_bam: 42,000,000 alignments, 20,895,903 pairs (insert_stats=20,683,432, pos ~176,070,670)
+[call:chr1   561.1s] load_bam: 42,500,000 alignments, 21,144,797 pairs (insert_stats=20,931,703, pos ~178,296,502)
+[call:chr1   567.5s] load_bam: 43,000,000 alignments, 21,393,525 pairs (insert_stats=21,179,693, pos ~180,370,242)
+[call:chr1   573.7s] load_bam: 43,500,000 alignments, 21,642,413 pairs (insert_stats=21,427,792, pos ~182,440,193)
+[call:chr1   579.8s] load_bam: 44,000,000 alignments, 21,891,385 pairs (insert_stats=21,676,052, pos ~184,523,443)
+[call:chr1   586.0s] load_bam: 44,500,000 alignments, 22,140,431 pairs (insert_stats=21,924,493, pos ~186,655,067)
+[call:chr1   592.5s] load_bam: 45,000,000 alignments, 22,389,477 pairs (insert_stats=22,172,905, pos ~188,913,186)
+[call:chr1   598.8s] load_bam: 45,500,000 alignments, 22,638,279 pairs (insert_stats=22,421,025, pos ~191,222,609)
+[call:chr1   605.4s] load_bam: 46,000,000 alignments, 22,887,171 pairs (insert_stats=22,669,321, pos ~193,383,843)
+[call:chr1   611.7s] load_bam: 46,500,000 alignments, 23,135,542 pairs (insert_stats=22,916,794, pos ~195,620,166)
+[call:chr1   617.8s] load_bam: 47,000,000 alignments, 23,384,351 pairs (insert_stats=23,164,958, pos ~197,864,850)
+[call:chr1   624.0s] load_bam: 47,500,000 alignments, 23,633,340 pairs (insert_stats=23,413,325, pos ~199,990,224)
+[call:chr1   630.2s] load_bam: 48,000,000 alignments, 23,882,246 pairs (insert_stats=23,661,362, pos ~202,006,993)
+[call:chr1   636.6s] load_bam: 48,500,000 alignments, 24,131,059 pairs (insert_stats=23,909,098, pos ~204,014,239)
+[call:chr1   643.0s] load_bam: 49,000,000 alignments, 24,379,901 pairs (insert_stats=24,157,020, pos ~206,031,178)
+[call:chr1   649.2s] load_bam: 49,500,000 alignments, 24,628,874 pairs (insert_stats=24,405,027, pos ~208,060,483)
+[call:chr1   655.6s] load_bam: 50,000,000 alignments, 24,877,827 pairs (insert_stats=24,653,319, pos ~210,230,687)
+[call:chr1   662.1s] load_bam: 50,500,000 alignments, 25,126,600 pairs (insert_stats=24,901,252, pos ~212,310,523)
+[call:chr1   668.8s] load_bam: 51,000,000 alignments, 25,375,532 pairs (insert_stats=25,149,455, pos ~214,399,147)
+[call:chr1   675.2s] load_bam: 51,500,000 alignments, 25,624,550 pairs (insert_stats=25,397,841, pos ~216,661,613)
+[call:chr1   681.5s] load_bam: 52,000,000 alignments, 25,873,692 pairs (insert_stats=25,646,221, pos ~218,894,321)
+[call:chr1   687.6s] load_bam: 52,500,000 alignments, 26,122,525 pairs (insert_stats=25,894,242, pos ~221,061,287)
+[call:chr1   693.8s] load_bam: 53,000,000 alignments, 26,371,362 pairs (insert_stats=26,142,405, pos ~223,162,736)
+[call:chr1   700.7s] load_bam: 53,500,000 alignments, 26,617,243 pairs (insert_stats=26,386,988, pos ~225,253,025)
+[call:chr1   707.1s] load_bam: 54,000,000 alignments, 26,866,037 pairs (insert_stats=26,634,838, pos ~227,260,664)
+[call:chr1   713.4s] load_bam: 54,500,000 alignments, 27,115,054 pairs (insert_stats=26,882,759, pos ~229,043,751)
+[call:chr1   719.6s] load_bam: 55,000,000 alignments, 27,363,617 pairs (insert_stats=27,130,254, pos ~231,107,424)
+[call:chr1   726.3s] load_bam: 55,500,000 alignments, 27,612,443 pairs (insert_stats=27,378,242, pos ~233,247,590)
+[call:chr1   732.7s] load_bam: 56,000,000 alignments, 27,861,540 pairs (insert_stats=27,626,352, pos ~235,283,652)
+[call:chr1   739.4s] load_bam: 56,500,000 alignments, 28,110,205 pairs (insert_stats=27,874,046, pos ~237,331,293)
+[call:chr1   745.7s] load_bam: 57,000,000 alignments, 28,359,228 pairs (insert_stats=28,122,428, pos ~239,626,651)
+[call:chr1   752.1s] load_bam: 57,500,000 alignments, 28,608,267 pairs (insert_stats=28,370,695, pos ~241,841,217)
+[call:chr1   758.3s] load_bam: 58,000,000 alignments, 28,857,153 pairs (insert_stats=28,618,648, pos ~243,974,190)
+[call:chr1   764.8s] load_bam: 58,500,000 alignments, 29,105,913 pairs (insert_stats=28,866,362, pos ~246,049,268)
+[call:chr1   771.3s] load_bam: 59,000,000 alignments, 29,354,537 pairs (insert_stats=29,113,824, pos ~248,148,659)
+[call:chr1  1046.5s] load_bam done: 59,192,263 alignments -> 29,449,918 pairs, 85664 breakpoints, 10086 splits (insert_stats=29,208,695)
+[call:chr1  1046.5s] loaded: 29449918 pairs, 85664 clip/split bps, 10086 splits
+[call:chr1  1046.5s] fit_libs: 29,449,918 pairs
+[call:chr1  1141.9s] discover: scan 29,449,918 pairs for DRPs
+[call:chr1  1202.6s] discover: Del: 67,184 DRPs + 4 null reps
+[call:chr1  1206.3s] discover: Del: null rep 2/4
+[call:chr1  1207.0s] discover: Del: null rep 4/4
+[call:chr1  1207.0s] discover: Dup: 24,020 DRPs + 4 null reps
+[call:chr1  1208.1s] discover: Dup: null rep 2/4
+[call:chr1  1208.7s] discover: Dup: null rep 4/4
+[call:chr1  1208.7s] discover: Ins: 22,554 DRPs + 4 null reps
+[call:chr1  1209.0s] discover: Ins: null rep 2/4
+[call:chr1  1209.1s] discover: Ins: null rep 4/4
+[call:chr1  1209.1s] discover: InvL: 1,001 DRPs + 4 null reps
+[call:chr1  1209.1s] discover: InvL: null rep 2/4
+[call:chr1  1209.1s] discover: InvL: null rep 4/4
+[call:chr1  1209.1s] discover: InvR: 977 DRPs + 4 null reps
+[call:chr1  1209.1s] discover: InvR: null rep 2/4
+[call:chr1  1209.1s] discover: InvR: null rep 4/4
+[call:chr1  1210.0s] discover done: 67,227 breakpoints
+[call:chr1  1210.5s] blocks: 67,227 breakpoints -> 67,228 blocks (chrom_len=248,956,422)
+[call:chr1  1955.9s] build_graph: 29,449,918 pairs × 67,228 blocks
+[call:chr1  1983.4s] build_graph: 1,472,495/29,449,918 pairs
+[call:chr1  2010.5s] build_graph: 2,944,990/29,449,918 pairs
+[call:chr1  2038.3s] build_graph: 4,417,485/29,449,918 pairs
+[call:chr1  2065.8s] build_graph: 5,889,980/29,449,918 pairs
+[call:chr1  2092.3s] build_graph: 7,362,475/29,449,918 pairs
+[call:chr1  2117.8s] build_graph: 8,834,970/29,449,918 pairs
+[call:chr1  2144.6s] build_graph: 10,307,465/29,449,918 pairs
+[call:chr1  2169.8s] build_graph: 11,779,960/29,449,918 pairs
+[call:chr1  2196.8s] build_graph: 13,252,455/29,449,918 pairs
+[call:chr1  2219.4s] build_graph: 14,724,950/29,449,918 pairs
+[call:chr1  2239.6s] build_graph: 16,197,445/29,449,918 pairs
+[call:chr1  2264.9s] build_graph: 17,669,940/29,449,918 pairs
+[call:chr1  2290.2s] build_graph: 19,142,435/29,449,918 pairs
+[call:chr1  2315.6s] build_graph: 20,614,930/29,449,918 pairs
+[call:chr1  2341.2s] build_graph: 22,087,425/29,449,918 pairs
+[call:chr1  2368.9s] build_graph: 23,559,920/29,449,918 pairs
+[call:chr1  2395.1s] build_graph: 25,032,415/29,449,918 pairs
+[call:chr1  2420.5s] build_graph: 26,504,910/29,449,918 pairs
+[call:chr1  2445.6s] build_graph: 27,977,405/29,449,918 pairs
+[call:chr1  2474.7s] build_graph: 29,449,900/29,449,918 pairs
+[call:chr1  2475.0s] build_graph done: 199,713 edges
+[call:chr1  2475.0s] insertions: test novel insertion sites
+[call:chr1  2475.0s] insertions: 6798 candidate sites, 5 sizes, 199713 edges
+[call:chr1  2483.5s] insertions: 339/6798 sites (30 kept)
+[call:chr1  2486.9s] insertions: 678/6798 sites (64 kept)
+[call:chr1  2490.6s] insertions: 1017/6798 sites (89 kept)
+[call:chr1  2494.0s] insertions: 1356/6798 sites (112 kept)
+[call:chr1  2497.7s] insertions: 1695/6798 sites (125 kept)
+[call:chr1  2501.8s] insertions: 2034/6798 sites (146 kept)
+[call:chr1  2506.5s] insertions: 2373/6798 sites (159 kept)
+[call:chr1  2512.0s] insertions: 2712/6798 sites (174 kept)
+[call:chr1  2517.3s] insertions: 3051/6798 sites (184 kept)
+[call:chr1  2523.4s] insertions: 3390/6798 sites (194 kept)
+[call:chr1  2605.4s] insertions: 3729/6798 sites (214 kept)
+[call:chr1  2655.5s] insertions: 4068/6798 sites (226 kept)
+[call:chr1  2661.7s] insertions: 4407/6798 sites (252 kept)
+[call:chr1  2668.1s] insertions: 4746/6798 sites (270 kept)
+[call:chr1  2674.4s] insertions: 5085/6798 sites (285 kept)
+[call:chr1  2680.5s] insertions: 5424/6798 sites (293 kept)
+[call:chr1  2687.1s] insertions: 5763/6798 sites (306 kept)
+[call:chr1  2695.2s] insertions: 6102/6798 sites (332 kept)
+[call:chr1  2701.6s] insertions: 6441/6798 sites (351 kept)
+[call:chr1  2708.6s] insertions: 6780/6798 sites (373 kept)
+[call:chr1  2709.3s] insertions done: 380 insertions placed
+[call:chr1  2720.5s] genotype: 11010 loci (of 11010 merged)
+[call:chr1  2724.0s] genotype: locus 1/11010 done
+[call:chr1  2724.3s] genotype: locus 25/11010 done
+[call:chr1  2724.7s] genotype: locus 50/11010 done
+[call:chr1  2725.1s] genotype: locus 75/11010 done
+[call:chr1  2725.4s] genotype: locus 100/11010 done
+[call:chr1  2725.9s] genotype: locus 125/11010 done
+[call:chr1  2726.2s] genotype: locus 150/11010 done
+[call:chr1  2726.5s] genotype: locus 175/11010 done
+[call:chr1  2726.9s] genotype: locus 200/11010 done
+[call:chr1  2727.3s] genotype: locus 225/11010 done
+[call:chr1  2727.7s] genotype: locus 250/11010 done
+[call:chr1  2728.0s] genotype: locus 275/11010 done
+[call:chr1  2728.3s] genotype: locus 300/11010 done
+[call:chr1  2728.7s] genotype: locus 325/11010 done
+[call:chr1  2728.9s] genotype: locus 350/11010 done
+[call:chr1  2729.2s] genotype: locus 375/11010 done
+[call:chr1  2729.7s] genotype: locus 400/11010 done
+[call:chr1  2730.1s] genotype: locus 425/11010 done
+[call:chr1  2730.5s] genotype: locus 450/11010 done
+[call:chr1  2730.8s] genotype: locus 475/11010 done
+[call:chr1  2731.1s] genotype: locus 500/11010 done
+[call:chr1  2731.5s] genotype: locus 525/11010 done
+[call:chr1  2731.9s] genotype: locus 550/11010 done
+[call:chr1  2732.5s] genotype: locus 575/11010 done
+[call:chr1  2732.9s] genotype: locus 600/11010 done
+[call:chr1  2733.2s] genotype: locus 625/11010 done
+[call:chr1  2733.5s] genotype: locus 650/11010 done
+[call:chr1  2733.8s] genotype: locus 675/11010 done
+[call:chr1  2734.1s] genotype: locus 700/11010 done
+[call:chr1  2734.4s] genotype: locus 725/11010 done
+[call:chr1  2734.6s] genotype: locus 750/11010 done
+[call:chr1  2734.9s] genotype: locus 775/11010 done
+[call:chr1  2735.1s] genotype: locus 800/11010 done
+[call:chr1  2735.3s] genotype: locus 825/11010 done
+[call:chr1  2735.6s] genotype: locus 850/11010 done
+[call:chr1  2736.0s] genotype: locus 875/11010 done
+[call:chr1  2736.3s] genotype: locus 900/11010 done
+[call:chr1  2736.7s] genotype: locus 925/11010 done
+[call:chr1  2737.2s] genotype: locus 950/11010 done
+[call:chr1  2737.8s] genotype: locus 975/11010 done
+[call:chr1  2738.7s] genotype: locus 1000/11010 done
+[call:chr1  2740.1s] genotype: locus 1025/11010 done
+[call:chr1  2742.7s] genotype: locus 1050/11010 done
+[call:chr1  2743.5s] genotype: locus 1075/11010 done
+[call:chr1  2744.2s] genotype: locus 1100/11010 done
+[call:chr1  2744.9s] genotype: locus 1125/11010 done
+[call:chr1  2745.7s] genotype: locus 1150/11010 done
+[call:chr1  2746.5s] genotype: locus 1175/11010 done
+[call:chr1  2747.3s] genotype: locus 1200/11010 done
+[call:chr1  2748.0s] genotype: locus 1225/11010 done
+[call:chr1  2748.6s] genotype: locus 1250/11010 done
+[call:chr1  2749.1s] genotype: locus 1275/11010 done
+[call:chr1  2749.5s] genotype: locus 1300/11010 done
+[call:chr1  2749.9s] genotype: locus 1325/11010 done
+[call:chr1  2750.3s] genotype: locus 1350/11010 done
+[call:chr1  2750.8s] genotype: locus 1375/11010 done
+[call:chr1  2751.5s] genotype: locus 1400/11010 done
+[call:chr1  2751.9s] genotype: locus 1425/11010 done
+[call:chr1  2752.2s] genotype: locus 1450/11010 done
+[call:chr1  2752.5s] genotype: locus 1475/11010 done
+[call:chr1  2752.8s] genotype: locus 1500/11010 done
+[call:chr1  2753.1s] genotype: locus 1525/11010 done
+[call:chr1  2753.4s] genotype: locus 1550/11010 done
+[call:chr1  2753.7s] genotype: locus 1575/11010 done
+[call:chr1  2754.0s] genotype: locus 1600/11010 done
+[call:chr1  2754.3s] genotype: locus 1625/11010 done
+[call:chr1  2754.5s] genotype: locus 1650/11010 done
+[call:chr1  2754.8s] genotype: locus 1675/11010 done
+[call:chr1  2755.3s] genotype: locus 1700/11010 done
+[call:chr1  2755.7s] genotype: locus 1725/11010 done
+[call:chr1  2756.0s] genotype: locus 1750/11010 done
+[call:chr1  2756.4s] genotype: locus 1775/11010 done
+[call:chr1  2756.8s] genotype: locus 1800/11010 done
+[call:chr1  2757.4s] genotype: locus 1825/11010 done
+[call:chr1  2757.7s] genotype: locus 1850/11010 done
+[call:chr1  2758.1s] genotype: locus 1875/11010 done
+[call:chr1  2758.5s] genotype: locus 1900/11010 done
+[call:chr1  2758.8s] genotype: locus 1925/11010 done
+[call:chr1  2759.2s] genotype: locus 1950/11010 done
+[call:chr1  2759.5s] genotype: locus 1975/11010 done
+[call:chr1  2759.9s] genotype: locus 2000/11010 done
+[call:chr1  2760.2s] genotype: locus 2025/11010 done
+[call:chr1  2760.5s] genotype: locus 2050/11010 done
+[call:chr1  2760.9s] genotype: locus 2075/11010 done
+[call:chr1  2761.2s] genotype: locus 2100/11010 done
+[call:chr1  2761.4s] genotype: locus 2125/11010 done
+[call:chr1  2762.0s] genotype: locus 2150/11010 done
+[call:chr1  2762.9s] genotype: locus 2175/11010 done
+[call:chr1  2764.0s] genotype: locus 2200/11010 done
+[call:chr1  2764.5s] genotype: locus 2225/11010 done
+[call:chr1  2765.0s] genotype: locus 2250/11010 done
+[call:chr1  2765.6s] genotype: locus 2275/11010 done
+[call:chr1  2766.0s] genotype: locus 2300/11010 done
+[call:chr1  2766.4s] genotype: locus 2325/11010 done
+[call:chr1  2766.9s] genotype: locus 2350/11010 done
+[call:chr1  2767.2s] genotype: locus 2375/11010 done
+[call:chr1  2767.5s] genotype: locus 2400/11010 done
+[call:chr1  2767.8s] genotype: locus 2425/11010 done
+[call:chr1  2768.1s] genotype: locus 2450/11010 done
+[call:chr1  2768.4s] genotype: locus 2475/11010 done
+[call:chr1  2768.6s] genotype: locus 2500/11010 done
+[call:chr1  2768.9s] genotype: locus 2525/11010 done
+[call:chr1  2769.1s] genotype: locus 2550/11010 done
+[call:chr1  2769.4s] genotype: locus 2575/11010 done
+[call:chr1  2769.6s] genotype: locus 2600/11010 done
+[call:chr1  2769.9s] genotype: locus 2625/11010 done
+[call:chr1  2770.2s] genotype: locus 2650/11010 done
+[call:chr1  2770.4s] genotype: locus 2675/11010 done
+[call:chr1  2770.7s] genotype: locus 2700/11010 done
+[call:chr1  2771.0s] genotype: locus 2725/11010 done
+[call:chr1  2771.3s] genotype: locus 2750/11010 done
+[call:chr1  2771.5s] genotype: locus 2775/11010 done
+[call:chr1  2771.8s] genotype: locus 2800/11010 done
+[call:chr1  2772.1s] genotype: locus 2825/11010 done
+[call:chr1  2772.5s] genotype: locus 2850/11010 done
+[call:chr1  2772.8s] genotype: locus 2875/11010 done
+[call:chr1  2773.2s] genotype: locus 2900/11010 done
+[call:chr1  2773.6s] genotype: locus 2925/11010 done
+[call:chr1  2773.9s] genotype: locus 2950/11010 done
+[call:chr1  2774.2s] genotype: locus 2975/11010 done
+[call:chr1  2774.7s] genotype: locus 3000/11010 done
+[call:chr1  2775.1s] genotype: locus 3025/11010 done
+[call:chr1  2775.5s] genotype: locus 3050/11010 done
+[call:chr1  2775.9s] genotype: locus 3075/11010 done
+[call:chr1  2776.5s] genotype: locus 3100/11010 done
+[call:chr1  2777.1s] genotype: locus 3125/11010 done
+[call:chr1  2777.5s] genotype: locus 3150/11010 done
+[call:chr1  2777.9s] genotype: locus 3175/11010 done
+[call:chr1  2778.6s] genotype: locus 3200/11010 done
+[call:chr1  2779.1s] genotype: locus 3225/11010 done
+[call:chr1  2779.5s] genotype: locus 3250/11010 done
+[call:chr1  2779.9s] genotype: locus 3275/11010 done
+[call:chr1  2780.7s] genotype: locus 3300/11010 done
+[call:chr1  2781.2s] genotype: locus 3325/11010 done
+[call:chr1  2781.7s] genotype: locus 3350/11010 done
+[call:chr1  2782.3s] genotype: locus 3375/11010 done
+[call:chr1  2782.6s] genotype: locus 3400/11010 done
+[call:chr1  2783.0s] genotype: locus 3425/11010 done
+[call:chr1  2783.5s] genotype: locus 3450/11010 done
+[call:chr1  2783.9s] genotype: locus 3475/11010 done
+[call:chr1  2784.2s] genotype: locus 3500/11010 done
+[call:chr1  2784.7s] genotype: locus 3525/11010 done
+[call:chr1  2785.0s] genotype: locus 3550/11010 done
+[call:chr1  2785.3s] genotype: locus 3575/11010 done
+[call:chr1  2785.6s] genotype: locus 3600/11010 done
+[call:chr1  2785.8s] genotype: locus 3625/11010 done
+[call:chr1  2786.1s] genotype: locus 3650/11010 done
+[call:chr1  2786.3s] genotype: locus 3675/11010 done
+[call:chr1  2786.5s] genotype: locus 3700/11010 done
+[call:chr1  2786.8s] genotype: locus 3725/11010 done
+[call:chr1  2787.1s] genotype: locus 3750/11010 done
+[call:chr1  2787.5s] genotype: locus 3775/11010 done
+[call:chr1  2787.9s] genotype: locus 3800/11010 done
+[call:chr1  2788.4s] genotype: locus 3825/11010 done
+[call:chr1  2788.8s] genotype: locus 3850/11010 done
+[call:chr1  2789.1s] genotype: locus 3875/11010 done
+[call:chr1  2789.3s] genotype: locus 3900/11010 done
+[call:chr1  2789.6s] genotype: locus 3925/11010 done
+[call:chr1  2790.0s] genotype: locus 3950/11010 done
+[call:chr1  2790.4s] genotype: locus 3975/11010 done
+[call:chr1  2790.9s] genotype: locus 4000/11010 done
+[call:chr1  2791.3s] genotype: locus 4025/11010 done
+[call:chr1  2791.6s] genotype: locus 4050/11010 done
+[call:chr1  2791.9s] genotype: locus 4075/11010 done
+[call:chr1  2792.2s] genotype: locus 4100/11010 done
+[call:chr1  2792.6s] genotype: locus 4125/11010 done
+[call:chr1  2793.0s] genotype: locus 4150/11010 done
+[call:chr1  2793.5s] genotype: locus 4175/11010 done
+[call:chr1  2794.2s] genotype: locus 4200/11010 done
+[call:chr1  2794.7s] genotype: locus 4225/11010 done
+[call:chr1  2795.3s] genotype: locus 4250/11010 done
+[call:chr1  2795.9s] genotype: locus 4275/11010 done
+[call:chr1  2796.3s] genotype: locus 4300/11010 done
+[call:chr1  2796.8s] genotype: locus 4325/11010 done
+[call:chr1  2797.3s] genotype: locus 4350/11010 done
+[call:chr1  2797.7s] genotype: locus 4375/11010 done
+[call:chr1  2798.1s] genotype: locus 4400/11010 done
+[call:chr1  2798.6s] genotype: locus 4425/11010 done
+[call:chr1  2799.1s] genotype: locus 4450/11010 done
+[call:chr1  2799.6s] genotype: locus 4475/11010 done
+[call:chr1  2800.0s] genotype: locus 4500/11010 done
+[call:chr1  2800.3s] genotype: locus 4525/11010 done
+[call:chr1  2800.7s] genotype: locus 4550/11010 done
+[call:chr1  2801.0s] genotype: locus 4575/11010 done
+[call:chr1  2801.3s] genotype: locus 4600/11010 done
+[call:chr1  2801.7s] genotype: locus 4625/11010 done
+[call:chr1  2802.1s] genotype: locus 4650/11010 done
+[call:chr1  2802.6s] genotype: locus 4675/11010 done
+[call:chr1  2802.9s] genotype: locus 4700/11010 done
+[call:chr1  2803.2s] genotype: locus 4725/11010 done
+[call:chr1  2803.4s] genotype: locus 4750/11010 done
+[call:chr1  2803.7s] genotype: locus 4775/11010 done
+[call:chr1  2803.9s] genotype: locus 4800/11010 done
+[call:chr1  2804.2s] genotype: locus 4825/11010 done
+[call:chr1  2804.5s] genotype: locus 4850/11010 done
+[call:chr1  2804.8s] genotype: locus 4875/11010 done
+[call:chr1  2805.1s] genotype: locus 4900/11010 done
+[call:chr1  2805.4s] genotype: locus 4925/11010 done
+[call:chr1  2805.8s] genotype: locus 4950/11010 done
+[call:chr1  2806.0s] genotype: locus 4975/11010 done
+[call:chr1  2806.3s] genotype: locus 5000/11010 done
+[call:chr1  2806.6s] genotype: locus 5025/11010 done
+[call:chr1  2807.0s] genotype: locus 5050/11010 done
+[call:chr1  2807.3s] genotype: locus 5075/11010 done
+[call:chr1  2807.7s] genotype: locus 5100/11010 done
+[call:chr1  2808.1s] genotype: locus 5125/11010 done
+[call:chr1  2808.7s] genotype: locus 5150/11010 done
+[call:chr1  2809.3s] genotype: locus 5175/11010 done
+[call:chr1  2809.9s] genotype: locus 5200/11010 done
+[call:chr1  2810.4s] genotype: locus 5225/11010 done
+[call:chr1  2810.9s] genotype: locus 5250/11010 done
+[call:chr1  2811.5s] genotype: locus 5275/11010 done
+[call:chr1  2812.6s] genotype: locus 5300/11010 done
+[call:chr1  2813.2s] genotype: locus 5325/11010 done
+[call:chr1  2813.9s] genotype: locus 5350/11010 done
+[call:chr1  2814.4s] genotype: locus 5375/11010 done
+[call:chr1  2814.9s] genotype: locus 5400/11010 done
+[call:chr1  2815.5s] genotype: locus 5425/11010 done
+[call:chr1  2815.9s] genotype: locus 5450/11010 done
+[call:chr1  2816.4s] genotype: locus 5475/11010 done
+[call:chr1  2816.7s] genotype: locus 5500/11010 done
+[call:chr1  2817.1s] genotype: locus 5525/11010 done
+[call:chr1  2817.4s] genotype: locus 5550/11010 done
+[call:chr1  2817.6s] genotype: locus 5575/11010 done
+[call:chr1  2817.9s] genotype: locus 5600/11010 done
+[call:chr1  2818.1s] genotype: locus 5625/11010 done
+[call:chr1  2818.4s] genotype: locus 5650/11010 done
+[call:chr1  2818.6s] genotype: locus 5675/11010 done
+[call:chr1  2818.8s] genotype: locus 5700/11010 done
+[call:chr1  2819.1s] genotype: locus 5725/11010 done
+[call:chr1  2819.3s] genotype: locus 5750/11010 done
+[call:chr1  2819.5s] genotype: locus 5775/11010 done
+[call:chr1  2819.7s] genotype: locus 5800/11010 done
+[call:chr1  2819.9s] genotype: locus 5825/11010 done
+[call:chr1  2820.1s] genotype: locus 5850/11010 done
+[call:chr1  2820.3s] genotype: locus 5875/11010 done
+[call:chr1  2820.6s] genotype: locus 5900/11010 done
+[call:chr1  2821.0s] genotype: locus 5925/11010 done
+[call:chr1  2821.3s] genotype: locus 5950/11010 done
+[call:chr1  2821.6s] genotype: locus 5975/11010 done
+[call:chr1  2821.9s] genotype: locus 6000/11010 done
+[call:chr1  2822.2s] genotype: locus 6025/11010 done
+[call:chr1  2822.5s] genotype: locus 6050/11010 done
+[call:chr1  2822.7s] genotype: locus 6075/11010 done
+[call:chr1  2823.0s] genotype: locus 6100/11010 done
+[call:chr1  2823.3s] genotype: locus 6125/11010 done
+[call:chr1  2823.5s] genotype: locus 6150/11010 done
+[call:chr1  2823.9s] genotype: locus 6175/11010 done
+[call:chr1  2824.7s] genotype: locus 6200/11010 done
+[call:chr1  2825.3s] genotype: locus 6225/11010 done
+[call:chr1  2825.8s] genotype: locus 6250/11010 done
+[call:chr1  2826.2s] genotype: locus 6275/11010 done
+[call:chr1  2826.7s] genotype: locus 6300/11010 done
+[call:chr1  2827.4s] genotype: locus 6325/11010 done
+[call:chr1  2828.2s] genotype: locus 6350/11010 done
+[call:chr1  2828.8s] genotype: locus 6375/11010 done
+[call:chr1  2829.2s] genotype: locus 6400/11010 done
+[call:chr1  2829.7s] genotype: locus 6425/11010 done
+[call:chr1  2830.2s] genotype: locus 6450/11010 done
+[call:chr1  2830.7s] genotype: locus 6475/11010 done
+[call:chr1  2831.3s] genotype: locus 6500/11010 done
+[call:chr1  2831.8s] genotype: locus 6525/11010 done
+[call:chr1  2832.4s] genotype: locus 6550/11010 done
+[call:chr1  2832.8s] genotype: locus 6575/11010 done
+[call:chr1  2833.1s] genotype: locus 6600/11010 done
+[call:chr1  2833.4s] genotype: locus 6625/11010 done
+[call:chr1  2833.7s] genotype: locus 6650/11010 done
+[call:chr1  2834.0s] genotype: locus 6675/11010 done
+[call:chr1  2834.3s] genotype: locus 6700/11010 done
+[call:chr1  2834.6s] genotype: locus 6725/11010 done
+[call:chr1  2834.8s] genotype: locus 6750/11010 done
+[call:chr1  2835.2s] genotype: locus 6775/11010 done
+[call:chr1  2835.5s] genotype: locus 6800/11010 done
+[call:chr1  2835.8s] genotype: locus 6825/11010 done
+[call:chr1  2836.1s] genotype: locus 6850/11010 done
+[call:chr1  2836.3s] genotype: locus 6875/11010 done
+[call:chr1  2836.6s] genotype: locus 6900/11010 done
+[call:chr1  2837.0s] genotype: locus 6925/11010 done
+[call:chr1  2837.3s] genotype: locus 6950/11010 done
+[call:chr1  2837.6s] genotype: locus 6975/11010 done
+[call:chr1  2837.9s] genotype: locus 7000/11010 done
+[call:chr1  2838.2s] genotype: locus 7025/11010 done
+[call:chr1  2838.6s] genotype: locus 7050/11010 done
+[call:chr1  2839.1s] genotype: locus 7075/11010 done
+[call:chr1  2839.5s] genotype: locus 7100/11010 done
+[call:chr1  2840.0s] genotype: locus 7125/11010 done
+[call:chr1  2840.3s] genotype: locus 7150/11010 done
+[call:chr1  2840.7s] genotype: locus 7175/11010 done
+[call:chr1  2841.2s] genotype: locus 7200/11010 done
+[call:chr1  2841.5s] genotype: locus 7225/11010 done
+[call:chr1  2841.9s] genotype: locus 7250/11010 done
+[call:chr1  2842.3s] genotype: locus 7275/11010 done
+[call:chr1  2842.7s] genotype: locus 7300/11010 done
+[call:chr1  2843.2s] genotype: locus 7325/11010 done
+[call:chr1  2843.6s] genotype: locus 7350/11010 done
+[call:chr1  2844.1s] genotype: locus 7375/11010 done
+[call:chr1  2844.5s] genotype: locus 7400/11010 done
+[call:chr1  2844.9s] genotype: locus 7425/11010 done
+[call:chr1  2845.5s] genotype: locus 7450/11010 done
+[call:chr1  2845.9s] genotype: locus 7475/11010 done
+[call:chr1  2846.4s] genotype: locus 7500/11010 done
+[call:chr1  2846.9s] genotype: locus 7525/11010 done
+[call:chr1  2847.4s] genotype: locus 7550/11010 done
+[call:chr1  2847.7s] genotype: locus 7575/11010 done
+[call:chr1  2848.1s] genotype: locus 7600/11010 done
+[call:chr1  2848.5s] genotype: locus 7625/11010 done
+[call:chr1  2848.8s] genotype: locus 7650/11010 done
+[call:chr1  2849.1s] genotype: locus 7675/11010 done
+[call:chr1  2849.5s] genotype: locus 7700/11010 done
+[call:chr1  2850.0s] genotype: locus 7725/11010 done
+[call:chr1  2850.6s] genotype: locus 7750/11010 done
+[call:chr1  2850.9s] genotype: locus 7775/11010 done
+[call:chr1  2851.2s] genotype: locus 7800/11010 done
+[call:chr1  2851.5s] genotype: locus 7825/11010 done
+[call:chr1  2851.8s] genotype: locus 7850/11010 done
+[call:chr1  2852.0s] genotype: locus 7875/11010 done
+[call:chr1  2852.3s] genotype: locus 7900/11010 done
+[call:chr1  2852.6s] genotype: locus 7925/11010 done
+[call:chr1  2852.9s] genotype: locus 7950/11010 done
+[call:chr1  2853.2s] genotype: locus 7975/11010 done
+[call:chr1  2853.5s] genotype: locus 8000/11010 done
+[call:chr1  2853.8s] genotype: locus 8025/11010 done
+[call:chr1  2854.2s] genotype: locus 8050/11010 done
+[call:chr1  2854.6s] genotype: locus 8075/11010 done
+[call:chr1  2854.9s] genotype: locus 8100/11010 done
+[call:chr1  2855.2s] genotype: locus 8125/11010 done
+[call:chr1  2855.6s] genotype: locus 8150/11010 done
+[call:chr1  2855.9s] genotype: locus 8175/11010 done
+[call:chr1  2856.4s] genotype: locus 8200/11010 done
+[call:chr1  2856.9s] genotype: locus 8225/11010 done
+[call:chr1  2857.3s] genotype: locus 8250/11010 done
+[call:chr1  2857.7s] genotype: locus 8275/11010 done
+[call:chr1  2858.2s] genotype: locus 8300/11010 done
+[call:chr1  2858.7s] genotype: locus 8325/11010 done
+[call:chr1  2859.2s] genotype: locus 8350/11010 done
+[call:chr1  2859.5s] genotype: locus 8375/11010 done
+[call:chr1  2859.9s] genotype: locus 8400/11010 done
+[call:chr1  2860.3s] genotype: locus 8425/11010 done
+[call:chr1  2860.7s] genotype: locus 8450/11010 done
+[call:chr1  2861.0s] genotype: locus 8475/11010 done
+[call:chr1  2861.5s] genotype: locus 8500/11010 done
+[call:chr1  2862.0s] genotype: locus 8525/11010 done
+[call:chr1  2862.5s] genotype: locus 8550/11010 done
+[call:chr1  2863.1s] genotype: locus 8575/11010 done
+[call:chr1  2863.5s] genotype: locus 8600/11010 done
+[call:chr1  2863.9s] genotype: locus 8625/11010 done
+[call:chr1  2864.3s] genotype: locus 8650/11010 done
+[call:chr1  2864.7s] genotype: locus 8675/11010 done
+[call:chr1  2865.0s] genotype: locus 8700/11010 done
+[call:chr1  2865.4s] genotype: locus 8725/11010 done
+[call:chr1  2865.8s] genotype: locus 8750/11010 done
+[call:chr1  2866.4s] genotype: locus 8775/11010 done
+[call:chr1  2866.7s] genotype: locus 8800/11010 done
+[call:chr1  2867.0s] genotype: locus 8825/11010 done
+[call:chr1  2867.3s] genotype: locus 8850/11010 done
+[call:chr1  2867.6s] genotype: locus 8875/11010 done
+[call:chr1  2867.8s] genotype: locus 8900/11010 done
+[call:chr1  2868.1s] genotype: locus 8925/11010 done
+[call:chr1  2868.4s] genotype: locus 8950/11010 done
+[call:chr1  2868.7s] genotype: locus 8975/11010 done
+[call:chr1  2869.0s] genotype: locus 9000/11010 done
+[call:chr1  2869.3s] genotype: locus 9025/11010 done
+[call:chr1  2869.6s] genotype: locus 9050/11010 done
+[call:chr1  2870.0s] genotype: locus 9075/11010 done
+[call:chr1  2870.3s] genotype: locus 9100/11010 done
+[call:chr1  2870.6s] genotype: locus 9125/11010 done
+[call:chr1  2870.9s] genotype: locus 9150/11010 done
+[call:chr1  2871.3s] genotype: locus 9175/11010 done
+[call:chr1  2871.7s] genotype: locus 9200/11010 done
+[call:chr1  2872.1s] genotype: locus 9225/11010 done
+[call:chr1  2872.4s] genotype: locus 9250/11010 done
+[call:chr1  2872.8s] genotype: locus 9275/11010 done
+[call:chr1  2873.3s] genotype: locus 9300/11010 done
+[call:chr1  2873.8s] genotype: locus 9325/11010 done
+[call:chr1  2874.1s] genotype: locus 9350/11010 done
+[call:chr1  2874.4s] genotype: locus 9375/11010 done
+[call:chr1  2874.7s] genotype: locus 9400/11010 done
+[call:chr1  2875.2s] genotype: locus 9425/11010 done
+[call:chr1  2875.6s] genotype: locus 9450/11010 done
+[call:chr1  2876.0s] genotype: locus 9475/11010 done
+[call:chr1  2876.5s] genotype: locus 9500/11010 done
+[call:chr1  2877.0s] genotype: locus 9525/11010 done
+[call:chr1  2877.4s] genotype: locus 9550/11010 done
+[call:chr1  2877.9s] genotype: locus 9575/11010 done
+[call:chr1  2878.3s] genotype: locus 9600/11010 done
+[call:chr1  2878.7s] genotype: locus 9625/11010 done
+[call:chr1  2879.2s] genotype: locus 9650/11010 done
+[call:chr1  2879.7s] genotype: locus 9675/11010 done
+[call:chr1  2880.1s] genotype: locus 9700/11010 done
+[call:chr1  2880.4s] genotype: locus 9725/11010 done
+[call:chr1  2880.7s] genotype: locus 9750/11010 done
+[call:chr1  2881.1s] genotype: locus 9775/11010 done
+[call:chr1  2881.4s] genotype: locus 9800/11010 done
+[call:chr1  2881.7s] genotype: locus 9825/11010 done
+[call:chr1  2882.1s] genotype: locus 9850/11010 done
+[call:chr1  2882.5s] genotype: locus 9875/11010 done
+[call:chr1  2882.9s] genotype: locus 9900/11010 done
+[call:chr1  2883.4s] genotype: locus 9925/11010 done
+[call:chr1  2883.7s] genotype: locus 9950/11010 done
+[call:chr1  2884.0s] genotype: locus 9975/11010 done
+[call:chr1  2884.3s] genotype: locus 10000/11010 done
+[call:chr1  2884.6s] genotype: locus 10025/11010 done
+[call:chr1  2885.0s] genotype: locus 10050/11010 done
+[call:chr1  2885.5s] genotype: locus 10075/11010 done
+[call:chr1  2886.0s] genotype: locus 10100/11010 done
+[call:chr1  2886.7s] genotype: locus 10125/11010 done
+[call:chr1  2887.4s] genotype: locus 10150/11010 done
+[call:chr1  2888.0s] genotype: locus 10175/11010 done
+[call:chr1  2888.5s] genotype: locus 10200/11010 done
+[call:chr1  2889.0s] genotype: locus 10225/11010 done
+[call:chr1  2889.4s] genotype: locus 10250/11010 done
+[call:chr1  2889.7s] genotype: locus 10275/11010 done
+[call:chr1  2890.1s] genotype: locus 10300/11010 done
+[call:chr1  2890.5s] genotype: locus 10325/11010 done
+[call:chr1  2890.9s] genotype: locus 10350/11010 done
+[call:chr1  2891.5s] genotype: locus 10375/11010 done
+[call:chr1  2891.8s] genotype: locus 10400/11010 done
+[call:chr1  2892.2s] genotype: locus 10425/11010 done
+[call:chr1  2892.5s] genotype: locus 10450/11010 done
+[call:chr1  2892.9s] genotype: locus 10475/11010 done
+[call:chr1  2893.3s] genotype: locus 10500/11010 done
+[call:chr1  2894.2s] genotype: locus 10525/11010 done
+[call:chr1  2894.7s] genotype: locus 10550/11010 done
+[call:chr1  2895.3s] genotype: locus 10575/11010 done
+[call:chr1  2895.8s] genotype: locus 10600/11010 done
+[call:chr1  2896.3s] genotype: locus 10625/11010 done
+[call:chr1  2896.7s] genotype: locus 10650/11010 done
+[call:chr1  2897.2s] genotype: locus 10675/11010 done
+[call:chr1  2897.8s] genotype: locus 10700/11010 done
+[call:chr1  2898.4s] genotype: locus 10725/11010 done
+[call:chr1  2898.9s] genotype: locus 10750/11010 done
+[call:chr1  2899.2s] genotype: locus 10775/11010 done
+[call:chr1  2899.5s] genotype: locus 10800/11010 done
+[call:chr1  2899.8s] genotype: locus 10825/11010 done
+[call:chr1  2900.1s] genotype: locus 10850/11010 done
+[call:chr1  2900.6s] genotype: locus 10875/11010 done
+[call:chr1  2900.9s] genotype: locus 10900/11010 done
+[call:chr1  2901.4s] genotype: locus 10925/11010 done
+[call:chr1  2901.9s] genotype: locus 10950/11010 done
+[call:chr1  2902.3s] genotype: locus 10975/11010 done
+[call:chr1  2902.7s] genotype: locus 11000/11010 done
+[call:chr1  2904.6s] genotype: locus 11010/11010 done
+[call:chr1  2905.0s] genotype done: 881 calls
+[call:chr1  2908.8s] done: 881 calls -> /data/results_chr1/HG01884/chr1/arcsv_out.tab
+wrote 881 calls to /data/results_chr1/HG01884/chr1/arcsv_out.tab
+SAMPLE=HG01884 elapsed_sec=2910.9 max_rss_kb=10322288 rc=0
+=== chr1 done 2026-10-05T12:32:08Z ===
+SAMPLE=HG01884 elapsed_sec=2910.9 max_rss_kb=10322288 rc=0
+chr1	248956422	112	70	71
+chr20	64444167	2751788762	70	71
+chr1	248956422	112	70	71
+chr2	242193529	252513167	70	71
+chr3	198295559	498166716	70	71
+chr4	190214555	699295181	70	71
+chr5	181538259	892227221	70	71
+chr6	170805979	1076358996	70	71
+chr7	159345973	1249605173	70	71
+chr8	145138636	1411227630	70	71
+chr9	138394717	1558439788	70	71
+chr10	133797422	1698811686	70	71
+chr11	135086622	1834520613	70	71
+chr12	133275309	1971537157	70	71
+chr13	114364328	2106716512	70	71
+chr14	107043718	2222714743	70	71
+chr15	101991189	2331287770	70	71
+chr16	90338345	2434736088	70	71
+chr17	83257441	2526365093	70	71
+chr18	80373285	2610812039	70	71
+chr19	58617616	2692333639	70	71
+chr20	64444167	2751788762	70	71
+chr21	46709983	2817153685	70	71
+chr22	50818468	2864531079	70	71
+autosomes	22	2.875e+09

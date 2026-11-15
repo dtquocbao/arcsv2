@@ -1,0 +1,267 @@
+{
+  "n_rows": 210141,
+  "n_samples": 40,
+  "label_totals": {
+    "NA": 80132,
+    "1": 106547,
+    "0": 23462
+  },
+  "reasons": {
+    "no_sequence": 78495,
+    "validated": 106547,
+    "clipped": 7605,
+    "large_gap": 2704,
+    "low_identity": 9157,
+    "low_mapq": 3662,
+    "ambiguous": 1637,
+    "no_hit": 334
+  },
+  "by_sv_class": {
+    "complex": {
+      "1": 4276,
+      "0": 5349,
+      "NA": 415
+    },
+    "deletion": {
+      "1": 89009,
+      "0": 14417,
+      "NA": 916
+    },
+    "duplication": {
+      "1": 13117,
+      "0": 3600,
+      "NA": 202
+    },
+    "insertion": {
+      "NA": 78495
+    },
+    "inversion": {
+      "1": 145,
+      "NA": 104,
+      "0": 96
+    }
+  },
+  "precision_by_sv_class": {
+    "complex": {
+      "precision": 0.44425974025974024,
+      "n1": 4276,
+      "n0": 5349,
+      "nNA": 415
+    },
+    "deletion": {
+      "precision": 0.8606056504167231,
+      "n1": 89009,
+      "n0": 14417,
+      "nNA": 916
+    },
+    "duplication": {
+      "precision": 0.7846503559251061,
+      "n1": 13117,
+      "n0": 3600,
+      "nNA": 202
+    },
+    "insertion": {
+      "precision": null,
+      "n1": 0,
+      "n0": 0,
+      "nNA": 78495
+    },
+    "inversion": {
+      "precision": 0.6016597510373444,
+      "n1": 145,
+      "n0": 96,
+      "nNA": 104
+    }
+  },
+  "precision_by_superpopulation": {
+    "AFR": {
+      "precision": 0.8268118637762522,
+      "n1": 24448,
+      "n0": 5121,
+      "nNA": 17317
+    },
+    "AMR": {
+      "precision": 0.8206937799043063,
+      "n1": 20583,
+      "n0": 4497,
+      "nNA": 16867
+    },
+    "EAS": {
+      "precision": 0.8120633906830067,
+      "n1": 20343,
+      "n0": 4708,
+      "nNA": 16063
+    },
+    "EUR": {
+      "precision": 0.8180499597099113,
+      "n1": 20304,
+      "n0": 4516,
+      "nNA": 13371
+    },
+    "SAS": {
+      "precision": 0.8187453411275453,
+      "n1": 20869,
+      "n0": 4620,
+      "nNA": 16514
+    }
+  },
+  "precision_by_chrom": {
+    "chr1": {
+      "precision": 0.8246699669966997,
+      "n1": 7996,
+      "n0": 1700,
+      "nNA": 7938
+    },
+    "chr10": {
+      "precision": 0.8475830036125924,
+      "n1": 4927,
+      "n0": 886,
+      "nNA": 3353
+    },
+    "chr11": {
+      "precision": 0.7773489932885906,
+      "n1": 4633,
+      "n0": 1327,
+      "nNA": 4084
+    },
+    "chr12": {
+      "precision": 0.7763157894736842,
+      "n1": 4661,
+      "n0": 1343,
+      "nNA": 3440
+    },
+    "chr13": {
+      "precision": 0.8447979363714532,
+      "n1": 3930,
+      "n0": 722,
+      "nNA": 2554
+    },
+    "chr14": {
+      "precision": 0.8166706245547376,
+      "n1": 3439,
+      "n0": 772,
+      "nNA": 1806
+    },
+    "chr15": {
+      "precision": 0.8367346938775511,
+      "n1": 2583,
+      "n0": 504,
+      "nNA": 1950
+    },
+    "chr16": {
+      "precision": 0.7296954314720813,
+      "n1": 2300,
+      "n0": 852,
+      "nNA": 2165
+    },
+    "chr17": {
+      "precision": 0.6752548131370328,
+      "n1": 2385,
+      "n0": 1147,
+      "nNA": 2515
+    },
+    "chr18": {
+      "precision": 0.8663759938445755,
+      "n1": 3378,
+      "n0": 521,
+      "nNA": 1594
+    },
+    "chr19": {
+      "precision": 0.6451376146788991,
+      "n1": 1758,
+      "n0": 967,
+      "nNA": 1655
+    },
+    "chr2": {
+      "precision": 0.8705940108001964,
+      "n1": 8867,
+      "n0": 1318,
+      "nNA": 10630
+    },
+    "chr20": {
+      "precision": 0.7841051314142679,
+      "n1": 2506,
+      "n0": 690,
+      "nNA": 2784
+    },
+    "chr21": {
+      "precision": 0.7538461538461538,
+      "n1": 1421,
+      "n0": 464,
+      "nNA": 1224
+    },
+    "chr22": {
+      "precision": 0.6751592356687898,
+      "n1": 848,
+      "n0": 408,
+      "nNA": 948
+    },
+    "chr3": {
+      "precision": 0.8498305905130688,
+      "n1": 7023,
+      "n0": 1241,
+      "nNA": 4583
+    },
+    "chr4": {
+      "precision": 0.8729660850813566,
+      "n1": 8906,
+      "n0": 1296,
+      "nNA": 4033
+    },
+    "chr5": {
+      "precision": 0.8736948043779091,
+      "n1": 6945,
+      "n0": 1004,
+      "nNA": 3694
+    },
+    "chr6": {
+      "precision": 0.8176549264378065,
+      "n1": 7336,
+      "n0": 1636,
+      "nNA": 4914
+    },
+    "chr7": {
+      "precision": 0.7979195885928003,
+      "n1": 6827,
+      "n0": 1729,
+      "nNA": 4611
+    },
+    "chr8": {
+      "precision": 0.8647849859612827,
+      "n1": 5852,
+      "n0": 915,
+      "nNA": 3319
+    },
+    "chr9": {
+      "precision": 0.8374149659863945,
+      "n1": 4924,
+      "n0": 956,
+      "nNA": 3753
+    },
+    "chrX": {
+      "precision": 0.7445991358617379,
+      "n1": 3102,
+      "n0": 1064,
+      "nNA": 2585
+    }
+  },
+  "feature_schema": "arcsv2-f1",
+  "label_version": "arcsv2-label-1",
+  "dataset_version": "ml0-dataset-v0",
+  "notes": {
+    "na_kept": true,
+    "blacklist_bed": "omitted (HTTP 403 on 10x svblacklist); frac_blacklist=0",
+    "coverage_ratio": "NA (BAMs deleted after S4 labeling)"
+  },
+  "paths": {
+    "parquet": "/data/ml/dataset_v0.parquet",
+    "tsv_gz": "/data/ml/dataset_v0.tsv.gz",
+    "n_input_tables": 40
+  },
+  "exclude": {
+    "column": "exclude",
+    "n_excluded": 0,
+    "samples": [],
+    "note": "HG00140 was temporarily exclude=1 due to corrupt .mmi (precision 11.9%, 2459 no_hit). Indexes rebuilt 2026-10-13; re-labeled to precision ~81.8%; exclude cleared."
+  }
+}

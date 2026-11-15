@@ -1,0 +1,106 @@
+# Per-chromosome ARC-SV2 calls, then per-sample merge.
+# Whole-genome prep: list chroms + samples in workflows/config/data.yaml
+# (or override with --configfile). chr20-only configs keep working.
+#
+# Example (container paths):
+#   snakemake -s workflows/Snakefile --configfile workflows/config/label.yaml -j 8
+
+configfile: "workflows/config/data.yaml"
+
+import math
+import os
+
+DATA = str(config.get("data_root", ".")).rstrip("/") or "."
+RESULTS = str(config.get("results_dir", "results")).rstrip("/") or "results"
+SAMPLES = list(config.get("samples") or [])
+CHROMS = list(config.get("chroms") or ["chr20"])
+
+# M4 mem_mb formula: ceil(chrom_Mb * MB_PER_MB * 1.2), floored.
+# MB_PER_MB is measured peak RSS (MB) / chrom length (Mb) from the M4 chr1
+# gate; override via config mem_mb_per_mb. Flat mem_mb still wins if set with
+# mem_mb_mode: flat (chr20 gate convenience).
+REF_FAI = str(config.get("reference", "")) + ".fai"
+CHROM_LEN_BP: dict[str, int] = {}
+if os.path.isfile(REF_FAI):
+    with open(REF_FAI, encoding="utf-8") as _fh:
+        for _line in _fh:
+            _name, _length, *_rest = _line.split("\t")
+            CHROM_LEN_BP[_name] = int(_length)
+
+# Provisional until chr1 M4 gate updates RESULTS (target ~5 GB / 248.96 Mb).
+# Measured M4 chr1 peak 7637 MB / 248.956 Mb ≈ 30.68 MB/Mb.
+MEM_MB_PER_MB = float(config.get("mem_mb_per_mb", 30.68))
+MEM_MB_FLOOR = int(config.get("mem_mb_floor", 4000))
+
+
+def data(path: str) -> str:
+    return path if DATA in (".", "") else f"{DATA}/{path}"
+
+
+def results(path: str) -> str:
+    return data(f"{RESULTS}/{path}")
+
+
+def sample_bam(sample, chrom):
+    """Prefer fetched work BAM; fall back to config bam/cram map when present."""
+    work = data(f"work/{sample}/{chrom}.bam")
+    if os.path.exists(work):
+        return work
+    bams = config.get("bam") or {}
+    if sample in bams:
+        return bams[sample]
+    crams = config.get("cram") or {}
+    if sample in crams:
+        return crams[sample]
+    return work
+
+
+def call_mem_mb(wildcards) -> int:
+    """Length-scaled mem_mb: measured MB/Mb + 20% headroom (M4)."""
+    if str(config.get("mem_mb_mode", "scaled")).lower() == "flat":
+        return int(config.get("mem_mb", 8000))
+    length = CHROM_LEN_BP.get(wildcards.chrom)
+    if length is None:
+        return int(config.get("mem_mb", 8000))
+    chrom_mb = length / 1_000_000.0
+    return max(MEM_MB_FLOOR, int(math.ceil(chrom_mb * MEM_MB_PER_MB * 1.2)))
+
+
+rule all:
+    input:
+        expand(results("{sample}/merged.tab"), sample=SAMPLES),
+
+
+rule call_chrom:
+    """One call job per (sample, chrom)."""
+    input:
+        bam=lambda wildcards: sample_bam(wildcards.sample, wildcards.chrom),
+    output:
+        results("{sample}/{chrom}/arcsv_out.tab"),
+    threads: int(config.get("threads", 4))
+    resources:
+        mem_mb=call_mem_mb,
+    params:
+        reference=config["reference"],
+        gaps=config["gaps"],
+        out=lambda wildcards: results(f"{wildcards.sample}/{wildcards.chrom}"),
+    conda:
+        "../environment.yml"
+    shell:
+        "arcsv2 call -i {input.bam:q} -R {params.reference:q} -G {params.gaps:q} "
+        "-o {params.out:q} --region {wildcards.chrom:q} --threads {threads}"
+
+
+rule merge_sample:
+    """Merge all chromosomes for one sample (chr20-only is a single-input merge)."""
+    input:
+        expand(
+            results("{{sample}}/{chrom}/arcsv_out.tab"),
+            chrom=CHROMS,
+        ),
+    output:
+        results("{sample}/merged.tab"),
+    conda:
+        "../environment.yml"
+    shell:
+        "arcsv2 merge-filter {input:q} -o {output:q}"

@@ -1,0 +1,101 @@
+=== m4 window trace start 2026-10-05T16:05:54Z ===
+{"stage": "start", "wall_s": 0.0, "rss_kb": 46844, "rss_mb": 45.7, "peak_rss_mb": 45.7}
+[m4prof:chr1     0.1s] load_bam: /data/work/HG01884/chr1.bam (engine=rust)
+[m4prof:chr1    16.3s] load_bam done: 1,233,593 alignments -> 612,791 pairs, 2173 breakpoints, 278 splits (insert_stats=611,026, engine=rust)
+{"stage": "after_load", "wall_s": 16.4, "rss_kb": 326760, "rss_mb": 319.1, "peak_rss_mb": 319.1, "n_pairs": 612791, "pairs_nbytes": 32477923, "bytes_per_pair": 53.0, "n_splits": 278, "n_extras": 2173}
+{"stage": "after_fit_libs", "wall_s": 85.4, "rss_kb": 331012, "rss_mb": 323.3, "peak_rss_mb": 323.3}
+[m4prof:chr1    85.4s] discover: scan 612,791 pairs for DRPs
+{"stage": "after_fit_libs", "wall_s": 85.6, "rss_kb": 331000, "rss_mb": 323.2, "peak_rss_mb": 323.2}
+[m4prof:chr1    85.6s] discover: scan 612,791 pairs for DRPs
+[m4prof:chr1   140.2s] discover: Del: 1,488 DRPs + 4 null reps
+[m4prof:chr1   140.8s] discover: Del: null rep 2/4
+[m4prof:chr1   141.2s] discover: Del: null rep 4/4
+[m4prof:chr1   141.2s] discover: Dup: 290 DRPs + 4 null reps
+[m4prof:chr1   141.4s] discover: Dup: null rep 2/4
+[m4prof:chr1   141.4s] discover: Dup: null rep 4/4
+[m4prof:chr1   141.4s] discover: Ins: 589 DRPs + 4 null reps
+[m4prof:chr1   141.6s] discover: Ins: null rep 2/4
+[m4prof:chr1   141.8s] discover: Ins: null rep 4/4
+[m4prof:chr1   141.8s] discover: InvL: 25 DRPs + 4 null reps
+[m4prof:chr1   141.8s] discover: InvL: null rep 2/4
+[m4prof:chr1   141.8s] discover: InvL: null rep 4/4
+[m4prof:chr1   141.8s] discover: InvR: 26 DRPs + 4 null reps
+[m4prof:chr1   141.8s] discover: InvR: null rep 2/4
+[m4prof:chr1   141.8s] discover: InvR: null rep 4/4
+[m4prof:chr1   142.4s] discover done: 1,721 breakpoints
+{"stage": "after_blocks", "wall_s": 142.5, "rss_kb": 331012, "rss_mb": 323.3, "peak_rss_mb": 323.3, "n_breakpoints": 1721, "n_blocks": 1722}
+[m4prof:chr1   142.6s] build_graph: 612,791 pairs x 1,722 blocks (rust)
+[m4prof:chr1   141.1s] discover: Del: 1,488 DRPs + 4 null reps
+[m4prof:chr1   141.7s] discover: Del: null rep 2/4
+[m4prof:chr1   142.1s] discover: Del: null rep 4/4
+[m4prof:chr1   142.2s] discover: Dup: 290 DRPs + 4 null reps
+[m4prof:chr1   142.3s] discover: Dup: null rep 2/4
+[m4prof:chr1   142.4s] discover: Dup: null rep 4/4
+[m4prof:chr1   142.4s] discover: Ins: 589 DRPs + 4 null reps
+[m4prof:chr1   142.5s] discover: Ins: null rep 2/4
+[m4prof:chr1   142.7s] discover: Ins: null rep 4/4
+[m4prof:chr1   142.7s] discover: InvL: 25 DRPs + 4 null reps
+[m4prof:chr1   142.7s] discover: InvL: null rep 2/4
+[m4prof:chr1   142.7s] discover: InvL: null rep 4/4
+[m4prof:chr1   142.7s] discover: InvR: 26 DRPs + 4 null reps
+[m4prof:chr1   142.7s] discover: InvR: null rep 2/4
+[m4prof:chr1   142.7s] discover: InvR: null rep 4/4
+[m4prof:chr1   143.3s] discover done: 1,721 breakpoints
+{"stage": "after_blocks", "wall_s": 143.4, "rss_kb": 331000, "rss_mb": 323.2, "peak_rss_mb": 323.2, "n_breakpoints": 1721, "n_blocks": 1722}
+[m4prof:chr1   143.4s] build_graph: 612,791 pairs x 1,722 blocks (rust)
+[m4prof:chr1   230.9s] build_graph done: 4,200 edges
+{"stage": "after_build_graph", "wall_s": 231.0, "rss_kb": 646136, "rss_mb": 631.0, "peak_rss_mb": 631.0, "n_edges": 4200, "n_edge_reads": 665942, "bytes_per_EdgeRead_est": 448, "EdgeRead_total_est_mb": 284.5}
+[m4prof:chr1   230.3s] build_graph done: 4,200 edges
+{"stage": "after_build_graph", "wall_s": 230.5, "rss_kb": 646936, "rss_mb": 631.8, "peak_rss_mb": 631.8, "n_edges": 4200, "n_edge_reads": 665942, "bytes_per_EdgeRead_est": 448, "EdgeRead_total_est_mb": 284.5}
+{"stage": "after_drop_pairs", "wall_s": 264.2, "rss_kb": 827728, "rss_mb": 808.3, "peak_rss_mb": 808.3, "n_edges": 4200, "n_edge_reads": 665942, "bytes_per_EdgeRead_est": 448, "EdgeRead_total_est_mb": 284.5}
+[m4prof:chr1   264.3s] insertions: test novel insertion sites
+[m4prof:chr1   264.3s] insertions: 160 candidate sites, 5 sizes, 4200 edges
+[m4prof:chr1   271.2s] insertions: 8/160 sites (2 kept)
+[m4prof:chr1   274.9s] insertions: 16/160 sites (3 kept)
+[m4prof:chr1   280.5s] insertions: 24/160 sites (3 kept)
+[m4prof:chr1   283.7s] insertions: 32/160 sites (5 kept)
+[m4prof:chr1   287.3s] insertions: 40/160 sites (5 kept)
+[m4prof:chr1   289.7s] insertions: 48/160 sites (5 kept)
+{"stage": "after_drop_pairs", "wall_s": 263.9, "rss_kb": 824692, "rss_mb": 805.4, "peak_rss_mb": 805.4, "n_edges": 4200, "n_edge_reads": 665942, "bytes_per_EdgeRead_est": 448, "EdgeRead_total_est_mb": 284.5}
+[m4prof:chr1   263.9s] insertions: test novel insertion sites
+[m4prof:chr1   263.9s] insertions: 160 candidate sites, 5 sizes, 4200 edges
+[m4prof:chr1   292.9s] insertions: 56/160 sites (5 kept)
+[m4prof:chr1   298.1s] insertions: 64/160 sites (5 kept)
+[m4prof:chr1   271.1s] insertions: 8/160 sites (2 kept)
+[m4prof:chr1   302.2s] insertions: 72/160 sites (5 kept)
+[m4prof:chr1   275.3s] insertions: 16/160 sites (3 kept)
+[m4prof:chr1   307.8s] insertions: 80/160 sites (5 kept)
+[m4prof:chr1   280.7s] insertions: 24/160 sites (3 kept)
+[m4prof:chr1   283.9s] insertions: 32/160 sites (5 kept)
+[m4prof:chr1   312.3s] insertions: 88/160 sites (5 kept)
+[m4prof:chr1   315.0s] insertions: 96/160 sites (6 kept)
+[m4prof:chr1   287.8s] insertions: 40/160 sites (5 kept)
+[m4prof:chr1   317.2s] insertions: 104/160 sites (6 kept)
+[m4prof:chr1   290.1s] insertions: 48/160 sites (5 kept)
+[m4prof:chr1   293.3s] insertions: 56/160 sites (5 kept)
+[m4prof:chr1   321.1s] insertions: 112/160 sites (6 kept)
+[m4prof:chr1   325.7s] insertions: 120/160 sites (6 kept)
+[m4prof:chr1   298.6s] insertions: 64/160 sites (5 kept)
+[m4prof:chr1   329.2s] insertions: 128/160 sites (7 kept)
+[m4prof:chr1   302.7s] insertions: 72/160 sites (5 kept)
+[m4prof:chr1   308.6s] insertions: 80/160 sites (5 kept)
+[m4prof:chr1   336.2s] insertions: 136/160 sites (8 kept)
+[m4prof:chr1   313.7s] insertions: 88/160 sites (5 kept)
+[m4prof:chr1   316.7s] insertions: 96/160 sites (6 kept)
+[m4prof:chr1   345.0s] insertions: 144/160 sites (8 kept)
+[m4prof:chr1   319.0s] insertions: 104/160 sites (6 kept)
+[m4prof:chr1   323.3s] insertions: 112/160 sites (6 kept)
+[m4prof:chr1   351.0s] insertions: 152/160 sites (8 kept)
+[m4prof:chr1   355.6s] insertions done: 8 insertions placed
+[m4prof:chr1   328.2s] insertions: 120/160 sites (6 kept)
+{"stage": "after_insertions", "wall_s": 355.7, "rss_kb": 827728, "rss_mb": 808.3, "peak_rss_mb": 808.3, "n_inserted": 8}
+{"stage": "before_genotype", "wall_s": 356.2, "rss_kb": 827728, "rss_mb": 808.3, "peak_rss_mb": 808.3, "n_loci": 304}
+[m4prof:chr1   356.3s] genotype: 304 loci
+[m4prof:chr1   332.2s] insertions: 128/160 sites (7 kept)
+[m4prof:chr1   339.8s] insertions: 136/160 sites (8 kept)
+[m4prof:chr1   348.4s] insertions: 144/160 sites (8 kept)
+[m4prof:chr1   355.1s] insertions: 152/160 sites (8 kept)
+[m4prof:chr1   359.2s] insertions done: 8 insertions placed
+{"stage": "after_insertions", "wall_s": 359.3, "rss_kb": 824692, "rss_mb": 805.4, "peak_rss_mb": 805.4, "n_inserted": 8}
+{"stage": "before_genotype", "wall_s": 359.8, "rss_kb": 824692, "rss_mb": 805.4, "peak_rss_mb": 805.4, "n_loci": 304}
+[m4prof:chr1   359.8s] genotype: 304 loci

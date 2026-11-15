@@ -1,0 +1,5 @@
+# One sample per row for: arcsv2 batch --manifest batch_run.tsv --out results/batch1
+# Columns: sample	input	[reference]
+# reference defaults to GRCh38 when omitted.
+sample	input	reference
+# HG00126	/data/samples/HG00126/reads/HG00126.cram	GRCh38

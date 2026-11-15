@@ -1,0 +1,246 @@
+reused HG01884 from results_m2
+=== NA19700 start 2026-10-05T05:13:28+00:00 ===
+[call:chr20     0.0s] start: /data/work/NA19700/chr20.bam (chr20)
+[call:chr20     0.0s] load_bam: /data/work/NA19700/chr20.bam
+[call:chr20     7.6s] load_bam: 500,000 alignments, 243,911 pairs (insert_stats=243,053, pos ~2,244,773)
+[call:chr20    14.6s] load_bam: 1,000,000 alignments, 490,875 pairs (insert_stats=489,265, pos ~4,418,409)
+[call:chr20    21.6s] load_bam: 1,500,000 alignments, 737,782 pairs (insert_stats=735,540, pos ~6,632,401)
+[call:chr20    28.3s] load_bam: 2,000,000 alignments, 985,816 pairs (insert_stats=983,049, pos ~8,968,779)
+[call:chr20    35.4s] load_bam: 2,500,000 alignments, 1,233,868 pairs (insert_stats=1,230,455, pos ~11,294,024)
+[call:chr20    42.0s] load_bam: 3,000,000 alignments, 1,481,782 pairs (insert_stats=1,477,767, pos ~13,630,803)
+[call:chr20    48.6s] load_bam: 3,500,000 alignments, 1,729,589 pairs (insert_stats=1,725,023, pos ~15,974,495)
+[call:chr20    55.2s] load_bam: 4,000,000 alignments, 1,977,059 pairs (insert_stats=1,971,803, pos ~18,264,550)
+[call:chr20    61.8s] load_bam: 4,500,000 alignments, 2,224,804 pairs (insert_stats=2,218,840, pos ~20,514,127)
+[call:chr20    68.5s] load_bam: 5,000,000 alignments, 2,472,593 pairs (insert_stats=2,465,938, pos ~22,805,996)
+[call:chr20    75.2s] load_bam: 5,500,000 alignments, 2,720,750 pairs (insert_stats=2,713,150, pos ~25,052,216)
+[call:chr20    82.6s] load_bam: 6,000,000 alignments, 2,965,526 pairs (insert_stats=2,956,661, pos ~26,705,206)
+[call:chr20    89.9s] load_bam: 6,500,000 alignments, 3,212,661 pairs (insert_stats=3,201,358, pos ~28,413,050)
+[call:chr20    98.1s] load_bam: 7,000,000 alignments, 3,445,012 pairs (insert_stats=3,430,395, pos ~29,639,298)
+[call:chr20   108.0s] load_bam: 7,500,000 alignments, 3,643,221 pairs (insert_stats=3,621,329, pos ~31,064,648)
+[call:chr20   119.3s] load_bam: 8,000,000 alignments, 3,829,144 pairs (insert_stats=3,795,447, pos ~32,218,591)
+[call:chr20   127.3s] load_bam: 8,500,000 alignments, 4,075,153 pairs (insert_stats=4,040,514, pos ~34,353,565)
+[call:chr20   134.2s] load_bam: 9,000,000 alignments, 4,321,808 pairs (insert_stats=4,286,275, pos ~36,512,179)
+[call:chr20   141.4s] load_bam: 9,500,000 alignments, 4,567,857 pairs (insert_stats=4,531,395, pos ~38,646,103)
+[call:chr20   148.5s] load_bam: 10,000,000 alignments, 4,815,767 pairs (insert_stats=4,778,504, pos ~40,876,682)
+[call:chr20   155.3s] load_bam: 10,500,000 alignments, 5,063,806 pairs (insert_stats=5,025,772, pos ~43,135,261)
+[call:chr20   162.1s] load_bam: 11,000,000 alignments, 5,310,130 pairs (insert_stats=5,271,175, pos ~45,318,089)
+[call:chr20   168.8s] load_bam: 11,500,000 alignments, 5,557,846 pairs (insert_stats=5,517,989, pos ~47,491,087)
+[call:chr20   175.7s] load_bam: 12,000,000 alignments, 5,805,439 pairs (insert_stats=5,764,192, pos ~49,617,516)
+[call:chr20   182.8s] load_bam: 12,500,000 alignments, 6,052,645 pairs (insert_stats=6,010,482, pos ~51,759,069)
+[call:chr20   189.5s] load_bam: 13,000,000 alignments, 6,299,901 pairs (insert_stats=6,256,920, pos ~53,983,588)
+[call:chr20   196.1s] load_bam: 13,500,000 alignments, 6,547,401 pairs (insert_stats=6,503,674, pos ~56,259,911)
+[call:chr20   203.4s] load_bam: 14,000,000 alignments, 6,795,055 pairs (insert_stats=6,750,365, pos ~58,434,399)
+[call:chr20   210.0s] load_bam: 14,500,000 alignments, 7,043,100 pairs (insert_stats=6,997,384, pos ~60,666,562)
+[call:chr20   217.5s] load_bam: 15,000,000 alignments, 7,290,809 pairs (insert_stats=7,243,531, pos ~62,764,274)
+[call:chr20   249.0s] load_bam done: 15,402,874 alignments -> 7,489,995 pairs, 33094 breakpoints, 4421 splits (insert_stats=7,441,328)
+[call:chr20   249.0s] loaded: 7489995 pairs, 33094 clip/split bps, 4421 splits
+[call:chr20   249.0s] fit_libs: 7,489,995 pairs
+[call:chr20   258.0s] discover: scan 7,489,995 pairs for DRPs
+[call:chr20   274.4s] discover: Del: 18,268 DRPs + 4 null reps
+[call:chr20   274.8s] discover: Del: null rep 2/4
+[call:chr20   275.2s] discover: Del: null rep 4/4
+[call:chr20   275.2s] discover: Dup: 8,965 DRPs + 4 null reps
+[call:chr20   275.6s] discover: Dup: null rep 2/4
+[call:chr20   275.7s] discover: Dup: null rep 4/4
+[call:chr20   275.7s] discover: Ins: 8,298 DRPs + 4 null reps
+[call:chr20   275.8s] discover: Ins: null rep 2/4
+[call:chr20   275.9s] discover: Ins: null rep 4/4
+[call:chr20   275.9s] discover: InvL: 514 DRPs + 4 null reps
+[call:chr20   275.9s] discover: InvL: null rep 2/4
+[call:chr20   275.9s] discover: InvL: null rep 4/4
+[call:chr20   275.9s] discover: InvR: 448 DRPs + 4 null reps
+[call:chr20   275.9s] discover: InvR: null rep 2/4
+[call:chr20   275.9s] discover: InvR: null rep 4/4
+[call:chr20   276.7s] discover done: 24,781 breakpoints
+[call:chr20   276.8s] blocks: 24,781 breakpoints -> 24,782 blocks (chrom_len=64,444,167)
+[call:chr20   352.2s] build_graph: 7,489,995 pairs × 24,782 blocks
+[call:chr20   359.3s] build_graph: 374,499/7,489,995 pairs
+[call:chr20   366.4s] build_graph: 748,998/7,489,995 pairs
+[call:chr20   373.2s] build_graph: 1,123,497/7,489,995 pairs
+[call:chr20   380.1s] build_graph: 1,497,996/7,489,995 pairs
+[call:chr20   387.1s] build_graph: 1,872,495/7,489,995 pairs
+[call:chr20   393.7s] build_graph: 2,246,994/7,489,995 pairs
+[call:chr20   400.9s] build_graph: 2,621,493/7,489,995 pairs
+[call:chr20   405.7s] build_graph: 2,995,992/7,489,995 pairs
+[call:chr20   409.8s] build_graph: 3,370,491/7,489,995 pairs
+[call:chr20   419.6s] build_graph: 3,744,990/7,489,995 pairs
+[call:chr20   426.4s] build_graph: 4,119,489/7,489,995 pairs
+[call:chr20   433.2s] build_graph: 4,493,988/7,489,995 pairs
+[call:chr20   440.6s] build_graph: 4,868,487/7,489,995 pairs
+[call:chr20   447.2s] build_graph: 5,242,986/7,489,995 pairs
+[call:chr20   454.0s] build_graph: 5,617,485/7,489,995 pairs
+[call:chr20   460.7s] build_graph: 5,991,984/7,489,995 pairs
+[call:chr20   468.5s] build_graph: 6,366,483/7,489,995 pairs
+[call:chr20   475.8s] build_graph: 6,740,982/7,489,995 pairs
+[call:chr20   483.1s] build_graph: 7,115,481/7,489,995 pairs
+[call:chr20   490.5s] build_graph: 7,489,980/7,489,995 pairs
+[call:chr20   490.6s] build_graph done: 90,853 edges
+[call:chr20   490.6s] insertions: test novel insertion sites
+[call:chr20   490.6s] insertions: 2582 candidate sites, 5 sizes, 90853 edges
+[call:chr20   492.5s] insertions: 129/2582 sites (12 kept)
+[call:chr20   493.5s] insertions: 258/2582 sites (14 kept)
+[call:chr20   494.7s] insertions: 387/2582 sites (17 kept)
+[call:chr20   496.0s] insertions: 516/2582 sites (21 kept)
+[call:chr20   497.3s] insertions: 645/2582 sites (35 kept)
+[call:chr20   500.7s] insertions: 774/2582 sites (47 kept)
+[call:chr20   502.2s] insertions: 903/2582 sites (48 kept)
+[call:chr20   507.6s] insertions: 1032/2582 sites (48 kept)
+[call:chr20   525.3s] insertions: 1161/2582 sites (48 kept)
+[call:chr20   543.3s] insertions: 1290/2582 sites (48 kept)
+[call:chr20   548.6s] insertions: 1419/2582 sites (48 kept)
+[call:chr20   550.7s] insertions: 1548/2582 sites (48 kept)
+[call:chr20   552.1s] insertions: 1677/2582 sites (57 kept)
+[call:chr20   553.8s] insertions: 1806/2582 sites (71 kept)
+[call:chr20   555.4s] insertions: 1935/2582 sites (78 kept)
+[call:chr20   558.3s] insertions: 2064/2582 sites (82 kept)
+[call:chr20   559.6s] insertions: 2193/2582 sites (87 kept)
+[call:chr20   561.4s] insertions: 2322/2582 sites (105 kept)
+[call:chr20   563.7s] insertions: 2451/2582 sites (150 kept)
+[call:chr20   565.6s] insertions: 2580/2582 sites (181 kept)
+[call:chr20   565.6s] insertions done: 181 insertions placed
+[call:chr20   566.6s] genotype: 3218 loci (of 3218 merged)
+[call:chr20   567.7s] genotype: locus 1/3218 done
+[call:chr20   567.8s] genotype: locus 25/3218 done
+[call:chr20   567.9s] genotype: locus 50/3218 done
+[call:chr20   568.0s] genotype: locus 75/3218 done
+[call:chr20   568.1s] genotype: locus 100/3218 done
+[call:chr20   568.2s] genotype: locus 125/3218 done
+[call:chr20   568.3s] genotype: locus 150/3218 done
+[call:chr20   568.4s] genotype: locus 175/3218 done
+[call:chr20   568.5s] genotype: locus 200/3218 done
+[call:chr20   568.7s] genotype: locus 225/3218 done
+[call:chr20   568.8s] genotype: locus 250/3218 done
+[call:chr20   568.9s] genotype: locus 275/3218 done
+[call:chr20   569.0s] genotype: locus 300/3218 done
+[call:chr20   569.1s] genotype: locus 325/3218 done
+[call:chr20   569.2s] genotype: locus 350/3218 done
+[call:chr20   569.3s] genotype: locus 375/3218 done
+[call:chr20   569.4s] genotype: locus 400/3218 done
+[call:chr20   569.5s] genotype: locus 425/3218 done
+[call:chr20   569.6s] genotype: locus 450/3218 done
+[call:chr20   569.7s] genotype: locus 475/3218 done
+[call:chr20   569.8s] genotype: locus 500/3218 done
+[call:chr20   569.9s] genotype: locus 525/3218 done
+[call:chr20   570.0s] genotype: locus 550/3218 done
+[call:chr20   570.1s] genotype: locus 575/3218 done
+[call:chr20   570.2s] genotype: locus 600/3218 done
+[call:chr20   570.3s] genotype: locus 625/3218 done
+[call:chr20   570.4s] genotype: locus 650/3218 done
+[call:chr20   570.5s] genotype: locus 675/3218 done
+[call:chr20   570.6s] genotype: locus 700/3218 done
+[call:chr20   570.7s] genotype: locus 725/3218 done
+[call:chr20   571.0s] genotype: locus 750/3218 done
+[call:chr20   573.0s] genotype: locus 775/3218 done
+[call:chr20   573.2s] genotype: locus 800/3218 done
+[call:chr20   573.3s] genotype: locus 825/3218 done
+[call:chr20   573.4s] genotype: locus 850/3218 done
+[call:chr20   573.7s] genotype: locus 875/3218 done
+[call:chr20   573.9s] genotype: locus 900/3218 done
+[call:chr20   574.1s] genotype: locus 925/3218 done
+[call:chr20   574.3s] genotype: locus 950/3218 done
+[call:chr20   574.5s] genotype: locus 975/3218 done
+[call:chr20   574.6s] genotype: locus 1000/3218 done
+[call:chr20   575.1s] genotype: locus 1025/3218 done
+[call:chr20   575.5s] genotype: locus 1050/3218 done
+[call:chr20   576.3s] genotype: locus 1075/3218 done
+[call:chr20   576.7s] genotype: locus 1100/3218 done
+[call:chr20   576.9s] genotype: locus 1125/3218 done
+[call:chr20   577.2s] genotype: locus 1150/3218 done
+[call:chr20   577.5s] genotype: locus 1175/3218 done
+[call:chr20   577.6s] genotype: locus 1200/3218 done
+[call:chr20   577.8s] genotype: locus 1225/3218 done
+[call:chr20   578.0s] genotype: locus 1250/3218 done
+[call:chr20   578.2s] genotype: locus 1275/3218 done
+[call:chr20   578.3s] genotype: locus 1300/3218 done
+[call:chr20   578.5s] genotype: locus 1325/3218 done
+[call:chr20   578.7s] genotype: locus 1350/3218 done
+[call:chr20   578.9s] genotype: locus 1375/3218 done
+[call:chr20   579.3s] genotype: locus 1400/3218 done
+[call:chr20   579.6s] genotype: locus 1425/3218 done
+[call:chr20   580.0s] genotype: locus 1450/3218 done
+[call:chr20   580.2s] genotype: locus 1475/3218 done
+[call:chr20   580.3s] genotype: locus 1500/3218 done
+[call:chr20   580.5s] genotype: locus 1525/3218 done
+[call:chr20   580.6s] genotype: locus 1550/3218 done
+[call:chr20   580.7s] genotype: locus 1575/3218 done
+[call:chr20   580.9s] genotype: locus 1600/3218 done
+[call:chr20   581.0s] genotype: locus 1625/3218 done
+[call:chr20   581.2s] genotype: locus 1650/3218 done
+[call:chr20   581.4s] genotype: locus 1675/3218 done
+[call:chr20   581.5s] genotype: locus 1700/3218 done
+[call:chr20   581.6s] genotype: locus 1725/3218 done
+[call:chr20   581.8s] genotype: locus 1750/3218 done
+[call:chr20   581.9s] genotype: locus 1775/3218 done
+[call:chr20   582.1s] genotype: locus 1800/3218 done
+[call:chr20   582.3s] genotype: locus 1825/3218 done
+[call:chr20   582.6s] genotype: locus 1850/3218 done
+[call:chr20   582.8s] genotype: locus 1875/3218 done
+[call:chr20   583.1s] genotype: locus 1900/3218 done
+[call:chr20   583.3s] genotype: locus 1925/3218 done
+[call:chr20   583.5s] genotype: locus 1950/3218 done
+[call:chr20   583.7s] genotype: locus 1975/3218 done
+[call:chr20   584.0s] genotype: locus 2000/3218 done
+[call:chr20   584.4s] genotype: locus 2025/3218 done
+[call:chr20   584.7s] genotype: locus 2050/3218 done
+[call:chr20   584.9s] genotype: locus 2075/3218 done
+[call:chr20   585.0s] genotype: locus 2100/3218 done
+[call:chr20   585.2s] genotype: locus 2125/3218 done
+[call:chr20   585.4s] genotype: locus 2150/3218 done
+[call:chr20   585.5s] genotype: locus 2175/3218 done
+[call:chr20   585.6s] genotype: locus 2200/3218 done
+[call:chr20   585.8s] genotype: locus 2225/3218 done
+[call:chr20   585.9s] genotype: locus 2250/3218 done
+[call:chr20   586.0s] genotype: locus 2275/3218 done
+[call:chr20   586.2s] genotype: locus 2300/3218 done
+[call:chr20   586.3s] genotype: locus 2325/3218 done
+[call:chr20   586.4s] genotype: locus 2350/3218 done
+[call:chr20   586.5s] genotype: locus 2375/3218 done
+[call:chr20   586.6s] genotype: locus 2400/3218 done
+[call:chr20   586.8s] genotype: locus 2425/3218 done
+[call:chr20   586.9s] genotype: locus 2450/3218 done
+[call:chr20   587.0s] genotype: locus 2475/3218 done
+[call:chr20   587.1s] genotype: locus 2500/3218 done
+[call:chr20   587.2s] genotype: locus 2525/3218 done
+[call:chr20   587.3s] genotype: locus 2550/3218 done
+[call:chr20   587.5s] genotype: locus 2575/3218 done
+[call:chr20   587.7s] genotype: locus 2600/3218 done
+[call:chr20   587.9s] genotype: locus 2625/3218 done
+[call:chr20   588.5s] genotype: locus 2650/3218 done
+[call:chr20   589.0s] genotype: locus 2675/3218 done
+[call:chr20   589.2s] genotype: locus 2700/3218 done
+[call:chr20   589.4s] genotype: locus 2725/3218 done
+[call:chr20   589.5s] genotype: locus 2750/3218 done
+[call:chr20   589.7s] genotype: locus 2775/3218 done
+[call:chr20   590.0s] genotype: locus 2800/3218 done
+[call:chr20   590.6s] genotype: locus 2825/3218 done
+[call:chr20   590.9s] genotype: locus 2850/3218 done
+[call:chr20   591.1s] genotype: locus 2875/3218 done
+[call:chr20   591.3s] genotype: locus 2900/3218 done
+[call:chr20   591.6s] genotype: locus 2925/3218 done
+[call:chr20   591.8s] genotype: locus 2950/3218 done
+[call:chr20   591.9s] genotype: locus 2975/3218 done
+[call:chr20   592.1s] genotype: locus 3000/3218 done
+[call:chr20   592.3s] genotype: locus 3025/3218 done
+[call:chr20   592.5s] genotype: locus 3050/3218 done
+[call:chr20   592.7s] genotype: locus 3075/3218 done
+[call:chr20   593.0s] genotype: locus 3100/3218 done
+[call:chr20   593.4s] genotype: locus 3125/3218 done
+[call:chr20   593.6s] genotype: locus 3150/3218 done
+[call:chr20   593.8s] genotype: locus 3175/3218 done
+[call:chr20   594.3s] genotype: locus 3200/3218 done
+[call:chr20   595.4s] genotype: locus 3218/3218 done
+[call:chr20   595.5s] genotype done: 342 calls
+[call:chr20   596.3s] done: 342 calls -> /data/results_gate_lean/NA19700/chr20/arcsv_out.tab
+wrote 342 calls to /data/results_gate_lean/NA19700/chr20/arcsv_out.tab
+NA19700 wall=601.5s rss_kb=2636324 rc=0
+wrote 268 merged calls to /data/results_gate_lean/NA19700/merged.tab
+=== golden fast ===
+OK fast/HG01884_2659058.merged.tab: 1 calls near 2659058 (DUP ABBC)
+OK fast/HG01884_5962348.merged.tab: 1 calls near 5962348 (DEL)
+DIFF fast/NA19700_52764531.merged.tab only_in_candidate: chr20	52764532	52764583	chr20_52755620-52765748	DUP	NA	1	52755620,52764531,52764583,52765748	0,1,1,0	ABC	ABBC	52	PASS	52764583,52764532	1,1	HET	0.500000	NA	1	1	0.83	0.83	ABC/ABC	4	52755620-52764531,52764532-52764583,52764584-52765748	52755620-52764531,52764531-52764583,52764583-52765748	clip,clip
+DIFF fast/NA19700_52764531.merged.tab only_in_golden: chr20	52764532	52764583	chr20_52755620-52765748	DUP	NA	1	52755620,52764531,52764583,52765748	0,1,1,0	ABC	ABBC	52	PASS	52764583,52764532	1,1	HET	0.500000	NA	1	1	0.96	0.96	ABC/ABC	4	52755620-52764531,52764532-52764583,52764584-52765748	52755620-52764531,52764531-52764583,52764583-52765748	clip,clip
+OK fast/HG01884_60792115.merged.tab: 1 calls near 60792115 (DUP ABBC)
+OK fast/HG01884_13358681.merged.tab: 0 calls near 13358681 (weak-DEL uncalled)
+OK fast/HG01884_23857951.merged.tab: 0 calls near 23857951 (weak-DEL uncalled)
+OK fast/HG01884_63458085.merged.tab: 0 calls near 63458085 (weak-DEL uncalled)
+FAIL fast golden check: 2 difference group(s)

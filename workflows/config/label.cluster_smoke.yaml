@@ -1,0 +1,14 @@
+# Two-sample dry-run fixture for SLURM profile tests (U5). Not real data.
+data_root: .
+reference: tests/fixtures/label-smoke/ref.fa
+gaps: tests/fixtures/label-smoke/gaps.bed
+unreliable: tests/fixtures/label-smoke/unreliable.bed
+chroms:
+  - chrSim
+samples:
+  - sim
+  - sim2
+cram:
+  sim: tests/fixtures/label-smoke/sim.cram
+  sim2: tests/fixtures/label-smoke/sim.cram
+sequential: false

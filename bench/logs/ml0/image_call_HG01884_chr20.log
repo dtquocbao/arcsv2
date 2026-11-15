@@ -1,0 +1,2 @@
+[call:chr20     0.0s] start: /data/work/HG01884/chr20.bam (chr20)
+[call:chr20     0.0s] load_bam: /data/work/HG01884/chr20.bam (engine=rust)

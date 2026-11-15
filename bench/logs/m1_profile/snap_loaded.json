@@ -1,0 +1,119 @@
+{
+  "stage": "loaded",
+  "detail": "749918 pairs, 6352 clip/split bps, 922 splits",
+  "wall_s": 804.1,
+  "rss_mb": 1763.3,
+  "tracemalloc_current_mb": 333.59,
+  "tracemalloc_peak_mb": 633.46,
+  "top10": [
+    {
+      "size_mb": 142.639,
+      "count": 1495672,
+      "traceback": [
+        "/work/scratch/m1_memory_profile.py:142",
+        "/work/python/arcsv2/samio.py:460",
+        "/work/python/arcsv2/samio.py:434",
+        "/work/python/arcsv2/samio.py:391"
+      ]
+    },
+    {
+      "size_mb": 47.085,
+      "count": 1542888,
+      "traceback": [
+        "/work/python/arcsv2/samio.py:438",
+        "/work/python/arcsv2/samio.py:300",
+        "/work/python/arcsv2/samio.py:286",
+        "/work/python/arcsv2/samio.py:224"
+      ]
+    },
+    {
+      "size_mb": 22.822,
+      "count": 747836,
+      "traceback": [
+        "/work/scratch/m1_memory_profile.py:142",
+        "/work/python/arcsv2/samio.py:460",
+        "/work/python/arcsv2/samio.py:434",
+        "/work/python/arcsv2/samio.py:395"
+      ]
+    },
+    {
+      "size_mb": 22.822,
+      "count": 747836,
+      "traceback": [
+        "/work/scratch/m1_memory_profile.py:142",
+        "/work/python/arcsv2/samio.py:460",
+        "/work/python/arcsv2/samio.py:434",
+        "/work/python/arcsv2/samio.py:393"
+      ]
+    },
+    {
+      "size_mb": 22.822,
+      "count": 747836,
+      "traceback": [
+        "/work/python/arcsv2/samio.py:460",
+        "/work/python/arcsv2/samio.py:434",
+        "/work/python/arcsv2/samio.py:404",
+        "/work/python/arcsv2/samio.py:161"
+      ]
+    },
+    {
+      "size_mb": 21.735,
+      "count": 712219,
+      "traceback": [
+        "/work/python/arcsv2/samio.py:460",
+        "/work/python/arcsv2/samio.py:434",
+        "/work/python/arcsv2/samio.py:380",
+        "/work/python/arcsv2/samio.py:201"
+      ]
+    },
+    {
+      "size_mb": 17.057,
+      "count": 558927,
+      "traceback": [
+        "/work/python/arcsv2/samio.py:460",
+        "/work/python/arcsv2/samio.py:434",
+        "/work/python/arcsv2/samio.py:402",
+        "/work/python/arcsv2/samio.py:157"
+      ]
+    },
+    {
+      "size_mb": 7.601,
+      "count": 124532,
+      "traceback": [
+        "/work/scratch/m1_memory_profile.py:142",
+        "/work/python/arcsv2/samio.py:464",
+        "/work/python/arcsv2/samio.py:367",
+        "/work/python/arcsv2/engine/evidence.py:134"
+      ]
+    },
+    {
+      "size_mb": 6.828,
+      "count": 111858,
+      "traceback": [
+        "/work/python/arcsv2/samio.py:434",
+        "/work/python/arcsv2/samio.py:407",
+        "/work/python/arcsv2/samio.py:367",
+        "/work/python/arcsv2/engine/evidence.py:134"
+      ]
+    },
+    {
+      "size_mb": 6.778,
+      "count": 111032,
+      "traceback": [
+        "/work/python/arcsv2/samio.py:434",
+        "/work/python/arcsv2/samio.py:408",
+        "/work/python/arcsv2/samio.py:367",
+        "/work/python/arcsv2/engine/evidence.py:134"
+      ]
+    }
+  ],
+  "pairs": {
+    "n_pairs": 749918,
+    "pair_obj_bytes": 56.0,
+    "pair_attr_bytes": 395.0,
+    "bytes_per_pair_est": 451.0,
+    "list_overhead_bytes": 6675480,
+    "pairs_total_est_mb": 328.93,
+    "rss_mb": 2047.6
+  }
+}

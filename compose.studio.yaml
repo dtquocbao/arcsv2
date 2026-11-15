@@ -1,0 +1,20 @@
+# Standalone Studio release (no repo checkout required).
+# Image: ghcr.io/arcsv2/arcsv2:studio (override with ARCSV2_STUDIO_IMAGE).
+#
+# docker compose -f compose.studio.yaml pull
+# docker compose -f compose.studio.yaml run --rm --service-ports studio
+
+name: arcsv2-studio
+
+services:
+  studio:
+    image: ${ARCSV2_STUDIO_IMAGE:-ghcr.io/arcsv2/arcsv2:studio}
+    working_dir: /work
+    environment:
+      ARCSV2_RESULTS: /data
+      ARCSV2_CACHE: /data/ref_cache
+    volumes:
+      - ${ARCSV2_DATA:?Set ARCSV2_DATA to your Documents/ARC-SV folder}:/data
+    ports:
+      - "8501:8501"
+    command: ["dashboard", "--results", "/data", "--host", "0.0.0.0"]

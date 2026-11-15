@@ -1,0 +1,1003 @@
+﻿Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-06 02:46:22
+  Workflow ID: 574e800c-e86e-47a2-bee3-54016726675a
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 4604ec90dafa
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: e3c11a5d7766419e63767288e2176aad
+
+Building DAG of jobs...
+MissingInputException in rule index_haps in file "/work/workflows/label.smk", line 156:
+Missing input files for rule index_haps:
+    output: /data/haps/HG03098.hap2.mmi
+    wildcards: sample=HG03098, which=hap2
+    affected files:
+        /data/haps/HG03098.hap2.fa
+===== RESTART Mon 10/05/2026 22:00:35.47 =====
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-06 03:08:49
+  Workflow ID: 1d87dcbe-7501-4c77-ad11-06034671a36a
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 7673140deb1c
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 2 --resources mem_mb=16000 --rerun-incomplete /data/haps/HG03098.hap2.mmi -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: e3c11a5d7766419e63767288e2176aad
+
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 2
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=Resource("mem_mb", 16000)
+Conda environments: ignored
+Job stats:
+job           count
+----------  -------
+index_haps        1
+total             1
+
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Oct  6 03:08:50 2026]
+localrule index_haps:
+    input: /data/haps/HG03098.hap2.fa.gz
+    output: /data/haps/HG03098.hap2.mmi
+    jobid: 0
+    reason: Missing output files: /data/haps/HG03098.hap2.mmi
+    wildcards: sample=HG03098, which=hap2
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG03098.hap2.mmi /data/haps/HG03098.hap2.fa.gz
+[M::mm_idx_gen::96.526*1.99] collected minimizers
+[M::mm_idx_gen::111.256*2.12] sorted minimizers
+[M::main::172.358*1.69] loaded/built the index for 103 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 103
+[M::mm_idx_stat::173.216*1.69] distinct minimizers: 100093506 (38.84% are singletons); average occurrences: 5.763; average spacing: 5.315; total length: 3066069042
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG03098.hap2.mmi /data/haps/HG03098.hap2.fa.gz
+[M::main] Real time: 173.435 sec; CPU: 292.359 sec; Peak RSS: 11.539 GB
+[Tue Oct  6 03:11:44 2026]
+Finished jobid: 0 (Rule: index_haps)
+1 of 1 steps (100%) done
+Complete log(s): /work/.snakemake/log/2026-10-06T030849.964126.snakemake.log
+Elapsed time: 0:02:54.260555
+===== RESTART Mon 10/05/2026 22:27:36.77 =====
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-06 04:18:17
+  Workflow ID: 18245a5e-a78f-4e29-b268-3b36b1da281f
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 436e4c78ccad
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: e3c11a5d7766419e63767288e2176aad
+
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 22
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=Resource("mem_mb", 100000)
+Conda environments: ignored
+Job stats:
+job             count
+------------  -------
+call              916
+fetch_region      850
+index_haps         80
+merge              40
+label              40
+dataset             1
+all                 1
+total            1928
+
+Select jobs to execute...
+Execute 7 jobs...
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG01884/chr10.bam, /data/work/HG01884/chr10.bam.bai
+    output: /data/results_ml0_s3/HG01884/chr10/arcsv_out.tab
+    jobid: 22
+    reason: Missing output files: /data/results_ml0_s3/HG01884/chr10/arcsv_out.tab
+    wildcards: sample=HG01884, chrom=chr10
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=4926, mem=4.93 GB, mem_mib=4698
+Shell command: arcsv2 call -i /data/work/HG01884/chr10.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01884/chr10 --region chr10 --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG00126/chrX.bam, /data/work/HG00126/chrX.bam.bai
+    output: /data/results_ml0_s3/HG00126/chrX/arcsv_out.tab
+    jobid: 148
+    reason: Missing output files: /data/results_ml0_s3/HG00126/chrX/arcsv_out.tab
+    wildcards: sample=HG00126, chrom=chrX
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=5745, mem=5.75 GB, mem_mib=5479
+Shell command: arcsv2 call -i /data/work/HG00126/chrX.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG00126/chrX --region chrX --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG01150/chrX.bam, /data/work/HG01150/chrX.bam.bai
+    output: /data/results_ml0_s3/HG01150/chrX/arcsv_out.tab
+    jobid: 98
+    reason: Missing output files: /data/results_ml0_s3/HG01150/chrX/arcsv_out.tab
+    wildcards: sample=HG01150, chrom=chrX
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=5745, mem=5.75 GB, mem_mib=5479
+Shell command: arcsv2 call -i /data/work/HG01150/chrX.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01150/chrX --region chrX --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG01150/chr10.bam, /data/work/HG01150/chr10.bam.bai
+    output: /data/results_ml0_s3/HG01150/chr10/arcsv_out.tab
+    jobid: 72
+    reason: Missing output files: /data/results_ml0_s3/HG01150/chr10/arcsv_out.tab
+    wildcards: sample=HG01150, chrom=chr10
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=4926, mem=4.93 GB, mem_mib=4698
+Shell command: arcsv2 call -i /data/work/HG01150/chr10.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01150/chr10 --region chr10 --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule call:
+    input: /data/work/HG00126/chr10.bam, /data/work/HG00126/chr10.bam.bai
+    output: /data/results_ml0_s3/HG00126/chr10/arcsv_out.tab
+    jobid: 122
+    reason: Missing output files: /data/results_ml0_s3/HG00126/chr10/arcsv_out.tab
+    wildcards: sample=HG00126, chrom=chr10
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=4926, mem=4.93 GB, mem_mib=4698
+Shell command: arcsv2 call -i /data/work/HG00126/chr10.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG00126/chr10 --region chr10 --threads 4 --engine rust
+
+[Tue Oct  6 04:18:19 2026]
+localrule fetch_region:
+    output: /data/work/HG03816/chr2.bam, /data/work/HG03816/chr2.bam.bai
+    jobid: 1657
+    reason: Missing output files: /data/work/HG03816/chr2.bam.bai, /data/work/HG03816/chr2.bam
+    wildcards: sample=HG03816, chrom=chr2
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG03816/reads/HG03816.cram chr2 | samtools sort -o /data/work/HG03816/chr2.bam
+samtools index /data/work/HG03816/chr2.bam /data/work/HG03816/chr2.bam.bai
+[E::hts_open_format] Failed to open file "/data/samples/HG03816/reads/HG03816.cram" : No such file or directory
+samtools view: failed to open "/data/samples/HG03816/reads/HG03816.cram" for reading: No such file or directory
+[W::hts_set_opt] Cannot change block size for this format
+samtools sort: failed to read header from "-"
+
+[Tue Oct  6 04:18:19 2026]
+localrule fetch_region:
+    output: /data/work/HG02055/chr16.bam, /data/work/HG02055/chr16.bam.bai
+    jobid: 185
+    reason: Missing output files: /data/work/HG02055/chr16.bam.bai, /data/work/HG02055/chr16.bam
+    wildcards: sample=HG02055, chrom=chr16
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG02055/reads/HG02055.cram chr16 | samtools sort -o /data/work/HG02055/chr16.bam
+samtools index /data/work/HG02055/chr16.bam /data/work/HG02055/chr16.bam.bai
+RuleException:
+CalledProcessError in file "/work/workflows/label.smk", line 117:
+Command 'set -euo pipefail;  samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG03816/reads/HG03816.cram chr2 | samtools sort -o /data/work/HG03816/chr2.bam
+samtools index /data/work/HG03816/chr2.bam /data/work/HG03816/chr2.bam.bai' returned non-zero exit status 1.
+[Tue Oct  6 04:18:19 2026]
+Error in rule fetch_region:
+    message: None
+    jobid: 1657
+    output: /data/work/HG03816/chr2.bam, /data/work/HG03816/chr2.bam.bai
+    shell:
+        samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG03816/reads/HG03816.cram chr2 | samtools sort -o /data/work/HG03816/chr2.bam
+samtools index /data/work/HG03816/chr2.bam /data/work/HG03816/chr2.bam.bai
+        (command exited with non-zero exit code)
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Oct  6 04:18:20 2026]
+localrule index_haps:
+    input: /data/haps/HG01346.hap2.fa.gz
+    output: /data/haps/HG01346.hap2.mmi
+    jobid: 551
+    reason: Missing output files: /data/haps/HG01346.hap2.mmi
+    wildcards: sample=HG01346, which=hap2
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG01346.hap2.mmi /data/haps/HG01346.hap2.fa.gz
+Select jobs to execute...
+[call:chr10     0.0s] start: /data/work/HG00126/chr10.bam (chr10)
+[call:chr10     0.0s] start: /data/work/HG01150/chr10.bam (chr10)
+[call:chr10     0.0s] start: /data/work/HG01884/chr10.bam (chr10)
+[call:chr10     0.1s] load_bam: /data/work/HG01884/chr10.bam (engine=rust)
+[call:chr10     0.1s] load_bam: /data/work/HG00126/chr10.bam (engine=rust)
+[call:chr10     0.1s] load_bam: /data/work/HG01150/chr10.bam (engine=rust)
+[call:chrX     0.0s] start: /data/work/HG00126/chrX.bam (chrX)
+[call:chrX     0.0s] start: /data/work/HG01150/chrX.bam (chrX)
+[call:chrX     0.0s] load_bam: /data/work/HG00126/chrX.bam (engine=rust)
+[call:chrX     0.0s] load_bam: /data/work/HG01150/chrX.bam (engine=rust)
+[M::mm_idx_gen::82.624*1.94] collected minimizers
+[M::mm_idx_gen::99.223*2.11] sorted minimizers
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[M::main::128.171*1.86] loaded/built the index for 81 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 81
+[M::mm_idx_stat::129.170*1.85] distinct minimizers: 100080141 (38.85% are singletons); average occurrences: 5.706; average spacing: 5.312; total length: 3033882538
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG01346.hap2.mmi /data/haps/HG01346.hap2.fa.gz
+[M::main] Real time: 129.572 sec; CPU: 239.801 sec; Peak RSS: 11.473 GB
+[Tue Oct  6 04:20:31 2026]
+Finished jobid: 551 (Rule: index_haps)
+1 of 1928 steps (0.1%) done
+Execute 1 jobs...
+
+[Tue Oct  6 04:20:31 2026]
+localrule index_haps:
+    input: /data/haps/NA21102.hap2.fa.gz
+    output: /data/haps/NA21102.hap2.mmi
+    jobid: 1801
+    reason: Missing output files: /data/haps/NA21102.hap2.mmi
+    wildcards: sample=NA21102, which=hap2
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/NA21102.hap2.mmi /data/haps/NA21102.hap2.fa.gz
+Select jobs to execute...
+[M::mm_idx_gen::68.678*1.80] collected minimizers
+[call:chrX   158.2s] load_bam done: 22,205,177 alignments -> 10,970,546 pairs, 27772 breakpoints, 3786 splits (insert_stats=10,935,004, engine=rust)
+[call:chrX   158.2s] loaded: 10970546 pairs, 27772 clip/split bps, 3786 splits
+[call:chrX   158.2s] fit_libs: 10,970,546 pairs
+[M::mm_idx_gen::85.276*2.03] sorted minimizers
+[M::main::119.023*1.74] loaded/built the index for 64 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 64
+[M::mm_idx_stat::119.909*1.73] distinct minimizers: 100086529 (38.84% are singletons); average occurrences: 5.703; average spacing: 5.323; total length: 3038379095
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/NA21102.hap2.mmi /data/haps/NA21102.hap2.fa.gz
+[M::main] Real time: 120.334 sec; CPU: 208.026 sec; Peak RSS: 11.486 GB
+[Tue Oct  6 04:22:32 2026]
+Finished jobid: 1801 (Rule: index_haps)
+2 of 1928 steps (0.1%) done
+Execute 1 jobs...
+
+[Tue Oct  6 04:22:32 2026]
+localrule fetch_region:
+    output: /data/work/NA20752/chr12.bam, /data/work/NA20752/chr12.bam.bai
+    jobid: 1527
+    reason: Missing output files: /data/work/NA20752/chr12.bam, /data/work/NA20752/chr12.bam.bai
+    wildcards: sample=NA20752, chrom=chr12
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/NA20752/reads/NA20752.cram chr12 | samtools sort -o /data/work/NA20752/chr12.bam
+samtools index /data/work/NA20752/chr12.bam /data/work/NA20752/chr12.bam.bai
+[E::hts_open_format] Failed to open file "/data/samples/NA20752/reads/NA20752.cram" : No such file or directory
+samtools view: failed to open "/data/samples/NA20752/reads/NA20752.cram" for reading: No such file or directory
+[W::hts_set_opt] Cannot change block size for this format
+samtools sort: failed to read header from "-"
+RuleException:
+CalledProcessError in file "/work/workflows/label.smk", line 117:
+Command 'set -euo pipefail;  samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/NA20752/reads/NA20752.cram chr12 | samtools sort -o /data/work/NA20752/chr12.bam
+samtools index /data/work/NA20752/chr12.bam /data/work/NA20752/chr12.bam.bai' returned non-zero exit status 1.
+[Tue Oct  6 04:22:32 2026]
+Error in rule fetch_region:
+    message: None
+    jobid: 1527
+    output: /data/work/NA20752/chr12.bam, /data/work/NA20752/chr12.bam.bai
+    shell:
+        samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/NA20752/reads/NA20752.cram chr12 | samtools sort -o /data/work/NA20752/chr12.bam
+samtools index /data/work/NA20752/chr12.bam /data/work/NA20752/chr12.bam.bai
+        (command exited with non-zero exit code)
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Oct  6 04:22:32 2026]
+localrule fetch_region:
+    output: /data/work/HG02572/chr6.bam, /data/work/HG02572/chr6.bam.bai
+    jobid: 315
+    reason: Missing output files: /data/work/HG02572/chr6.bam, /data/work/HG02572/chr6.bam.bai
+    wildcards: sample=HG02572, chrom=chr6
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG02572/reads/HG02572.cram chr6 | samtools sort -o /data/work/HG02572/chr6.bam
+samtools index /data/work/HG02572/chr6.bam /data/work/HG02572/chr6.bam.bai
+Select jobs to execute...
+[Tue Oct  6 04:22:49 2026]
+Finished jobid: 185 (Rule: fetch_region)
+3 of 1928 steps (0.2%) done
+Execute 1 jobs...
+
+[Tue Oct  6 04:22:50 2026]
+localrule fetch_region:
+    output: /data/work/NA19036/chr11.bam, /data/work/NA19036/chr11.bam.bai
+    jobid: 375
+    reason: Missing output files: /data/work/NA19036/chr11.bam.bai, /data/work/NA19036/chr11.bam
+    wildcards: sample=NA19036, chrom=chr11
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/NA19036/reads/NA19036.cram chr11 | samtools sort -o /data/work/NA19036/chr11.bam
+samtools index /data/work/NA19036/chr11.bam /data/work/NA19036/chr11.bam.bai
+Select jobs to execute...
+[call:chrX   221.5s] discover: scan 10,970,546 pairs for DRPs
+[call:chrX   251.7s] discover: Del: 25,916 DRPs + 4 null reps
+[call:chrX   252.1s] discover: Del: null rep 2/4
+[call:chrX   252.6s] discover: Del: null rep 4/4
+[call:chrX   252.6s] discover: Dup: 5,363 DRPs + 4 null reps
+[call:chrX   252.7s] discover: Dup: null rep 2/4
+[call:chrX   252.7s] discover: Dup: null rep 4/4
+[call:chrX   252.7s] discover: Ins: 9,328 DRPs + 4 null reps
+[call:chrX   253.3s] discover: Ins: null rep 2/4
+[call:chrX   253.5s] discover: Ins: null rep 4/4
+[call:chrX   253.5s] discover: InvL: 381 DRPs + 4 null reps
+[call:chrX   253.5s] discover: InvL: null rep 2/4
+[call:chrX   253.5s] discover: InvL: null rep 4/4
+[call:chrX   253.5s] discover: InvR: 387 DRPs + 4 null reps
+[call:chrX   253.5s] discover: InvR: null rep 2/4
+[call:chrX   253.5s] discover: InvR: null rep 4/4
+[call:chrX   253.8s] discover done: 20,821 breakpoints
+[call:chrX   254.0s] blocks: 20,821 breakpoints -> 20,822 blocks (chrom_len=156,040,895)
+[call:chrX   254.0s] build_graph: 10,970,546 pairs x 20,822 blocks (rust)
+[call:chrX   259.0s] build_graph done: 51,186 edges
+[call:chrX   259.2s] insertions: test novel insertion sites
+[call:chrX   259.2s] insertions: 1365 candidate sites, 5 sizes, 51186 edges
+[call:chrX   261.0s] insertions: 68/1365 sites (3 kept)
+[call:chrX   262.4s] insertions: 136/1365 sites (6 kept)
+[call:chrX   263.0s] load_bam done: 34,229,963 alignments -> 16,993,481 pairs, 38246 breakpoints, 4605 splits (insert_stats=16,937,624, engine=rust)
+[call:chrX   263.0s] loaded: 16993481 pairs, 38246 clip/split bps, 4605 splits
+[call:chrX   263.0s] fit_libs: 16,993,481 pairs
+[call:chrX   263.7s] insertions: 204/1365 sites (17 kept)
+[call:chrX   265.3s] insertions: 272/1365 sites (21 kept)
+[call:chrX   267.4s] insertions: 340/1365 sites (35 kept)
+[call:chrX   269.5s] insertions: 408/1365 sites (38 kept)
+[call:chrX   272.3s] insertions: 476/1365 sites (40 kept)
+[call:chrX   275.1s] insertions: 544/1365 sites (42 kept)
+[call:chrX   278.1s] insertions: 612/1365 sites (45 kept)
+[call:chrX   280.9s] insertions: 680/1365 sites (51 kept)
+[call:chrX   283.7s] insertions: 748/1365 sites (54 kept)
+[call:chrX   287.1s] insertions: 816/1365 sites (57 kept)
+[call:chrX   290.6s] insertions: 884/1365 sites (61 kept)
+[call:chrX   294.2s] insertions: 952/1365 sites (66 kept)
+[call:chrX   297.1s] insertions: 1020/1365 sites (67 kept)
+[call:chrX   299.9s] insertions: 1088/1365 sites (72 kept)
+[call:chrX   303.0s] insertions: 1156/1365 sites (75 kept)
+[call:chrX   306.8s] insertions: 1224/1365 sites (80 kept)
+[call:chrX   310.1s] insertions: 1292/1365 sites (81 kept)
+[call:chrX   314.2s] insertions: 1360/1365 sites (86 kept)
+[call:chrX   314.4s] insertions done: 86 insertions placed
+[call:chrX   315.8s] genotype: 2931 loci (of 2931 merged)
+[call:chrX   316.2s] genotype: locus 1/2931 done
+[call:chrX   319.3s] genotype: locus 25/2931 done
+[call:chrX   320.5s] genotype: locus 50/2931 done
+[call:chrX   321.5s] genotype: locus 75/2931 done
+[call:chrX   322.3s] genotype: locus 100/2931 done
+[call:chrX   326.3s] genotype: locus 125/2931 done
+[call:chrX   328.1s] genotype: locus 150/2931 done
+[call:chrX   331.4s] genotype: locus 175/2931 done
+[call:chrX   333.2s] genotype: locus 200/2931 done
+[call:chrX   334.2s] genotype: locus 225/2931 done
+[call:chrX   335.7s] genotype: locus 250/2931 done
+[call:chrX   337.1s] genotype: locus 275/2931 done
+[call:chrX   338.1s] genotype: locus 300/2931 done
+[call:chrX   339.2s] genotype: locus 325/2931 done
+[call:chrX   340.0s] genotype: locus 350/2931 done
+[call:chrX   340.6s] genotype: locus 375/2931 done
+[call:chrX   341.7s] genotype: locus 400/2931 done
+[call:chrX   342.7s] genotype: locus 425/2931 done
+[call:chrX   343.5s] genotype: locus 450/2931 done
+[call:chrX   344.4s] genotype: locus 475/2931 done
+[call:chrX   344.9s] genotype: locus 500/2931 done
+[call:chrX   345.5s] genotype: locus 525/2931 done
+[call:chrX   346.0s] genotype: locus 550/2931 done
+[call:chrX   346.8s] genotype: locus 575/2931 done
+[call:chrX   347.3s] genotype: locus 600/2931 done
+[call:chrX   348.0s] genotype: locus 625/2931 done
+[call:chrX   348.5s] genotype: locus 650/2931 done
+[call:chrX   349.1s] genotype: locus 675/2931 done
+[call:chrX   349.7s] genotype: locus 700/2931 done
+[call:chrX   350.3s] genotype: locus 725/2931 done
+[call:chrX   350.9s] genotype: locus 750/2931 done
+[call:chrX   351.4s] genotype: locus 775/2931 done
+[call:chrX   351.8s] genotype: locus 800/2931 done
+[call:chrX   352.4s] genotype: locus 825/2931 done
+[call:chrX   352.9s] genotype: locus 850/2931 done
+[call:chrX   353.5s] genotype: locus 875/2931 done
+[call:chrX   354.0s] genotype: locus 900/2931 done
+[call:chrX   354.5s] genotype: locus 925/2931 done
+[call:chrX   355.3s] genotype: locus 950/2931 done
+[call:chrX   356.0s] genotype: locus 975/2931 done
+[call:chrX   356.7s] genotype: locus 1000/2931 done
+[call:chrX   357.3s] genotype: locus 1025/2931 done
+[call:chrX   357.9s] genotype: locus 1050/2931 done
+[call:chrX   358.6s] genotype: locus 1075/2931 done
+[call:chrX   359.3s] genotype: locus 1100/2931 done
+[call:chrX   360.2s] genotype: locus 1125/2931 done
+[call:chrX   361.1s] genotype: locus 1150/2931 done
+[call:chrX   361.6s] genotype: locus 1175/2931 done
+[call:chrX   362.5s] genotype: locus 1200/2931 done
+[call:chrX   362.6s] discover: scan 16,993,481 pairs for DRPs
+[call:chrX   363.3s] genotype: locus 1225/2931 done
+[call:chrX   364.1s] genotype: locus 1250/2931 done
+[call:chrX   364.8s] genotype: locus 1275/2931 done
+[call:chrX   365.5s] genotype: locus 1300/2931 done
+[call:chrX   366.0s] genotype: locus 1325/2931 done
+[call:chrX   366.7s] genotype: locus 1350/2931 done
+[call:chrX   367.4s] genotype: locus 1375/2931 done
+[call:chrX   368.0s] genotype: locus 1400/2931 done
+[call:chrX   368.6s] genotype: locus 1425/2931 done
+[call:chrX   369.1s] genotype: locus 1450/2931 done
+[call:chrX   369.7s] genotype: locus 1475/2931 done
+[call:chrX   370.2s] genotype: locus 1500/2931 done
+[call:chrX   370.8s] genotype: locus 1525/2931 done
+[call:chrX   371.8s] genotype: locus 1550/2931 done
+[call:chrX   372.8s] genotype: locus 1575/2931 done
+[call:chrX   374.0s] genotype: locus 1600/2931 done
+[call:chrX   375.0s] genotype: locus 1625/2931 done
+[call:chrX   377.0s] genotype: locus 1650/2931 done
+[call:chrX   377.8s] genotype: locus 1675/2931 done
+[call:chrX   378.6s] genotype: locus 1700/2931 done
+[call:chrX   379.1s] genotype: locus 1725/2931 done
+[call:chrX   379.6s] genotype: locus 1750/2931 done
+[call:chrX   380.3s] genotype: locus 1775/2931 done
+[call:chrX   380.8s] genotype: locus 1800/2931 done
+[call:chrX   381.4s] genotype: locus 1825/2931 done
+[call:chrX   382.1s] genotype: locus 1850/2931 done
+[call:chrX   382.7s] genotype: locus 1875/2931 done
+[call:chrX   383.2s] genotype: locus 1900/2931 done
+[call:chrX   383.9s] genotype: locus 1925/2931 done
+[call:chrX   384.5s] genotype: locus 1950/2931 done
+[call:chrX   385.2s] genotype: locus 1975/2931 done
+[call:chrX   385.6s] genotype: locus 2000/2931 done
+[call:chrX   386.3s] genotype: locus 2025/2931 done
+[call:chrX   386.9s] genotype: locus 2050/2931 done
+[call:chrX   387.7s] genotype: locus 2075/2931 done
+[call:chrX   388.4s] genotype: locus 2100/2931 done
+[call:chrX   389.1s] genotype: locus 2125/2931 done
+[call:chrX   389.7s] genotype: locus 2150/2931 done
+[call:chrX   390.3s] genotype: locus 2175/2931 done
+[call:chrX   391.1s] genotype: locus 2200/2931 done
+[call:chrX   391.6s] genotype: locus 2225/2931 done
+[call:chrX   392.0s] genotype: locus 2250/2931 done
+[call:chrX   392.5s] genotype: locus 2275/2931 done
+[call:chrX   393.2s] genotype: locus 2300/2931 done
+[call:chrX   393.6s] genotype: locus 2325/2931 done
+[call:chrX   394.1s] genotype: locus 2350/2931 done
+[call:chrX   394.7s] genotype: locus 2375/2931 done
+[call:chrX   395.4s] genotype: locus 2400/2931 done
+[call:chrX   395.9s] genotype: locus 2425/2931 done
+[call:chrX   396.5s] genotype: locus 2450/2931 done
+[call:chrX   397.2s] genotype: locus 2475/2931 done
+[call:chrX   397.8s] genotype: locus 2500/2931 done
+[call:chrX   398.6s] genotype: locus 2525/2931 done
+[call:chrX   399.2s] genotype: locus 2550/2931 done
+[call:chrX   399.8s] genotype: locus 2575/2931 done
+[call:chrX   400.8s] genotype: locus 2600/2931 done
+[call:chrX   401.6s] genotype: locus 2625/2931 done
+[call:chrX   402.4s] genotype: locus 2650/2931 done
+[call:chrX   403.2s] genotype: locus 2675/2931 done
+[call:chrX   403.9s] genotype: locus 2700/2931 done
+[call:chrX   404.5s] genotype: locus 2725/2931 done
+[call:chrX   405.3s] genotype: locus 2750/2931 done
+[call:chrX   406.2s] genotype: locus 2775/2931 done
+[call:chrX   407.1s] genotype: locus 2800/2931 done
+[call:chrX   408.2s] genotype: locus 2825/2931 done
+[call:chrX   409.0s] genotype: locus 2850/2931 done
+[call:chrX   410.0s] genotype: locus 2875/2931 done
+[call:chrX   410.8s] genotype: locus 2900/2931 done
+
+===== SNIP: middle omitted; full log in release asset =====
+
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:51:04
+  Workflow ID: bd264634-4d83-4923-af93-c34855a15a8c
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:51:22Z elapsed_s=19
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:51:24
+  Workflow ID: 34bf8771-865b-4257-8d7f-41d1bb4b88f8
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:51:43Z elapsed_s=20
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:51:44
+  Workflow ID: 5dd49ec6-2fe2-4ba4-b84d-d22338aa0cc2
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:52:06Z elapsed_s=22
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:52:07
+  Workflow ID: f82187c1-6342-4e01-b27a-0cdc70bfb86b
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:52:27Z elapsed_s=20
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:52:28
+  Workflow ID: 6f0e401a-9d9a-4692-9990-6ca637b18457
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:52:47Z elapsed_s=20
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:52:48
+  Workflow ID: daf0d80a-5ec5-4399-9f5e-a01d2342f682
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:53:10Z elapsed_s=23
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:53:11
+  Workflow ID: faa4dde2-f8bc-4a4a-8f7e-81ed9886fa10
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:53:31Z elapsed_s=20
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:53:32
+  Workflow ID: 86f7b04c-f34a-405c-9ff3-148ea35fe579
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:53:51Z elapsed_s=19
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:53:52
+  Workflow ID: 0df1474c-5e28-4013-b662-13d3a1d389e5
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:54:14Z elapsed_s=22
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:54:16
+  Workflow ID: 4a7939d3-da5a-4ed6-82a8-bdc4655c93de
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:54:35Z elapsed_s=20
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:54:36
+  Workflow ID: f2ce4649-a330-42cb-9ac2-83a2b2ae0c4e
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:54:56Z elapsed_s=21
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:54:57
+  Workflow ID: c952ae11-9aae-4dd5-8e63-755273615cf3
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:55:19Z elapsed_s=23
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:55:20
+  Workflow ID: 1372916d-4d40-4005-9ebc-fd1cf964b0e9
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:55:41Z elapsed_s=21
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:55:42
+  Workflow ID: 65f351bc-791f-41db-8bce-9b810de95523
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:56:01Z elapsed_s=20
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:56:02
+  Workflow ID: e0c5a96f-681f-4880-8f9e-e23ea48c556f
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:56:25Z elapsed_s=23
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:56:26
+  Workflow ID: 4eb827cb-c7e2-4adc-90da-85fb4a2874d6
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:56:49Z elapsed_s=23
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:56:50
+  Workflow ID: db897de8-acc9-4827-8733-250354a8316a
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Report created.
+END_S4 2026-10-12T23:57:34Z elapsed_s=44
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-12 23:57:35
+  Workflow ID: 8eb79723-8896-4968-918a-87e8ea64cd3d
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 8f68ccbcae60
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --keep-going --report /work/bench/logs/ml0/s4_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: 19e17652a15c3363816c24c60f94f3ce
+
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Building DAG of jobs...
+Creating report...
+Missing metadata for file /data/work/HG01884/chr1.bam. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.
+Missing metadata for file /data/work/HG01884/chr1.bam.bai. Maybe metadata was deleted or it was created using an older version of Snakemake. This is a non critical warning.

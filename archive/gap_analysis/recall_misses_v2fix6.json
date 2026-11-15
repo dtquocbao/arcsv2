@@ -1,0 +1,532 @@
+{
+  "summary": {
+    "orig_tp_total": 243,
+    "missed_vs_v2_tp": 75,
+    "no_call_within_2kb": 55,
+    "in_locus": 40,
+    "in_ok_2_3_paths": 39,
+    "no_locus": 15
+  },
+  "per_sample": {
+    "HG01884": {
+      "orig_tp": 128,
+      "v2_tp": 98,
+      "missed_vs_v2_tp": 39,
+      "no_call_within_2kb": 27,
+      "in_ok_locus_2_3_paths": 21,
+      "in_any_locus": 21,
+      "no_locus": 6,
+      "graph_log": "/data/results_v2fix6/HG01884/chr20/graph_log.txt"
+    },
+    "NA19700": {
+      "orig_tp": 115,
+      "v2_tp": 84,
+      "missed_vs_v2_tp": 36,
+      "no_call_within_2kb": 28,
+      "in_ok_locus_2_3_paths": 18,
+      "in_any_locus": 19,
+      "no_locus": 9,
+      "graph_log": "/data/results_v2fix6/NA19700/chr20/graph_log.txt"
+    }
+  },
+  "dump_pick": [
+    {
+      "sample": "HG01884",
+      "svtype": "DEL",
+      "sv_class": "deletion",
+      "start": 613786,
+      "end": 613840,
+      "gt": "HOM",
+      "sr": 21,
+      "pe": 0,
+      "len_affected": 54,
+      "rearr": "AC",
+      "reference": "ABC",
+      "num_paths_orig": 2,
+      "locus": {
+        "lo": 610416,
+        "hi": 628873,
+        "status": "ok",
+        "n_paths": 2,
+        "mes_extra": 0
+      }
+    },
+    {
+      "sample": "HG01884",
+      "svtype": "DUP",
+      "sv_class": "duplication",
+      "start": 5644313,
+      "end": 5644364,
+      "gt": "HET",
+      "sr": 14,
+      "pe": 0,
+      "len_affected": 51,
+      "rearr": "ABBC",
+      "reference": "ABC",
+      "num_paths_orig": 7,
+      "locus": {
+        "lo": 5640057,
+        "hi": 5646304,
+        "status": "ok",
+        "n_paths": 3,
+        "mes_extra": 0
+      }
+    },
+    {
+      "sample": "HG01884",
+      "svtype": "DEL",
+      "sv_class": "deletion",
+      "start": 9168924,
+      "end": 9168977,
+      "gt": "HET",
+      "sr": 9,
+      "pe": 0,
+      "len_affected": 53,
+      "rearr": "AC",
+      "reference": "ABC",
+      "num_paths_orig": 2,
+      "locus": {
+        "lo": 9165835,
+        "hi": 9172618,
+        "status": "ok",
+        "n_paths": 2,
+        "mes_extra": 0
+      }
+    },
+    {
+      "sample": "HG01884",
+      "svtype": "DEL",
+      "sv_class": "deletion",
+      "start": 50452086,
+      "end": 50452147,
+      "gt": "HET",
+      "sr": 15,
+      "pe": 0,
+      "len_affected": 61,
+      "rearr": "AC",
+      "reference": "ABC",
+      "num_paths_orig": 4,
+      "locus": {
+        "lo": 50450710,
+        "hi": 50454472,
+        "status": "ok",
+        "n_paths": 3,
+        "mes_extra": 0
+      }
+    },
+    {
+      "sample": "NA19700",
+      "svtype": "DEL",
+      "sv_class": "deletion",
+      "start": 9168924,
+      "end": 9168977,
+      "gt": "HOM",
+      "sr": 13,
+      "pe": 0,
+      "len_affected": 53,
+      "rearr": "AC",
+      "reference": "ABC",
+      "num_paths_orig": 2,
+      "locus": {
+        "lo": 9165835,
+        "hi": 9172618,
+        "status": "ok",
+        "n_paths": 2,
+        "mes_extra": 0
+      }
+    },
+    {
+      "sample": "NA19700",
+      "svtype": "DEL",
+      "sv_class": "deletion",
+      "start": 9716117,
+      "end": 9716171,
+      "gt": "HOM",
+      "sr": 10,
+      "pe": 0,
+      "len_affected": 54,
+      "rearr": "AC",
+      "reference": "ABC",
+      "num_paths_orig": 2,
+      "locus": {
+        "lo": 9690770,
+        "hi": 9725344,
+        "status": "ok",
+        "n_paths": 2,
+        "mes_extra": 0
+      }
+    },
+    {
+      "sample": "NA19700",
+      "svtype": "DEL",
+      "sv_class": "deletion",
+      "start": 53500266,
+      "end": 53500342,
+      "gt": "HET",
+      "sr": 9,
+      "pe": 0,
+      "len_affected": 76,
+      "rearr": "AC",
+      "reference": "ABC",
+      "num_paths_orig": 2,
+      "locus": {
+        "lo": 53499422,
+        "hi": 53501496,
+        "status": "ok",
+        "n_paths": 2,
+        "mes_extra": 0
+      }
+    },
+    {
+      "sample": "HG01884",
+      "svtype": "DUP",
+      "sv_class": "duplication",
+      "start": 30602119,
+      "end": 30602182,
+      "gt": "HET",
+      "sr": 8,
+      "pe": 0,
+      "len_affected": 63,
+      "rearr": "ABBC",
+      "reference": "ABC",
+      "num_paths_orig": 4,
+      "locus": {
+        "lo": 30599883,
+        "hi": 30621650,
+        "status": "ok",
+        "n_paths": 3,
+        "mes_extra": 0
+      }
+    },
+    {
+      "sample": "NA19700",
+      "svtype": "DEL",
+      "sv_class": "deletion",
+      "start": 46420064,
+      "end": 46420127,
+      "gt": "HET",
+      "sr": 8,
+      "pe": 0,
+      "len_affected": 63,
+      "rearr": "AC",
+      "reference": "ABC",
+      "num_paths_orig": 2,
+      "locus": {
+        "lo": 46413429,
+        "hi": 46437265,
+        "status": "ok",
+        "n_paths": 2,
+        "mes_extra": 0
+      }
+    },
+    {
+      "sample": "HG01884",
+      "svtype": "DUP",
+      "sv_class": "duplication",
+      "start": 11021371,
+      "end": 11021437,
+      "gt": "HET",
+      "sr": 8,
+      "pe": 0,
+      "len_affected": 66,
+      "rearr": "ABBC",
+      "reference": "ABC",
+      "num_paths_orig": 4,
+      "locus": {
+        "lo": 11004830,
+        "hi": 11028694,
+        "status": "ok",
+        "n_paths": 3,
+        "mes_extra": 0
+      }
+    }
+  ],
+  "dump_results": [
+    {
+      "sample": "HG01884",
+      "event": "613786-613840",
+      "svtype": "DEL",
+      "orig_len": 54,
+      "emitted_near": 0,
+      "verdict": "min_affected_length_drop",
+      "called": "ACD/ACD",
+      "score_vs_ref": 6.56,
+      "len_affected": 47,
+      "n_paths": 2,
+      "status": "ok",
+      "simple": "DEL"
+    },
+    {
+      "sample": "HG01884",
+      "event": "5644313-5644364",
+      "svtype": "DUP",
+      "orig_len": 51,
+      "emitted_near": 0,
+      "verdict": "genotype_prefers_ref",
+      "called": "ABCD/ABCD",
+      "score_vs_ref": 0.0,
+      "len_affected": 0,
+      "n_paths": 3,
+      "status": "ok",
+      "simple": null
+    },
+    {
+      "sample": "HG01884",
+      "event": "9168924-9168977",
+      "svtype": "DEL",
+      "orig_len": 53,
+      "emitted_near": 0,
+      "verdict": "min_affected_length_drop",
+      "called": "AC/AC",
+      "score_vs_ref": 5.32,
+      "len_affected": 48,
+      "n_paths": 2,
+      "status": "ok",
+      "simple": "DEL"
+    },
+    {
+      "sample": "HG01884",
+      "event": "50452086-50452147",
+      "svtype": "DEL",
+      "orig_len": 61,
+      "emitted_near": 0,
+      "verdict": "would_emit_but_not_in_full_chr20",
+      "called": "AD/AD",
+      "score_vs_ref": 39.34,
+      "len_affected": 259,
+      "n_paths": 3,
+      "status": "ok",
+      "simple": "DEL"
+    },
+    {
+      "sample": "NA19700",
+      "event": "9168924-9168977",
+      "svtype": "DEL",
+      "orig_len": 53,
+      "emitted_near": 0,
+      "verdict": "min_affected_length_drop",
+      "called": "AC/AC",
+      "score_vs_ref": 5.44,
+      "len_affected": 48,
+      "n_paths": 2,
+      "status": "ok",
+      "simple": "DEL"
+    },
+    {
+      "sample": "NA19700",
+      "event": "9716117-9716171",
+      "svtype": "DEL",
+      "orig_len": 54,
+      "emitted_near": 0,
+      "verdict": "min_affected_length_drop",
+      "called": "AC/AC",
+      "score_vs_ref": 5.3,
+      "len_affected": 45,
+      "n_paths": 2,
+      "status": "ok",
+      "simple": "DEL"
+    },
+    {
+      "sample": "NA19700",
+      "event": "53500266-53500342",
+      "svtype": "DEL",
+      "orig_len": 76,
+      "emitted_near": 0,
+      "verdict": "min_affected_length_drop",
+      "called": "AC/AC",
+      "score_vs_ref": 8.27,
+      "len_affected": 39,
+      "n_paths": 2,
+      "status": "ok",
+      "simple": "DEL"
+    },
+    {
+      "sample": "HG01884",
+      "event": "30602119-30602182",
+      "svtype": "DUP",
+      "orig_len": 63,
+      "emitted_near": 0,
+      "verdict": "genotype_prefers_ref",
+      "called": "ABC/ABC",
+      "score_vs_ref": 0.0,
+      "len_affected": 0,
+      "n_paths": 3,
+      "status": "ok",
+      "simple": null
+    },
+    {
+      "sample": "NA19700",
+      "event": "46420064-46420127",
+      "svtype": "DEL",
+      "orig_len": 63,
+      "emitted_near": 0,
+      "verdict": "min_affected_length_drop",
+      "called": "AC/AC",
+      "score_vs_ref": 6.94,
+      "len_affected": 41,
+      "n_paths": 2,
+      "status": "ok",
+      "simple": "DEL"
+    },
+    {
+      "sample": "HG01884",
+      "event": "11021371-11021437",
+      "svtype": "DUP",
+      "orig_len": 66,
+      "emitted_near": 0,
+      "verdict": "genotype_prefers_ref",
+      "called": "ABC/ABC",
+      "score_vs_ref": 0.0,
+      "len_affected": 0,
+      "n_paths": 3,
+      "status": "ok",
+      "simple": null
+    }
+  ],
+  "nolocus_results": [
+    {
+      "sample": "NA19700",
+      "event": "52764531-52764583",
+      "svtype": "DUP",
+      "orig_len": 52,
+      "n_covering": 2,
+      "n_near": 2,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "NA19700",
+      "event": "18675742-18675855",
+      "svtype": "DUP",
+      "orig_len": 113,
+      "n_covering": 3,
+      "n_near": 4,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "HG01884",
+      "event": "40558523-40558662",
+      "svtype": "DUP",
+      "orig_len": 139,
+      "n_covering": 2,
+      "n_near": 2,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "NA19700",
+      "event": "19154873-19154926",
+      "svtype": "DEL",
+      "orig_len": 53,
+      "n_covering": 2,
+      "n_near": 2,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "NA19700",
+      "event": "22505500-22505590",
+      "svtype": "DEL",
+      "orig_len": 90,
+      "n_covering": 2,
+      "n_near": 3,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "HG01884",
+      "event": "9766428-9766522",
+      "svtype": "DEL",
+      "orig_len": 94,
+      "n_covering": 4,
+      "n_near": 6,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "NA19700",
+      "event": "764431-764539",
+      "svtype": "DUP",
+      "orig_len": 108,
+      "n_covering": 2,
+      "n_near": 2,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "NA19700",
+      "event": "57091008-57091145",
+      "svtype": "DUP",
+      "orig_len": 137,
+      "n_covering": 2,
+      "n_near": 6,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "HG01884",
+      "event": "62270772-62270914",
+      "svtype": "DEL",
+      "orig_len": 142,
+      "n_covering": 2,
+      "n_near": 2,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "NA19700",
+      "event": "60600137-60600290",
+      "svtype": "DUP",
+      "orig_len": 153,
+      "n_covering": 2,
+      "n_near": 2,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "HG01884",
+      "event": "62961107-62961290",
+      "svtype": "DEL",
+      "orig_len": 183,
+      "n_covering": 1,
+      "n_near": 1,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "HG01884",
+      "event": "6270517-6270720",
+      "svtype": "DUP",
+      "orig_len": 203,
+      "n_covering": 3,
+      "n_near": 3,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "NA19700",
+      "event": "6270517-6270720",
+      "svtype": "DUP",
+      "orig_len": 203,
+      "n_covering": 2,
+      "n_near": 2,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "NA19700",
+      "event": "53204081-53204287",
+      "svtype": "DUP",
+      "orig_len": 206,
+      "n_covering": 2,
+      "n_near": 2,
+      "verdict": "breakpoint_present_no_locus"
+    },
+    {
+      "sample": "HG01884",
+      "event": "64090911-64091153",
+      "svtype": "DEL",
+      "orig_len": 242,
+      "n_covering": 0,
+      "n_near": 0,
+      "verdict": "missing_breakpoint"
+    }
+  ],
+  "dump_counts": {
+    "min_affected_length_drop": 6,
+    "genotype_prefers_ref": 3,
+    "would_emit_but_not_in_full_chr20": 1
+  },
+  "nolocus_counts": {
+    "breakpoint_present_no_locus": 14,
+    "missing_breakpoint": 1
+  }
+}

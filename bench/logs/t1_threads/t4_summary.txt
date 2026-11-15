@@ -1,0 +1,1 @@
+threads=4 {'load_s': 43.4, 'block_prep_s': 5.5, 'build_graph_s': None, 'insertions_s': None, 'genotype_s': None, 'total_s': 135.5, 'exit': 0}

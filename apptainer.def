@@ -1,0 +1,45 @@
+# Apptainer/Singularity image for HPC (U5). Clusters often disallow Docker.
+#
+# Build on a machine with Docker (recommended):
+#   docker build -t arcsv2:dev .
+#   apptainer build arcsv2.sif docker-daemon://arcsv2:dev
+#
+# Or build this def on a login node (needs network + ~30 min):
+#   apptainer build --fakeroot arcsv2.sif apptainer.def
+#
+# Run:
+#   apptainer exec arcsv2.sif arcsv2 --version
+
+Bootstrap: docker
+From: mambaorg/micromamba:2.0.5
+
+%labels
+    Author arcsv2
+    Version 0.1.0
+
+%environment
+    export PATH="/opt/conda/bin:$PATH"
+    export OPENSSL_NO_VENDOR=1
+    export PKG_CONFIG_PATH=/opt/conda/lib/pkgconfig
+    export LIBCLANG_PATH=/opt/conda/lib
+
+%post
+    cp -a /opt/arcsv2-src /opt/arcsv2
+    # Build with: apptainer build --bind $PWD:/opt/arcsv2-src arcsv2.sif apptainer.def
+    micromamba install -y -n base -f /opt/arcsv2/environment.yml
+    micromamba run -n base pip install --no-cache-dir "/opt/arcsv2[dev]"
+    micromamba run -n base env OPENSSL_NO_VENDOR=1 \
+        PKG_CONFIG_PATH=/opt/conda/lib/pkgconfig \
+        LIBCLANG_PATH=/opt/conda/lib \
+        PATH=/opt/conda/bin:$PATH \
+        maturin build --release -m /opt/arcsv2/native/arcsv2-native/Cargo.toml -o /tmp/wheels
+    micromamba run -n base pip install --no-cache-dir /tmp/wheels/arcsv2_native-*.whl
+    rm -rf /tmp/wheels
+    mkdir -p /data /work
+    printf 'export PATH="/opt/conda/bin:$PATH"\n' > /etc/profile.d/conda-path.sh
+
+%runscript
+    exec arcsv2 "$@"
+
+%help
+    ARC-SV2 caller container. Bind /data and your repo checkout to /work.

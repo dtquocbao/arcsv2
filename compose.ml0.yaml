@@ -1,0 +1,31 @@
+# ML-0 frozen runtime. All S3/S4 (and later ML-0) runs must use image arcsv2:ml0.
+# Built from the same Dockerfile as arcsv2:dev at tag caller-v1.6.1 (AF.6f + native).
+#
+# Usage:
+#   docker compose -f compose.yaml -f compose.ml0.yaml --profile cli run --rm cli ...
+#   docker compose -f compose.yaml -f compose.ml0.yaml up -d dev
+#
+# Rebuild / retag after a caller cut:
+#   docker compose build cli
+#   docker tag arcsv2:dev arcsv2:ml0
+# Or: docker compose -f compose.yaml build --build-arg unused=1 cli && docker tag arcsv2:dev arcsv2:ml0
+#
+# Note: compose still bind-mounts .:/work with PYTHONPATH=/work/python, so host
+# checkout edits can override baked Python. For true freeze, unset PYTHONPATH or
+# run with -e PYTHONPATH= so /opt/arcsv2 (image) is used. Native wheel is always
+# from the image site-packages.
+
+name: arcsv2
+
+x-ml0: &ml0
+  image: arcsv2:ml0
+
+services:
+  cli:
+    <<: *ml0
+  dashboard:
+    <<: *ml0
+  dev:
+    <<: *ml0
+  init-data:
+    <<: *ml0

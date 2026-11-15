@@ -1,0 +1,83 @@
+{
+  "sample": "HG00140",
+  "meta": {
+    "sample": "HG00140",
+    "population": "GBR",
+    "superpopulation": "EUR",
+    "sex": "male",
+    "family_id": "HG00140",
+    "cram_url": "https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/data/ERR3240146/HG00140.final.cram",
+    "crai_url": "https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/data/ERR3240146/HG00140.final.cram.crai",
+    "hap1_url": "https://human-pangenomics.s3.amazonaws.com/working/HPRC/HG00140/assemblies/release2/HG00140_hap1_hprc_r2_v1.0.1.fa.gz",
+    "hap2_url": "https://human-pangenomics.s3.amazonaws.com/working/HPRC/HG00140/assemblies/release2/HG00140_hap2_hprc_r2_v1.0.1.fa.gz",
+    "cram_checksum": "md5:962736512a6152b079672a0dba7e7085",
+    "crai_checksum": "none",
+    "hap1_checksum": "md5:7c32c465661ea7961357baafe559c98e",
+    "hap2_checksum": "md5:63351173324e61bbd640cbe45fb452d2"
+  },
+  "hap1_md5_ok": true,
+  "hap2_md5_ok": true,
+  "label_stats": {
+    "n": 4670,
+    "labels": {
+      "NA": 1604,
+      "0": 2701,
+      "1": 365
+    },
+    "reasons": {
+      "no_sequence": 1598,
+      "low_identity": 67,
+      "validated": 365,
+      "low_mapq": 24,
+      "large_gap": 6,
+      "clipped": 145,
+      "no_hit": 2459,
+      "ambiguous": 6
+    },
+    "precision": 0.11904761904761904
+  },
+  "hap1_headers": [
+    ">HG00140#1#CM087108.1",
+    ">HG00140#1#CM087109.1",
+    ">HG00140#1#CM087110.1",
+    ">HG00140#1#CM087111.1",
+    ">HG00140#1#CM087112.1",
+    ">HG00140#1#CM087113.1",
+    ">HG00140#1#CM087114.1",
+    ">HG00140#1#CM087115.1",
+    ">HG00140#1#CM087116.1",
+    ">HG00140#1#CM087117.1",
+    ">HG00140#1#CM087118.1",
+    ">HG00140#1#CM087119.1",
+    ">HG00140#1#CM087120.1",
+    ">HG00140#1#CM087121.1",
+    ">HG00140#1#JBHDVY010000001.1",
+    ">HG00140#1#JBHDVY010000003.1",
+    ">HG00140#1#JBHDVY010000005.1",
+    ">HG00140#1#JBHDVY010000009.1",
+    ">HG00140#1#JBHDVY010000011.1",
+    ">HG00140#1#JBHDVY010000012.1"
+  ],
+  "hap2_headers": [
+    ">HG00140#2#CM087132.1",
+    ">HG00140#2#CM087133.1",
+    ">HG00140#2#CM087134.1",
+    ">HG00140#2#CM087135.1",
+    ">HG00140#2#CM087136.1",
+    ">HG00140#2#CM087137.1",
+    ">HG00140#2#CM087138.1",
+    ">HG00140#2#CM087139.1",
+    ">HG00140#2#CM087140.1",
+    ">HG00140#2#CM087141.1",
+    ">HG00140#2#CM087142.1",
+    ">HG00140#2#CM087143.1",
+    ">HG00140#2#CM087144.1",
+    ">HG00140#2#CM087145.1",
+    ">HG00140#2#CM087146.1",
+    ">HG00140#2#CM087147.1",
+    ">HG00140#2#JBHDVZ010000001.1",
+    ">HG00140#2#JBHDVZ010000002.1",
+    ">HG00140#2#JBHDVZ010000006.1",
+    ">HG00140#2#JBHDVZ010000009.1"
+  ]
+}

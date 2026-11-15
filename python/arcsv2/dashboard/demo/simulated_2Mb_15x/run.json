@@ -1,0 +1,17 @@
+{
+  "name": "simulated_2Mb_15x",
+  "source": "simulation",
+  "arcsv2_version": "0.1.0",
+  "calls": 36,
+  "call_seconds": 10.4,
+  "simulator": "scripts/simulate_haplotypes.py",
+  "length": 2000000,
+  "events": 40,
+  "coverage": 15,
+  "read_len": 100,
+  "insert_mean": 400,
+  "insert_sd": 40,
+  "seed": 7,
+  "pairs": 149988,
+  "bam": "/tmp/tmpu56q5xgq/simulated_2Mb_15x/reads.bam"
+}

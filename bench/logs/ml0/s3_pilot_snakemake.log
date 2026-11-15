@@ -1,0 +1,2951 @@
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-06 01:20:28
+  Workflow ID: 611a783d-dfde-4ae3-82eb-dccb4d9f49db
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: de5b712142b3
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s3.yaml --cores 22 --resources mem_mb=100000 --rerun-incomplete --rerun-triggers mtime --report /work/bench/logs/ml0/s3_snakemake_report.html --report-after-run -p
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s3.yaml'), 'workflows/config/label.yaml']
+  Config MD5: e463025f035fbebca87ec36549e22c12
+
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 22
+Rules claiming more threads will be scaled down.
+Provided resources: mem_mb=Resource("mem_mb", 100000)
+Conda environments: ignored
+Job stats:
+job             count
+------------  -------
+call               69
+fetch_region       67
+index_haps          6
+merge               3
+label               3
+dataset             1
+all                 1
+total             150
+
+Select jobs to execute...
+Execute 22 jobs...
+
+[Tue Oct  6 01:20:28 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr20.bam, /data/work/HG00126/chr20.bam.bai
+    jobid: 143
+    reason: Missing output files: /data/work/HG00126/chr20.bam, /data/work/HG00126/chr20.bam.bai
+    wildcards: sample=HG00126, chrom=chr20
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr20 | samtools sort -o /data/work/HG00126/chr20.bam
+samtools index /data/work/HG00126/chr20.bam /data/work/HG00126/chr20.bam.bai
+
+[Tue Oct  6 01:20:28 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr6.bam, /data/work/HG01150/chr6.bam.bai
+    jobid: 65
+    reason: Missing output files: /data/work/HG01150/chr6.bam, /data/work/HG01150/chr6.bam.bai
+    wildcards: sample=HG01150, chrom=chr6
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr6 | samtools sort -o /data/work/HG01150/chr6.bam
+samtools index /data/work/HG01150/chr6.bam /data/work/HG01150/chr6.bam.bai
+
+[Tue Oct  6 01:20:28 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr6.bam, /data/work/HG00126/chr6.bam.bai
+    jobid: 115
+    reason: Missing output files: /data/work/HG00126/chr6.bam.bai, /data/work/HG00126/chr6.bam
+    wildcards: sample=HG00126, chrom=chr6
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr6 | samtools sort -o /data/work/HG00126/chr6.bam
+samtools index /data/work/HG00126/chr6.bam /data/work/HG00126/chr6.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule index_haps:
+    input: /data/haps/HG01884.hap2.fa.gz
+    output: /data/haps/HG01884.hap2.mmi
+    jobid: 51
+    reason: Updated input files: /data/haps/HG01884.hap2.fa.gz
+    wildcards: sample=HG01884, which=hap2
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG01884.hap2.mmi /data/haps/HG01884.hap2.fa.gz
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr16.bam, /data/work/HG00126/chr16.bam.bai
+    jobid: 135
+    reason: Missing output files: /data/work/HG00126/chr16.bam.bai, /data/work/HG00126/chr16.bam
+    wildcards: sample=HG00126, chrom=chr16
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr16 | samtools sort -o /data/work/HG00126/chr16.bam
+samtools index /data/work/HG00126/chr16.bam /data/work/HG00126/chr16.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chrX.bam, /data/work/HG00126/chrX.bam.bai
+    jobid: 149
+    reason: Missing output files: /data/work/HG00126/chrX.bam.bai, /data/work/HG00126/chrX.bam
+    wildcards: sample=HG00126, chrom=chrX
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chrX | samtools sort -o /data/work/HG00126/chrX.bam
+samtools index /data/work/HG00126/chrX.bam /data/work/HG00126/chrX.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr12.bam, /data/work/HG01884/chr12.bam.bai
+    jobid: 27
+    reason: Missing output files: /data/work/HG01884/chr12.bam, /data/work/HG01884/chr12.bam.bai
+    wildcards: sample=HG01884, chrom=chr12
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr12 | samtools sort -o /data/work/HG01884/chr12.bam
+samtools index /data/work/HG01884/chr12.bam /data/work/HG01884/chr12.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr17.bam, /data/work/HG01884/chr17.bam.bai
+    jobid: 37
+    reason: Missing output files: /data/work/HG01884/chr17.bam, /data/work/HG01884/chr17.bam.bai
+    wildcards: sample=HG01884, chrom=chr17
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr17 | samtools sort -o /data/work/HG01884/chr17.bam
+samtools index /data/work/HG01884/chr17.bam /data/work/HG01884/chr17.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chrX.bam, /data/work/HG01150/chrX.bam.bai
+    jobid: 99
+    reason: Missing output files: /data/work/HG01150/chrX.bam, /data/work/HG01150/chrX.bam.bai
+    wildcards: sample=HG01150, chrom=chrX
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chrX | samtools sort -o /data/work/HG01150/chrX.bam
+samtools index /data/work/HG01150/chrX.bam /data/work/HG01150/chrX.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr9.bam, /data/work/HG01884/chr9.bam.bai
+    jobid: 21
+    reason: Missing output files: /data/work/HG01884/chr9.bam.bai, /data/work/HG01884/chr9.bam
+    wildcards: sample=HG01884, chrom=chr9
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr9 | samtools sort -o /data/work/HG01884/chr9.bam
+samtools index /data/work/HG01884/chr9.bam /data/work/HG01884/chr9.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr17.bam, /data/work/HG01150/chr17.bam.bai
+    jobid: 87
+    reason: Missing output files: /data/work/HG01150/chr17.bam, /data/work/HG01150/chr17.bam.bai
+    wildcards: sample=HG01150, chrom=chr17
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr17 | samtools sort -o /data/work/HG01150/chr17.bam
+samtools index /data/work/HG01150/chr17.bam /data/work/HG01150/chr17.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr3.bam, /data/work/HG01884/chr3.bam.bai
+    jobid: 9
+    reason: Missing output files: /data/work/HG01884/chr3.bam, /data/work/HG01884/chr3.bam.bai
+    wildcards: sample=HG01884, chrom=chr3
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr3 | samtools sort -o /data/work/HG01884/chr3.bam
+samtools index /data/work/HG01884/chr3.bam /data/work/HG01884/chr3.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr9.bam, /data/work/HG01150/chr9.bam.bai
+    jobid: 71
+    reason: Missing output files: /data/work/HG01150/chr9.bam, /data/work/HG01150/chr9.bam.bai
+    wildcards: sample=HG01150, chrom=chr9
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr9 | samtools sort -o /data/work/HG01150/chr9.bam
+samtools index /data/work/HG01150/chr9.bam /data/work/HG01150/chr9.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr3.bam, /data/work/HG01150/chr3.bam.bai
+    jobid: 59
+    reason: Missing output files: /data/work/HG01150/chr3.bam.bai, /data/work/HG01150/chr3.bam
+    wildcards: sample=HG01150, chrom=chr3
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr3 | samtools sort -o /data/work/HG01150/chr3.bam
+samtools index /data/work/HG01150/chr3.bam /data/work/HG01150/chr3.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr3.bam, /data/work/HG00126/chr3.bam.bai
+    jobid: 109
+    reason: Missing output files: /data/work/HG00126/chr3.bam, /data/work/HG00126/chr3.bam.bai
+    wildcards: sample=HG00126, chrom=chr3
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr3 | samtools sort -o /data/work/HG00126/chr3.bam
+samtools index /data/work/HG00126/chr3.bam /data/work/HG00126/chr3.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr9.bam, /data/work/HG00126/chr9.bam.bai
+    jobid: 121
+    reason: Missing output files: /data/work/HG00126/chr9.bam, /data/work/HG00126/chr9.bam.bai
+    wildcards: sample=HG00126, chrom=chr9
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr9 | samtools sort -o /data/work/HG00126/chr9.bam
+samtools index /data/work/HG00126/chr9.bam /data/work/HG00126/chr9.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr17.bam, /data/work/HG00126/chr17.bam.bai
+    jobid: 137
+    reason: Missing output files: /data/work/HG00126/chr17.bam, /data/work/HG00126/chr17.bam.bai
+    wildcards: sample=HG00126, chrom=chr17
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr17 | samtools sort -o /data/work/HG00126/chr17.bam
+samtools index /data/work/HG00126/chr17.bam /data/work/HG00126/chr17.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr18.bam, /data/work/HG01884/chr18.bam.bai
+    jobid: 39
+    reason: Missing output files: /data/work/HG01884/chr18.bam, /data/work/HG01884/chr18.bam.bai
+    wildcards: sample=HG01884, chrom=chr18
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr18 | samtools sort -o /data/work/HG01884/chr18.bam
+samtools index /data/work/HG01884/chr18.bam /data/work/HG01884/chr18.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr10.bam, /data/work/HG01884/chr10.bam.bai
+    jobid: 23
+    reason: Missing output files: /data/work/HG01884/chr10.bam.bai, /data/work/HG01884/chr10.bam
+    wildcards: sample=HG01884, chrom=chr10
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr10 | samtools sort -o /data/work/HG01884/chr10.bam
+samtools index /data/work/HG01884/chr10.bam /data/work/HG01884/chr10.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr18.bam, /data/work/HG01150/chr18.bam.bai
+    jobid: 89
+    reason: Missing output files: /data/work/HG01150/chr18.bam.bai, /data/work/HG01150/chr18.bam
+    wildcards: sample=HG01150, chrom=chr18
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr18 | samtools sort -o /data/work/HG01150/chr18.bam
+samtools index /data/work/HG01150/chr18.bam /data/work/HG01150/chr18.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr5.bam, /data/work/HG01884/chr5.bam.bai
+    jobid: 13
+    reason: Missing output files: /data/work/HG01884/chr5.bam.bai, /data/work/HG01884/chr5.bam
+    wildcards: sample=HG01884, chrom=chr5
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr5 | samtools sort -o /data/work/HG01884/chr5.bam
+samtools index /data/work/HG01884/chr5.bam /data/work/HG01884/chr5.bam.bai
+
+[Tue Oct  6 01:20:29 2026]
+localrule index_haps:
+    input: /data/haps/HG00126.hap1.fa.gz
+    output: /data/haps/HG00126.hap1.mmi
+    jobid: 150
+    reason: Missing output files: /data/haps/HG00126.hap1.mmi
+    wildcards: sample=HG00126, which=hap1
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG00126.hap1.mmi /data/haps/HG00126.hap1.fa.gz
+Select jobs to execute...
+[M::mm_idx_gen::117.107*1.73] collected minimizers
+[M::mm_idx_gen::130.187*1.63] collected minimizers
+[M::mm_idx_gen::148.334*1.82] sorted minimizers
+[M::mm_idx_gen::167.299*1.75] sorted minimizers
+[bam_sort_core] merging from 11 files and 1 in-memory blocks...
+[bam_sort_core] merging from 11 files and 1 in-memory blocks...
+[M::main::186.665*1.63] loaded/built the index for 74 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 74
+[M::mm_idx_stat::188.810*1.62] distinct minimizers: 98482719 (39.29% are singletons); average occurrences: 5.627; average spacing: 5.316; total length: 2945819519
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG00126.hap1.mmi /data/haps/HG00126.hap1.fa.gz
+[M::main] Real time: 189.232 sec; CPU: 306.880 sec; Peak RSS: 11.244 GB
+[bam_sort_core] merging from 12 files and 1 in-memory blocks...
+[Tue Oct  6 01:23:40 2026]
+Finished jobid: 150 (Rule: index_haps)
+1 of 150 steps (1%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:23:40 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr16.bam, /data/work/HG01884/chr16.bam.bai
+    jobid: 35
+    reason: Missing output files: /data/work/HG01884/chr16.bam, /data/work/HG01884/chr16.bam.bai
+    wildcards: sample=HG01884, chrom=chr16
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr16 | samtools sort -o /data/work/HG01884/chr16.bam
+samtools index /data/work/HG01884/chr16.bam /data/work/HG01884/chr16.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[M::main::196.414*1.62] loaded/built the index for 83 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 83
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[M::mm_idx_stat::197.911*1.62] distinct minimizers: 100102409 (38.84% are singletons); average occurrences: 5.743; average spacing: 5.319; total length: 3057354013
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG01884.hap2.mmi /data/haps/HG01884.hap2.fa.gz
+[M::main] Real time: 198.313 sec; CPU: 320.800 sec; Peak RSS: 11.440 GB
+[Tue Oct  6 01:23:48 2026]
+Finished jobid: 51 (Rule: index_haps)
+2 of 150 steps (1%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:23:48 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr22.bam, /data/work/HG01150/chr22.bam.bai
+    jobid: 97
+    reason: Missing output files: /data/work/HG01150/chr22.bam, /data/work/HG01150/chr22.bam.bai
+    wildcards: sample=HG01150, chrom=chr22
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr22 | samtools sort -o /data/work/HG01150/chr22.bam
+samtools index /data/work/HG01150/chr22.bam /data/work/HG01150/chr22.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[bam_sort_core] merging from 17 files and 1 in-memory blocks...
+[bam_sort_core] merging from 16 files and 1 in-memory blocks...
+[bam_sort_core] merging from 18 files and 1 in-memory blocks...
+[bam_sort_core] merging from 18 files and 1 in-memory blocks...
+[bam_sort_core] merging from 19 files and 1 in-memory blocks...
+[bam_sort_core] merging from 6 files and 1 in-memory blocks...
+[bam_sort_core] merging from 20 files and 1 in-memory blocks...
+[bam_sort_core] merging from 21 files and 1 in-memory blocks...
+[bam_sort_core] merging from 22 files and 1 in-memory blocks...
+[Tue Oct  6 01:26:40 2026]
+Finished jobid: 39 (Rule: fetch_region)
+3 of 150 steps (2%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:26:40 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chrX.bam, /data/work/HG01884/chrX.bam.bai
+    jobid: 49
+    reason: Missing output files: /data/work/HG01884/chrX.bam, /data/work/HG01884/chrX.bam.bai
+    wildcards: sample=HG01884, chrom=chrX
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chrX | samtools sort -o /data/work/HG01884/chrX.bam
+samtools index /data/work/HG01884/chrX.bam /data/work/HG01884/chrX.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 25 files and 1 in-memory blocks...
+[bam_sort_core] merging from 27 files and 1 in-memory blocks...
+[Tue Oct  6 01:27:17 2026]
+Finished jobid: 89 (Rule: fetch_region)
+4 of 150 steps (3%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:27:18 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr8.bam, /data/work/HG01884/chr8.bam.bai
+    jobid: 19
+    reason: Missing output files: /data/work/HG01884/chr8.bam, /data/work/HG01884/chr8.bam.bai
+    wildcards: sample=HG01884, chrom=chr8
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr8 | samtools sort -o /data/work/HG01884/chr8.bam
+samtools index /data/work/HG01884/chr8.bam /data/work/HG01884/chr8.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 14 files and 1 in-memory blocks...
+[bam_sort_core] merging from 30 files and 1 in-memory blocks...
+[Tue Oct  6 01:28:18 2026]
+Finished jobid: 97 (Rule: fetch_region)
+5 of 150 steps (3%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:28:18 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr19.bam, /data/work/HG01150/chr19.bam.bai
+    jobid: 91
+    reason: Missing output files: /data/work/HG01150/chr19.bam, /data/work/HG01150/chr19.bam.bai
+    wildcards: sample=HG01150, chrom=chr19
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr19 | samtools sort -o /data/work/HG01150/chr19.bam
+samtools index /data/work/HG01150/chr19.bam /data/work/HG01150/chr19.bam.bai
+[Tue Oct  6 01:28:18 2026]
+Finished jobid: 37 (Rule: fetch_region)
+6 of 150 steps (4%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Oct  6 01:28:18 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr13.bam, /data/work/HG01150/chr13.bam.bai
+    jobid: 79
+    reason: Missing output files: /data/work/HG01150/chr13.bam.bai, /data/work/HG01150/chr13.bam
+    wildcards: sample=HG01150, chrom=chr13
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr13 | samtools sort -o /data/work/HG01150/chr13.bam
+samtools index /data/work/HG01150/chr13.bam /data/work/HG01150/chr13.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:28:21 2026]
+Finished jobid: 143 (Rule: fetch_region)
+7 of 150 steps (5%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:28:22 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr13.bam, /data/work/HG00126/chr13.bam.bai
+    jobid: 129
+    reason: Missing output files: /data/work/HG00126/chr13.bam, /data/work/HG00126/chr13.bam.bai
+    wildcards: sample=HG00126, chrom=chr13
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr13 | samtools sort -o /data/work/HG00126/chr13.bam
+samtools index /data/work/HG00126/chr13.bam /data/work/HG00126/chr13.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:29:14 2026]
+Finished jobid: 149 (Rule: fetch_region)
+8 of 150 steps (5%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:29:14 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr7.bam, /data/work/HG00126/chr7.bam.bai
+    jobid: 117
+    reason: Missing output files: /data/work/HG00126/chr7.bam.bai, /data/work/HG00126/chr7.bam
+    wildcards: sample=HG00126, chrom=chr7
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr7 | samtools sort -o /data/work/HG00126/chr7.bam
+samtools index /data/work/HG00126/chr7.bam /data/work/HG00126/chr7.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:29:28 2026]
+Finished jobid: 87 (Rule: fetch_region)
+9 of 150 steps (6%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:29:28 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr1.bam, /data/work/HG01150/chr1.bam.bai
+    jobid: 55
+    reason: Missing output files: /data/work/HG01150/chr1.bam.bai, /data/work/HG01150/chr1.bam
+    wildcards: sample=HG01150, chrom=chr1
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr1 | samtools sort -o /data/work/HG01150/chr1.bam
+samtools index /data/work/HG01150/chr1.bam /data/work/HG01150/chr1.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 30 files and 1 in-memory blocks...
+[bam_sort_core] merging from 30 files and 1 in-memory blocks...
+[Tue Oct  6 01:31:13 2026]
+Finished jobid: 137 (Rule: fetch_region)
+10 of 150 steps (7%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:31:14 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr22.bam, /data/work/HG00126/chr22.bam.bai
+    jobid: 147
+    reason: Missing output files: /data/work/HG00126/chr22.bam.bai, /data/work/HG00126/chr22.bam
+    wildcards: sample=HG00126, chrom=chr22
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr22 | samtools sort -o /data/work/HG00126/chr22.bam
+samtools index /data/work/HG00126/chr22.bam /data/work/HG00126/chr22.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:31:26 2026]
+Finished jobid: 135 (Rule: fetch_region)
+11 of 150 steps (7%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:31:26 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr1.bam, /data/work/HG00126/chr1.bam.bai
+    jobid: 105
+    reason: Missing output files: /data/work/HG00126/chr1.bam, /data/work/HG00126/chr1.bam.bai
+    wildcards: sample=HG00126, chrom=chr1
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr1 | samtools sort -o /data/work/HG00126/chr1.bam
+samtools index /data/work/HG00126/chr1.bam /data/work/HG00126/chr1.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:31:43 2026]
+Finished jobid: 21 (Rule: fetch_region)
+12 of 150 steps (8%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:31:43 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr6.bam, /data/work/HG01884/chr6.bam.bai
+    jobid: 15
+    reason: Missing output files: /data/work/HG01884/chr6.bam, /data/work/HG01884/chr6.bam.bai
+    wildcards: sample=HG01884, chrom=chr6
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr6 | samtools sort -o /data/work/HG01884/chr6.bam
+samtools index /data/work/HG01884/chr6.bam /data/work/HG01884/chr6.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:31:44 2026]
+Finished jobid: 35 (Rule: fetch_region)
+13 of 150 steps (9%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:31:44 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr7.bam, /data/work/HG01150/chr7.bam.bai
+    jobid: 67
+    reason: Missing output files: /data/work/HG01150/chr7.bam.bai, /data/work/HG01150/chr7.bam
+    wildcards: sample=HG01150, chrom=chr7
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr7 | samtools sort -o /data/work/HG01150/chr7.bam
+samtools index /data/work/HG01150/chr7.bam /data/work/HG01150/chr7.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 9 files and 1 in-memory blocks...
+[Tue Oct  6 01:32:25 2026]
+Finished jobid: 71 (Rule: fetch_region)
+14 of 150 steps (9%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:32:25 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr4.bam, /data/work/HG01884/chr4.bam.bai
+    jobid: 11
+    reason: Missing output files: /data/work/HG01884/chr4.bam.bai, /data/work/HG01884/chr4.bam
+    wildcards: sample=HG01884, chrom=chr4
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr4 | samtools sort -o /data/work/HG01884/chr4.bam
+samtools index /data/work/HG01884/chr4.bam /data/work/HG01884/chr4.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:32:27 2026]
+Finished jobid: 27 (Rule: fetch_region)
+15 of 150 steps (10%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:32:27 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr15.bam, /data/work/HG00126/chr15.bam.bai
+    jobid: 133
+    reason: Missing output files: /data/work/HG00126/chr15.bam, /data/work/HG00126/chr15.bam.bai
+    wildcards: sample=HG00126, chrom=chr15
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr15 | samtools sort -o /data/work/HG00126/chr15.bam
+samtools index /data/work/HG00126/chr15.bam /data/work/HG00126/chr15.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 14 files and 1 in-memory blocks...
+[bam_sort_core] merging from 21 files and 1 in-memory blocks...
+[Tue Oct  6 01:33:01 2026]
+Finished jobid: 23 (Rule: fetch_region)
+16 of 150 steps (11%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:33:02 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr21.bam, /data/work/HG01150/chr21.bam.bai
+    jobid: 95
+    reason: Missing output files: /data/work/HG01150/chr21.bam.bai, /data/work/HG01150/chr21.bam
+    wildcards: sample=HG01150, chrom=chr21
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr21 | samtools sort -o /data/work/HG01150/chr21.bam
+samtools index /data/work/HG01150/chr21.bam /data/work/HG01150/chr21.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 7 files and 1 in-memory blocks...
+[bam_sort_core] merging from 21 files and 1 in-memory blocks...
+[bam_sort_core] merging from 17 files and 1 in-memory blocks...
+[Tue Oct  6 01:33:49 2026]
+Finished jobid: 99 (Rule: fetch_region)
+17 of 150 steps (11%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:33:49 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr7.bam, /data/work/HG01884/chr7.bam.bai
+    jobid: 17
+    reason: Missing output files: /data/work/HG01884/chr7.bam, /data/work/HG01884/chr7.bam.bai
+    wildcards: sample=HG01884, chrom=chr7
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr7 | samtools sort -o /data/work/HG01884/chr7.bam
+samtools index /data/work/HG01884/chr7.bam /data/work/HG01884/chr7.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:34:28 2026]
+Finished jobid: 121 (Rule: fetch_region)
+18 of 150 steps (12%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:34:28 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr22.bam, /data/work/HG01884/chr22.bam.bai
+    jobid: 47
+    reason: Missing output files: /data/work/HG01884/chr22.bam.bai, /data/work/HG01884/chr22.bam
+    wildcards: sample=HG01884, chrom=chr22
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr22 | samtools sort -o /data/work/HG01884/chr22.bam
+samtools index /data/work/HG01884/chr22.bam /data/work/HG01884/chr22.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:34:44 2026]
+Finished jobid: 91 (Rule: fetch_region)
+19 of 150 steps (13%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:34:44 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr11.bam, /data/work/HG01884/chr11.bam.bai
+    jobid: 25
+    reason: Missing output files: /data/work/HG01884/chr11.bam, /data/work/HG01884/chr11.bam.bai
+    wildcards: sample=HG01884, chrom=chr11
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr11 | samtools sort -o /data/work/HG01884/chr11.bam
+samtools index /data/work/HG01884/chr11.bam /data/work/HG01884/chr11.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 6 files and 1 in-memory blocks...
+[Tue Oct  6 01:35:23 2026]
+Finished jobid: 147 (Rule: fetch_region)
+20 of 150 steps (13%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:35:23 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr15.bam, /data/work/HG01884/chr15.bam.bai
+    jobid: 33
+    reason: Missing output files: /data/work/HG01884/chr15.bam, /data/work/HG01884/chr15.bam.bai
+    wildcards: sample=HG01884, chrom=chr15
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr15 | samtools sort -o /data/work/HG01884/chr15.bam
+samtools index /data/work/HG01884/chr15.bam /data/work/HG01884/chr15.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 4 files and 1 in-memory blocks...
+[bam_sort_core] merging from 6 files and 1 in-memory blocks...
+[Tue Oct  6 01:37:17 2026]
+Finished jobid: 95 (Rule: fetch_region)
+21 of 150 steps (14%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:37:17 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr2.bam, /data/work/HG01884/chr2.bam.bai
+    jobid: 7
+    reason: Missing output files: /data/work/HG01884/chr2.bam, /data/work/HG01884/chr2.bam.bai
+    wildcards: sample=HG01884, chrom=chr2
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr2 | samtools sort -o /data/work/HG01884/chr2.bam
+samtools index /data/work/HG01884/chr2.bam /data/work/HG01884/chr2.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:37:31 2026]
+Finished jobid: 79 (Rule: fetch_region)
+22 of 150 steps (15%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:37:31 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr8.bam, /data/work/HG01150/chr8.bam.bai
+    jobid: 69
+    reason: Missing output files: /data/work/HG01150/chr8.bam.bai, /data/work/HG01150/chr8.bam
+    wildcards: sample=HG01150, chrom=chr8
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr8 | samtools sort -o /data/work/HG01150/chr8.bam
+samtools index /data/work/HG01150/chr8.bam /data/work/HG01150/chr8.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:37:33 2026]
+Finished jobid: 65 (Rule: fetch_region)
+23 of 150 steps (15%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:37:33 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr16.bam, /data/work/HG01150/chr16.bam.bai
+    jobid: 85
+    reason: Missing output files: /data/work/HG01150/chr16.bam.bai, /data/work/HG01150/chr16.bam
+    wildcards: sample=HG01150, chrom=chr16
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr16 | samtools sort -o /data/work/HG01150/chr16.bam
+samtools index /data/work/HG01150/chr16.bam /data/work/HG01150/chr16.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:37:34 2026]
+Finished jobid: 13 (Rule: fetch_region)
+24 of 150 steps (16%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:37:34 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr15.bam, /data/work/HG01150/chr15.bam.bai
+    jobid: 83
+    reason: Missing output files: /data/work/HG01150/chr15.bam.bai, /data/work/HG01150/chr15.bam
+    wildcards: sample=HG01150, chrom=chr15
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr15 | samtools sort -o /data/work/HG01150/chr15.bam
+samtools index /data/work/HG01150/chr15.bam /data/work/HG01150/chr15.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 15 files and 1 in-memory blocks...
+[bam_sort_core] merging from 28 files and 1 in-memory blocks...
+[Tue Oct  6 01:38:30 2026]
+Finished jobid: 129 (Rule: fetch_region)
+25 of 150 steps (17%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:38:30 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr12.bam, /data/work/HG00126/chr12.bam.bai
+    jobid: 127
+    reason: Missing output files: /data/work/HG00126/chr12.bam, /data/work/HG00126/chr12.bam.bai
+    wildcards: sample=HG00126, chrom=chr12
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr12 | samtools sort -o /data/work/HG00126/chr12.bam
+samtools index /data/work/HG00126/chr12.bam /data/work/HG00126/chr12.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:38:32 2026]
+Finished jobid: 49 (Rule: fetch_region)
+26 of 150 steps (17%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:38:32 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr2.bam, /data/work/HG01150/chr2.bam.bai
+    jobid: 57
+    reason: Missing output files: /data/work/HG01150/chr2.bam.bai, /data/work/HG01150/chr2.bam
+    wildcards: sample=HG01150, chrom=chr2
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr2 | samtools sort -o /data/work/HG01150/chr2.bam
+samtools index /data/work/HG01150/chr2.bam /data/work/HG01150/chr2.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:38:41 2026]
+Finished jobid: 47 (Rule: fetch_region)
+27 of 150 steps (18%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:38:41 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr21.bam, /data/work/HG00126/chr21.bam.bai
+    jobid: 145
+    reason: Missing output files: /data/work/HG00126/chr21.bam, /data/work/HG00126/chr21.bam.bai
+    wildcards: sample=HG00126, chrom=chr21
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr21 | samtools sort -o /data/work/HG00126/chr21.bam
+samtools index /data/work/HG00126/chr21.bam /data/work/HG00126/chr21.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:38:47 2026]
+Finished jobid: 19 (Rule: fetch_region)
+28 of 150 steps (19%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:38:47 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr12.bam, /data/work/HG01150/chr12.bam.bai
+    jobid: 77
+    reason: Missing output files: /data/work/HG01150/chr12.bam, /data/work/HG01150/chr12.bam.bai
+    wildcards: sample=HG01150, chrom=chr12
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr12 | samtools sort -o /data/work/HG01150/chr12.bam
+samtools index /data/work/HG01150/chr12.bam /data/work/HG01150/chr12.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 23 files and 1 in-memory blocks...
+[bam_sort_core] merging from 25 files and 1 in-memory blocks...
+[Tue Oct  6 01:39:00 2026]
+Finished jobid: 9 (Rule: fetch_region)
+29 of 150 steps (19%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:39:00 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr14.bam, /data/work/HG00126/chr14.bam.bai
+    jobid: 131
+    reason: Missing output files: /data/work/HG00126/chr14.bam.bai, /data/work/HG00126/chr14.bam
+    wildcards: sample=HG00126, chrom=chr14
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr14 | samtools sort -o /data/work/HG00126/chr14.bam
+samtools index /data/work/HG00126/chr14.bam /data/work/HG00126/chr14.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[bam_sort_core] merging from 23 files and 1 in-memory blocks...
+[bam_sort_core] merging from 19 files and 1 in-memory blocks...
+[bam_sort_core] merging from 29 files and 1 in-memory blocks...
+[bam_sort_core] merging from 14 files and 1 in-memory blocks...
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[bam_sort_core] merging from 9 files and 1 in-memory blocks...
+[Tue Oct  6 01:41:16 2026]
+Finished jobid: 59 (Rule: fetch_region)
+30 of 150 steps (20%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:41:16 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr14.bam, /data/work/HG01150/chr14.bam.bai
+    jobid: 81
+    reason: Missing output files: /data/work/HG01150/chr14.bam.bai, /data/work/HG01150/chr14.bam
+    wildcards: sample=HG01150, chrom=chr14
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr14 | samtools sort -o /data/work/HG01150/chr14.bam
+samtools index /data/work/HG01150/chr14.bam /data/work/HG01150/chr14.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:41:30 2026]
+Finished jobid: 115 (Rule: fetch_region)
+31 of 150 steps (21%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:41:30 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr2.bam, /data/work/HG00126/chr2.bam.bai
+    jobid: 107
+    reason: Missing output files: /data/work/HG00126/chr2.bam, /data/work/HG00126/chr2.bam.bai
+    wildcards: sample=HG00126, chrom=chr2
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr2 | samtools sort -o /data/work/HG00126/chr2.bam
+samtools index /data/work/HG00126/chr2.bam /data/work/HG00126/chr2.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:42:07 2026]
+Finished jobid: 133 (Rule: fetch_region)
+32 of 150 steps (21%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:42:07 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr13.bam, /data/work/HG01884/chr13.bam.bai
+    jobid: 29
+    reason: Missing output files: /data/work/HG01884/chr13.bam, /data/work/HG01884/chr13.bam.bai
+    wildcards: sample=HG01884, chrom=chr13
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr13 | samtools sort -o /data/work/HG01884/chr13.bam
+samtools index /data/work/HG01884/chr13.bam /data/work/HG01884/chr13.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 21 files and 1 in-memory blocks...
+[Tue Oct  6 01:42:58 2026]
+Finished jobid: 33 (Rule: fetch_region)
+33 of 150 steps (22%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:42:58 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr14.bam, /data/work/HG01884/chr14.bam.bai
+    jobid: 31
+    reason: Missing output files: /data/work/HG01884/chr14.bam.bai, /data/work/HG01884/chr14.bam
+    wildcards: sample=HG01884, chrom=chr14
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr14 | samtools sort -o /data/work/HG01884/chr14.bam
+samtools index /data/work/HG01884/chr14.bam /data/work/HG01884/chr14.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 16 files and 1 in-memory blocks...
+[bam_sort_core] merging from 20 files and 1 in-memory blocks...
+[Tue Oct  6 01:43:59 2026]
+Finished jobid: 145 (Rule: fetch_region)
+34 of 150 steps (23%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:43:59 2026]
+localrule index_haps:
+    input: /data/haps/HG00126.hap2.fa.gz
+    output: /data/haps/HG00126.hap2.mmi
+    jobid: 151
+    reason: Missing output files: /data/haps/HG00126.hap2.mmi
+    wildcards: sample=HG00126, which=hap2
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG00126.hap2.mmi /data/haps/HG00126.hap2.fa.gz
+Select jobs to execute...
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[bam_sort_core] merging from 24 files and 1 in-memory blocks...
+[bam_sort_core] merging from 6 files and 1 in-memory blocks...
+[Tue Oct  6 01:45:08 2026]
+Finished jobid: 83 (Rule: fetch_region)
+35 of 150 steps (23%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:45:08 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr20.bam, /data/work/HG01150/chr20.bam.bai
+    jobid: 93
+    reason: Missing output files: /data/work/HG01150/chr20.bam, /data/work/HG01150/chr20.bam.bai
+    wildcards: sample=HG01150, chrom=chr20
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr20 | samtools sort -o /data/work/HG01150/chr20.bam
+samtools index /data/work/HG01150/chr20.bam /data/work/HG01150/chr20.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 14 files and 1 in-memory blocks...
+[Tue Oct  6 01:45:31 2026]
+Finished jobid: 85 (Rule: fetch_region)
+36 of 150 steps (24%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:45:31 2026]
+localrule index_haps:
+    input: /data/haps/HG01150.hap2.fa.gz
+    output: /data/haps/HG01150.hap2.mmi
+    jobid: 101
+    reason: Missing output files: /data/haps/HG01150.hap2.mmi
+    wildcards: sample=HG01150, which=hap2
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG01150.hap2.mmi /data/haps/HG01150.hap2.fa.gz
+Select jobs to execute...
+[M::mm_idx_gen::115.673*1.61] collected minimizers
+[Tue Oct  6 01:45:56 2026]
+Finished jobid: 25 (Rule: fetch_region)
+37 of 150 steps (25%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:45:56 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr21.bam, /data/work/HG01884/chr21.bam.bai
+    jobid: 45
+    reason: Missing output files: /data/work/HG01884/chr21.bam.bai, /data/work/HG01884/chr21.bam
+    wildcards: sample=HG01884, chrom=chr21
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr21 | samtools sort -o /data/work/HG01884/chr21.bam
+samtools index /data/work/HG01884/chr21.bam /data/work/HG01884/chr21.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[Tue Oct  6 01:46:22 2026]
+Finished jobid: 15 (Rule: fetch_region)
+38 of 150 steps (25%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:46:22 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr4.bam, /data/work/HG00126/chr4.bam.bai
+    jobid: 111
+    reason: Missing output files: /data/work/HG00126/chr4.bam, /data/work/HG00126/chr4.bam.bai
+    wildcards: sample=HG00126, chrom=chr4
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr4 | samtools sort -o /data/work/HG00126/chr4.bam
+samtools index /data/work/HG00126/chr4.bam /data/work/HG00126/chr4.bam.bai
+[Tue Oct  6 01:46:22 2026]
+Finished jobid: 67 (Rule: fetch_region)
+39 of 150 steps (26%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Oct  6 01:46:23 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr19.bam, /data/work/HG00126/chr19.bam.bai
+    jobid: 141
+    reason: Missing output files: /data/work/HG00126/chr19.bam.bai, /data/work/HG00126/chr19.bam
+    wildcards: sample=HG00126, chrom=chr19
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr19 | samtools sort -o /data/work/HG00126/chr19.bam
+samtools index /data/work/HG00126/chr19.bam /data/work/HG00126/chr19.bam.bai
+Select jobs to execute...
+[M::mm_idx_gen::152.352*1.70] sorted minimizers
+[M::main::167.371*1.64] loaded/built the index for 64 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 64
+[M::mm_idx_stat::168.636*1.63] distinct minimizers: 100067043 (38.86% are singletons); average occurrences: 5.664; average spacing: 5.315; total length: 3012536691
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG00126.hap2.mmi /data/haps/HG00126.hap2.fa.gz
+[M::main] Real time: 169.073 sec; CPU: 275.535 sec; Peak RSS: 11.673 GB
+[Tue Oct  6 01:46:49 2026]
+Finished jobid: 151 (Rule: index_haps)
+40 of 150 steps (27%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:46:49 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr11.bam, /data/work/HG01150/chr11.bam.bai
+    jobid: 75
+    reason: Missing output files: /data/work/HG01150/chr11.bam, /data/work/HG01150/chr11.bam.bai
+    wildcards: sample=HG01150, chrom=chr11
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr11 | samtools sort -o /data/work/HG01150/chr11.bam
+samtools index /data/work/HG01150/chr11.bam /data/work/HG01150/chr11.bam.bai
+Select jobs to execute...
+[M::mm_idx_gen::133.995*1.37] collected minimizers
+[Tue Oct  6 01:47:51 2026]
+Finished jobid: 17 (Rule: fetch_region)
+41 of 150 steps (27%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:47:51 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr8.bam, /data/work/HG00126/chr8.bam.bai
+    jobid: 119
+    reason: Missing output files: /data/work/HG00126/chr8.bam, /data/work/HG00126/chr8.bam.bai
+    wildcards: sample=HG00126, chrom=chr8
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr8 | samtools sort -o /data/work/HG00126/chr8.bam
+samtools index /data/work/HG00126/chr8.bam /data/work/HG00126/chr8.bam.bai
+Select jobs to execute...
+[M::mm_idx_gen::154.446*1.58] sorted minimizers
+[bam_sort_core] merging from 10 files and 1 in-memory blocks...
+[bam_sort_core] merging from 7 files and 1 in-memory blocks...
+[M::main::170.722*1.52] loaded/built the index for 56 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 56
+[M::mm_idx_stat::172.150*1.52] distinct minimizers: 100097012 (38.84% are singletons); average occurrences: 5.704; average spacing: 5.311; total length: 3032079274
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG01150.hap2.mmi /data/haps/HG01150.hap2.fa.gz
+[M::main] Real time: 172.636 sec; CPU: 262.066 sec; Peak RSS: 11.611 GB
+[Tue Oct  6 01:48:24 2026]
+Finished jobid: 131 (Rule: fetch_region)
+42 of 150 steps (28%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:48:24 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr5.bam, /data/work/HG01150/chr5.bam.bai
+    jobid: 63
+    reason: Missing output files: /data/work/HG01150/chr5.bam, /data/work/HG01150/chr5.bam.bai
+    wildcards: sample=HG01150, chrom=chr5
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr5 | samtools sort -o /data/work/HG01150/chr5.bam
+samtools index /data/work/HG01150/chr5.bam /data/work/HG01150/chr5.bam.bai
+[Tue Oct  6 01:48:24 2026]
+Finished jobid: 101 (Rule: index_haps)
+43 of 150 steps (29%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Tue Oct  6 01:48:25 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr10.bam, /data/work/HG01150/chr10.bam.bai
+    jobid: 73
+    reason: Missing output files: /data/work/HG01150/chr10.bam, /data/work/HG01150/chr10.bam.bai
+    wildcards: sample=HG01150, chrom=chr10
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr10 | samtools sort -o /data/work/HG01150/chr10.bam
+samtools index /data/work/HG01150/chr10.bam /data/work/HG01150/chr10.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:48:25 2026]
+Finished jobid: 81 (Rule: fetch_region)
+44 of 150 steps (29%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:48:25 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr18.bam, /data/work/HG00126/chr18.bam.bai
+    jobid: 139
+    reason: Missing output files: /data/work/HG00126/chr18.bam, /data/work/HG00126/chr18.bam.bai
+    wildcards: sample=HG00126, chrom=chr18
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr18 | samtools sort -o /data/work/HG00126/chr18.bam
+samtools index /data/work/HG00126/chr18.bam /data/work/HG00126/chr18.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:48:29 2026]
+Finished jobid: 109 (Rule: fetch_region)
+45 of 150 steps (30%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:48:29 2026]
+localrule index_haps:
+    input: /data/haps/HG01150.hap1.fa.gz
+    output: /data/haps/HG01150.hap1.mmi
+    jobid: 100
+    reason: Missing output files: /data/haps/HG01150.hap1.mmi
+    wildcards: sample=HG01150, which=hap1
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG01150.hap1.mmi /data/haps/HG01150.hap1.fa.gz
+Select jobs to execute...
+[Tue Oct  6 01:49:23 2026]
+Finished jobid: 29 (Rule: fetch_region)
+46 of 150 steps (31%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:49:23 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr5.bam, /data/work/HG00126/chr5.bam.bai
+    jobid: 113
+    reason: Missing output files: /data/work/HG00126/chr5.bam.bai, /data/work/HG00126/chr5.bam
+    wildcards: sample=HG00126, chrom=chr5
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr5 | samtools sort -o /data/work/HG00126/chr5.bam
+samtools index /data/work/HG00126/chr5.bam /data/work/HG00126/chr5.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[Tue Oct  6 01:49:41 2026]
+Finished jobid: 117 (Rule: fetch_region)
+47 of 150 steps (31%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:49:41 2026]
+localrule fetch_region:
+    output: /data/work/HG01884/chr19.bam, /data/work/HG01884/chr19.bam.bai
+    jobid: 41
+    reason: Missing output files: /data/work/HG01884/chr19.bam.bai, /data/work/HG01884/chr19.bam
+    wildcards: sample=HG01884, chrom=chr19
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01884/reads/HG01884.cram chr19 | samtools sort -o /data/work/HG01884/chr19.bam
+samtools index /data/work/HG01884/chr19.bam /data/work/HG01884/chr19.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:49:42 2026]
+Finished jobid: 31 (Rule: fetch_region)
+48 of 150 steps (32%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:49:42 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr10.bam, /data/work/HG00126/chr10.bam.bai
+    jobid: 123
+    reason: Missing output files: /data/work/HG00126/chr10.bam.bai, /data/work/HG00126/chr10.bam
+    wildcards: sample=HG00126, chrom=chr10
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr10 | samtools sort -o /data/work/HG00126/chr10.bam
+samtools index /data/work/HG00126/chr10.bam /data/work/HG00126/chr10.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:49:55 2026]
+Finished jobid: 69 (Rule: fetch_region)
+49 of 150 steps (33%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:49:55 2026]
+localrule index_haps:
+    input: /data/haps/HG01884.hap1.fa.gz
+    output: /data/haps/HG01884.hap1.mmi
+    jobid: 50
+    reason: Updated input files: /data/haps/HG01884.hap1.fa.gz
+    wildcards: sample=HG01884, which=hap1
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG01884.hap1.mmi /data/haps/HG01884.hap1.fa.gz
+Select jobs to execute...
+[Tue Oct  6 01:50:16 2026]
+Finished jobid: 45 (Rule: fetch_region)
+50 of 150 steps (33%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:50:16 2026]
+localrule fetch_region:
+    output: /data/work/HG00126/chr11.bam, /data/work/HG00126/chr11.bam.bai
+    jobid: 125
+    reason: Missing output files: /data/work/HG00126/chr11.bam, /data/work/HG00126/chr11.bam.bai
+    wildcards: sample=HG00126, chrom=chr11
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG00126/reads/HG00126.cram chr11 | samtools sort -o /data/work/HG00126/chr11.bam
+samtools index /data/work/HG00126/chr11.bam /data/work/HG00126/chr11.bam.bai
+Select jobs to execute...
+[Tue Oct  6 01:50:25 2026]
+Finished jobid: 77 (Rule: fetch_region)
+51 of 150 steps (34%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:50:25 2026]
+localrule fetch_region:
+    output: /data/work/HG01150/chr4.bam, /data/work/HG01150/chr4.bam.bai
+    jobid: 61
+    reason: Missing output files: /data/work/HG01150/chr4.bam, /data/work/HG01150/chr4.bam.bai
+    wildcards: sample=HG01150, chrom=chr4
+    resources: tmpdir=/tmp
+Shell command: samtools view -u -T /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa /data/samples/HG01150/reads/HG01150.cram chr4 | samtools sort -o /data/work/HG01150/chr4.bam
+samtools index /data/work/HG01150/chr4.bam /data/work/HG01150/chr4.bam.bai
+Select jobs to execute...
+[bam_sort_core] merging from 11 files and 1 in-memory blocks...
+[Tue Oct  6 01:50:51 2026]
+Finished jobid: 11 (Rule: fetch_region)
+52 of 150 steps (35%) done
+[M::mm_idx_gen::142.605*1.18] collected minimizers
+[bam_sort_core] merging from 4 files and 1 in-memory blocks...
+[Tue Oct  6 01:51:19 2026]
+Finished jobid: 93 (Rule: fetch_region)
+53 of 150 steps (35%) done
+[M::mm_idx_gen::171.280*1.38] sorted minimizers
+[M::main::191.781*1.33] loaded/built the index for 117 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 117
+[M::mm_idx_stat::193.060*1.33] distinct minimizers: 100065742 (38.87% are singletons); average occurrences: 5.705; average spacing: 5.311; total length: 3031853446
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG01150.hap1.mmi /data/haps/HG01150.hap1.fa.gz
+[M::main] Real time: 193.692 sec; CPU: 256.700 sec; Peak RSS: 11.614 GB
+[Tue Oct  6 01:51:44 2026]
+Finished jobid: 100 (Rule: index_haps)
+54 of 150 steps (36%) done
+[M::mm_idx_gen::112.329*1.61] collected minimizers
+[M::mm_idx_gen::129.064*1.78] sorted minimizers
+[M::main::139.628*1.70] loaded/built the index for 89 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 89
+[M::mm_idx_stat::140.701*1.70] distinct minimizers: 100100675 (38.84% are singletons); average occurrences: 5.718; average spacing: 5.313; total length: 3040759426
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG01884.hap1.mmi /data/haps/HG01884.hap1.fa.gz
+[M::main] Real time: 140.950 sec; CPU: 238.790 sec; Peak RSS: 11.468 GB
+[Tue Oct  6 01:52:18 2026]
+Finished jobid: 50 (Rule: index_haps)
+55 of 150 steps (37%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:52:18 2026]
+localrule call:
+    input: /data/work/HG01884/chr17.bam, /data/work/HG01884/chr17.bam.bai
+    output: /data/results_ml0_s3/HG01884/chr17/arcsv_out.tab
+    jobid: 36
+    reason: Missing output files: /data/results_ml0_s3/HG01884/chr17/arcsv_out.tab; Input files updated by another job: /data/work/HG01884/chr17.bam.bai, /data/work/HG01884/chr17.bam
+    wildcards: sample=HG01884, chrom=chr17
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=4000, mem=4 GB, mem_mib=3815
+Shell command: arcsv2 call -i /data/work/HG01884/chr17.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01884/chr17 --region chr17 --threads 4 --engine rust
+Select jobs to execute...
+[bam_sort_core] merging from 9 files and 1 in-memory blocks...
+[call:chr17     0.0s] start: /data/work/HG01884/chr17.bam (chr17)
+[call:chr17     0.0s] load_bam: /data/work/HG01884/chr17.bam (engine=rust)
+[Tue Oct  6 01:54:04 2026]
+Finished jobid: 141 (Rule: fetch_region)
+56 of 150 steps (37%) done
+[bam_sort_core] merging from 14 files and 1 in-memory blocks...
+[bam_sort_core] merging from 4 files and 1 in-memory blocks...
+[bam_sort_core] merging from 19 files and 1 in-memory blocks...
+[Tue Oct  6 01:54:47 2026]
+Finished jobid: 127 (Rule: fetch_region)
+57 of 150 steps (38%) done
+[Tue Oct  6 01:56:02 2026]
+Finished jobid: 41 (Rule: fetch_region)
+58 of 150 steps (39%) done
+[bam_sort_core] merging from 21 files and 1 in-memory blocks...
+[bam_sort_core] merging from 25 files and 1 in-memory blocks...
+[bam_sort_core] merging from 27 files and 1 in-memory blocks...
+[bam_sort_core] merging from 25 files and 1 in-memory blocks...
+[bam_sort_core] merging from 24 files and 1 in-memory blocks...
+[Tue Oct  6 01:58:25 2026]
+Finished jobid: 139 (Rule: fetch_region)
+59 of 150 steps (39%) done
+Execute 1 jobs...
+
+[Tue Oct  6 01:58:25 2026]
+localrule call:
+    input: /data/work/HG01884/chr4.bam, /data/work/HG01884/chr4.bam.bai
+    output: /data/results_ml0_s3/HG01884/chr4/arcsv_out.tab
+    jobid: 10
+    reason: Missing output files: /data/results_ml0_s3/HG01884/chr4/arcsv_out.tab; Input files updated by another job: /data/work/HG01884/chr4.bam.bai, /data/work/HG01884/chr4.bam
+    wildcards: sample=HG01884, chrom=chr4
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=7003, mem=7 GB, mem_mib=6679
+Shell command: arcsv2 call -i /data/work/HG01884/chr4.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01884/chr4 --region chr4 --threads 4 --engine rust
+Select jobs to execute...
+[call:chr4     0.0s] start: /data/work/HG01884/chr4.bam (chr4)
+[call:chr4     0.0s] load_bam: /data/work/HG01884/chr4.bam (engine=rust)
+[bam_sort_core] merging from 32 files and 1 in-memory blocks...
+[bam_sort_core] merging from 29 files and 1 in-memory blocks...
+[Tue Oct  6 02:00:00 2026]
+Finished jobid: 55 (Rule: fetch_region)
+60 of 150 steps (40%) done
+[Tue Oct  6 02:00:14 2026]
+Finished jobid: 75 (Rule: fetch_region)
+61 of 150 steps (41%) done
+[bam_sort_core] merging from 13 files and 1 in-memory blocks...
+[bam_sort_core] merging from 3 files and 1 in-memory blocks...
+[Tue Oct  6 02:02:26 2026]
+Finished jobid: 73 (Rule: fetch_region)
+62 of 150 steps (41%) done
+[Tue Oct  6 02:03:10 2026]
+Finished jobid: 7 (Rule: fetch_region)
+63 of 150 steps (42%) done
+Execute 1 jobs...
+
+[Tue Oct  6 02:03:10 2026]
+localrule call:
+    input: /data/work/HG01150/chr8.bam, /data/work/HG01150/chr8.bam.bai
+    output: /data/results_ml0_s3/HG01150/chr8/arcsv_out.tab
+    jobid: 68
+    reason: Missing output files: /data/results_ml0_s3/HG01150/chr8/arcsv_out.tab; Input files updated by another job: /data/work/HG01150/chr8.bam.bai, /data/work/HG01150/chr8.bam
+    wildcards: sample=HG01150, chrom=chr8
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=5344, mem=5.34 GB, mem_mib=5097
+Shell command: arcsv2 call -i /data/work/HG01150/chr8.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01150/chr8 --region chr8 --threads 4 --engine rust
+Select jobs to execute...
+[call:chr8     0.0s] start: /data/work/HG01150/chr8.bam (chr8)
+[call:chr8     0.0s] load_bam: /data/work/HG01150/chr8.bam (engine=rust)
+[Tue Oct  6 02:04:03 2026]
+Finished jobid: 119 (Rule: fetch_region)
+64 of 150 steps (43%) done
+[Tue Oct  6 02:04:55 2026]
+Finished jobid: 125 (Rule: fetch_region)
+65 of 150 steps (43%) done
+[Tue Oct  6 02:05:13 2026]
+Finished jobid: 123 (Rule: fetch_region)
+66 of 150 steps (44%) done
+[Tue Oct  6 02:05:19 2026]
+Finished jobid: 105 (Rule: fetch_region)
+67 of 150 steps (45%) done
+Execute 1 jobs...
+
+[Tue Oct  6 02:05:19 2026]
+localrule call:
+    input: /data/work/HG00126/chr8.bam, /data/work/HG00126/chr8.bam.bai
+    output: /data/results_ml0_s3/HG00126/chr8/arcsv_out.tab
+    jobid: 118
+    reason: Missing output files: /data/results_ml0_s3/HG00126/chr8/arcsv_out.tab; Input files updated by another job: /data/work/HG00126/chr8.bam.bai, /data/work/HG00126/chr8.bam
+    wildcards: sample=HG00126, chrom=chr8
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=5344, mem=5.34 GB, mem_mib=5097
+Shell command: arcsv2 call -i /data/work/HG00126/chr8.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG00126/chr8 --region chr8 --threads 4 --engine rust
+Select jobs to execute...
+[Tue Oct  6 02:05:23 2026]
+Finished jobid: 63 (Rule: fetch_region)
+68 of 150 steps (45%) done
+[call:chr8     0.0s] start: /data/work/HG00126/chr8.bam (chr8)
+[call:chr8     0.0s] load_bam: /data/work/HG00126/chr8.bam (engine=rust)
+[Tue Oct  6 02:05:32 2026]
+Finished jobid: 57 (Rule: fetch_region)
+69 of 150 steps (46%) done
+[Tue Oct  6 02:07:16 2026]
+Finished jobid: 61 (Rule: fetch_region)
+70 of 150 steps (47%) done
+[Tue Oct  6 02:08:00 2026]
+Finished jobid: 113 (Rule: fetch_region)
+71 of 150 steps (47%) done
+Execute 1 jobs...
+
+[Tue Oct  6 02:08:00 2026]
+localrule call:
+    input: /data/work/HG01884/chr11.bam, /data/work/HG01884/chr11.bam.bai
+    output: /data/results_ml0_s3/HG01884/chr11/arcsv_out.tab
+    jobid: 24
+    reason: Missing output files: /data/results_ml0_s3/HG01884/chr11/arcsv_out.tab; Input files updated by another job: /data/work/HG01884/chr11.bam, /data/work/HG01884/chr11.bam.bai
+    wildcards: sample=HG01884, chrom=chr11
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=4974, mem=4.97 GB, mem_mib=4744
+Shell command: arcsv2 call -i /data/work/HG01884/chr11.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01884/chr11 --region chr11 --threads 4 --engine rust
+Select jobs to execute...
+[call:chr11     0.0s] start: /data/work/HG01884/chr11.bam (chr11)
+[call:chr11     0.0s] load_bam: /data/work/HG01884/chr11.bam (engine=rust)
+[call:chr8   309.3s] load_bam done: 34,263,252 alignments -> 17,021,638 pairs, 44270 breakpoints, 6532 splits (insert_stats=16,970,125, engine=rust)
+[call:chr8   309.3s] loaded: 17021638 pairs, 44270 clip/split bps, 6532 splits
+[call:chr8   309.3s] fit_libs: 17,021,638 pairs
+[call:chr8   414.5s] discover: scan 17,021,638 pairs for DRPs
+[Tue Oct  6 02:10:52 2026]
+Finished jobid: 111 (Rule: fetch_region)
+72 of 150 steps (48%) done
+[call:chr8   472.2s] discover: Del: 39,664 DRPs + 4 null reps
+[call:chr8   473.3s] discover: Del: null rep 2/4
+[call:chr8   474.2s] discover: Del: null rep 4/4
+[call:chr8   474.2s] discover: Dup: 6,540 DRPs + 4 null reps
+[call:chr8   474.4s] discover: Dup: null rep 2/4
+[call:chr8   474.5s] discover: Dup: null rep 4/4
+[call:chr8   474.5s] discover: Ins: 17,897 DRPs + 4 null reps
+[call:chr8   474.9s] discover: Ins: null rep 2/4
+[call:chr8   475.1s] discover: Ins: null rep 4/4
+[call:chr8   475.1s] discover: InvL: 381 DRPs + 4 null reps
+[call:chr8   475.1s] discover: InvL: null rep 2/4
+[call:chr8   475.1s] discover: InvL: null rep 4/4
+[call:chr8   475.1s] discover: InvR: 362 DRPs + 4 null reps
+[call:chr8   475.1s] discover: InvR: null rep 2/4
+[call:chr8   475.1s] discover: InvR: null rep 4/4
+[call:chr8   475.7s] discover done: 32,015 breakpoints
+[call:chr8   475.9s] blocks: 32,015 breakpoints -> 32,016 blocks (chrom_len=145,138,636)
+[call:chr8   475.9s] build_graph: 17,021,638 pairs x 32,016 blocks (rust)
+[call:chr8   486.2s] build_graph done: 79,572 edges
+[call:chr8   486.5s] insertions: test novel insertion sites
+[call:chr8   486.5s] insertions: 3211 candidate sites, 5 sizes, 79572 edges
+[call:chr8   494.1s] insertions: 160/3211 sites (23 kept)
+[call:chr8   501.4s] insertions: 320/3211 sites (28 kept)
+[call:chr8   509.7s] insertions: 480/3211 sites (35 kept)
+[call:chr11   220.2s] load_bam done: 31,728,967 alignments -> 15,776,884 pairs, 43479 breakpoints, 5687 splits (insert_stats=15,731,991, engine=rust)
+[call:chr11   220.2s] loaded: 15776884 pairs, 43479 clip/split bps, 5687 splits
+[call:chr11   220.2s] fit_libs: 15,776,884 pairs
+[Tue Oct  6 02:11:49 2026]
+Finished jobid: 107 (Rule: fetch_region)
+73 of 150 steps (49%) done
+[call:chr8   518.6s] insertions: 640/3211 sites (51 kept)
+[call:chr8   526.5s] insertions: 800/3211 sites (64 kept)
+[call:chr8   535.9s] insertions: 960/3211 sites (87 kept)
+[call:chr8   544.5s] insertions: 1120/3211 sites (93 kept)
+[call:chr8   554.6s] insertions: 1280/3211 sites (101 kept)
+[call:chr8   424.3s] load_bam done: 41,721,474 alignments -> 20,694,651 pairs, 55859 breakpoints, 8591 splits (insert_stats=20,638,058, engine=rust)
+[call:chr8   424.3s] loaded: 20694651 pairs, 55859 clip/split bps, 8591 splits
+[call:chr8   424.3s] fit_libs: 20,694,651 pairs
+[call:chr8   566.1s] insertions: 1440/3211 sites (111 kept)
+[call:chr8   576.6s] insertions: 1600/3211 sites (116 kept)
+[call:chr8   588.1s] insertions: 1760/3211 sites (119 kept)
+[call:chr8   598.8s] insertions: 1920/3211 sites (126 kept)
+[call:chr11   316.8s] discover: scan 15,776,884 pairs for DRPs
+[call:chr8   608.8s] insertions: 2080/3211 sites (131 kept)
+[call:chr17  1179.1s] load_bam done: 20,933,307 alignments -> 10,361,064 pairs, 41822 breakpoints, 4456 splits (insert_stats=10,083,690, engine=rust)
+[call:chr17  1179.1s] loaded: 10361064 pairs, 41822 clip/split bps, 4456 splits
+[call:chr17  1179.1s] fit_libs: 10,361,064 pairs
+[call:chr8   618.2s] insertions: 2240/3211 sites (133 kept)
+[call:chr8   629.7s] insertions: 2400/3211 sites (137 kept)
+[call:chr8   640.8s] insertions: 2560/3211 sites (141 kept)
+[call:chr8   652.0s] insertions: 2720/3211 sites (150 kept)
+[call:chr8   663.1s] insertions: 2880/3211 sites (158 kept)
+[call:chr11   374.8s] discover: Del: 37,047 DRPs + 4 null reps
+[call:chr11   375.7s] discover: Del: null rep 2/4
+[call:chr11   376.5s] discover: Del: null rep 4/4
+[call:chr11   376.5s] discover: Dup: 6,739 DRPs + 4 null reps
+[call:chr11   376.7s] discover: Dup: null rep 2/4
+[call:chr11   376.8s] discover: Dup: null rep 4/4
+[call:chr11   376.8s] discover: Ins: 12,548 DRPs + 4 null reps
+[call:chr11   377.0s] discover: Ins: null rep 2/4
+[call:chr11   377.1s] discover: Ins: null rep 4/4
+[call:chr11   377.1s] discover: InvL: 643 DRPs + 4 null reps
+[call:chr11   377.1s] discover: InvL: null rep 2/4
+[call:chr11   377.1s] discover: InvL: null rep 4/4
+[call:chr11   377.1s] discover: InvR: 624 DRPs + 4 null reps
+[call:chr11   377.2s] discover: InvR: null rep 2/4
+[call:chr11   377.2s] discover: InvR: null rep 4/4
+[call:chr11   377.7s] discover done: 32,768 breakpoints
+[call:chr11   378.0s] blocks: 32,768 breakpoints -> 32,769 blocks (chrom_len=135,086,622)
+[call:chr11   378.0s] build_graph: 15,776,884 pairs x 32,769 blocks (rust)
+[call:chr8   673.2s] insertions: 3040/3211 sites (183 kept)
+[call:chr11   387.2s] build_graph done: 79,379 edges
+[call:chr17  1244.6s] discover: scan 10,361,064 pairs for DRPs
+[call:chr11   387.4s] insertions: test novel insertion sites
+[call:chr11   387.4s] insertions: 3281 candidate sites, 5 sizes, 79379 edges
+[call:chr8   549.9s] discover: scan 20,694,651 pairs for DRPs
+[call:chr8   680.9s] insertions: 3200/3211 sites (229 kept)
+[call:chr8   681.5s] insertions done: 231 insertions placed
+[call:chr8   684.8s] genotype: 5651 loci (of 5651 merged)
+[call:chr8   685.3s] genotype: locus 1/5651 done
+[call:chr11   395.5s] insertions: 164/3281 sites (21 kept)
+[call:chr8   687.3s] genotype: locus 25/5651 done
+[call:chr8   688.7s] genotype: locus 50/5651 done
+[call:chr8   690.1s] genotype: locus 75/5651 done
+[call:chr8   692.0s] genotype: locus 100/5651 done
+[call:chr8   693.8s] genotype: locus 125/5651 done
+[call:chr8   695.5s] genotype: locus 150/5651 done
+[call:chr11   405.2s] insertions: 328/3281 sites (28 kept)
+[call:chr8   699.6s] genotype: locus 175/5651 done
+[call:chr8   701.0s] genotype: locus 200/5651 done
+[call:chr8   701.8s] genotype: locus 225/5651 done
+[call:chr8   702.8s] genotype: locus 250/5651 done
+[call:chr8   703.7s] genotype: locus 275/5651 done
+[call:chr8   704.5s] genotype: locus 300/5651 done
+[call:chr8   705.3s] genotype: locus 325/5651 done
+[call:chr8   706.2s] genotype: locus 350/5651 done
+[call:chr11   416.1s] insertions: 492/3281 sites (39 kept)
+[call:chr8   707.7s] genotype: locus 375/5651 done
+[call:chr8   709.0s] genotype: locus 400/5651 done
+[call:chr8   710.2s] genotype: locus 425/5651 done
+[call:chr8   711.2s] genotype: locus 450/5651 done
+[call:chr8   712.7s] genotype: locus 475/5651 done
+[call:chr8   714.1s] genotype: locus 500/5651 done
+[call:chr8   715.2s] genotype: locus 525/5651 done
+[call:chr8   716.2s] genotype: locus 550/5651 done
+[call:chr17  1283.4s] discover: Del: 25,142 DRPs + 4 null reps
+[call:chr8   717.2s] genotype: locus 575/5651 done
+[call:chr11   426.7s] insertions: 656/3281 sites (49 kept)
+[call:chr8   718.0s] genotype: locus 600/5651 done
+[call:chr17  1284.4s] discover: Del: null rep 2/4
+[call:chr17  1285.0s] discover: Del: null rep 4/4
+[call:chr17  1285.0s] discover: Dup: 7,442 DRPs + 4 null reps
+[call:chr8   718.8s] genotype: locus 625/5651 done
+[call:chr17  1285.6s] discover: Dup: null rep 2/4
+[call:chr17  1285.7s] discover: Dup: null rep 4/4
+[call:chr17  1285.7s] discover: Ins: 9,341 DRPs + 4 null reps
+[call:chr8   719.6s] genotype: locus 650/5651 done
+[call:chr17  1286.0s] discover: Ins: null rep 2/4
+[call:chr17  1286.1s] discover: Ins: null rep 4/4
+[call:chr17  1286.1s] discover: InvL: 495 DRPs + 4 null reps
+[call:chr17  1286.1s] discover: InvL: null rep 2/4
+[call:chr17  1286.1s] discover: InvL: null rep 4/4
+[call:chr17  1286.1s] discover: InvR: 449 DRPs + 4 null reps
+[call:chr17  1286.1s] discover: InvR: null rep 2/4
+[call:chr17  1286.1s] discover: InvR: null rep 4/4
+[call:chr8   720.3s] genotype: locus 675/5651 done
+[call:chr17  1286.6s] discover done: 33,543 breakpoints
+[call:chr17  1286.9s] blocks: 33,543 breakpoints -> 33,544 blocks (chrom_len=83,257,441)
+[call:chr17  1286.9s] build_graph: 10,361,064 pairs x 33,544 blocks (rust)
+[call:chr8   721.1s] genotype: locus 700/5651 done
+[call:chr8   721.9s] genotype: locus 725/5651 done
+[call:chr8   723.1s] genotype: locus 750/5651 done
+[call:chr8   724.0s] genotype: locus 775/5651 done
+[call:chr8   724.7s] genotype: locus 800/5651 done
+[call:chr8   725.5s] genotype: locus 825/5651 done
+[call:chr8   726.3s] genotype: locus 850/5651 done
+[call:chr8   728.0s] genotype: locus 875/5651 done
+[call:chr17  1294.4s] build_graph done: 96,857 edges
+[call:chr17  1294.5s] insertions: test novel insertion sites
+[call:chr17  1294.6s] insertions: 3254 candidate sites, 5 sizes, 96857 edges
+[call:chr11   437.4s] insertions: 820/3281 sites (51 kept)
+[call:chr8   729.4s] genotype: locus 900/5651 done
+[call:chr8   730.3s] genotype: locus 925/5651 done
+[call:chr8   731.1s] genotype: locus 950/5651 done
+[call:chr8   731.8s] genotype: locus 975/5651 done
+[call:chr8   732.5s] genotype: locus 1000/5651 done
+[call:chr8   733.7s] genotype: locus 1025/5651 done
+[call:chr8   735.0s] genotype: locus 1050/5651 done
+[call:chr17  1302.0s] insertions: 162/3254 sites (10 kept)
+[call:chr8   736.4s] genotype: locus 1075/5651 done
+[call:chr11   446.8s] insertions: 984/3281 sites (57 kept)
+[call:chr8   738.0s] genotype: locus 1100/5651 done
+[call:chr8   739.6s] genotype: locus 1125/5651 done
+[call:chr8   741.3s] genotype: locus 1150/5651 done
+[call:chr8   742.7s] genotype: locus 1175/5651 done
+[call:chr17  1309.0s] insertions: 324/3254 sites (18 kept)
+[call:chr8   743.9s] genotype: locus 1200/5651 done
+[call:chr8   744.8s] genotype: locus 1225/5651 done
+[call:chr8   745.8s] genotype: locus 1250/5651 done
+[call:chr8   746.7s] genotype: locus 1275/5651 done
+[call:chr8   747.9s] genotype: locus 1300/5651 done
+[call:chr11   457.6s] insertions: 1148/3281 sites (62 kept)
+[call:chr8   748.9s] genotype: locus 1325/5651 done
+[call:chr17  1315.6s] insertions: 486/3254 sites (34 kept)
+[call:chr8   750.2s] genotype: locus 1350/5651 done
+[call:chr8   752.8s] genotype: locus 1375/5651 done
+[call:chr8   754.3s] genotype: locus 1400/5651 done
+[call:chr8   755.2s] genotype: locus 1425/5651 done
+[call:chr8   756.2s] genotype: locus 1450/5651 done
+[call:chr8   757.2s] genotype: locus 1475/5651 done
+[call:chr11   467.3s] insertions: 1312/3281 sites (75 kept)
+[call:chr8   758.3s] genotype: locus 1500/5651 done
+[call:chr17  1325.0s] insertions: 648/3254 sites (40 kept)
+[call:chr8   759.5s] genotype: locus 1525/5651 done
+[call:chr8   629.4s] discover: Del: 52,396 DRPs + 4 null reps
+[call:chr8   761.1s] genotype: locus 1550/5651 done
+[call:chr8   631.3s] discover: Del: null rep 2/4
+[call:chr8   762.7s] genotype: locus 1575/5651 done
+[call:chr8   632.5s] discover: Del: null rep 4/4
+[call:chr8   632.6s] discover: Dup: 8,803 DRPs + 4 null reps
+[call:chr8   632.9s] discover: Dup: null rep 2/4
+[call:chr8   633.0s] discover: Dup: null rep 4/4
+[call:chr8   633.0s] discover: Ins: 18,431 DRPs + 4 null reps
+[call:chr8   633.5s] discover: Ins: null rep 2/4
+[call:chr8   633.7s] discover: Ins: null rep 4/4
+[call:chr8   633.7s] discover: InvL: 653 DRPs + 4 null reps
+[call:chr8   633.7s] discover: InvL: null rep 2/4
+[call:chr8   633.7s] discover: InvL: null rep 4/4
+[call:chr8   633.7s] discover: InvR: 570 DRPs + 4 null reps
+[call:chr8   633.7s] discover: InvR: null rep 2/4
+[call:chr8   633.7s] discover: InvR: null rep 4/4
+[call:chr8   764.3s] genotype: locus 1600/5651 done
+[call:chr8   634.5s] discover done: 39,322 breakpoints
+[call:chr8   634.9s] blocks: 39,322 breakpoints -> 39,323 blocks (chrom_len=145,138,636)
+[call:chr8   634.9s] build_graph: 20,694,651 pairs x 39,323 blocks (rust)
+[call:chr8   765.3s] genotype: locus 1625/5651 done
+[call:chr8   766.5s] genotype: locus 1650/5651 done
+[call:chr8   767.8s] genotype: locus 1675/5651 done
+[call:chr17  1334.2s] insertions: 810/3254 sites (54 kept)
+[call:chr11   477.6s] insertions: 1476/3281 sites (83 kept)
+[call:chr8   768.8s] genotype: locus 1700/5651 done
+[call:chr8   769.8s] genotype: locus 1725/5651 done
+[call:chr8   773.8s] genotype: locus 1750/5651 done
+[call:chr8   776.0s] genotype: locus 1775/5651 done
+[call:chr11   486.2s] insertions: 1640/3281 sites (93 kept)
+[call:chr17  1343.7s] insertions: 972/3254 sites (74 kept)
+[call:chr8   777.4s] genotype: locus 1800/5651 done
+[call:chr8   778.6s] genotype: locus 1825/5651 done
+[call:chr8   779.8s] genotype: locus 1850/5651 done
+[call:chr8   649.9s] build_graph done: 98,521 edges
+[call:chr8   650.2s] insertions: test novel insertion sites
+[call:chr8   650.3s] insertions: 3932 candidate sites, 5 sizes, 98521 edges
+[call:chr8   780.9s] genotype: locus 1875/5651 done
+[call:chr8   782.0s] genotype: locus 1900/5651 done
+[call:chr8   783.2s] genotype: locus 1925/5651 done
+[call:chr8   784.4s] genotype: locus 1950/5651 done
+[call:chr8   786.0s] genotype: locus 1975/5651 done
+[call:chr11   495.4s] insertions: 1804/3281 sites (99 kept)
+[call:chr17  1352.7s] insertions: 1134/3254 sites (79 kept)
+[call:chr8   787.1s] genotype: locus 2000/5651 done
+[call:chr8   789.8s] genotype: locus 2025/5651 done
+[call:chr8   661.1s] insertions: 196/3932 sites (11 kept)
+[call:chr8   792.2s] genotype: locus 2050/5651 done
+[call:chr8   794.0s] genotype: locus 2075/5651 done
+[call:chr8   795.8s] genotype: locus 2100/5651 done
+[call:chr11   505.6s] insertions: 1968/3281 sites (104 kept)
+[call:chr8   796.7s] genotype: locus 2125/5651 done
+[call:chr8   797.6s] genotype: locus 2150/5651 done
+[call:chr8   798.9s] genotype: locus 2175/5651 done
+[call:chr8   800.0s] genotype: locus 2200/5651 done
+[call:chr8   800.9s] genotype: locus 2225/5651 done
+[call:chr8   671.5s] insertions: 392/3932 sites (19 kept)
+[call:chr8   802.0s] genotype: locus 2250/5651 done
+[call:chr8   806.2s] genotype: locus 2275/5651 done
+[call:chr8   807.9s] genotype: locus 2300/5651 done
+[call:chr11   517.7s] insertions: 2132/3281 sites (109 kept)
+[call:chr8   808.7s] genotype: locus 2325/5651 done
+[call:chr8   809.7s] genotype: locus 2350/5651 done
+[call:chr8   810.5s] genotype: locus 2375/5651 done
+[call:chr8   811.6s] genotype: locus 2400/5651 done
+[call:chr8   812.4s] genotype: locus 2425/5651 done
+[call:chr8   813.5s] genotype: locus 2450/5651 done
+[call:chr8   683.4s] insertions: 588/3932 sites (21 kept)
+[call:chr8   814.5s] genotype: locus 2475/5651 done
+[call:chr8   815.4s] genotype: locus 2500/5651 done
+[call:chr8   816.3s] genotype: locus 2525/5651 done
+[call:chr8   817.1s] genotype: locus 2550/5651 done
+[call:chr8   818.3s] genotype: locus 2575/5651 done
+[call:chr8   819.3s] genotype: locus 2600/5651 done
+[call:chr8   820.3s] genotype: locus 2625/5651 done
+[call:chr11   529.9s] insertions: 2296/3281 sites (118 kept)
+[call:chr8   821.1s] genotype: locus 2650/5651 done
+[call:chr8   822.1s] genotype: locus 2675/5651 done
+[call:chr8   822.9s] genotype: locus 2700/5651 done
+[call:chr8   823.9s] genotype: locus 2725/5651 done
+[call:chr8   825.1s] genotype: locus 2750/5651 done
+[call:chr8   826.5s] genotype: locus 2775/5651 done
+[call:chr8   696.2s] insertions: 784/3932 sites (34 kept)
+[call:chr8   827.7s] genotype: locus 2800/5651 done
+[call:chr8   828.8s] genotype: locus 2825/5651 done
+[call:chr8   829.7s] genotype: locus 2850/5651 done
+[call:chr8   830.5s] genotype: locus 2875/5651 done
+[call:chr8   831.4s] genotype: locus 2900/5651 done
+[call:chr8   832.4s] genotype: locus 2925/5651 done
+[call:chr8   833.2s] genotype: locus 2950/5651 done
+[call:chr11   542.8s] insertions: 2460/3281 sites (120 kept)
+[call:chr8   834.0s] genotype: locus 2975/5651 done
+[call:chr8   834.8s] genotype: locus 3000/5651 done
+[call:chr8   835.6s] genotype: locus 3025/5651 done
+[call:chr8   836.6s] genotype: locus 3050/5651 done
+[call:chr8   837.4s] genotype: locus 3075/5651 done
+[call:chr8   707.1s] insertions: 980/3932 sites (38 kept)
+[call:chr8   838.2s] genotype: locus 3100/5651 done
+[call:chr8   838.9s] genotype: locus 3125/5651 done
+[call:chr8   839.8s] genotype: locus 3150/5651 done
+[call:chr8   840.6s] genotype: locus 3175/5651 done
+[call:chr8   841.5s] genotype: locus 3200/5651 done
+[call:chr8   842.2s] genotype: locus 3225/5651 done
+[call:chr8   843.0s] genotype: locus 3250/5651 done
+[call:chr8   843.8s] genotype: locus 3275/5651 done
+[call:chr8   844.7s] genotype: locus 3300/5651 done
+[call:chr8   845.7s] genotype: locus 3325/5651 done
+[call:chr8   846.8s] genotype: locus 3350/5651 done
+[call:chr11   556.2s] insertions: 2624/3281 sites (129 kept)
+[call:chr8   847.8s] genotype: locus 3375/5651 done
+[call:chr8   849.1s] genotype: locus 3400/5651 done
+[call:chr8   719.2s] insertions: 1176/3932 sites (44 kept)
+[call:chr8   850.5s] genotype: locus 3425/5651 done
+[call:chr8   851.6s] genotype: locus 3450/5651 done
+[call:chr8   852.4s] genotype: locus 3475/5651 done
+[call:chr8   853.3s] genotype: locus 3500/5651 done
+[call:chr8   854.4s] genotype: locus 3525/5651 done
+[call:chr8   855.4s] genotype: locus 3550/5651 done
+[call:chr8   856.6s] genotype: locus 3575/5651 done
+[call:chr8   857.7s] genotype: locus 3600/5651 done
+[call:chr11   567.3s] insertions: 2788/3281 sites (131 kept)
+[call:chr8   858.7s] genotype: locus 3625/5651 done
+[call:chr8   859.8s] genotype: locus 3650/5651 done
+[call:chr8   861.0s] genotype: locus 3675/5651 done
+[call:chr8   731.5s] insertions: 1372/3932 sites (52 kept)
+[call:chr8   862.4s] genotype: locus 3700/5651 done
+[call:chr8   863.5s] genotype: locus 3725/5651 done
+[call:chr8   864.5s] genotype: locus 3750/5651 done
+[call:chr8   865.4s] genotype: locus 3775/5651 done
+[call:chr8   866.2s] genotype: locus 3800/5651 done
+[call:chr8   866.9s] genotype: locus 3825/5651 done
+[call:chr8   867.8s] genotype: locus 3850/5651 done
+[call:chr8   868.5s] genotype: locus 3875/5651 done
+[call:chr11   577.7s] insertions: 2952/3281 sites (142 kept)
+[call:chr8   869.4s] genotype: locus 3900/5651 done
+[call:chr8   870.3s] genotype: locus 3925/5651 done
+[call:chr8   871.1s] genotype: locus 3950/5651 done
+[call:chr8   872.2s] genotype: locus 3975/5651 done
+[call:chr8   873.1s] genotype: locus 4000/5651 done
+[call:chr8   874.7s] genotype: locus 4025/5651 done
+[call:chr8   745.2s] insertions: 1568/3932 sites (53 kept)
+[call:chr8   876.0s] genotype: locus 4050/5651 done
+[call:chr8   876.7s] genotype: locus 4075/5651 done
+[call:chr8   877.7s] genotype: locus 4100/5651 done
+[call:chr8   878.6s] genotype: locus 4125/5651 done
+[call:chr8   880.0s] genotype: locus 4150/5651 done
+[call:chr17  1446.5s] insertions: 1296/3254 sites (145 kept)
+[call:chr11   590.0s] insertions: 3116/3281 sites (151 kept)
+[call:chr8   881.3s] genotype: locus 4175/5651 done
+[call:chr8   882.3s] genotype: locus 4200/5651 done
+[call:chr8   883.1s] genotype: locus 4225/5651 done
+[call:chr8   883.9s] genotype: locus 4250/5651 done
+[call:chr8   884.6s] genotype: locus 4275/5651 done
+[call:chr8   885.4s] genotype: locus 4300/5651 done
+[call:chr8   886.3s] genotype: locus 4325/5651 done
+[call:chr8   887.2s] genotype: locus 4350/5651 done
+[call:chr8   888.0s] genotype: locus 4375/5651 done
+[call:chr8   888.9s] genotype: locus 4400/5651 done
+[call:chr8   889.9s] genotype: locus 4425/5651 done
+[call:chr8   891.7s] genotype: locus 4450/5651 done
+[call:chr8   762.7s] insertions: 1764/3932 sites (61 kept)
+[call:chr8   893.2s] genotype: locus 4475/5651 done
+[call:chr17  1460.1s] insertions: 1458/3254 sites (158 kept)
+[call:chr8   894.4s] genotype: locus 4500/5651 done
+[call:chr11   603.8s] insertions: 3280/3281 sites (162 kept)
+[call:chr11   604.0s] insertions done: 162 insertions placed
+[call:chr8   895.6s] genotype: locus 4525/5651 done
+[call:chr8   896.8s] genotype: locus 4550/5651 done
+[call:chr8   898.1s] genotype: locus 4575/5651 done
+[call:chr11   608.3s] genotype: 6110 loci (of 6110 merged)
+[call:chr8   899.2s] genotype: locus 4600/5651 done
+[call:chr11   608.6s] genotype: locus 1/6110 done
+[call:chr8   900.1s] genotype: locus 4625/5651 done
+[call:chr8   900.9s] genotype: locus 4650/5651 done
+[call:chr11   610.3s] genotype: locus 25/6110 done
+[call:chr8   901.8s] genotype: locus 4675/5651 done
+[call:chr8   902.5s] genotype: locus 4700/5651 done
+[call:chr8   903.4s] genotype: locus 4725/5651 done
+[call:chr17  1469.8s] insertions: 1620/3254 sites (165 kept)
+[call:chr8   904.2s] genotype: locus 4750/5651 done
+[call:chr11   614.1s] genotype: locus 50/6110 done
+[call:chr8   905.1s] genotype: locus 4775/5651 done
+[call:chr8   906.0s] genotype: locus 4800/5651 done
+[call:chr11   615.4s] genotype: locus 75/6110 done
+[call:chr8   906.8s] genotype: locus 4825/5651 done
+[call:chr11   616.9s] genotype: locus 100/6110 done
+[call:chr8   907.9s] genotype: locus 4850/5651 done
+[call:chr8   908.9s] genotype: locus 4875/5651 done
+[call:chr8   778.6s] insertions: 1960/3932 sites (64 kept)
+[call:chr11   618.5s] genotype: locus 125/6110 done
+[call:chr8   909.9s] genotype: locus 4900/5651 done
+[call:chr8   910.8s] genotype: locus 4925/5651 done
+[call:chr8   911.7s] genotype: locus 4950/5651 done
+[call:chr11   621.1s] genotype: locus 150/6110 done
+[call:chr17  1478.3s] insertions: 1782/3254 sites (170 kept)
+[call:chr8   912.6s] genotype: locus 4975/5651 done
+[call:chr11   622.6s] genotype: locus 175/6110 done
+[call:chr8   913.7s] genotype: locus 5000/5651 done
+[call:chr8   914.6s] genotype: locus 5025/5651 done
+[call:chr11   623.8s] genotype: locus 200/6110 done
+[call:chr8   915.9s] genotype: locus 5050/5651 done
+[call:chr11   624.9s] genotype: locus 225/6110 done
+[call:chr8   917.1s] genotype: locus 5075/5651 done
+[call:chr11   626.3s] genotype: locus 250/6110 done
+[call:chr8   918.3s] genotype: locus 5100/5651 done
+[call:chr11   627.5s] genotype: locus 275/6110 done
+[call:chr11   628.7s] genotype: locus 300/6110 done
+[call:chr17  1486.0s] insertions: 1944/3254 sites (179 kept)
+[call:chr8   920.4s] genotype: locus 5125/5651 done
+[call:chr11   630.0s] genotype: locus 325/6110 done
+[call:chr11   630.8s] genotype: locus 350/6110 done
+[call:chr8   921.8s] genotype: locus 5150/5651 done
+[call:chr8   922.7s] genotype: locus 5175/5651 done
+[call:chr11   631.9s] genotype: locus 375/6110 done
+[call:chr8   923.5s] genotype: locus 5200/5651 done
+[call:chr11   633.1s] genotype: locus 400/6110 done
+[call:chr8   924.5s] genotype: locus 5225/5651 done
+[call:chr11   633.9s] genotype: locus 425/6110 done
+[call:chr8   794.8s] insertions: 2156/3932 sites (66 kept)
+[call:chr8   925.4s] genotype: locus 5250/5651 done
+[call:chr11   634.8s] genotype: locus 450/6110 done
+[call:chr8   926.4s] genotype: locus 5275/5651 done
+[call:chr11   635.6s] genotype: locus 475/6110 done
+[call:chr11   636.5s] genotype: locus 500/6110 done
+[call:chr8   927.4s] genotype: locus 5300/5651 done
+[call:chr17  1494.5s] insertions: 2106/3254 sites (186 kept)
+[call:chr11   637.3s] genotype: locus 525/6110 done
+[call:chr11   638.1s] genotype: locus 550/6110 done
+[call:chr8   929.2s] genotype: locus 5325/5651 done
+[call:chr11   639.0s] genotype: locus 575/6110 done
+[call:chr11   639.7s] genotype: locus 600/6110 done
+[call:chr8   930.8s] genotype: locus 5350/5651 done
+[call:chr11   640.6s] genotype: locus 625/6110 done
+[call:chr11   641.6s] genotype: locus 650/6110 done
+[call:chr8   932.8s] genotype: locus 5375/5651 done
+[call:chr11   642.6s] genotype: locus 675/6110 done
+[call:chr8   934.4s] genotype: locus 5400/5651 done
+[call:chr11   643.6s] genotype: locus 700/6110 done
+[call:chr11   644.7s] genotype: locus 725/6110 done
+[call:chr11   645.7s] genotype: locus 750/6110 done
+[call:chr8   936.7s] genotype: locus 5425/5651 done
+[call:chr11   646.7s] genotype: locus 775/6110 done
+[call:chr17  1504.2s] insertions: 2268/3254 sites (189 kept)
+[call:chr11   647.6s] genotype: locus 800/6110 done
+[call:chr11   648.6s] genotype: locus 825/6110 done
+[call:chr11   649.3s] genotype: locus 850/6110 done
+[call:chr11   650.4s] genotype: locus 875/6110 done
+[call:chr8   941.4s] genotype: locus 5450/5651 done
+[call:chr11   651.3s] genotype: locus 900/6110 done
+[call:chr8   812.3s] insertions: 2352/3932 sites (69 kept)
+[call:chr11   652.4s] genotype: locus 925/6110 done
+[call:chr8   944.6s] genotype: locus 5475/5651 done
+[call:chr11   653.8s] genotype: locus 950/6110 done
+[call:chr11   655.0s] genotype: locus 975/6110 done
+[call:chr8   946.0s] genotype: locus 5500/5651 done
+[call:chr11   656.5s] genotype: locus 1000/6110 done
+[call:chr8   948.2s] genotype: locus 5525/5651 done
+[call:chr17  1514.6s] insertions: 2430/3254 sites (195 kept)
+[call:chr11   657.6s] genotype: locus 1025/6110 done
+[call:chr11   658.3s] genotype: locus 1050/6110 done
+[call:chr11   659.1s] genotype: locus 1075/6110 done
+[call:chr8   950.1s] genotype: locus 5550/5651 done
+[call:chr11   660.2s] genotype: locus 1100/6110 done
+[call:chr8   951.9s] genotype: locus 5575/5651 done
+[call:chr11   661.3s] genotype: locus 1125/6110 done
+[call:chr11   662.2s] genotype: locus 1150/6110 done
+[call:chr8   953.4s] genotype: locus 5600/5651 done
+[call:chr11   663.3s] genotype: locus 1175/6110 done
+[call:chr11   664.3s] genotype: locus 1200/6110 done
+[call:chr8   955.4s] genotype: locus 5625/5651 done
+[call:chr11   665.3s] genotype: locus 1225/6110 done
+[call:chr11   666.0s] genotype: locus 1250/6110 done
+[call:chr11   667.1s] genotype: locus 1275/6110 done
+[call:chr8   828.7s] insertions: 2548/3932 sites (71 kept)
+[call:chr11   668.2s] genotype: locus 1300/6110 done
+[call:chr17  1525.6s] insertions: 2592/3254 sites (200 kept)
+[call:chr8   959.5s] genotype: locus 5650/5651 done
+[call:chr11   669.3s] genotype: locus 1325/6110 done
+[call:chr11   670.1s] genotype: locus 1350/6110 done
+[call:chr11   671.2s] genotype: locus 1375/6110 done
+[call:chr8   962.2s] genotype: locus 5651/5651 done
+[call:chr8   962.2s] genotype done: 541 calls
+[call:chr8   962.4s] done: 541 calls -> /data/results_ml0_s3/HG01150/chr8/arcsv_out.tab
+wrote 541 calls to /data/results_ml0_s3/HG01150/chr8/arcsv_out.tab
+[Tue Oct  6 02:19:20 2026]
+Finished jobid: 68 (Rule: call)
+74 of 150 steps (49%) done
+Execute 1 jobs...
+
+[Tue Oct  6 02:19:20 2026]
+localrule call:
+    input: /data/work/HG01150/chr6.bam, /data/work/HG01150/chr6.bam.bai
+    output: /data/results_ml0_s3/HG01150/chr6/arcsv_out.tab
+    jobid: 64
+    reason: Missing output files: /data/results_ml0_s3/HG01150/chr6/arcsv_out.tab; Input files updated by another job: /data/work/HG01150/chr6.bam, /data/work/HG01150/chr6.bam.bai
+    wildcards: sample=HG01150, chrom=chr6
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=6289, mem=6.29 GB, mem_mib=5998
+Shell command: arcsv2 call -i /data/work/HG01150/chr6.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01150/chr6 --region chr6 --threads 4 --engine rust
+Select jobs to execute...
+[call:chr11   672.3s] genotype: locus 1400/6110 done
+[call:chr11   673.1s] genotype: locus 1425/6110 done
+[call:chr11   674.0s] genotype: locus 1450/6110 done
+[call:chr11   674.9s] genotype: locus 1475/6110 done
+[call:chr11   675.7s] genotype: locus 1500/6110 done
+[call:chr11   676.6s] genotype: locus 1525/6110 done
+[call:chr6     0.0s] start: /data/work/HG01150/chr6.bam (chr6)
+[call:chr6     0.0s] load_bam: /data/work/HG01150/chr6.bam (engine=rust)
+[call:chr11   677.4s] genotype: locus 1550/6110 done
+[call:chr17  1535.3s] insertions: 2754/3254 sites (207 kept)
+[call:chr11   678.1s] genotype: locus 1575/6110 done
+[call:chr11   679.0s] genotype: locus 1600/6110 done
+[call:chr11   680.1s] genotype: locus 1625/6110 done
+[call:chr11   680.8s] genotype: locus 1650/6110 done
+[call:chr11   681.5s] genotype: locus 1675/6110 done
+[call:chr11   682.1s] genotype: locus 1700/6110 done
+[call:chr11   682.7s] genotype: locus 1725/6110 done
+[call:chr8   843.7s] insertions: 2744/3932 sites (72 kept)
+[call:chr11   683.4s] genotype: locus 1750/6110 done
+[call:chr11   684.2s] genotype: locus 1775/6110 done
+[call:chr11   685.3s] genotype: locus 1800/6110 done
+[call:chr17  1543.1s] insertions: 2916/3254 sites (217 kept)
+[call:chr11   686.4s] genotype: locus 1825/6110 done
+[call:chr11   687.3s] genotype: locus 1850/6110 done
+[call:chr11   688.3s] genotype: locus 1875/6110 done
+[call:chr11   689.1s] genotype: locus 1900/6110 done
+[call:chr11   690.1s] genotype: locus 1925/6110 done
+[call:chr11   691.2s] genotype: locus 1950/6110 done
+[call:chr11   692.1s] genotype: locus 1975/6110 done
+[call:chr11   693.9s] genotype: locus 2000/6110 done
+[call:chr17  1552.1s] insertions: 3078/3254 sites (231 kept)
+[call:chr11   695.0s] genotype: locus 2025/6110 done
+[call:chr11   696.1s] genotype: locus 2050/6110 done
+[call:chr11   697.4s] genotype: locus 2075/6110 done
+[call:chr11   698.7s] genotype: locus 2100/6110 done
+[call:chr11   700.2s] genotype: locus 2125/6110 done
+[call:chr8   860.9s] insertions: 2940/3932 sites (75 kept)
+[call:chr11   701.2s] genotype: locus 2150/6110 done
+[call:chr11   702.2s] genotype: locus 2175/6110 done
+[call:chr11   702.9s] genotype: locus 2200/6110 done
+[call:chr17  1560.6s] insertions: 3240/3254 sites (252 kept)
+[call:chr11   703.7s] genotype: locus 2225/6110 done
+[call:chr17  1561.7s] insertions done: 254 insertions placed
+[call:chr11   704.7s] genotype: locus 2250/6110 done
+[call:chr11   706.2s] genotype: locus 2275/6110 done
+[call:chr11   708.0s] genotype: locus 2300/6110 done
+[call:chr17  1565.3s] genotype: 5171 loci (of 5171 merged)
+[call:chr17  1565.6s] genotype: locus 1/5171 done
+[call:chr11   709.7s] genotype: locus 2325/6110 done
+[call:chr17  1567.4s] genotype: locus 25/5171 done
+[call:chr17  1568.8s] genotype: locus 50/5171 done
+[call:chr17  1570.1s] genotype: locus 75/5171 done
+[call:chr11   713.5s] genotype: locus 2350/6110 done
+[call:chr17  1571.1s] genotype: locus 100/5171 done
+[call:chr17  1572.0s] genotype: locus 125/5171 done
+[call:chr11   715.6s] genotype: locus 2375/6110 done
+[call:chr17  1573.2s] genotype: locus 150/5171 done
+[call:chr8   877.1s] insertions: 3136/3932 sites (79 kept)
+[call:chr11   716.7s] genotype: locus 2400/6110 done
+[call:chr17  1574.1s] genotype: locus 175/5171 done
+[call:chr11   717.9s] genotype: locus 2425/6110 done
+[call:chr17  1575.2s] genotype: locus 200/5171 done
+[call:chr17  1576.2s] genotype: locus 225/5171 done
+[call:chr17  1577.0s] genotype: locus 250/5171 done
+[call:chr11   720.3s] genotype: locus 2450/6110 done
+[call:chr17  1577.9s] genotype: locus 275/5171 done
+[call:chr17  1578.9s] genotype: locus 300/5171 done
+[call:chr11   721.7s] genotype: locus 2475/6110 done
+[call:chr17  1580.0s] genotype: locus 325/5171 done
+[call:chr11   724.6s] genotype: locus 2500/6110 done
+[call:chr17  1582.0s] genotype: locus 350/5171 done
+[call:chr17  1583.9s] genotype: locus 375/5171 done
+[call:chr11   726.8s] genotype: locus 2525/6110 done
+[call:chr17  1584.9s] genotype: locus 400/5171 done
+[call:chr11   728.2s] genotype: locus 2550/6110 done
+[call:chr17  1586.0s] genotype: locus 425/5171 done
+[call:chr11   729.4s] genotype: locus 2575/6110 done
+[call:chr17  1587.3s] genotype: locus 450/5171 done
+[call:chr11   730.5s] genotype: locus 2600/6110 done
+[call:chr17  1588.4s] genotype: locus 475/5171 done
+[call:chr11   731.7s] genotype: locus 2625/6110 done
+[call:chr17  1589.3s] genotype: locus 500/5171 done
+[call:chr11   732.9s] genotype: locus 2650/6110 done
+[call:chr17  1590.2s] genotype: locus 525/5171 done
+[call:chr11   733.8s] genotype: locus 2675/6110 done
+[call:chr17  1591.1s] genotype: locus 550/5171 done
+[call:chr11   734.7s] genotype: locus 2700/6110 done
+[call:chr8   895.8s] insertions: 3332/3932 sites (88 kept)
+[call:chr17  1592.7s] genotype: locus 575/5171 done
+[call:chr11   735.6s] genotype: locus 2725/6110 done
+[call:chr11   736.6s] genotype: locus 2750/6110 done
+[call:chr17  1593.9s] genotype: locus 600/5171 done
+[call:chr17  1594.9s] genotype: locus 625/5171 done
+[call:chr11   737.8s] genotype: locus 2775/6110 done
+[call:chr11   738.8s] genotype: locus 2800/6110 done
+[call:chr17  1596.2s] genotype: locus 650/5171 done
+[call:chr11   740.3s] genotype: locus 2825/6110 done
+[call:chr17  1597.5s] genotype: locus 675/5171 done
+[call:chr17  1598.4s] genotype: locus 700/5171 done
+[call:chr11   741.3s] genotype: locus 2850/6110 done
+[call:chr17  1599.3s] genotype: locus 725/5171 done
+[call:chr11   742.4s] genotype: locus 2875/6110 done
+[call:chr17  1600.5s] genotype: locus 750/5171 done
+[call:chr11   743.7s] genotype: locus 2900/6110 done
+[call:chr11   744.6s] genotype: locus 2925/6110 done
+[call:chr17  1602.0s] genotype: locus 775/5171 done
+[call:chr11   745.6s] genotype: locus 2950/6110 done
+[call:chr17  1603.1s] genotype: locus 800/5171 done
+[call:chr11   746.7s] genotype: locus 2975/6110 done
+[call:chr17  1604.5s] genotype: locus 825/5171 done
+[call:chr11   747.7s] genotype: locus 3000/6110 done
+[call:chr11   748.6s] genotype: locus 3025/6110 done
+[call:chr17  1606.2s] genotype: locus 850/5171 done
+[call:chr11   749.5s] genotype: locus 3050/6110 done
+[call:chr11   750.3s] genotype: locus 3075/6110 done
+[call:chr17  1608.3s] genotype: locus 875/5171 done
+[call:chr11   751.6s] genotype: locus 3100/6110 done
+[call:chr11   752.6s] genotype: locus 3125/6110 done
+[call:chr17  1610.0s] genotype: locus 900/5171 done
+[call:chr8   913.7s] insertions: 3528/3932 sites (90 kept)
+[call:chr11   753.5s] genotype: locus 3150/6110 done
+[call:chr11   754.7s] genotype: locus 3175/6110 done
+[call:chr17  1612.3s] genotype: locus 925/5171 done
+[call:chr11   755.7s] genotype: locus 3200/6110 done
+[call:chr17  1613.7s] genotype: locus 950/5171 done
+[call:chr11   756.7s] genotype: locus 3225/6110 done
+[call:chr17  1614.9s] genotype: locus 975/5171 done
+[call:chr11   758.4s] genotype: locus 3250/6110 done
+[call:chr17  1616.0s] genotype: locus 1000/5171 done
+[call:chr11   759.7s] genotype: locus 3275/6110 done
+[call:chr17  1617.2s] genotype: locus 1025/5171 done
+[call:chr17  1618.1s] genotype: locus 1050/5171 done
+[call:chr11   760.9s] genotype: locus 3300/6110 done
+[call:chr17  1619.1s] genotype: locus 1075/5171 done
+[call:chr11   762.7s] genotype: locus 3325/6110 done
+[call:chr17  1620.0s] genotype: locus 1100/5171 done
+[call:chr17  1621.1s] genotype: locus 1125/5171 done
+[call:chr11   764.3s] genotype: locus 3350/6110 done
+[call:chr17  1622.2s] genotype: locus 1150/5171 done
+[call:chr11   765.8s] genotype: locus 3375/6110 done
+[call:chr17  1623.5s] genotype: locus 1175/5171 done
+[call:chr17  1624.7s] genotype: locus 1200/5171 done
+[call:chr8   928.2s] insertions: 3724/3932 sites (107 kept)
+[call:chr11   768.3s] genotype: locus 3400/6110 done
+[call:chr17  1625.7s] genotype: locus 1225/5171 done
+[call:chr17  1626.6s] genotype: locus 1250/5171 done
+[call:chr11   770.3s] genotype: locus 3425/6110 done
+[call:chr17  1627.6s] genotype: locus 1275/5171 done
+[call:chr17  1628.7s] genotype: locus 1300/5171 done
+[call:chr11   771.6s] genotype: locus 3450/6110 done
+[call:chr17  1629.6s] genotype: locus 1325/5171 done
+[call:chr11   772.9s] genotype: locus 3475/6110 done
+[call:chr17  1630.6s] genotype: locus 1350/5171 done
+[call:chr17  1631.4s] genotype: locus 1375/5171 done
+[call:chr11   774.3s] genotype: locus 3500/6110 done
+[call:chr17  1632.5s] genotype: locus 1400/5171 done
+[call:chr11   775.5s] genotype: locus 3525/6110 done
+[call:chr17  1633.6s] genotype: locus 1425/5171 done
+[call:chr11   776.6s] genotype: locus 3550/6110 done
+[call:chr11   777.5s] genotype: locus 3575/6110 done
+[call:chr17  1635.6s] genotype: locus 1450/5171 done
+[call:chr11   778.5s] genotype: locus 3600/6110 done
+[call:chr17  1636.6s] genotype: locus 1475/5171 done
+[call:chr11   779.7s] genotype: locus 3625/6110 done
+[call:chr17  1637.9s] genotype: locus 1500/5171 done
+[call:chr11   780.8s] genotype: locus 3650/6110 done
+[call:chr8   941.9s] insertions: 3920/3932 sites (122 kept)
+[call:chr17  1639.2s] genotype: locus 1525/5171 done
+[call:chr11   782.2s] genotype: locus 3675/6110 done
+[call:chr8   943.0s] insertions done: 122 insertions placed
+[call:chr17  1640.3s] genotype: locus 1550/5171 done
+[call:chr11   783.7s] genotype: locus 3700/6110 done
+[call:chr17  1641.5s] genotype: locus 1575/5171 done
+[call:chr17  1642.6s] genotype: locus 1600/5171 done
+[call:chr11   785.9s] genotype: locus 3725/6110 done
+[call:chr17  1644.1s] genotype: locus 1625/5171 done
+[call:chr8   947.9s] genotype: 7086 loci (of 7086 merged)
+[call:chr17  1645.0s] genotype: locus 1650/5171 done
+[call:chr8   948.7s] genotype: locus 1/7086 done
+[call:chr11   788.5s] genotype: locus 3750/6110 done
+[call:chr17  1646.1s] genotype: locus 1675/5171 done
+[call:chr17  1647.2s] genotype: locus 1700/5171 done
+[call:chr11   790.4s] genotype: locus 3775/6110 done
+[call:chr17  1648.2s] genotype: locus 1725/5171 done
+[call:chr8   951.8s] genotype: locus 25/7086 done
+[call:chr17  1649.2s] genotype: locus 1750/5171 done
+[call:chr11   792.0s] genotype: locus 3800/6110 done
+[call:chr17  1650.4s] genotype: locus 1775/5171 done
+[call:chr11   793.4s] genotype: locus 3825/6110 done
+[call:chr17  1651.6s] genotype: locus 1800/5171 done
+[call:chr11   794.9s] genotype: locus 3850/6110 done
+[call:chr17  1652.6s] genotype: locus 1825/5171 done
+[call:chr8   956.6s] genotype: locus 50/7086 done
+[call:chr11   796.4s] genotype: locus 3875/6110 done
+[call:chr17  1653.9s] genotype: locus 1850/5171 done
+[call:chr11   798.2s] genotype: locus 3900/6110 done
+[call:chr17  1655.5s] genotype: locus 1875/5171 done
+[call:chr8   959.6s] genotype: locus 75/7086 done
+[call:chr11   799.5s] genotype: locus 3925/6110 done
+[call:chr17  1657.0s] genotype: locus 1900/5171 done
+[call:chr11   800.8s] genotype: locus 3950/6110 done
+[call:chr17  1658.4s] genotype: locus 1925/5171 done
+[call:chr11   801.9s] genotype: locus 3975/6110 done
+[call:chr8   962.7s] genotype: locus 100/7086 done
+[call:chr17  1659.9s] genotype: locus 1950/5171 done
+[call:chr11   803.5s] genotype: locus 4000/6110 done
+[call:chr17  1661.3s] genotype: locus 1975/5171 done
+[call:chr11   804.7s] genotype: locus 4025/6110 done
+[call:chr17  1662.6s] genotype: locus 2000/5171 done
+[call:chr8   966.3s] genotype: locus 125/7086 done
+[call:chr11   806.1s] genotype: locus 4050/6110 done
+[call:chr17  1664.1s] genotype: locus 2025/5171 done
+[call:chr11   807.5s] genotype: locus 4075/6110 done
+[call:chr17  1665.4s] genotype: locus 2050/5171 done
+[call:chr11   808.6s] genotype: locus 4100/6110 done
+[call:chr17  1666.9s] genotype: locus 2075/5171 done
+[call:chr11   809.8s] genotype: locus 4125/6110 done
+[call:chr17  1668.2s] genotype: locus 2100/5171 done
+[call:chr11   811.1s] genotype: locus 4150/6110 done
+[call:chr17  1669.5s] genotype: locus 2125/5171 done
+[call:chr11   812.5s] genotype: locus 4175/6110 done
+[call:chr17  1670.8s] genotype: locus 2150/5171 done
+[call:chr8   974.7s] genotype: locus 150/7086 done
+[call:chr17  1671.8s] genotype: locus 2175/5171 done
+[call:chr11   814.7s] genotype: locus 4200/6110 done
+[call:chr17  1673.1s] genotype: locus 2200/5171 done
+[call:chr11   816.1s] genotype: locus 4225/6110 done
+[call:chr8   977.0s] genotype: locus 175/7086 done
+[call:chr17  1674.4s] genotype: locus 2225/5171 done
+[call:chr11   817.8s] genotype: locus 4250/6110 done
+[call:chr17  1675.4s] genotype: locus 2250/5171 done
+[call:chr8   979.2s] genotype: locus 200/7086 done
+[call:chr11   818.9s] genotype: locus 4275/6110 done
+[call:chr17  1676.9s] genotype: locus 2275/5171 done
+[call:chr8   980.6s] genotype: locus 225/7086 done
+[call:chr11   820.4s] genotype: locus 4300/6110 done
+[call:chr17  1678.4s] genotype: locus 2300/5171 done
+[call:chr8   982.2s] genotype: locus 250/7086 done
+[call:chr11   822.0s] genotype: locus 4325/6110 done
+[call:chr17  1679.8s] genotype: locus 2325/5171 done
+[call:chr8   983.9s] genotype: locus 275/7086 done
+[call:chr11   823.7s] genotype: locus 4350/6110 done
+[call:chr17  1681.1s] genotype: locus 2350/5171 done
+[call:chr8   985.8s] genotype: locus 300/7086 done
+[call:chr17  1682.7s] genotype: locus 2375/5171 done
+[call:chr11   826.3s] genotype: locus 4375/6110 done
+[call:chr8   986.9s] genotype: locus 325/7086 done
+[call:chr17  1684.8s] genotype: locus 2400/5171 done
+[call:chr8   988.6s] genotype: locus 350/7086 done
+[call:chr11   828.6s] genotype: locus 4400/6110 done
+[call:chr8   989.8s] genotype: locus 375/7086 done
+[call:chr17  1686.8s] genotype: locus 2425/5171 done
+[call:chr8   990.9s] genotype: locus 400/7086 done
+[call:chr11   831.0s] genotype: locus 4425/6110 done
+[call:chr8   992.1s] genotype: locus 425/7086 done
+[call:chr17  1689.4s] genotype: locus 2450/5171 done
+[call:chr8   993.4s] genotype: locus 450/7086 done
+[call:chr11   833.1s] genotype: locus 4450/6110 done
+[call:chr8   994.6s] genotype: locus 475/7086 done
+[call:chr17  1691.5s] genotype: locus 2475/5171 done
+[call:chr11   834.5s] genotype: locus 4475/6110 done
+[call:chr17  1693.4s] genotype: locus 2500/5171 done
+[call:chr8   996.9s] genotype: locus 500/7086 done
+[call:chr11   836.4s] genotype: locus 4500/6110 done
+[call:chr17  1694.9s] genotype: locus 2525/5171 done
+[call:chr8   998.5s] genotype: locus 525/7086 done
+[call:chr11   838.0s] genotype: locus 4525/6110 done
+[call:chr11   839.4s] genotype: locus 4550/6110 done
+[call:chr8  1000.2s] genotype: locus 550/7086 done
+[call:chr17  1698.0s] genotype: locus 2550/5171 done
+[call:chr11   840.8s] genotype: locus 4575/6110 done
+[call:chr8  1001.4s] genotype: locus 575/7086 done
+[call:chr8  1002.7s] genotype: locus 600/7086 done
+[call:chr11   842.5s] genotype: locus 4600/6110 done
+[call:chr17  1699.7s] genotype: locus 2575/5171 done
+[call:chr8  1004.0s] genotype: locus 625/7086 done
+[call:chr11   843.9s] genotype: locus 4625/6110 done
+[call:chr17  1701.2s] genotype: locus 2600/5171 done
+[call:chr17  1702.6s] genotype: locus 2625/5171 done
+[call:chr8  1006.0s] genotype: locus 650/7086 done
+[call:chr11   845.5s] genotype: locus 4650/6110 done
+[call:chr11   846.8s] genotype: locus 4675/6110 done
+[call:chr17  1704.0s] genotype: locus 2650/5171 done
+[call:chr8  1007.6s] genotype: locus 675/7086 done
+[call:chr17  1705.1s] genotype: locus 2675/5171 done
+[call:chr8  1009.3s] genotype: locus 700/7086 done
+[call:chr11   848.9s] genotype: locus 4700/6110 done
+[call:chr17  1706.6s] genotype: locus 2700/5171 done
+[call:chr8  1011.1s] genotype: locus 725/7086 done
+[call:chr17  1708.2s] genotype: locus 2725/5171 done
+[call:chr11   851.1s] genotype: locus 4725/6110 done
+[call:chr8  1012.5s] genotype: locus 750/7086 done
+[call:chr17  1709.5s] genotype: locus 2750/5171 done
+[call:chr11   853.2s] genotype: locus 4750/6110 done
+[call:chr17  1710.6s] genotype: locus 2775/5171 done
+[call:chr8  1014.1s] genotype: locus 775/7086 done
+[call:chr17  1711.9s] genotype: locus 2800/5171 done
+[call:chr8  1015.5s] genotype: locus 800/7086 done
+[call:chr11   855.4s] genotype: locus 4775/6110 done
+[call:chr17  1713.3s] genotype: locus 2825/5171 done
+[call:chr8  1016.9s] genotype: locus 825/7086 done
+[call:chr11   857.5s] genotype: locus 4800/6110 done
+[call:chr17  1714.9s] genotype: locus 2850/5171 done
+[call:chr8  1018.6s] genotype: locus 850/7086 done
+[call:chr11   859.2s] genotype: locus 4825/6110 done
+[call:chr17  1716.5s] genotype: locus 2875/5171 done
+[call:chr8  1020.1s] genotype: locus 875/7086 done
+[call:chr8  1021.3s] genotype: locus 900/7086 done
+[call:chr17  1718.0s] genotype: locus 2900/5171 done
+[call:chr11   861.0s] genotype: locus 4850/6110 done
+[call:chr17  1719.1s] genotype: locus 2925/5171 done
+[call:chr8  1022.6s] genotype: locus 925/7086 done
+[call:chr11   862.5s] genotype: locus 4875/6110 done
+[call:chr8  1023.9s] genotype: locus 950/7086 done
+[call:chr17  1720.7s] genotype: locus 2950/5171 done
+[call:chr11   864.0s] genotype: locus 4900/6110 done
+[call:chr8  1025.2s] genotype: locus 975/7086 done
+[call:chr17  1722.1s] genotype: locus 2975/5171 done
+[call:chr11   865.6s] genotype: locus 4925/6110 done
+[call:chr17  1723.4s] genotype: locus 3000/5171 done
+[call:chr8  1027.3s] genotype: locus 1000/7086 done
+[call:chr17  1724.5s] genotype: locus 3025/5171 done
+[call:chr11   867.7s] genotype: locus 4950/6110 done
+[call:chr17  1725.6s] genotype: locus 3050/5171 done
+[call:chr8  1029.1s] genotype: locus 1025/7086 done
+[call:chr11   869.2s] genotype: locus 4975/6110 done
+[call:chr17  1726.9s] genotype: locus 3075/5171 done
+[call:chr8  1031.0s] genotype: locus 1050/7086 done
+[call:chr17  1728.0s] genotype: locus 3100/5171 done
+[call:chr11   871.0s] genotype: locus 5000/6110 done
+[call:chr8  1032.3s] genotype: locus 1075/7086 done
+[call:chr17  1729.1s] genotype: locus 3125/5171 done
+[call:chr11   872.6s] genotype: locus 5025/6110 done
+[call:chr8  1033.6s] genotype: locus 1100/7086 done
+[call:chr17  1730.4s] genotype: locus 3150/5171 done
+[call:chr17  1731.4s] genotype: locus 3175/5171 done
+[call:chr11   874.3s] genotype: locus 5050/6110 done
+[call:chr8  1035.1s] genotype: locus 1125/7086 done
+[call:chr17  1732.6s] genotype: locus 3200/5171 done
+[call:chr8  1036.3s] genotype: locus 1150/7086 done
+[call:chr11   876.3s] genotype: locus 5075/6110 done
+[call:chr17  1733.7s] genotype: locus 3225/5171 done
+[call:chr8  1037.5s] genotype: locus 1175/7086 done
+[call:chr17  1735.1s] genotype: locus 3250/5171 done
+[call:chr11   878.2s] genotype: locus 5100/6110 done
+[call:chr8  1039.9s] genotype: locus 1200/7086 done
+[call:chr11   879.6s] genotype: locus 5125/6110 done
+[call:chr17  1736.8s] genotype: locus 3275/5171 done
+[call:chr17  1737.8s] genotype: locus 3300/5171 done
+[call:chr11   880.9s] genotype: locus 5150/6110 done
+[call:chr17  1738.8s] genotype: locus 3325/5171 done
+[call:chr8  1042.5s] genotype: locus 1225/7086 done
+[call:chr17  1740.1s] genotype: locus 3350/5171 done
+[call:chr11   883.0s] genotype: locus 5175/6110 done
+[call:chr17  1741.2s] genotype: locus 3375/5171 done
+[call:chr11   884.6s] genotype: locus 5200/6110 done
+[call:chr17  1742.3s] genotype: locus 3400/5171 done
+[call:chr8  1046.3s] genotype: locus 1250/7086 done
+[call:chr17  1743.4s] genotype: locus 3425/5171 done
+[call:chr11   886.5s] genotype: locus 5225/6110 done
+[call:chr17  1744.5s] genotype: locus 3450/5171 done
+[call:chr8  1048.2s] genotype: locus 1275/7086 done
+[call:chr17  1745.5s] genotype: locus 3475/5171 done
+[call:chr11   888.8s] genotype: locus 5250/6110 done
+[call:chr8  1049.4s] genotype: locus 1300/7086 done
+[call:chr17  1746.9s] genotype: locus 3500/5171 done
+[call:chr8  1050.7s] genotype: locus 1325/7086 done
+[call:chr17  1748.3s] genotype: locus 3525/5171 done
+[call:chr8  1051.9s] genotype: locus 1350/7086 done
+[call:chr11   892.6s] genotype: locus 5275/6110 done
+[call:chr17  1749.8s] genotype: locus 3550/5171 done
+[call:chr8  1053.6s] genotype: locus 1375/7086 done
+[call:chr17  1750.9s] genotype: locus 3575/5171 done
+[call:chr11   894.5s] genotype: locus 5300/6110 done
+[call:chr8  1055.3s] genotype: locus 1400/7086 done
+[call:chr17  1751.9s] genotype: locus 3600/5171 done
+[call:chr17  1752.9s] genotype: locus 3625/5171 done
+[call:chr8  1056.6s] genotype: locus 1425/7086 done
+[call:chr11   896.6s] genotype: locus 5325/6110 done
+[call:chr17  1754.0s] genotype: locus 3650/5171 done
+[call:chr8  1057.9s] genotype: locus 1450/7086 done
+[call:chr8  1059.2s] genotype: locus 1475/7086 done
+[call:chr17  1755.9s] genotype: locus 3675/5171 done
+[call:chr11   898.7s] genotype: locus 5350/6110 done
+[call:chr17  1757.2s] genotype: locus 3700/5171 done
+[call:chr8  1060.7s] genotype: locus 1500/7086 done
+[call:chr11   901.0s] genotype: locus 5375/6110 done
+[call:chr17  1758.2s] genotype: locus 3725/5171 done
+[call:chr8  1062.4s] genotype: locus 1525/7086 done
+[call:chr17  1759.2s] genotype: locus 3750/5171 done
+[call:chr8  1063.6s] genotype: locus 1550/7086 done
+[call:chr17  1760.3s] genotype: locus 3775/5171 done
+[call:chr11   903.4s] genotype: locus 5400/6110 done
+[call:chr8  1064.9s] genotype: locus 1575/7086 done
+[call:chr17  1761.7s] genotype: locus 3800/5171 done
+[call:chr11   905.4s] genotype: locus 5425/6110 done
+[call:chr8  1066.2s] genotype: locus 1600/7086 done
+[call:chr17  1762.9s] genotype: locus 3825/5171 done
+[call:chr17  1764.1s] genotype: locus 3850/5171 done
+[call:chr8  1067.5s] genotype: locus 1625/7086 done
+[call:chr11   907.6s] genotype: locus 5450/6110 done
+[call:chr17  1765.3s] genotype: locus 3875/5171 done
+[call:chr8  1068.8s] genotype: locus 1650/7086 done
+[call:chr17  1766.6s] genotype: locus 3900/5171 done
+[call:chr11   909.7s] genotype: locus 5475/6110 done
+[call:chr8  1070.4s] genotype: locus 1675/7086 done
+[call:chr17  1767.8s] genotype: locus 3925/5171 done
+[call:chr8  1072.3s] genotype: locus 1700/7086 done
+[call:chr17  1769.1s] genotype: locus 3950/5171 done
+[call:chr11   911.9s] genotype: locus 5500/6110 done
+[call:chr17  1770.4s] genotype: locus 3975/5171 done
+[call:chr8  1073.9s] genotype: locus 1725/7086 done
+[call:chr11   914.3s] genotype: locus 5525/6110 done
+[call:chr17  1771.7s] genotype: locus 4000/5171 done
+[call:chr8  1075.6s] genotype: locus 1750/7086 done
+[call:chr17  1773.0s] genotype: locus 4025/5171 done
+[call:chr11   916.6s] genotype: locus 5550/6110 done
+[call:chr17  1774.1s] genotype: locus 4050/5171 done
+[call:chr8  1077.7s] genotype: locus 1775/7086 done
+[call:chr17  1775.0s] genotype: locus 4075/5171 done
+[call:chr17  1776.1s] genotype: locus 4100/5171 done
+[call:chr8  1079.8s] genotype: locus 1800/7086 done
+[call:chr11   919.5s] genotype: locus 5575/6110 done
+[call:chr17  1777.2s] genotype: locus 4125/5171 done
+[call:chr8  1081.4s] genotype: locus 1825/7086 done
+[call:chr17  1778.3s] genotype: locus 4150/5171 done
+[call:chr11   921.5s] genotype: locus 5600/6110 done
+[call:chr8  1082.6s] genotype: locus 1850/7086 done
+[call:chr17  1779.4s] genotype: locus 4175/5171 done
+[call:chr8  1083.9s] genotype: locus 1875/7086 done
+[call:chr17  1780.6s] genotype: locus 4200/5171 done
+[call:chr11   923.7s] genotype: locus 5625/6110 done
+[call:chr8  1085.0s] genotype: locus 1900/7086 done
+[call:chr17  1781.8s] genotype: locus 4225/5171 done
+[call:chr17  1782.7s] genotype: locus 4250/5171 done
+[call:chr8  1086.1s] genotype: locus 1925/7086 done
+[call:chr11   926.0s] genotype: locus 5650/6110 done
+[call:chr17  1783.7s] genotype: locus 4275/5171 done
+[call:chr8  1087.5s] genotype: locus 1950/7086 done
+[call:chr17  1784.9s] genotype: locus 4300/5171 done
+[call:chr8  1088.6s] genotype: locus 1975/7086 done
+[call:chr11   928.2s] genotype: locus 5675/6110 done
+[call:chr17  1785.9s] genotype: locus 4325/5171 done
+[call:chr8  1089.8s] genotype: locus 2000/7086 done
+[call:chr17  1786.9s] genotype: locus 4350/5171 done
+[call:chr11   930.2s] genotype: locus 5700/6110 done
+[call:chr17  1788.1s] genotype: locus 4375/5171 done
+[call:chr8  1091.7s] genotype: locus 2025/7086 done
+[call:chr11   931.5s] genotype: locus 5725/6110 done
+[call:chr17  1789.2s] genotype: locus 4400/5171 done
+[call:chr8  1093.4s] genotype: locus 2050/7086 done
+[call:chr11   932.8s] genotype: locus 5750/6110 done
+[call:chr17  1790.2s] genotype: locus 4425/5171 done
+[call:chr17  1791.2s] genotype: locus 4450/5171 done
+[call:chr11   934.3s] genotype: locus 5775/6110 done
+[call:chr8  1094.9s] genotype: locus 2075/7086 done
+[call:chr17  1792.1s] genotype: locus 4475/5171 done
+[call:chr11   935.8s] genotype: locus 5800/6110 done
+[call:chr8  1096.4s] genotype: locus 2100/7086 done
+[call:chr17  1793.1s] genotype: locus 4500/5171 done
+[call:chr17  1794.2s] genotype: locus 4525/5171 done
+[call:chr8  1097.6s] genotype: locus 2125/7086 done
+[call:chr8  1098.7s] genotype: locus 2150/7086 done
+[call:chr11   938.5s] genotype: locus 5825/6110 done
+[call:chr8  1099.7s] genotype: locus 2175/7086 done
+[call:chr17  1796.9s] genotype: locus 4550/5171 done
+[call:chr11   940.1s] genotype: locus 5850/6110 done
+[call:chr8  1101.1s] genotype: locus 2200/7086 done
+[call:chr17  1798.3s] genotype: locus 4575/5171 done
+[call:chr11   941.9s] genotype: locus 5875/6110 done
+[call:chr8  1102.7s] genotype: locus 2225/7086 done
+[call:chr17  1799.5s] genotype: locus 4600/5171 done
+[call:chr17  1800.5s] genotype: locus 4625/5171 done
+[call:chr11   943.5s] genotype: locus 5900/6110 done
+[call:chr8  1104.3s] genotype: locus 2250/7086 done
+[call:chr17  1801.7s] genotype: locus 4650/5171 done
+[call:chr11   944.7s] genotype: locus 5925/6110 done
+[call:chr17  1802.9s] genotype: locus 4675/5171 done
+[call:chr11   945.8s] genotype: locus 5950/6110 done
+[call:chr17  1803.8s] genotype: locus 4700/5171 done
+[call:chr11   947.0s] genotype: locus 5975/6110 done
+[call:chr8  1107.6s] genotype: locus 2275/7086 done
+[call:chr17  1805.2s] genotype: locus 4725/5171 done
+[call:chr8  1108.8s] genotype: locus 2300/7086 done
+[call:chr11   948.3s] genotype: locus 6000/6110 done
+[call:chr8  1109.9s] genotype: locus 2325/7086 done
+[call:chr17  1806.7s] genotype: locus 4750/5171 done
+[call:chr11   949.8s] genotype: locus 6025/6110 done
+[call:chr8  1111.3s] genotype: locus 2350/7086 done
+[call:chr17  1808.0s] genotype: locus 4775/5171 done
+[call:chr11   951.7s] genotype: locus 6050/6110 done
+[call:chr17  1809.1s] genotype: locus 4800/5171 done
+[call:chr8  1112.9s] genotype: locus 2375/7086 done
+[call:chr8  1114.0s] genotype: locus 2400/7086 done
+[call:chr17  1810.9s] genotype: locus 4825/5171 done
+[call:chr11   953.8s] genotype: locus 6075/6110 done
+[call:chr8  1115.1s] genotype: locus 2425/7086 done
+[call:chr8  1116.1s] genotype: locus 2450/7086 done
+[call:chr11   955.6s] genotype: locus 6100/6110 done
+[call:chr17  1813.1s] genotype: locus 4850/5171 done
+[call:chr11   956.6s] genotype: locus 6110/6110 done
+[call:chr11   956.7s] genotype done: 508 calls
+[call:chr11   956.8s] done: 508 calls -> /data/results_ml0_s3/HG01884/chr11/arcsv_out.tab
+[call:chr8  1117.4s] genotype: locus 2475/7086 done
+wrote 508 calls to /data/results_ml0_s3/HG01884/chr11/arcsv_out.tab
+[Tue Oct  6 02:24:05 2026]
+Finished jobid: 24 (Rule: call)
+75 of 150 steps (50%) done
+Execute 1 jobs...
+
+[Tue Oct  6 02:24:05 2026]
+localrule call:
+    input: /data/work/HG01150/chr5.bam, /data/work/HG01150/chr5.bam.bai
+    output: /data/results_ml0_s3/HG01150/chr5/arcsv_out.tab
+    jobid: 62
+    reason: Missing output files: /data/results_ml0_s3/HG01150/chr5/arcsv_out.tab; Input files updated by another job: /data/work/HG01150/chr5.bam, /data/work/HG01150/chr5.bam.bai
+    wildcards: sample=HG01150, chrom=chr5
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=6684, mem=6.68 GB, mem_mib=6375
+Shell command: arcsv2 call -i /data/work/HG01150/chr5.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01150/chr5 --region chr5 --threads 4 --engine rust
+Select jobs to execute...
+[call:chr17  1814.4s] genotype: locus 4875/5171 done
+[call:chr8  1118.7s] genotype: locus 2500/7086 done
+[call:chr17  1816.2s] genotype: locus 4900/5171 done
+[call:chr8  1120.6s] genotype: locus 2525/7086 done
+[call:chr17  1817.5s] genotype: locus 4925/5171 done
+[call:chr17  1818.7s] genotype: locus 4950/5171 done
+[call:chr17  1819.5s] genotype: locus 4975/5171 done
+[call:chr8  1123.5s] genotype: locus 2550/7086 done
+[call:chr17  1820.4s] genotype: locus 5000/5171 done
+[call:chr17  1821.2s] genotype: locus 5025/5171 done
+[call:chr5     0.0s] start: /data/work/HG01150/chr5.bam (chr5)
+[call:chr5     0.0s] load_bam: /data/work/HG01150/chr5.bam (engine=rust)
+[call:chr17  1822.4s] genotype: locus 5050/5171 done
+[call:chr8  1127.2s] genotype: locus 2575/7086 done
+[call:chr17  1824.1s] genotype: locus 5075/5171 done
+[call:chr8  1129.2s] genotype: locus 2600/7086 done
+[call:chr17  1826.5s] genotype: locus 5100/5171 done
+[call:chr8  1132.3s] genotype: locus 2625/7086 done
+[call:chr17  1830.0s] genotype: locus 5125/5171 done
+[call:chr8  1133.8s] genotype: locus 2650/7086 done
+[call:chr17  1831.6s] genotype: locus 5150/5171 done
+[call:chr8  1136.0s] genotype: locus 2675/7086 done
+[call:chr8  1137.5s] genotype: locus 2700/7086 done
+[call:chr17  1835.0s] genotype: locus 5171/5171 done
+[call:chr17  1835.0s] genotype done: 379 calls
+[call:chr17  1835.1s] done: 379 calls -> /data/results_ml0_s3/HG01884/chr17/arcsv_out.tab
+wrote 379 calls to /data/results_ml0_s3/HG01884/chr17/arcsv_out.tab
+[Tue Oct  6 02:24:26 2026]
+Finished jobid: 36 (Rule: call)
+76 of 150 steps (51%) done
+Execute 1 jobs...
+
+[Tue Oct  6 02:24:26 2026]
+localrule call:
+    input: /data/work/HG01884/chr6.bam, /data/work/HG01884/chr6.bam.bai
+    output: /data/results_ml0_s3/HG01884/chr6/arcsv_out.tab
+    jobid: 14
+    reason: Missing output files: /data/results_ml0_s3/HG01884/chr6/arcsv_out.tab; Input files updated by another job: /data/work/HG01884/chr6.bam, /data/work/HG01884/chr6.bam.bai
+    wildcards: sample=HG01884, chrom=chr6
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=6289, mem=6.29 GB, mem_mib=5998
+Shell command: arcsv2 call -i /data/work/HG01884/chr6.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG01884/chr6 --region chr6 --threads 4 --engine rust
+Select jobs to execute...
+[call:chr8  1139.7s] genotype: locus 2725/7086 done
+[call:chr8  1141.4s] genotype: locus 2750/7086 done
+[call:chr8  1142.7s] genotype: locus 2775/7086 done
+[call:chr6     0.0s] start: /data/work/HG01884/chr6.bam (chr6)
+[call:chr6     0.0s] load_bam: /data/work/HG01884/chr6.bam (engine=rust)
+[call:chr8  1144.5s] genotype: locus 2800/7086 done
+[call:chr8  1146.1s] genotype: locus 2825/7086 done
+[call:chr8  1147.9s] genotype: locus 2850/7086 done
+[call:chr8  1150.3s] genotype: locus 2875/7086 done
+[call:chr8  1151.6s] genotype: locus 2900/7086 done
+[call:chr8  1152.8s] genotype: locus 2925/7086 done
+[call:chr8  1153.9s] genotype: locus 2950/7086 done
+[call:chr8  1155.0s] genotype: locus 2975/7086 done
+[call:chr8  1156.1s] genotype: locus 3000/7086 done
+[call:chr8  1157.2s] genotype: locus 3025/7086 done
+[call:chr8  1159.0s] genotype: locus 3050/7086 done
+[call:chr8  1160.1s] genotype: locus 3075/7086 done
+[call:chr8  1161.0s] genotype: locus 3100/7086 done
+[call:chr8  1162.2s] genotype: locus 3125/7086 done
+[call:chr8  1163.5s] genotype: locus 3150/7086 done
+[call:chr8  1164.6s] genotype: locus 3175/7086 done
+[call:chr8  1166.0s] genotype: locus 3200/7086 done
+[call:chr8  1167.6s] genotype: locus 3225/7086 done
+[call:chr8  1168.8s] genotype: locus 3250/7086 done
+[call:chr8  1170.1s] genotype: locus 3275/7086 done
+[call:chr8  1171.2s] genotype: locus 3300/7086 done
+[call:chr8  1172.3s] genotype: locus 3325/7086 done
+[call:chr8  1173.7s] genotype: locus 3350/7086 done
+[call:chr8  1174.9s] genotype: locus 3375/7086 done
+[call:chr8  1176.0s] genotype: locus 3400/7086 done
+[call:chr8  1177.2s] genotype: locus 3425/7086 done
+[call:chr8  1178.5s] genotype: locus 3450/7086 done
+[call:chr8  1179.6s] genotype: locus 3475/7086 done
+[call:chr8  1181.2s] genotype: locus 3500/7086 done
+[call:chr8  1182.5s] genotype: locus 3525/7086 done
+[call:chr8  1184.0s] genotype: locus 3550/7086 done
+[call:chr8  1185.3s] genotype: locus 3575/7086 done
+[call:chr8  1186.9s] genotype: locus 3600/7086 done
+[call:chr8  1188.3s] genotype: locus 3625/7086 done
+[call:chr8  1190.3s] genotype: locus 3650/7086 done
+[call:chr8  1191.4s] genotype: locus 3675/7086 done
+[call:chr8  1192.8s] genotype: locus 3700/7086 done
+[call:chr8  1193.9s] genotype: locus 3725/7086 done
+[call:chr8  1195.2s] genotype: locus 3750/7086 done
+[call:chr8  1196.3s] genotype: locus 3775/7086 done
+[call:chr8  1197.5s] genotype: locus 3800/7086 done
+[call:chr8  1199.1s] genotype: locus 3825/7086 done
+[call:chr8  1200.4s] genotype: locus 3850/7086 done
+[call:chr8  1201.6s] genotype: locus 3875/7086 done
+[call:chr8  1202.8s] genotype: locus 3900/7086 done
+[call:chr8  1204.0s] genotype: locus 3925/7086 done
+[call:chr8  1205.2s] genotype: locus 3950/7086 done
+[call:chr8  1206.3s] genotype: locus 3975/7086 done
+[call:chr8  1207.4s] genotype: locus 4000/7086 done
+[call:chr8  1208.5s] genotype: locus 4025/7086 done
+[call:chr8  1209.6s] genotype: locus 4050/7086 done
+[call:chr8  1210.8s] genotype: locus 4075/7086 done
+[call:chr8  1212.8s] genotype: locus 4100/7086 done
+[call:chr8  1214.0s] genotype: locus 4125/7086 done
+[call:chr8  1215.0s] genotype: locus 4150/7086 done
+[call:chr8  1216.3s] genotype: locus 4175/7086 done
+[call:chr8  1217.8s] genotype: locus 4200/7086 done
+[call:chr8  1219.4s] genotype: locus 4225/7086 done
+[call:chr8  1220.8s] genotype: locus 4250/7086 done
+[call:chr8  1222.1s] genotype: locus 4275/7086 done
+[call:chr8  1223.6s] genotype: locus 4300/7086 done
+[call:chr8  1224.7s] genotype: locus 4325/7086 done
+[call:chr8  1226.0s] genotype: locus 4350/7086 done
+[call:chr8  1227.0s] genotype: locus 4375/7086 done
+[call:chr8  1228.2s] genotype: locus 4400/7086 done
+[call:chr8  1229.4s] genotype: locus 4425/7086 done
+[call:chr8  1230.6s] genotype: locus 4450/7086 done
+[call:chr8  1231.8s] genotype: locus 4475/7086 done
+[call:chr8  1232.9s] genotype: locus 4500/7086 done
+[call:chr8  1234.0s] genotype: locus 4525/7086 done
+[call:chr8  1235.4s] genotype: locus 4550/7086 done
+[call:chr8  1236.6s] genotype: locus 4575/7086 done
+[call:chr8  1237.7s] genotype: locus 4600/7086 done
+[call:chr8  1239.1s] genotype: locus 4625/7086 done
+[call:chr8  1240.3s] genotype: locus 4650/7086 done
+[call:chr8  1241.6s] genotype: locus 4675/7086 done
+[call:chr8  1242.8s] genotype: locus 4700/7086 done
+[call:chr8  1243.9s] genotype: locus 4725/7086 done
+[call:chr8  1245.2s] genotype: locus 4750/7086 done
+[call:chr8  1246.6s] genotype: locus 4775/7086 done
+[call:chr8  1248.3s] genotype: locus 4800/7086 done
+[call:chr8  1249.4s] genotype: locus 4825/7086 done
+[call:chr8  1250.4s] genotype: locus 4850/7086 done
+[call:chr8  1251.9s] genotype: locus 4875/7086 done
+[call:chr8  1254.0s] genotype: locus 4900/7086 done
+[call:chr8  1257.5s] genotype: locus 4925/7086 done
+[call:chr8  1258.6s] genotype: locus 4950/7086 done
+[call:chr8  1260.3s] genotype: locus 4975/7086 done
+[call:chr8  1261.5s] genotype: locus 5000/7086 done
+[call:chr8  1262.9s] genotype: locus 5025/7086 done
+[call:chr8  1264.1s] genotype: locus 5050/7086 done
+[call:chr8  1265.4s] genotype: locus 5075/7086 done
+[call:chr8  1266.4s] genotype: locus 5100/7086 done
+[call:chr8  1267.9s] genotype: locus 5125/7086 done
+[call:chr8  1269.0s] genotype: locus 5150/7086 done
+[call:chr8  1270.2s] genotype: locus 5175/7086 done
+[call:chr8  1271.3s] genotype: locus 5200/7086 done
+[call:chr8  1272.4s] genotype: locus 5225/7086 done
+[call:chr8  1273.5s] genotype: locus 5250/7086 done
+[call:chr8  1274.7s] genotype: locus 5275/7086 done
+[call:chr8  1276.0s] genotype: locus 5300/7086 done
+[call:chr8  1277.2s] genotype: locus 5325/7086 done
+[call:chr8  1278.3s] genotype: locus 5350/7086 done
+[call:chr8  1279.4s] genotype: locus 5375/7086 done
+[call:chr8  1280.6s] genotype: locus 5400/7086 done
+[call:chr8  1282.1s] genotype: locus 5425/7086 done
+[call:chr8  1283.9s] genotype: locus 5450/7086 done
+[call:chr8  1285.4s] genotype: locus 5475/7086 done
+[call:chr8  1287.5s] genotype: locus 5500/7086 done
+[call:chr8  1288.7s] genotype: locus 5525/7086 done
+[call:chr8  1289.9s] genotype: locus 5550/7086 done
+[call:chr8  1290.9s] genotype: locus 5575/7086 done
+[call:chr8  1292.0s] genotype: locus 5600/7086 done
+[call:chr8  1293.1s] genotype: locus 5625/7086 done
+[call:chr8  1294.2s] genotype: locus 5650/7086 done
+[call:chr8  1295.4s] genotype: locus 5675/7086 done
+[call:chr8  1296.6s] genotype: locus 5700/7086 done
+[call:chr8  1297.8s] genotype: locus 5725/7086 done
+[call:chr8  1298.8s] genotype: locus 5750/7086 done
+[call:chr8  1300.0s] genotype: locus 5775/7086 done
+[call:chr8  1301.1s] genotype: locus 5800/7086 done
+[call:chr8  1302.2s] genotype: locus 5825/7086 done
+[call:chr8  1303.3s] genotype: locus 5850/7086 done
+[call:chr8  1304.4s] genotype: locus 5875/7086 done
+[call:chr8  1305.5s] genotype: locus 5900/7086 done
+[call:chr8  1306.6s] genotype: locus 5925/7086 done
+[call:chr8  1307.6s] genotype: locus 5950/7086 done
+[call:chr8  1308.8s] genotype: locus 5975/7086 done
+[call:chr8  1310.0s] genotype: locus 6000/7086 done
+[call:chr8  1311.2s] genotype: locus 6025/7086 done
+[call:chr8  1312.4s] genotype: locus 6050/7086 done
+[call:chr8  1313.6s] genotype: locus 6075/7086 done
+[call:chr8  1314.8s] genotype: locus 6100/7086 done
+[call:chr8  1316.0s] genotype: locus 6125/7086 done
+[call:chr8  1317.3s] genotype: locus 6150/7086 done
+[call:chr8  1318.5s] genotype: locus 6175/7086 done
+[call:chr6   482.5s] load_bam done: 40,811,474 alignments -> 20,268,203 pairs, 53004 breakpoints, 7173 splits (insert_stats=20,202,303, engine=rust)
+[call:chr6   482.5s] loaded: 20268203 pairs, 53004 clip/split bps, 7173 splits
+[call:chr6   482.5s] fit_libs: 20,268,203 pairs
+[call:chr8  1319.8s] genotype: locus 6200/7086 done
+[call:chr8  1322.7s] genotype: locus 6225/7086 done
+[call:chr8  1328.4s] genotype: locus 6250/7086 done
+[call:chr8  1330.5s] genotype: locus 6275/7086 done
+[call:chr8  1332.2s] genotype: locus 6300/7086 done
+[call:chr8  1333.7s] genotype: locus 6325/7086 done
+[call:chr8  1335.1s] genotype: locus 6350/7086 done
+[call:chr8  1336.3s] genotype: locus 6375/7086 done
+[call:chr8  1337.3s] genotype: locus 6400/7086 done
+[call:chr8  1338.3s] genotype: locus 6425/7086 done
+[call:chr8  1339.6s] genotype: locus 6450/7086 done
+[call:chr8  1340.9s] genotype: locus 6475/7086 done
+[call:chr8  1343.3s] genotype: locus 6500/7086 done
+[call:chr8  1345.0s] genotype: locus 6525/7086 done
+[call:chr8  1346.5s] genotype: locus 6550/7086 done
+[call:chr8  1348.5s] genotype: locus 6575/7086 done
+[call:chr8  1351.0s] genotype: locus 6600/7086 done
+[call:chr8  1355.6s] genotype: locus 6625/7086 done
+[call:chr8  1357.7s] genotype: locus 6650/7086 done
+[call:chr8  1360.3s] genotype: locus 6675/7086 done
+[call:chr8  1364.5s] genotype: locus 6700/7086 done
+[call:chr8  1368.7s] genotype: locus 6725/7086 done
+[call:chr8  1371.2s] genotype: locus 6750/7086 done
+[call:chr8  1373.8s] genotype: locus 6775/7086 done
+[call:chr8  1376.3s] genotype: locus 6800/7086 done
+[call:chr8  1379.5s] genotype: locus 6825/7086 done
+[call:chr8  1382.1s] genotype: locus 6850/7086 done
+[call:chr8  1386.4s] genotype: locus 6875/7086 done
+[call:chr8  1388.9s] genotype: locus 6900/7086 done
+[call:chr8  1391.0s] genotype: locus 6925/7086 done
+[call:chr8  1392.9s] genotype: locus 6950/7086 done
+[call:chr8  1394.4s] genotype: locus 6975/7086 done
+[call:chr8  1396.6s] genotype: locus 7000/7086 done
+[call:chr8  1402.0s] genotype: locus 7025/7086 done
+[call:chr8  1403.8s] genotype: locus 7050/7086 done
+[call:chr8  1405.2s] genotype: locus 7075/7086 done
+[call:chr8  1405.6s] genotype: locus 7086/7086 done
+[call:chr8  1405.7s] genotype done: 489 calls
+[call:chr8  1405.9s] done: 489 calls -> /data/results_ml0_s3/HG00126/chr8/arcsv_out.tab
+wrote 489 calls to /data/results_ml0_s3/HG00126/chr8/arcsv_out.tab
+[Tue Oct  6 02:28:54 2026]
+Finished jobid: 118 (Rule: call)
+77 of 150 steps (51%) done
+Execute 1 jobs...
+
+[Tue Oct  6 02:28:54 2026]
+localrule call:
+    input: /data/work/HG00126/chr5.bam, /data/work/HG00126/chr5.bam.bai
+    output: /data/results_ml0_s3/HG00126/chr5/arcsv_out.tab
+    jobid: 112
+    reason: Missing output files: /data/results_ml0_s3/HG00126/chr5/arcsv_out.tab; Input files updated by another job: /data/work/HG00126/chr5.bam.bai, /data/work/HG00126/chr5.bam
+    wildcards: sample=HG00126, chrom=chr5
+    threads: 4
+    resources: tmpdir=/tmp, mem_mb=6684, mem=6.68 GB, mem_mib=6375
+Shell command: arcsv2 call -i /data/work/HG00126/chr5.bam -R /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa -G /data/ref/gaps.bed -o /data/results_ml0_s3/HG00126/chr5 --region chr5 --threads 4 --engine rust
+Select jobs to execute...
+[call:chr5     0.0s] start: /data/work/HG00126/chr5.bam (chr5)
+[call:chr5     0.0s] load_bam: /data/work/HG00126/chr5.bam (engine=rust)
+[call:chr6   644.1s] discover: scan 20,268,203 pairs for DRPs
+[call:chr6   726.2s] discover: Del: 46,369 DRPs + 4 null reps
+[call:chr6   727.7s] discover: Del: null rep 2/4
+[call:chr6   728.8s] discover: Del: null rep 4/4
+[call:chr6   728.9s] discover: Dup: 8,350 DRPs + 4 null reps
+[call:chr6   729.2s] discover: Dup: null rep 2/4
+[call:chr6   729.3s] discover: Dup: null rep 4/4
+[call:chr6   729.3s] discover: Ins: 22,727 DRPs + 4 null reps
+[call:chr6   729.8s] discover: Ins: null rep 2/4
+[call:chr6   730.3s] discover: Ins: null rep 4/4
+[call:chr6   730.3s] discover: InvL: 463 DRPs + 4 null reps
+[call:chr6   730.4s] discover: InvL: null rep 2/4
+[call:chr6   730.4s] discover: InvL: null rep 4/4
+[call:chr6   730.4s] discover: InvR: 468 DRPs + 4 null reps
+[call:chr6   730.4s] discover: InvR: null rep 2/4
+[call:chr6   730.4s] discover: InvR: null rep 4/4
+[call:chr6   731.3s] discover done: 39,620 breakpoints
+[call:chr6   731.7s] blocks: 39,620 breakpoints -> 39,621 blocks (chrom_len=170,805,979)
+[call:chr6   731.7s] build_graph: 20,268,203 pairs x 39,621 blocks (rust)
+[call:chr6   752.3s] build_graph done: 101,710 edges
+[call:chr6   752.8s] insertions: test novel insertion sites
+[call:chr6   752.8s] insertions: 4121 candidate sites, 5 sizes, 101710 edges
+[call:chr6   457.0s] load_bam done: 40,272,701 alignments -> 20,018,187 pairs, 56687 breakpoints, 8224 splits (insert_stats=19,963,206, engine=rust)
+[call:chr6   457.0s] loaded: 20018187 pairs, 56687 clip/split bps, 8224 splits
+[call:chr6   457.0s] fit_libs: 20,018,187 pairs
+[call:chr6   767.3s] insertions: 206/4121 sites (31 kept)
+[call:chr6   779.7s] insertions: 412/4121 sites (40 kept)
+[call:chr6   792.1s] insertions: 618/4121 sites (54 kept)
+[call:chr6   804.4s] insertions: 824/4121 sites (60 kept)
+[call:chr6   815.3s] insertions: 1030/4121 sites (69 kept)
+[call:chr6   826.3s] insertions: 1236/4121 sites (79 kept)
+[call:chr6   840.0s] insertions: 1442/4121 sites (96 kept)
+[call:chr6   858.1s] insertions: 1648/4121 sites (105 kept)
+[call:chr6   874.7s] insertions: 1854/4121 sites (126 kept)
+[call:chr6   892.4s] insertions: 2060/4121 sites (131 kept)
+[call:chr6   913.0s] insertions: 2266/4121 sites (137 kept)
+[call:chr6   616.5s] discover: scan 20,018,187 pairs for DRPs
+[call:chr6   932.9s] insertions: 2472/4121 sites (147 kept)
+[call:chr6   950.6s] insertions: 2678/4121 sites (156 kept)
+[call:chr6   972.7s] insertions: 2884/4121 sites (168 kept)
+[call:chr6   990.9s] insertions: 3090/4121 sites (175 kept)
+[call:chr6   702.1s] discover: Del: 48,500 DRPs + 4 null reps
+[call:chr6  1009.7s] insertions: 3296/4121 sites (180 kept)
+[call:chr6   704.2s] discover: Del: null rep 2/4
+[call:chr6   705.3s] discover: Del: null rep 4/4
+[call:chr6   705.4s] discover: Dup: 9,746 DRPs + 4 null reps
+[call:chr6   705.7s] discover: Dup: null rep 2/4
+[call:chr6   706.0s] discover: Dup: null rep 4/4
+[call:chr6   706.0s] discover: Ins: 16,939 DRPs + 4 null reps
+[call:chr6   706.4s] discover: Ins: null rep 2/4
+[call:chr6   706.7s] discover: Ins: null rep 4/4
+[call:chr6   706.7s] discover: InvL: 786 DRPs + 4 null reps
+[call:chr6   706.7s] discover: InvL: null rep 2/4
+[call:chr6   706.7s] discover: InvL: null rep 4/4
+[call:chr6   706.7s] discover: InvR: 735 DRPs + 4 null reps
+[call:chr6   706.7s] discover: InvR: null rep 2/4
+[call:chr6   706.7s] discover: InvR: null rep 4/4
+[call:chr6   707.8s] discover done: 40,916 breakpoints
+[call:chr6   708.2s] blocks: 40,916 breakpoints -> 40,917 blocks (chrom_len=170,805,979)
+[call:chr6   708.2s] build_graph: 20,018,187 pairs x 40,917 blocks (rust)
+[call:chr6  1027.2s] insertions: 3502/4121 sites (200 kept)
+[call:chr6   728.4s] build_graph done: 105,264 edges
+[call:chr6   729.0s] insertions: test novel insertion sites
+[call:chr6   729.0s] insertions: 4585 candidate sites, 5 sizes, 105264 edges
+[call:chr6  1050.2s] insertions: 3708/4121 sites (226 kept)
+[call:chr6   747.5s] insertions: 229/4585 sites (25 kept)
+[call:chr6   762.5s] insertions: 458/4585 sites (31 kept)
+[call:chr6  1069.3s] insertions: 3914/4121 sites (237 kept)
+[call:chr6   778.3s] insertions: 687/4585 sites (40 kept)
+[call:chr6  1085.8s] insertions: 4120/4121 sites (269 kept)
+[call:chr6  1085.8s] insertions done: 269 insertions placed
+[call:chr6  1094.4s] genotype: 6808 loci (of 6808 merged)
+[call:chr6  1095.3s] genotype: locus 1/6808 done
+[call:chr6  1096.7s] genotype: locus 25/6808 done
+[call:chr6  1098.3s] genotype: locus 50/6808 done
+[call:chr6  1100.6s] genotype: locus 75/6808 done
+[call:chr6   795.1s] insertions: 916/4585 sites (48 kept)
+[call:chr6  1102.1s] genotype: locus 100/6808 done
+[call:chr6  1104.6s] genotype: locus 125/6808 done
+[call:chr6  1106.8s] genotype: locus 150/6808 done
+[call:chr6  1108.6s] genotype: locus 175/6808 done
+[call:chr6  1111.4s] genotype: locus 200/6808 done
+[call:chr6   807.2s] insertions: 1145/4585 sites (57 kept)
+[call:chr6  1113.7s] genotype: locus 225/6808 done
+[call:chr6  1115.2s] genotype: locus 250/6808 done
+[call:chr6  1116.7s] genotype: locus 275/6808 done
+[call:chr6  1118.7s] genotype: locus 300/6808 done
+[call:chr6  1121.6s] genotype: locus 325/6808 done
+[call:chr6  1123.3s] genotype: locus 350/6808 done
+[call:chr6  1125.0s] genotype: locus 375/6808 done
+[call:chr6   819.6s] insertions: 1374/4585 sites (69 kept)
+[call:chr6  1126.6s] genotype: locus 400/6808 done
+[call:chr6  1128.1s] genotype: locus 425/6808 done
+[call:chr6  1129.6s] genotype: locus 450/6808 done
+[call:chr6  1131.1s] genotype: locus 475/6808 done
+[call:chr6  1132.9s] genotype: locus 500/6808 done
+[call:chr6  1135.1s] genotype: locus 525/6808 done
+[call:chr6  1136.7s] genotype: locus 550/6808 done
+[call:chr6  1138.2s] genotype: locus 575/6808 done
+[call:chr6  1140.3s] genotype: locus 600/6808 done
+[call:chr6  1142.8s] genotype: locus 625/6808 done
+[call:chr6  1145.2s] genotype: locus 650/6808 done
+[call:chr6   838.9s] insertions: 1603/4585 sites (88 kept)
+[call:chr6  1146.4s] genotype: locus 675/6808 done
+[call:chr6  1147.8s] genotype: locus 700/6808 done
+[call:chr6  1149.2s] genotype: locus 725/6808 done
+[call:chr6  1151.0s] genotype: locus 750/6808 done
+[call:chr6  1152.6s] genotype: locus 775/6808 done
+[call:chr6  1154.0s] genotype: locus 800/6808 done
+[call:chr6  1155.9s] genotype: locus 825/6808 done
+[call:chr6  1157.5s] genotype: locus 850/6808 done
+[call:chr6  1159.2s] genotype: locus 875/6808 done
+[call:chr6  1161.1s] genotype: locus 900/6808 done
+[call:chr6  1162.6s] genotype: locus 925/6808 done
+[call:chr6  1163.9s] genotype: locus 950/6808 done
+[call:chr6  1165.6s] genotype: locus 975/6808 done
+[call:chr6  1167.0s] genotype: locus 1000/6808 done
+[call:chr6  1168.3s] genotype: locus 1025/6808 done
+[call:chr6   863.2s] insertions: 1832/4585 sites (93 kept)
+[call:chr6  1169.6s] genotype: locus 1050/6808 done
+[call:chr6  1171.0s] genotype: locus 1075/6808 done
+[call:chr6  1172.2s] genotype: locus 1100/6808 done
+[call:chr6  1173.6s] genotype: locus 1125/6808 done
+[call:chr6  1174.9s] genotype: locus 1150/6808 done
+[call:chr6  1176.2s] genotype: locus 1175/6808 done
+[call:chr6  1177.7s] genotype: locus 1200/6808 done
+[call:chr6  1179.3s] genotype: locus 1225/6808 done
+[call:chr6  1180.8s] genotype: locus 1250/6808 done
+[call:chr6  1182.1s] genotype: locus 1275/6808 done
+[call:chr6  1183.5s] genotype: locus 1300/6808 done
+[call:chr6  1184.8s] genotype: locus 1325/6808 done
+[call:chr6  1186.2s] genotype: locus 1350/6808 done
+[call:chr6  1187.4s] genotype: locus 1375/6808 done
+[call:chr6  1189.0s] genotype: locus 1400/6808 done
+[call:chr6  1190.5s] genotype: locus 1425/6808 done
+[call:chr6   885.0s] insertions: 2061/4585 sites (107 kept)
+[call:chr6  1192.0s] genotype: locus 1450/6808 done
+[call:chr6  1193.2s] genotype: locus 1475/6808 done
+[call:chr6  1194.7s] genotype: locus 1500/6808 done
+[call:chr6  1196.3s] genotype: locus 1525/6808 done
+[call:chr6  1198.0s] genotype: locus 1550/6808 done
+[call:chr6  1200.0s] genotype: locus 1575/6808 done
+[call:chr6  1201.3s] genotype: locus 1600/6808 done
+[call:chr6  1202.7s] genotype: locus 1625/6808 done
+[call:chr6  1204.2s] genotype: locus 1650/6808 done
+[call:chr6  1205.8s] genotype: locus 1675/6808 done
+[call:chr6  1207.1s] genotype: locus 1700/6808 done
+[call:chr6  1208.7s] genotype: locus 1725/6808 done
+[call:chr6  1210.1s] genotype: locus 1750/6808 done
+[call:chr6   904.7s] insertions: 2290/4585 sites (115 kept)
+[call:chr6  1211.3s] genotype: locus 1775/6808 done
+[call:chr6  1212.7s] genotype: locus 1800/6808 done
+[call:chr6  1213.8s] genotype: locus 1825/6808 done
+[call:chr6  1214.8s] genotype: locus 1850/6808 done
+[call:chr6  1215.9s] genotype: locus 1875/6808 done
+[call:chr6  1217.0s] genotype: locus 1900/6808 done
+[call:chr6  1218.5s] genotype: locus 1925/6808 done
+[call:chr6  1219.9s] genotype: locus 1950/6808 done
+[call:chr6  1221.2s] genotype: locus 1975/6808 done
+[call:chr6  1222.5s] genotype: locus 2000/6808 done
+[call:chr6  1223.8s] genotype: locus 2025/6808 done
+[call:chr6  1225.5s] genotype: locus 2050/6808 done
+[call:chr6  1227.3s] genotype: locus 2075/6808 done
+[call:chr6  1230.6s] genotype: locus 2100/6808 done
+[call:chr6  1234.0s] genotype: locus 2125/6808 done
+[call:chr6   929.9s] insertions: 2519/4585 sites (123 kept)
+[call:chr6  1236.7s] genotype: locus 2150/6808 done
+[call:chr6  1239.9s] genotype: locus 2175/6808 done
+[call:chr6  1241.7s] genotype: locus 2200/6808 done
+[call:chr6  1243.7s] genotype: locus 2225/6808 done
+[call:chr6  1246.9s] genotype: locus 2250/6808 done
+[call:chr6  1248.7s] genotype: locus 2275/6808 done
+[call:chr6  1250.2s] genotype: locus 2300/6808 done
+[call:chr6  1252.0s] genotype: locus 2325/6808 done
+[call:chr6  1253.8s] genotype: locus 2350/6808 done
+[call:chr6  1255.8s] genotype: locus 2375/6808 done
+[call:chr6  1257.9s] genotype: locus 2400/6808 done
+[call:chr6  1259.7s] genotype: locus 2425/6808 done
+[call:chr6   954.2s] insertions: 2748/4585 sites (129 kept)
+[call:chr6  1261.1s] genotype: locus 2450/6808 done
+[call:chr6  1262.4s] genotype: locus 2475/6808 done
+[call:chr6  1263.9s] genotype: locus 2500/6808 done
+[call:chr6  1265.0s] genotype: locus 2525/6808 done
+[call:chr6  1266.5s] genotype: locus 2550/6808 done
+[call:chr6  1267.8s] genotype: locus 2575/6808 done
+[call:chr6  1268.9s] genotype: locus 2600/6808 done
+[call:chr6  1270.6s] genotype: locus 2625/6808 done
+[call:chr6  1271.8s] genotype: locus 2650/6808 done
+[call:chr6  1273.1s] genotype: locus 2675/6808 done
+[call:chr6  1274.3s] genotype: locus 2700/6808 done
+[call:chr6  1276.1s] genotype: locus 2725/6808 done
+[call:chr6   971.7s] insertions: 2977/4585 sites (138 kept)
+[call:chr6  1278.2s] genotype: locus 2750/6808 done
+[call:chr6  1279.5s] genotype: locus 2775/6808 done
+[call:chr6  1281.2s] genotype: locus 2800/6808 done
+[call:chr6  1284.2s] genotype: locus 2825/6808 done
+[call:chr6  1286.1s] genotype: locus 2850/6808 done
+[call:chr6  1287.6s] genotype: locus 2875/6808 done
+[call:chr6  1289.2s] genotype: locus 2900/6808 done
+[call:chr6  1291.3s] genotype: locus 2925/6808 done
+[call:chr6  1293.1s] genotype: locus 2950/6808 done
+[call:chr6  1295.0s] genotype: locus 2975/6808 done
+[call:chr6  1297.0s] genotype: locus 3000/6808 done
+[call:chr6  1298.8s] genotype: locus 3025/6808 done
+[call:chr6   993.4s] insertions: 3206/4585 sites (146 kept)
+[call:chr6  1300.4s] genotype: locus 3050/6808 done
+[call:chr6  1301.9s] genotype: locus 3075/6808 done
+[call:chr6  1303.4s] genotype: locus 3100/6808 done
+[call:chr6  1305.0s] genotype: locus 3125/6808 done
+[call:chr6  1306.2s] genotype: locus 3150/6808 done
+[call:chr6  1307.9s] genotype: locus 3175/6808 done
+[call:chr6  1309.5s] genotype: locus 3200/6808 done
+[call:chr6  1311.0s] genotype: locus 3225/6808 done
+[call:chr6  1312.5s] genotype: locus 3250/6808 done
+[call:chr6  1314.1s] genotype: locus 3275/6808 done
+[call:chr6  1315.5s] genotype: locus 3300/6808 done
+[call:chr6  1316.8s] genotype: locus 3325/6808 done
+[call:chr6  1318.5s] genotype: locus 3350/6808 done
+[call:chr6  1319.9s] genotype: locus 3375/6808 done
+[call:chr6  1321.2s] genotype: locus 3400/6808 done
+[call:chr6  1322.6s] genotype: locus 3425/6808 done
+[call:chr6  1016.3s] insertions: 3435/4585 sites (155 kept)
+[call:chr6  1323.9s] genotype: locus 3450/6808 done
+[call:chr6  1325.2s] genotype: locus 3475/6808 done
+[call:chr6  1326.5s] genotype: locus 3500/6808 done
+[call:chr6  1327.9s] genotype: locus 3525/6808 done
+[call:chr6  1329.3s] genotype: locus 3550/6808 done
+[call:chr6  1330.5s] genotype: locus 3575/6808 done
+[call:chr6  1331.6s] genotype: locus 3600/6808 done
+[call:chr6  1333.0s] genotype: locus 3625/6808 done
+[call:chr6  1334.5s] genotype: locus 3650/6808 done
+[call:chr6  1336.5s] genotype: locus 3675/6808 done
+[call:chr6  1338.2s] genotype: locus 3700/6808 done
+[call:chr6  1339.7s] genotype: locus 3725/6808 done
+[call:chr6  1340.9s] genotype: locus 3750/6808 done
+[call:chr6  1342.2s] genotype: locus 3775/6808 done
+[call:chr6  1343.5s] genotype: locus 3800/6808 done
+[call:chr6  1345.1s] genotype: locus 3825/6808 done
+[call:chr6  1039.7s] insertions: 3664/4585 sites (163 kept)
+[call:chr6  1346.3s] genotype: locus 3850/6808 done
+[call:chr6  1347.8s] genotype: locus 3875/6808 done
+[call:chr6  1349.1s] genotype: locus 3900/6808 done
+[call:chr6  1350.6s] genotype: locus 3925/6808 done
+[call:chr6  1351.8s] genotype: locus 3950/6808 done
+[call:chr6  1353.0s] genotype: locus 3975/6808 done
+[call:chr6  1354.4s] genotype: locus 4000/6808 done
+[call:chr6  1355.6s] genotype: locus 4025/6808 done
+[call:chr6  1356.9s] genotype: locus 4050/6808 done
+[call:chr6  1358.2s] genotype: locus 4075/6808 done
+[call:chr6  1359.5s] genotype: locus 4100/6808 done
+[call:chr6  1361.0s] genotype: locus 4125/6808 done
+[call:chr6  1362.3s] genotype: locus 4150/6808 done
+[call:chr6  1363.6s] genotype: locus 4175/6808 done
+[call:chr6  1058.1s] insertions: 3893/4585 sites (167 kept)
+[call:chr6  1365.1s] genotype: locus 4200/6808 done
+[call:chr6  1366.4s] genotype: locus 4225/6808 done
+[call:chr6  1368.4s] genotype: locus 4250/6808 done
+[call:chr6  1369.9s] genotype: locus 4275/6808 done
+[call:chr6  1371.2s] genotype: locus 4300/6808 done
+[call:chr6  1372.5s] genotype: locus 4325/6808 done
+[call:chr6  1373.7s] genotype: locus 4350/6808 done
+[call:chr6  1375.1s] genotype: locus 4375/6808 done
+[call:chr6  1376.6s] genotype: locus 4400/6808 done
+[call:chr6  1377.8s] genotype: locus 4425/6808 done
+[call:chr6  1379.1s] genotype: locus 4450/6808 done
+[call:chr6  1380.4s] genotype: locus 4475/6808 done
+[call:chr6  1382.1s] genotype: locus 4500/6808 done
+[call:chr6  1383.8s] genotype: locus 4525/6808 done
+[call:chr6  1385.4s] genotype: locus 4550/6808 done
+[call:chr6  1387.0s] genotype: locus 4575/6808 done
+[call:chr6  1388.2s] genotype: locus 4600/6808 done
+[call:chr6  1082.6s] insertions: 4122/4585 sites (179 kept)
+[call:chr6  1389.6s] genotype: locus 4625/6808 done
+[call:chr6  1390.9s] genotype: locus 4650/6808 done
+[call:chr6  1392.3s] genotype: locus 4675/6808 done
+[call:chr6  1393.5s] genotype: locus 4700/6808 done
+[call:chr6  1394.8s] genotype: locus 4725/6808 done
+[call:chr6  1396.3s] genotype: locus 4750/6808 done
+[call:chr6  1397.6s] genotype: locus 4775/6808 done
+[call:chr6  1398.9s] genotype: locus 4800/6808 done
+[call:chr6  1400.2s] genotype: locus 4825/6808 done
+[call:chr6  1401.3s] genotype: locus 4850/6808 done
+[call:chr6  1402.6s] genotype: locus 4875/6808 done
+[call:chr6  1403.9s] genotype: locus 4900/6808 done
+[call:chr6  1405.5s] genotype: locus 4925/6808 done
+[call:chr6  1407.0s] genotype: locus 4950/6808 done
+[call:chr6  1408.8s] genotype: locus 4975/6808 done
+[call:chr6  1410.4s] genotype: locus 5000/6808 done
+[call:chr6  1104.8s] insertions: 4351/4585 sites (203 kept)
+[call:chr6  1411.6s] genotype: locus 5025/6808 done
+[call:chr6  1413.3s] genotype: locus 5050/6808 done
+[call:chr6  1415.0s] genotype: locus 5075/6808 done
+[call:chr6  1416.5s] genotype: locus 5100/6808 done
+[call:chr6  1417.8s] genotype: locus 5125/6808 done
+[call:chr6  1419.1s] genotype: locus 5150/6808 done
+[call:chr6  1420.4s] genotype: locus 5175/6808 done
+[call:chr6  1421.6s] genotype: locus 5200/6808 done
+[call:chr6  1422.9s] genotype: locus 5225/6808 done
+[call:chr6  1424.0s] genotype: locus 5250/6808 done
+[call:chr6  1425.5s] genotype: locus 5275/6808 done
+[call:chr6  1426.7s] genotype: locus 5300/6808 done
+[call:chr6  1428.3s] genotype: locus 5325/6808 done
+[call:chr6  1122.3s] insertions: 4580/4585 sites (233 kept)
+[call:chr6  1122.6s] insertions done: 233 insertions placed
+[call:chr6  1429.7s] genotype: locus 5350/6808 done
+[call:chr6  1431.2s] genotype: locus 5375/6808 done
+[call:chr6  1432.6s] genotype: locus 5400/6808 done
+[call:chr6  1433.9s] genotype: locus 5425/6808 done
+[call:chr6  1435.0s] genotype: locus 5450/6808 done
+[call:chr6  1129.7s] genotype: 7076 loci (of 7076 merged)
+[call:chr6  1436.2s] genotype: locus 5475/6808 done
+[call:chr6  1130.8s] genotype: locus 1/7076 done
+[call:chr6  1437.9s] genotype: locus 5500/6808 done
+[call:chr6  1132.3s] genotype: locus 25/7076 done
+[call:chr6  1439.3s] genotype: locus 5525/6808 done
+[call:chr6  1134.4s] genotype: locus 50/7076 done
+[call:chr6  1440.9s] genotype: locus 5550/6808 done
+[call:chr6  1135.6s] genotype: locus 75/7076 done
+[call:chr6  1442.2s] genotype: locus 5575/6808 done
+[call:chr6  1137.4s] genotype: locus 100/7076 done
+[call:chr6  1443.8s] genotype: locus 5600/6808 done
+[call:chr6  1445.1s] genotype: locus 5625/6808 done
+[call:chr6  1139.2s] genotype: locus 125/7076 done
+[call:chr6  1446.6s] genotype: locus 5650/6808 done
+[call:chr6  1141.6s] genotype: locus 150/7076 done
+[call:chr6  1447.9s] genotype: locus 5675/6808 done
+[call:chr6  1143.1s] genotype: locus 175/7076 done
+[call:chr6  1449.8s] genotype: locus 5700/6808 done
+[call:chr6  1451.0s] genotype: locus 5725/6808 done
+[call:chr6  1452.3s] genotype: locus 5750/6808 done
+[call:chr6  1146.1s] genotype: locus 200/7076 done
+[call:chr6  1453.6s] genotype: locus 5775/6808 done
+[call:chr6  1149.1s] genotype: locus 225/7076 done
+[call:chr6  1455.5s] genotype: locus 5800/6808 done
+[call:chr6  1457.2s] genotype: locus 5825/6808 done
+[call:chr6  1151.9s] genotype: locus 250/7076 done
+[call:chr6  1459.0s] genotype: locus 5850/6808 done
+[call:chr6  1153.7s] genotype: locus 275/7076 done
+[call:chr6  1155.4s] genotype: locus 300/7076 done
+[call:chr6  1461.7s] genotype: locus 5875/6808 done
+[call:chr6  1156.9s] genotype: locus 325/7076 done
+[call:chr6  1463.3s] genotype: locus 5900/6808 done
+[call:chr6  1464.8s] genotype: locus 5925/6808 done
+[call:chr6  1159.0s] genotype: locus 350/7076 done
+[call:chr6  1466.3s] genotype: locus 5950/6808 done
+[call:chr6  1160.5s] genotype: locus 375/7076 done
+[call:chr6  1467.6s] genotype: locus 5975/6808 done
+[call:chr6  1162.3s] genotype: locus 400/7076 done
+[call:chr6  1468.6s] genotype: locus 6000/6808 done
+[call:chr6  1470.0s] genotype: locus 6025/6808 done
+[call:chr6  1164.4s] genotype: locus 425/7076 done
+[call:chr6  1471.3s] genotype: locus 6050/6808 done
+[call:chr6  1165.8s] genotype: locus 450/7076 done
+[call:chr6  1472.8s] genotype: locus 6075/6808 done
+[call:chr6  1167.3s] genotype: locus 475/7076 done
+[call:chr6  1474.0s] genotype: locus 6100/6808 done
+[call:chr6  1475.1s] genotype: locus 6125/6808 done
+[call:chr6  1169.2s] genotype: locus 500/7076 done
+[call:chr6  1476.4s] genotype: locus 6150/6808 done
+[call:chr6  1170.8s] genotype: locus 525/7076 done
+[call:chr6  1478.3s] genotype: locus 6175/6808 done
+[call:chr6  1172.2s] genotype: locus 550/7076 done
+[call:chr6  1173.5s] genotype: locus 575/7076 done
+[call:chr6  1174.9s] genotype: locus 600/7076 done
+[call:chr6  1481.3s] genotype: locus 6200/6808 done
+[call:chr6  1176.4s] genotype: locus 625/7076 done
+[call:chr6  1177.6s] genotype: locus 650/7076 done
+[call:chr6  1484.3s] genotype: locus 6225/6808 done
+[call:chr6  1178.8s] genotype: locus 675/7076 done
+[call:chr6  1180.0s] genotype: locus 700/7076 done
+[call:chr6  1487.4s] genotype: locus 6250/6808 done
+[call:chr6  1181.3s] genotype: locus 725/7076 done
+[call:chr6  1182.4s] genotype: locus 750/7076 done
+[call:chr6  1183.6s] genotype: locus 775/7076 done
+[call:chr6  1490.5s] genotype: locus 6275/6808 done
+[call:chr6  1184.8s] genotype: locus 800/7076 done
+[call:chr6  1492.6s] genotype: locus 6300/6808 done
+[call:chr6  1186.4s] genotype: locus 825/7076 done
+[call:chr6  1493.7s] genotype: locus 6325/6808 done
+[call:chr6  1495.3s] genotype: locus 6350/6808 done
+[call:chr6  1189.6s] genotype: locus 850/7076 done
+[call:chr6  1496.6s] genotype: locus 6375/6808 done
+[call:chr6  1497.8s] genotype: locus 6400/6808 done
+[call:chr6  1192.1s] genotype: locus 875/7076 done
+[call:chr6  1499.2s] genotype: locus 6425/6808 done
+[call:chr6  1193.3s] genotype: locus 900/7076 done
+[call:chr6  1194.7s] genotype: locus 925/7076 done
+[call:chr6  1501.8s] genotype: locus 6450/6808 done
+[call:chr6  1195.9s] genotype: locus 950/7076 done
+[call:chr6  1197.1s] genotype: locus 975/7076 done
+[call:chr6  1504.4s] genotype: locus 6475/6808 done
+[call:chr6  1198.6s] genotype: locus 1000/7076 done
+[call:chr6  1200.2s] genotype: locus 1025/7076 done
+[call:chr6  1201.4s] genotype: locus 1050/7076 done
+[call:chr6  1508.1s] genotype: locus 6500/6808 done
+[call:chr6  1202.8s] genotype: locus 1075/7076 done
+[call:chr6  1204.0s] genotype: locus 1100/7076 done
+[call:chr6  1510.4s] genotype: locus 6525/6808 done
+[call:chr6  1205.0s] genotype: locus 1125/7076 done
+[call:chr6  1206.5s] genotype: locus 1150/7076 done
+[call:chr6  1207.9s] genotype: locus 1175/7076 done
+[call:chr6  1209.0s] genotype: locus 1200/7076 done
+[call:chr6  1210.2s] genotype: locus 1225/7076 done
+[call:chr6  1517.1s] genotype: locus 6550/6808 done
+[call:chr6  1211.6s] genotype: locus 1250/7076 done
+[call:chr6  1212.9s] genotype: locus 1275/7076 done
+[call:chr6  1520.0s] genotype: locus 6575/6808 done
+[call:chr6  1214.1s] genotype: locus 1300/7076 done
+[call:chr6  1216.0s] genotype: locus 1325/7076 done
+[call:chr6  1217.2s] genotype: locus 1350/7076 done
+[call:chr6  1523.9s] genotype: locus 6600/6808 done
+[call:chr6  1218.7s] genotype: locus 1375/7076 done
+[call:chr6  1220.1s] genotype: locus 1400/7076 done
+[call:chr6  1221.6s] genotype: locus 1425/7076 done
+[call:chr6  1222.9s] genotype: locus 1450/7076 done
+[call:chr6  1224.4s] genotype: locus 1475/7076 done
+[call:chr6  1531.6s] genotype: locus 6625/6808 done
+[call:chr6  1226.0s] genotype: locus 1500/7076 done
+[call:chr6  1227.7s] genotype: locus 1525/7076 done
+[call:chr6  1534.7s] genotype: locus 6650/6808 done
+[call:chr6  1229.6s] genotype: locus 1550/7076 done
+[call:chr6  1231.3s] genotype: locus 1575/7076 done
+[call:chr6  1538.0s] genotype: locus 6675/6808 done
+[call:chr6  1233.0s] genotype: locus 1600/7076 done
+[call:chr6  1540.8s] genotype: locus 6700/6808 done
+[call:chr6  1234.9s] genotype: locus 1625/7076 done
+# SIGTERM exit 143 at 2026-10-06T02:45:26Z while genotype on chr6 jobs (mid-call). Resume via scratch/ml0_s3_resume.cmd

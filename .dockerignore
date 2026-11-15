@@ -1,0 +1,36 @@
+.git
+.github
+.devcontainer
+docs/reviews
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.ruff_cache
+core/arcsv-core/target
+target/
+pilot/
+pilot-large/
+haps/
+labels/
+results/
+work/
+data/
+.snakemake/
+ref.fa
+# Large genomics artifacts (do not ship in the image)
+*.fa.gz
+*.fasta.gz
+*.gzi
+*.sam
+*.cram
+*.mmi
+*.crai
+# Exclude BAMs/FASTA broadly, then re-include the tiny Studio example.
+*.fa
+*.bam
+*.bai
+*.fai
+!python/arcsv2/dashboard/demo/example_bam/
+!python/arcsv2/dashboard/demo/example_bam/**
+# Still exclude other large demo FASTAs if any appear later under demo/
+python/arcsv2/dashboard/demo/**/hap*.fa

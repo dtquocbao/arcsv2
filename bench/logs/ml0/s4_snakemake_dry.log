@@ -1,0 +1,48 @@
+Config file workflows/config/label.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-06 03:08:46
+  Workflow ID: 8086fc0c-5ec2-42a3-8b68-96e9e032e002
+  Platform: Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+  Host: 433ef59ab5d3
+  User: mambauser
+  Snakemake version: 9.27.0
+  Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+  Command: /opt/conda/bin/snakemake -s workflows/label.smk --configfile workflows/config/label.ml0_s4.yaml -n -p /data/haps/HG03098.hap2.mmi
+  Snakefile: /work/workflows/label.smk
+  Base directory: /work/workflows
+  Run directory: /work
+  Working directory: /work
+  Config file(s): [PosixPath('/work/workflows/config/label.ml0_s4.yaml'), 'workflows/config/label.yaml']
+  Config MD5: e3c11a5d7766419e63767288e2176aad
+
+Building DAG of jobs...
+Job stats:
+job           count
+----------  -------
+index_haps        1
+total             1
+
+
+[Tue Oct  6 03:08:47 2026]
+rule index_haps:
+    input: /data/haps/HG03098.hap2.fa.gz
+    output: /data/haps/HG03098.hap2.mmi
+    jobid: 0
+    reason: Missing output files: /data/haps/HG03098.hap2.mmi
+    wildcards: sample=HG03098, which=hap2
+    resources: tmpdir=/tmp
+Shell command: minimap2 -d /data/haps/HG03098.hap2.mmi /data/haps/HG03098.hap2.fa.gz
+Job stats:
+job           count
+----------  -------
+index_haps        1
+total             1
+
+Reasons:
+    (check individual jobs above for details)
+    output files have to be generated:
+        index_haps
+This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.

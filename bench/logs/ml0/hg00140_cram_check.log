@@ -1,0 +1,19 @@
+TSV:
+sample	population	superpopulation	sex	family_id	cram_url	crai_url	hap1_url	hap2_url	cram_checksum	crai_checksum	hap1_checksum	hap2_checksum
+HG00140	GBR	EUR	male	HG00140	https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/data/ERR3240146/HG00140.final.cram	https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/data/ERR3240146/HG00140.final.cram.crai	https://human-pangenomics.s3.amazonaws.com/working/HPRC/HG00140/assemblies/release2/HG00140_hap1_hprc_r2_v1.0.1.fa.gz	https://human-pangenomics.s3.amazonaws.com/working/HPRC/HG00140/assemblies/release2/HG00140_hap2_hprc_r2_v1.0.1.fa.gz	md5:962736512a6152b079672a0dba7e7085	none	md5:7c32c465661ea7961357baafe559c98e	md5:63351173324e61bbd640cbe45fb452d2
+FETCH_START 2026-10-13T00:55:09Z
+wrote /data/manifest.lock.json (4 files)
+=== size ===
+-rw-r--r-- 1 mambauser mambauser  15G Oct 13 01:14 /data/samples/HG00140/reads/HG00140.cram
+-rw-r--r-- 1 mambauser mambauser 1.4M Oct 13 01:14 /data/samples/HG00140/reads/HG00140.cram.crai
+=== md5 (python) ===
+got 962736512a6152b079672a0dba7e7085
+expect 962736512a6152b079672a0dba7e7085
+match True
+=== RG SM ===
+     12 SM:HG00140
+=== sex proxy counts ===
+chrX:60000000-61000000 count=90480
+chrY:10000000-11000000 count=661918
+chr20:30000000-30100000 count=2889
+FETCH_CHECK_DONE 2026-10-13T01:14:59Z

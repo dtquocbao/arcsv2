@@ -1,0 +1,39 @@
+[call:chr20     0.0s] start: /data/work/HG01884/chr20.bam (chr20:63438085-63478085)
+[call:chr20     0.0s] load_bam: /data/work/HG01884/chr20.bam (engine=rust)
+[call:chr20     0.1s] load_bam done: 12,350 alignments -> 5,879 pairs, 82 breakpoints, 4 splits (insert_stats=5,790, engine=rust)
+[call:chr20     0.1s] loaded: 5879 pairs, 82 clip/split bps, 4 splits
+[call:chr20     0.1s] fit_libs: 5,879 pairs
+[call:chr20     0.1s] discover: scan 5,879 pairs for DRPs
+[call:chr20     0.1s] discover: Del: 5 DRPs + 4 null reps
+[call:chr20     0.1s] discover: Del: null rep 2/4
+[call:chr20     0.1s] discover: Del: null rep 4/4
+[call:chr20     0.1s] discover: Dup: 2 DRPs + 4 null reps
+[call:chr20     0.1s] discover: Dup: null rep 2/4
+[call:chr20     0.1s] discover: Dup: null rep 4/4
+[call:chr20     0.1s] discover: Ins: 2 DRPs + 4 null reps
+[call:chr20     0.1s] discover: Ins: null rep 2/4
+[call:chr20     0.1s] discover: Ins: null rep 4/4
+[call:chr20     0.1s] discover done: 74 breakpoints
+[call:chr20     0.1s] blocks: 74 breakpoints -> 75 blocks (chrom_len=64,444,167)
+[call:chr20     0.1s] build_graph: 5,879 pairs x 75 blocks (rust)
+[call:chr20     0.1s] build_graph done: 314 edges
+[call:chr20     0.1s] insertions: test novel insertion sites
+[call:chr20     0.1s] insertions: 12 candidate sites, 5 sizes, 314 edges
+[call:chr20     0.2s] insertions: 1/12 sites (0 kept)
+[call:chr20     0.2s] insertions: 2/12 sites (0 kept)
+[call:chr20     0.2s] insertions: 3/12 sites (0 kept)
+[call:chr20     0.2s] insertions: 4/12 sites (0 kept)
+[call:chr20     0.3s] insertions: 5/12 sites (0 kept)
+[call:chr20     0.3s] insertions: 6/12 sites (0 kept)
+[call:chr20     0.3s] insertions: 7/12 sites (0 kept)
+[call:chr20     0.3s] insertions: 8/12 sites (0 kept)
+[call:chr20     0.4s] insertions: 9/12 sites (0 kept)
+[call:chr20     0.4s] insertions: 10/12 sites (0 kept)
+[call:chr20     0.4s] insertions: 11/12 sites (0 kept)
+[call:chr20     0.4s] insertions done: 0 insertions placed
+[call:chr20     0.4s] genotype: 10 loci (of 10 merged)
+[call:chr20     0.5s] genotype: locus 1/10 done
+[call:chr20     1.3s] genotype: locus 10/10 done
+[call:chr20     1.3s] genotype done: 1 calls
+[call:chr20     1.3s] done: 1 calls -> /tmp/ml0_s1_windows/HG01884_63458085/arcsv_out.tab
+wrote 1 calls to /tmp/ml0_s1_windows/HG01884_63458085/arcsv_out.tab

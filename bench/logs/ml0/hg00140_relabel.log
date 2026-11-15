@@ -1,0 +1,35 @@
+START_HG00140_RELABEL 2026-10-13T01:03:46Z
+lrwxrwxrwx 1 mambauser mambauser   45 Oct 13 00:55 /data/haps/HG00140.hap1.fa.gz -> /data/samples/HG00140/haps/HG00140.hap1.fa.gz
+-rw-r--r-- 1 mambauser mambauser 5.6G Oct 10 08:11 /data/haps/HG00140.hap1.mmi
+lrwxrwxrwx 1 mambauser mambauser   45 Oct 13 00:55 /data/haps/HG00140.hap2.fa.gz -> /data/samples/HG00140/haps/HG00140.hap2.fa.gz
+-rw-r--r-- 1 mambauser mambauser 5.5G Oct 10 08:10 /data/haps/HG00140.hap2.mmi
+-rw-r--r-- 1 mambauser mambauser 1.7M Oct 11 03:16 /data/results_ml0_s3/HG00140/merged.tab
+=== rebuild mmi ===
+[M::mm_idx_gen::41.370*1.92] collected minimizers
+[M::mm_idx_gen::54.734*2.18] sorted minimizers
+[M::main::60.308*2.07] loaded/built the index for 85 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 85
+[M::mm_idx_stat::61.153*2.05] distinct minimizers: 98466006 (39.26% are singletons); average occurrences: 5.619; average spacing: 5.309; total length: 2937713519
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG00140.hap1.mmi /data/haps/HG00140.hap1.fa.gz
+[M::main] Real time: 61.401 sec; CPU: 125.738 sec; Peak RSS: 11.192 GB
+[M::mm_idx_gen::41.613*1.88] collected minimizers
+[M::mm_idx_gen::55.461*2.15] sorted minimizers
+[M::main::61.425*2.04] loaded/built the index for 61 target sequence(s)
+[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 61
+[M::mm_idx_stat::62.276*2.03] distinct minimizers: 100094239 (38.83% are singletons); average occurrences: 5.729; average spacing: 5.311; total length: 3045493630
+[M::main] Version: 2.31-r1302
+[M::main] CMD: minimap2 -d /data/haps/HG00140.hap2.mmi /data/haps/HG00140.hap2.fa.gz
+[M::main] Real time: 62.524 sec; CPU: 126.522 sec; Peak RSS: 11.495 GB
+-rw-r--r-- 1 mambauser mambauser 6.7G Oct 13 01:04 /data/haps/HG00140.hap1.mmi
+-rw-r--r-- 1 mambauser mambauser 6.9G Oct 13 01:05 /data/haps/HG00140.hap2.mmi
+=== smoke map via new mmi ===
+hap1 n= 1 mapq0= 49
+hap2 n= 1 mapq0= 0
+=== ml-label ===
+wrote 4670 labels to /data/labels_ml0_s3/HG00140.labeled.tsv
+=== new precision ===
+labels {'NA': 1635, '0': 553, '1': 2482}
+precision 0.8177924217462933
+reasons {'no_sequence': 1598, 'low_identity': 207, 'validated': 2482, 'low_mapq': 102, 'large_gap': 59, 'clipped': 176, 'ambiguous': 37, 'no_hit': 9}
+END_HG00140_RELABEL 2026-10-13T01:10:28Z

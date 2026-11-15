@@ -1,0 +1,1 @@
+IDENTICAL: /data/results_m4_chr1_verify/HG01884/chr1/arcsv_out.tab == /data/results_chr1/HG01884/chr1/arcsv_out.tab

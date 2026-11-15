@@ -1,0 +1,17 @@
+# Optional: bind a host folder to /data instead of the named volume.
+# Copy to compose.override.yaml (gitignored) and edit the path.
+# Example for Windows:
+#
+# services:
+#   cli:
+#     volumes:
+#       - .:/work
+#       - D:/arcsv2-data:/data
+#   dashboard:
+#     volumes:
+#       - .:/work
+#       - D:/arcsv2-data:/data
+#   dev:
+#     volumes:
+#       - .:/work
+#       - D:/arcsv2-data:/data

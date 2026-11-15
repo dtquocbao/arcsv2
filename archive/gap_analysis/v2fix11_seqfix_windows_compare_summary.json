@@ -1,0 +1,133 @@
+{
+  "windows": [
+    {
+      "sample": "NA19700",
+      "lo": 61500000,
+      "hi": 64500000,
+      "tag": "lostDEL",
+      "arm": "A_current",
+      "validated": 15,
+      "n01": 40,
+      "precision": 37.5,
+      "DEL": {
+        "0": 11,
+        "1": 9
+      },
+      "DUP": {
+        "0": 5,
+        "1": 5
+      },
+      "complex": {
+        "0": 9,
+        "1": 1
+      },
+      "orig_tp": 12,
+      "orig_n": 18
+    },
+    {
+      "sample": "NA19700",
+      "lo": 61500000,
+      "hi": 64500000,
+      "tag": "lostDEL",
+      "arm": "B_v2fix8",
+      "validated": 14,
+      "n01": 30,
+      "precision": 46.67,
+      "DEL": {
+        "0": 8,
+        "1": 8
+      },
+      "DUP": {
+        "0": 3,
+        "1": 4
+      },
+      "complex": {
+        "0": 5,
+        "1": 2
+      },
+      "orig_tp": 10,
+      "orig_n": 18
+    },
+    {
+      "sample": "HG01884",
+      "lo": 60000000,
+      "hi": 65000000,
+      "tag": "complex",
+      "arm": "A_current",
+      "validated": 23,
+      "n01": 50,
+      "precision": 46.0,
+      "DEL": {
+        "1": 16,
+        "0": 12
+      },
+      "DUP": {
+        "1": 6,
+        "0": 3
+      },
+      "complex": {
+        "0": 12,
+        "1": 1
+      },
+      "orig_tp": 21,
+      "orig_n": 30
+    },
+    {
+      "sample": "HG01884",
+      "lo": 60000000,
+      "hi": 65000000,
+      "tag": "complex",
+      "arm": "B_v2fix8",
+      "validated": 20,
+      "n01": 36,
+      "precision": 55.56,
+      "DEL": {
+        "1": 13,
+        "0": 8
+      },
+      "DUP": {
+        "1": 5,
+        "0": 2
+      },
+      "complex": {
+        "0": 6,
+        "1": 2
+      },
+      "orig_tp": 18,
+      "orig_n": 30
+    }
+  ],
+  "aggregate": {
+    "A_current": {
+      "validated": 38,
+      "n01": 90,
+      "precision": 42.22,
+      "orig_tp": 33,
+      "orig_n": 48
+    },
+    "B_v2fix8": {
+      "validated": 34,
+      "n01": 66,
+      "precision": 51.52,
+      "orig_tp": 28,
+      "orig_n": 48
+    }
+  },
+  "gate": {
+    "validated_ge_38": true,
+    "precision_ge_42": true,
+    "result": "PASS",
+    "A_validated": 38,
+    "B_validated": 34,
+    "A_precision": 42.22,
+    "B_precision": 51.52,
+    "vs_v2fix8": {
+      "validated_delta": 4,
+      "precision_delta_pp": -9.3,
+      "A_validated": 38,
+      "B_validated": 34,
+      "A_precision": 42.22,
+      "B_precision": 51.52
+    }
+  }
+}

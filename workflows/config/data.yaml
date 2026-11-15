@@ -1,0 +1,26 @@
+# Cohort / whole-genome paths. Fill on the cluster; do not commit credentials
+# or machine-local absolute paths that are not portable.
+#
+# Per-chromosome parallelism: list every contig under chroms. The Snakefile
+# runs one call job per (sample, chrom), then merges. A single-entry chroms
+# list (chr20) is the benchmark path and still works.
+
+data_root: /data
+results_dir: results
+reference: ""
+gaps: ""
+# Paper merge-filter BEDs under /data/ref/ (scripts/fetch_filter_beds.py).
+simple_repeats: ""
+segdups: ""
+blacklist: ""
+samples_tsv: ""
+hprc_assemblies: []
+illumina_crams: []
+chroms:
+  - chr20
+samples: []
+# Optional maps (sample -> BAM/CRAM). When empty, Snakefile uses
+# {data_root}/work/{sample}/{chrom}.bam from fetch_region / label.smk.
+bam: {}
+cram: {}
+threads: 4

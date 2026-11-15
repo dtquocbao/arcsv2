@@ -1,0 +1,45 @@
+# Snakemake SLURM profile (U5). Use from repo root:
+#   snakemake -s workflows/label.smk --profile workflows/profiles/slurm \
+#     --configfile workflows/config/label.yaml -j 50 --jobs 50
+#
+# Set ARCSV2_SIF to a Singularity image (prefer GHCR pull; see docs/CLUSTER.md).
+# On Grace: export APPTAINER_CMD=singularity SINGULARITY_CMD=singularity
+# Override partition/account via config extra or edit default-resources below.
+
+executor: cluster-generic
+restart-times: 2
+attempts: 3
+latency-wait: 120
+jobs: 500
+
+default-resources:
+  - slurm_partition=normal
+  - slurm_extra=
+  - runtime="2:00:00"
+  - mem_mb=4000
+
+set-threads:
+  call: 4
+  label: 2
+
+cluster-generic-submit-cmd: >-
+  mkdir -p logs/slurm &&
+  sbatch --parsable
+  --partition={resources.slurm_partition}
+  --cpus-per-task={threads}
+  --mem={resources.mem_mb}M
+  --time={resources.runtime}
+  {resources.slurm_extra}
+  --output=logs/slurm/{rule}-%j.out
+  --error=logs/slurm/{rule}-%j.err
+  --wrap="{cluster.jobscript}"
+
+cluster-generic-status-cmd: python3 {profile}/slurm-status.py {jobid}
+cluster-generic-cancel-cmd: scancel {jobid}
+
+# Singularity (Grace): pass at submit time, e.g.
+#   export ARCSV2_SIF=$SCRATCH/arcsv2/sif/arcsv2_1.6.1.sif
+#   export APPTAINER_CMD=singularity SINGULARITY_CMD=singularity
+#   snakemake ... --software-deployment-method singularity --container-image "$ARCSV2_SIF" \
+#     --singularity-args '--bind $SCRATCH/arcsv2:/data --bind $PWD:$PWD'
+# If Snakemake only accepts method "apptainer", use that with APPTAINER_CMD=singularity.

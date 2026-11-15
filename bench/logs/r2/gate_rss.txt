@@ -1,0 +1,1 @@
+SAMPLE=gate_r2 elapsed_sec=413.3 max_rss_kb=8288216 rc=0

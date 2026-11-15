@@ -1,0 +1,5 @@
+OK merged.tab/HG01884: 280 data rows
+OK merged.tab/NA19700: 271 data rows
+OK dataset.tsv: 376 data rows
+OK summary: validated=222 precision=0.5904 (222/376)
+PASS full golden check

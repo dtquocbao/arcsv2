@@ -1,0 +1,10 @@
+{
+  "name": "arcsv2",
+  "dockerComposeFile": ["../compose.yaml"],
+  "service": "dev",
+  "runServices": ["dev"],
+  "workspaceFolder": "/work",
+  "shutdownAction": "stopCompose",
+  "overrideCommand": false,
+  "postCreateCommand": "pip install -e .[dev] && pytest -q"
+}

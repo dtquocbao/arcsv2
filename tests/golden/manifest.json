@@ -1,0 +1,65 @@
+[
+  {
+    "file": "HG01884_2659058.merged.tab",
+    "sample": "HG01884",
+    "center": 2659058,
+    "chrom": "chr20",
+    "slop": 500,
+    "n_calls": 1,
+    "note": "DUP ABBC"
+  },
+  {
+    "file": "HG01884_5962348.merged.tab",
+    "sample": "HG01884",
+    "center": 5962348,
+    "chrom": "chr20",
+    "slop": 500,
+    "n_calls": 1,
+    "note": "DEL"
+  },
+  {
+    "file": "NA19700_52764531.merged.tab",
+    "sample": "NA19700",
+    "center": 52764531,
+    "chrom": "chr20",
+    "slop": 500,
+    "n_calls": 1,
+    "note": "DUP ABBC same-block support==2"
+  },
+  {
+    "file": "HG01884_60792115.merged.tab",
+    "sample": "HG01884",
+    "center": 60792115,
+    "chrom": "chr20",
+    "slop": 500,
+    "n_calls": 1,
+    "note": "DUP ABBC"
+  },
+  {
+    "file": "HG01884_13358681.merged.tab",
+    "sample": "HG01884",
+    "center": 13358681,
+    "chrom": "chr20",
+    "slop": 500,
+    "n_calls": 0,
+    "note": "weak-DEL uncalled"
+  },
+  {
+    "file": "HG01884_23857951.merged.tab",
+    "sample": "HG01884",
+    "center": 23857951,
+    "chrom": "chr20",
+    "slop": 500,
+    "n_calls": 0,
+    "note": "weak-DEL uncalled"
+  },
+  {
+    "file": "HG01884_63458085.merged.tab",
+    "sample": "HG01884",
+    "center": 63458085,
+    "chrom": "chr20",
+    "slop": 500,
+    "n_calls": 0,
+    "note": "weak-DEL uncalled"
+  }
+]

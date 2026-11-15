@@ -1,0 +1,22 @@
+# PERF3 R2 gate: engine=rust BAM + build_graph, threads=8.
+data_root: /data
+results_dir: results_gate_r2
+labels_dir: labels_gate_r2
+reference: /data/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa
+gaps: /data/ref/gaps.bed
+unreliable: /data/ref/unreliable.bed
+simple_repeats: ""
+segdups: ""
+blacklist: ""
+chroms:
+  - chr20
+samples:
+  - HG01884
+  - NA19700
+cram:
+  HG01884: https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/additional_698_related/data/ERR3988940/HG01884.final.cram
+  NA19700: https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/data/ERR3239913/NA19700.final.cram
+sequential: true
+threads: 8
+mem_mb: 8000
+engine: rust

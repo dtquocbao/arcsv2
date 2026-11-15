@@ -1,0 +1,7 @@
+mode=full engine_graph=rust n_pairs=8087727 n_blocks=24737 n_bp=24736
+load_s=140.133 fit_discover_blocks_s=44.419
+block_prep_plus_build_graph_s=25.067
+n_edges=92846
+peak_rss_kb=6339996
+wall_stage_total_s=209.619
+rss_after_load_kb=6294696 rss_after_blocks_kb=6294696 rss_after_graph_kb=6339996

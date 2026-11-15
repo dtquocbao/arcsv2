@@ -1,0 +1,256 @@
+{
+  "n": 40,
+  "by_super": {
+    "AFR": 8,
+    "AMR": 8,
+    "EAS": 8,
+    "EUR": 8,
+    "SAS": 8
+  },
+  "by_sex": {
+    "female": 20,
+    "male": 20
+  },
+  "samples": [
+    {
+      "sample": "HG01884",
+      "population": "ACB",
+      "superpopulation": "AFR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG01891",
+      "population": "ACB",
+      "superpopulation": "AFR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG01960",
+      "population": "ACB",
+      "superpopulation": "AFR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG02055",
+      "population": "ACB",
+      "superpopulation": "AFR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG02145",
+      "population": "ACB",
+      "superpopulation": "AFR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG02257",
+      "population": "ACB",
+      "superpopulation": "AFR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG02258",
+      "population": "ACB",
+      "superpopulation": "AFR",
+      "sex": "male"
+    },
+    {
+      "sample": "NA19700",
+      "population": "ASW",
+      "superpopulation": "AFR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG01150",
+      "population": "CLM",
+      "superpopulation": "AMR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG01252",
+      "population": "CLM",
+      "superpopulation": "AMR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG01255",
+      "population": "CLM",
+      "superpopulation": "AMR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG01258",
+      "population": "CLM",
+      "superpopulation": "AMR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG01261",
+      "population": "CLM",
+      "superpopulation": "AMR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG01346",
+      "population": "CLM",
+      "superpopulation": "AMR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG01361",
+      "population": "CLM",
+      "superpopulation": "AMR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG01496",
+      "population": "CLM",
+      "superpopulation": "AMR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG02155",
+      "population": "CDX",
+      "superpopulation": "EAS",
+      "sex": "female"
+    },
+    {
+      "sample": "HG02165",
+      "population": "CDX",
+      "superpopulation": "EAS",
+      "sex": "female"
+    },
+    {
+      "sample": "HG02178",
+      "population": "CDX",
+      "superpopulation": "EAS",
+      "sex": "female"
+    },
+    {
+      "sample": "HG02391",
+      "population": "CDX",
+      "superpopulation": "EAS",
+      "sex": "male"
+    },
+    {
+      "sample": "HG02392",
+      "population": "CDX",
+      "superpopulation": "EAS",
+      "sex": "male"
+    },
+    {
+      "sample": "NA18565",
+      "population": "CHB",
+      "superpopulation": "EAS",
+      "sex": "female"
+    },
+    {
+      "sample": "NA18608",
+      "population": "CHB",
+      "superpopulation": "EAS",
+      "sex": "male"
+    },
+    {
+      "sample": "NA18620",
+      "population": "CHB",
+      "superpopulation": "EAS",
+      "sex": "male"
+    },
+    {
+      "sample": "HG00272",
+      "population": "FIN",
+      "superpopulation": "EUR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG00280",
+      "population": "FIN",
+      "superpopulation": "EUR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG00290",
+      "population": "FIN",
+      "superpopulation": "EUR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG00320",
+      "population": "FIN",
+      "superpopulation": "EUR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG00321",
+      "population": "FIN",
+      "superpopulation": "EUR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG00323",
+      "population": "FIN",
+      "superpopulation": "EUR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG00329",
+      "population": "FIN",
+      "superpopulation": "EUR",
+      "sex": "male"
+    },
+    {
+      "sample": "HG00344",
+      "population": "FIN",
+      "superpopulation": "EUR",
+      "sex": "female"
+    },
+    {
+      "sample": "HG03804",
+      "population": "BEB",
+      "superpopulation": "SAS",
+      "sex": "female"
+    },
+    {
+      "sample": "HG03816",
+      "population": "BEB",
+      "superpopulation": "SAS",
+      "sex": "female"
+    },
+    {
+      "sample": "HG03831",
+      "population": "BEB",
+      "superpopulation": "SAS",
+      "sex": "female"
+    },
+    {
+      "sample": "HG03834",
+      "population": "BEB",
+      "superpopulation": "SAS",
+      "sex": "female"
+    },
+    {
+      "sample": "HG03942",
+      "population": "BEB",
+      "superpopulation": "SAS",
+      "sex": "male"
+    },
+    {
+      "sample": "HG04157",
+      "population": "BEB",
+      "superpopulation": "SAS",
+      "sex": "male"
+    },
+    {
+      "sample": "HG04160",
+      "population": "BEB",
+      "superpopulation": "SAS",
+      "sex": "male"
+    },
+    {
+      "sample": "HG04187",
+      "population": "BEB",
+      "superpopulation": "SAS",
+      "sex": "male"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Dry-run fixture. CI creates the tiny files named here. Not a real sample.
+data_root: .
+reference: tests/fixtures/label-smoke/ref.fa
+gaps: tests/fixtures/label-smoke/gaps.bed
+unreliable: tests/fixtures/label-smoke/unreliable.bed
+chroms:
+  - chrSim
+samples:
+  - sim
+cram:
+  sim: tests/fixtures/label-smoke/sim.cram
+sequential: false

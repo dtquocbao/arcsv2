@@ -1,0 +1,8 @@
+sample ? missing columns: sample, cram_url, crai_url, hap1_url, hap2_url, cram_checksum, crai_checksum, hap1_checksum, hap2_checksum
+===== RESTART Mon 10/05/2026 22:00:35.47 =====
+checksum mismatch for https://human-pangenomics.s3.amazonaws.com/working/HPRC_PLUS/HG02080/assemblies/release2/HG02080_mat_hprc_r2_v1.0.1.fa.gz: got md5:fffa23793a9924cccd5e0718967469ae, expected md5:f6b52a34f42186d331a5267fd5c57a59
+===== RESTART Mon 10/05/2026 22:27:36.76 =====
+checksum mismatch for https://human-pangenomics.s3.amazonaws.com/working/HPRC_PLUS/HG02080/assemblies/release2/HG02080_mat_hprc_r2_v1.0.1.fa.gz: got md5:f6b52a34f42186d331a5267fd5c57a59, expected md5:fffa23793a9924cccd5e0718967469ae
+checksum mismatch for https://human-pangenomics.s3.amazonaws.com/working/HPRC_PLUS/HG02080/assemblies/release2/HG02080_mat_hprc_r2_v1.0.1.fa.gz: got md5:f6b52a34f42186d331a5267fd5c57a59, expected md5:fffa23793a9924cccd5e0718967469ae
+===== RESTART Mon 10/05/2026 22:41:53.34 =====
+wrote /data/manifest.lock.json (80 files)
