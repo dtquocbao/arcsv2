@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import random
+from pathlib import Path
 
 import pytest
 
@@ -12,8 +13,10 @@ from arcsv2.engine.caller import (
     _fit_libs,
     _stamp_clip_positions,
     _stamp_clip_positions_from_softclips,
-    build_graph as build_graph_py,
     discover_breakpoints,
+)
+from arcsv2.engine.caller import (
+    build_graph as build_graph_py,
 )
 from arcsv2.engine.graph import EdgeRead, Graph, create_blocks
 from arcsv2.engine.graph_native import build_graph_rust
@@ -139,6 +142,8 @@ def _build_both(bam: str, chrom: str, start: int | None, end: int | None, thread
 @pytest.mark.parametrize("rust_threads", [1, 8])
 def test_rust_python_graph_identity_chr20_window(rust_threads: int):
     bam = "/data/work/HG01884/chr20.bam"
+    if not Path(bam).is_file():
+        pytest.skip(f"missing {bam}")
     chrom, start, end = "chr20", 10_000_000, 11_000_000
     g_py, g_rs = _build_both(bam, chrom, start, end, rust_threads)
     diffs = _compare_graphs(g_py, g_rs)

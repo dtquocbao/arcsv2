@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pytest
 
@@ -53,6 +55,8 @@ def test_rust_python_pairs_identity_chr20_window(rust_threads: int):
         pytest.skip("rust engine not available")
 
     bam = "/data/work/HG01884/chr20.bam"
+    if not Path(bam).is_file():
+        pytest.skip(f"missing {bam}")
     # 1 Mb window near the start of chr20 (0-based half-open).
     chrom, start, end = "chr20", 10_000_000, 11_000_000
     cfg_py = CallConfig(engine="python", columnar_pairs=True, threads=1)

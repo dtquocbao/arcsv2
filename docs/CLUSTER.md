@@ -217,7 +217,7 @@ Status table: `…/results/batch1/batch_status.tsv` (see U4).
 | `label` | `label_mem_mb` from config (default 32000), times `attempt` | `label_runtime_min` (default 480 min), times `attempt` |
 | `index_haps` | 16000 MiB, times `attempt` | `index_runtime_min` (default 360 min), times `attempt` |
 
-`attempt` starts at 1. A retry doubles runtime and memory, then triples them. Grace bills `max(cores, mem/7.5 GB)`. `workflows/config/label.grace.example.yaml` sets `label_mem_mb: 30000` and 4 threads so a label job is not charged for extra cores. Laptop defaults stay in `label.yaml`.
+`attempt` starts at 1. A retry doubles runtime and memory, then triples them. `_cap` then clips runtime to the Grace partition: `short` 120 min (`merge`, `dataset`; bases 30 min), `medium` 1440 min (every other rule), `long` 10080 min. Grace bills `max(cores, mem/7.5 GB)`. `workflows/config/label.grace.example.yaml` sets `label_mem_mb: 30000` and 4 threads so a label job is not charged for extra cores. Laptop defaults stay in `label.yaml`.
 
 Tune `mem_mb_per_mb`, `call_min_per_mb`, `label_mem_mb`, and `threads` in the config if jobs OOM or timeout.
 

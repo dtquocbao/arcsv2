@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 import pytest
@@ -16,6 +17,7 @@ from arcsv2.batch import (
 from arcsv2.input_checks import InputCheckError
 from arcsv2.mmi_validate import (
     check_no_hit_fraction,
+    mmi_smoke_aligns,
     no_hit_fraction,
     validate_mmi_size,
 )
@@ -81,6 +83,86 @@ def test_mmi_validate_cli_rejects_small_index(tmp_path: Path):
 def test_index_haps_runs_mmi_validate():
     text = Path(__file__).resolve().parents[1].joinpath("workflows", "label.smk").read_text(encoding="utf-8")
     assert "arcsv2 mmi-validate {output:q} --fasta {input:q}" in text
+
+
+def test_mmi_smoke_fails_closed_without_aligner(tmp_path: Path, monkeypatch):
+    real_import = __import__
+
+    def blocked(name, globals=None, locals=None, fromlist=(), level=0):
+        if name in {"mappy", "pysam"}:
+            raise ImportError(name)
+        return real_import(name, globals, locals, fromlist, level)
+
+    monkeypatch.setattr("builtins.__import__", blocked)
+    mmi = tmp_path / "hap.mmi"
+    mmi.write_bytes(b"x")
+    ref = tmp_path / "ref.fa"
+    ref.write_text(">chr1\nACGT\n", encoding="utf-8")
+    with pytest.raises(InputCheckError, match="mappy and pysam"):
+        mmi_smoke_aligns(mmi, ref)
+
+
+def test_mmi_smoke_fails_closed_when_chrom_or_read_fails(tmp_path: Path, monkeypatch):
+    class Fasta:
+        def __init__(self, path, references, fetch_error=None):
+            self.references = references
+            self._error = fetch_error
+
+        def fetch(self, chrom, start, end):
+            if self._error is not None:
+                raise self._error
+            return "A" * 1000
+
+        def close(self):
+            return None
+
+    class Pysam:
+        def __init__(self, references, fetch_error=None):
+            self._references = references
+            self._error = fetch_error
+
+        def FastaFile(self, path):
+            return Fasta(path, self._references, self._error)
+
+    class Hit:
+        is_primary = True
+
+    class Aligner:
+        def __init__(self, *args, **kwargs):
+            return None
+
+        def __bool__(self):
+            return True
+
+        def map(self, seq):
+            yield Hit()
+
+    class Mappy:
+        pass
+
+    Mappy.Aligner = Aligner
+
+    mmi = tmp_path / "hap.mmi"
+    mmi.write_bytes(b"x" * 100)
+    ref = tmp_path / "ref.fa"
+    ref.write_text(">chr1\n" + ("A" * 200) + "\n", encoding="utf-8")
+
+    monkeypatch.setitem(sys.modules, "pysam", Pysam(["chr1"]))
+    monkeypatch.setitem(sys.modules, "mappy", Mappy())
+    with pytest.raises(InputCheckError, match="no chr20"):
+        mmi_smoke_aligns(mmi, ref)
+
+    monkeypatch.setitem(sys.modules, "pysam", Pysam(["chr1", "chr20"], OSError("unreadable")))
+    with pytest.raises(InputCheckError, match="Could not fetch"):
+        mmi_smoke_aligns(mmi, ref)
+
+
+def test_mmi_smoke_probe_is_outside_chr20_centromere():
+    from arcsv2.mmi_validate import SMOKE_PROBES
+
+    assert ("chr20", 40_000_000, 40_001_000) in SMOKE_PROBES
+    assert ("chr1", 40_000_000, 40_001_000) in SMOKE_PROBES
+    assert all(not (chrom == "chr20" and start < 31_000_000) for chrom, start, _end in SMOKE_PROBES)
 
 
 def test_no_hit_fraction_gate():

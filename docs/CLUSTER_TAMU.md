@@ -48,3 +48,189 @@ To avoid streaming, prefetch CRAM + `.crai` in one `short` job (Aspera, or
 `$SCRATCH/arcsv2/data/samples/<ID>/reads/` and point `cram:` at those files.
 The commands are in `docs/CLUSTER.md`. After `merge`, delete that sample's
 BAMs and CRAM (H5). Delete each `.mmi` after `label`.
+
+## Hand-off: H1, then H3, then H4
+
+Run these on Grace. Clone the pushed `master` (do not check out only the tag):
+
+```bash
+git clone https://github.com/dtquocbao/arcsv2.git $SCRATCH/arcsv2/repo
+cd $SCRATCH/arcsv2/repo
+```
+
+Tag `caller-v1.6.1` is commit `203ee14`, which already contains
+`scripts/hpc/run_label.sh`. This hand-off and the Grace profile are on
+`master` after that clone. `run_label.sh` records the commit it actually
+runs (`git rev-parse HEAD` and `git describe --always --dirty`) in
+`$SCRATCH/arcsv2/logs/run_manifest.<timestamp>.txt`. Do not remap paths to
+`/data`. Singularity on Grace binds `/scratch`.
+
+`scripts/hpc/pull_sif.sh` pulls `ghcr.io/dtquocbao/arcsv2:1.6.1`. An anonymous
+pull returns 403 while the package is private. Export `GHCR_TOKEN` in the
+job (the script passes it to Singularity and does not write it down). If the
+pull still fails, stop and paste the error with the token redacted. Do not
+build an image on Grace.
+
+### H1. Pull the SIF on a compute node
+
+```bash
+cd $SCRATCH/arcsv2/repo
+mkdir -p $SCRATCH/arcsv2/sif
+# Export GHCR_TOKEN in this shell first when the package is private.
+# pull_sif.sh passes it to Singularity and does not print or save it.
+srun -A 132702112504 -p short -c 4 --mem=30G -t 01:00:00 --pty \
+  bash scripts/hpc/pull_sif.sh
+bash scripts/hpc/smoke_sif.sh
+```
+
+Then install the controller, still on a compute node. Login nodes are capped
+at 8 cores.
+
+```bash
+srun -A 132702112504 -p short -c 2 --mem=8G -t 01:00:00 --pty bash
+bash $SCRATCH/arcsv2/repo/scripts/hpc/setup_controller.sh
+```
+
+Place the caller-v1 reference and BEDs at:
+
+```text
+/scratch/user/dtquocbao/arcsv2/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa
+/scratch/user/dtquocbao/arcsv2/ref/gaps.bed
+/scratch/user/dtquocbao/arcsv2/ref/unreliable.bed
+```
+
+and the haplotypes at
+`$SCRATCH/arcsv2/data/haps/<ID>.hap{1,2}.fa` (or `.fa.gz`).
+
+### H3. chr20 golden (HG01884 and NA19700)
+
+`threads: 1` matches `workflows/config/label.caller-v1.yaml`.
+`label_mem_mb` and `label_threads` come from
+`workflows/config/label.grace.example.yaml` and only change the SLURM
+request. Write this on Grace:
+
+```bash
+cat > $SCRATCH/arcsv2/repo/workflows/config/label.grace.h3.yaml << 'EOF'
+container: ""
+data_root: /scratch/user/dtquocbao/arcsv2/data
+results_dir: results_caller_v1
+labels_dir: labels_caller_v1
+reference: /scratch/user/dtquocbao/arcsv2/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa
+gaps: /scratch/user/dtquocbao/arcsv2/ref/gaps.bed
+unreliable: /scratch/user/dtquocbao/arcsv2/ref/unreliable.bed
+simple_repeats: ""
+segdups: ""
+blacklist: ""
+chroms:
+  - chr20
+samples:
+  - HG01884
+  - NA19700
+cram:
+  HG01884: https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/additional_698_related/data/ERR3988940/HG01884.final.cram
+  NA19700: https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/data/ERR3239913/NA19700.final.cram
+sequential: true
+threads: 1
+label_mem_mb: 30000
+label_threads: 4
+EOF
+
+cd $SCRATCH/arcsv2/repo
+tmux new -s arcsv2
+bash scripts/hpc/run_label.sh workflows/config/label.grace.h3.yaml
+```
+
+`run_label.sh` exports the Grace proxy and submits with
+`workflows/profiles/slurm-grace`. Remote CRAMs stream through that proxy.
+To prefetch instead, use the `samtools view` block in `docs/CLUSTER.md` and
+point `cram:` at the absolute `.cram` paths.
+
+After the DAG finishes, from the repo:
+
+```bash
+export ARCSV2_SIF=$SCRATCH/arcsv2/sif/arcsv2_1.6.1.sif
+singularity exec "$ARCSV2_SIF" python scripts/check_golden.py --fast \
+  --results /scratch/user/dtquocbao/arcsv2/data/results_caller_v1
+singularity exec "$ARCSV2_SIF" python scripts/check_golden.py \
+  --results /scratch/user/dtquocbao/arcsv2/data/results_caller_v1 \
+  --labels /scratch/user/dtquocbao/arcsv2/data/labels_caller_v1
+```
+
+Both must print PASS against `export/v2fix11` before H4.
+
+### H4. One genome, HG01884, chr1–22 and chrX
+
+```bash
+cat > $SCRATCH/arcsv2/repo/workflows/config/label.grace.h4.yaml << 'EOF'
+container: ""
+data_root: /scratch/user/dtquocbao/arcsv2/data
+results_dir: results_h4
+labels_dir: labels_h4
+reference: /scratch/user/dtquocbao/arcsv2/ref/GRCh38_full_analysis_set_plus_decoy_hla.fa
+gaps: /scratch/user/dtquocbao/arcsv2/ref/gaps.bed
+unreliable: /scratch/user/dtquocbao/arcsv2/ref/unreliable.bed
+simple_repeats: ""
+segdups: ""
+blacklist: ""
+chroms:
+  - chr1
+  - chr2
+  - chr3
+  - chr4
+  - chr5
+  - chr6
+  - chr7
+  - chr8
+  - chr9
+  - chr10
+  - chr11
+  - chr12
+  - chr13
+  - chr14
+  - chr15
+  - chr16
+  - chr17
+  - chr18
+  - chr19
+  - chr20
+  - chr21
+  - chr22
+  - chrX
+samples:
+  - HG01884
+cram:
+  HG01884: https://1000genomes.s3.amazonaws.com/1000G_2504_high_coverage/additional_698_related/data/ERR3988940/HG01884.final.cram
+sequential: true
+threads: 4
+label_mem_mb: 30000
+label_threads: 4
+EOF
+
+cd $SCRATCH/arcsv2/repo
+# Call only. merged.tab is the production product; index_haps and label stay out.
+bash scripts/hpc/run_label.sh workflows/config/label.grace.h4.yaml \
+  /scratch/user/dtquocbao/arcsv2/data/results_h4/HG01884/merged.tab
+# Labeling is a second run. Call jobs are already done, so this adds index_haps and label.
+bash scripts/hpc/run_label.sh workflows/config/label.grace.h4.yaml
+```
+
+Save the Snakemake log from the call-only run, then:
+
+```bash
+bash scripts/hpc/su_report.sh path/to/snakemake.log
+```
+
+That prints per-rule SU from `sacct`. "SU per genome" is fetch + call + merge.
+
+### Paste back
+
+From a login node, after H3 and again after H4:
+
+```bash
+seff <jobid>          # one seff per call, label, and index job you care about
+myproject -j 132702112504
+du -sh $SCRATCH/arcsv2
+```
+
+Also paste whether `check_golden.py` printed PASS, any failed rule name, and
+the `sbatch` job ids from the Snakemake log.

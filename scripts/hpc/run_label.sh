@@ -56,6 +56,25 @@ export SINGULARITY_CMD="${SINGULARITY_CMD:-singularity}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "${ROOT}"
 
+LOGDIR="${PREFIX}/logs"
+mkdir -p "${LOGDIR}"
+STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+MANIFEST="${LOGDIR}/run_manifest.${STAMP}.txt"
+{
+  printf 'time_utc=%s\n' "${STAMP}"
+  printf 'config=%s\n' "${CONFIGFILE}"
+  printf 'git_describe=%s\n' "$(git describe --always --dirty 2>/dev/null || echo unknown)"
+  printf 'commit=%s\n' "$(git rev-parse HEAD 2>/dev/null || echo unknown)"
+  printf 'sif=%s\n' "${ARCSV2_SIF}"
+  if [[ -f "${ARCSV2_SIF}" ]]; then
+    printf 'sif_sha256=%s\n' "$(sha256sum "${ARCSV2_SIF}" | awk '{print $1}')"
+  else
+    printf 'sif_sha256=missing\n'
+  fi
+  printf 'snakemake=%s\n' "$(snakemake --version)"
+} > "${MANIFEST}"
+echo "run manifest: ${MANIFEST}"
+
 snakemake -s workflows/label.smk \
   --profile workflows/profiles/slurm-grace \
   --configfile "${CONFIGFILE}" \

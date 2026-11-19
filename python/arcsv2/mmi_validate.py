@@ -10,9 +10,12 @@ from arcsv2.input_checks import InputCheckError
 MMI_BYTES_PER_FASTA_GZ = 5.2
 MMI_BYTES_PER_FASTA = 0.85
 
-SMOKE_CHROM = "chr20"
-SMOKE_START = 30_000_000
-SMOKE_END = 30_001_000
+# Outside the chr20 centromere (GRCh38 chr20:26.44–30.04 Mb) and a second
+# euchromatic window on chr1 (centromere ~122–125 Mb). Both are 1 kb.
+SMOKE_PROBES = (
+    ("chr20", 40_000_000, 40_001_000),
+    ("chr1", 40_000_000, 40_001_000),
+)
 
 NO_HIT_MAX_FRACTION = 0.02
 
@@ -44,33 +47,72 @@ def validate_mmi_size(mmi: Path, fasta: Path, *, hap_name: str) -> None:
 
 
 def mmi_smoke_aligns(mmi: Path, reference: Path) -> bool:
+    """True only when every probe has a primary hit. Missing tools or an unreadable reference raise."""
     try:
         import mappy
         import pysam
-    except ImportError:
-        return True
+    except ImportError as exc:
+        raise InputCheckError(
+            f"Smoke alignment cannot run without mappy and pysam ({exc}).",
+            "Run arcsv2 mmi-validate inside the ARC-SV2 container.",
+        ) from exc
+    if not Path(mmi).is_file():
+        raise InputCheckError(
+            f"Haplotype index missing: {mmi}",
+            f"Rebuild with: minimap2 -d {mmi} <haplotype.fa>",
+        )
+    if not Path(reference).is_file():
+        raise InputCheckError(
+            f"Reference FASTA missing for the smoke alignment: {reference}",
+            "Pass the GRCh38 analysis-set FASTA as --reference.",
+        )
     try:
-        with pysam.FastaFile(str(reference)) as fa:
-            if SMOKE_CHROM not in fa.references:
-                return True
-            probe = fa.fetch(SMOKE_CHROM, SMOKE_START, SMOKE_END)
-    except (OSError, ValueError):
-        return True
-    if len(probe) < 100:
-        return True
+        fasta = pysam.FastaFile(str(reference))
+    except (OSError, ValueError) as exc:
+        raise InputCheckError(
+            f"Could not read reference FASTA {reference}: {exc}",
+            "Pass a FASTA pysam can open, with an index if the file is bgzipped.",
+        ) from exc
+    try:
+        references = set(fasta.references)
+        missing = [chrom for chrom, _start, _end in SMOKE_PROBES if chrom not in references]
+        if missing:
+            raise InputCheckError(
+                f"Reference {reference} has no {', '.join(missing)} for the smoke probe.",
+                "Use the GRCh38 analysis set, which includes chr1 and chr20.",
+            )
+        sequences: list[tuple[str, int, int, str]] = []
+        for chrom, start, end in SMOKE_PROBES:
+            try:
+                seq = fasta.fetch(chrom, start, end)
+            except (OSError, ValueError) as exc:
+                raise InputCheckError(
+                    f"Could not fetch {chrom}:{start}-{end} from {reference}: {exc}",
+                    "Use the GRCh38 analysis set and a readable FASTA index.",
+                ) from exc
+            if len(seq) < 100:
+                raise InputCheckError(
+                    f"Smoke probe {chrom}:{start}-{end} is too short ({len(seq)} bp).",
+                    "The probes are chr20:40000000-40001000 and chr1:40000000-40001000.",
+                )
+            sequences.append((chrom, start, end, seq))
+    finally:
+        fasta.close()
+
     aligner = mappy.Aligner(str(mmi), n_threads=1)
     if not aligner:
         return False
-    for hit in aligner.map(probe):
-        if hit.is_primary:
-            return True
-    return False
+    for _chrom, _start, _end, seq in sequences:
+        if not any(hit.is_primary for hit in aligner.map(seq)):
+            return False
+    return True
 
 
 def validate_mmi_smoke(mmi: Path, reference: Path, *, hap_name: str) -> None:
     if not mmi_smoke_aligns(mmi, reference):
+        where = ", ".join(f"{chrom}:{start}-{end}" for chrom, start, end in SMOKE_PROBES)
         raise InputCheckError(
-            f"{hap_name} index failed the smoke alignment (no primary hit for GRCh38 {SMOKE_CHROM}:{SMOKE_START}-{SMOKE_END}).",
+            f"{hap_name} index failed the smoke alignment (no primary hit for GRCh38 {where}).",
             f"Rebuild with: minimap2 -d {mmi} <haplotype.fa>",
         )
 

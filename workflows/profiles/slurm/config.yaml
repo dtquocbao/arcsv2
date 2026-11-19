@@ -7,7 +7,6 @@
 
 executor: slurm
 restart-times: 2
-attempts: 3
 latency-wait: 120
 jobs: 100
 printshellcmds: true

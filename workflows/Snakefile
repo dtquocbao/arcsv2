@@ -71,6 +71,15 @@ def call_mem_mb(wildcards) -> int:
     return max(MEM_MB_FLOOR, int(math.ceil(chrom_mb * MEM_MB_PER_MB * 1.2)))
 
 
+# Same Grace caps as workflows/label.smk. call_chrom uses the medium partition.
+PARTITION_LIMIT_MIN = {"short": 120, "medium": 1440, "long": 10080}
+
+
+def _cap(minutes, partition) -> int:
+    limit = PARTITION_LIMIT_MIN[str(partition)]
+    return min(int(minutes), int(limit))
+
+
 def call_runtime_min(wildcards) -> int:
     """Same minutes formula as workflows/label.smk. Unknown contigs use the floor."""
     floor = int(config.get("call_runtime_floor_min", 60))
@@ -96,7 +105,7 @@ rule call_chrom:
     threads: int(config.get("threads", 4))
     resources:
         mem_mb=lambda wc, attempt: call_mem_mb(wc) * attempt,
-        runtime=lambda wc, attempt: call_runtime_min(wc) * attempt,
+        runtime=lambda wc, attempt: _cap(call_runtime_min(wc) * attempt, "medium"),
     params:
         reference=config["reference"],
         gaps=config["gaps"],

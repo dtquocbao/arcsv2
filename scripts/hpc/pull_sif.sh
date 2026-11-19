@@ -13,6 +13,7 @@
 #   ARCSV2_GHCR   default ghcr.io/dtquocbao/arcsv2:1.6.1
 #   ARCSV2_SIFDIR default $SCRATCH/arcsv2/sif
 #   ARCSV2_SIF    default $ARCSV2_SIFDIR/arcsv2_1.6.1.sif
+#   GHCR_TOKEN    if set, used only as the docker:// pull password. Never printed.
 set -euo pipefail
 
 ARCSV2_GHCR="${ARCSV2_GHCR:-ghcr.io/dtquocbao/arcsv2:1.6.1}"
@@ -43,6 +44,14 @@ export SINGULARITY_CACHEDIR="${SINGULARITY_CACHEDIR:-${TMPDIR:-/tmp}/.singularit
 export APPTAINER_CACHEDIR="${APPTAINER_CACHEDIR:-$SINGULARITY_CACHEDIR}"
 mkdir -p "$SINGULARITY_CACHEDIR" "$ARCSV2_SIFDIR"
 cd "$ARCSV2_SIFDIR"
+
+# Private GHCR package: export GHCR_TOKEN in the job environment.
+# Singularity reads these for docker:// and does not put them in the SIF.
+# Do not echo them, and do not write them to a file.
+if [[ -n "${GHCR_TOKEN:-}" ]]; then
+  export SINGULARITY_DOCKER_USERNAME=dtquocbao
+  export SINGULARITY_DOCKER_PASSWORD="${GHCR_TOKEN}"
+fi
 
 if [[ -f "$ARCSV2_SIF" ]]; then
   echo "SIF already present: $ARCSV2_SIF"

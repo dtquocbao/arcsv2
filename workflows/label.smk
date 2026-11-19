@@ -49,9 +49,21 @@ MEM_MB_FLOOR = int(config.get("mem_mb_floor", 4000))
 # chr1 (248.96 Mb) at 0.5 min/Mb is ceil(124.5) = 125 min, not the old
 # max(180, Mb*12) ≈ 50 h. Retries multiply runtime and mem_mb by attempt
 # (attempt 1 is the base). The SLURM plugin wants runtime in minutes.
+#
+# Grace walltime caps (minutes). short is 2 h, so a 120 min merge cannot
+# retry: attempt 2 would ask for 240 min and sbatch rejects it. _cap keeps
+# every request inside the partition the slurm-grace profile assigns
+# (merge and dataset on short; the other rules on medium).
+PARTITION_LIMIT_MIN = {"short": 120, "medium": 1440, "long": 10080}
 FETCH_RUNTIME_MIN = 90
-MERGE_RUNTIME_MIN = 120
-DATASET_RUNTIME_MIN = 60
+MERGE_RUNTIME_MIN = 30
+DATASET_RUNTIME_MIN = 30
+
+
+def _cap(minutes, partition) -> int:
+    """Minutes that fit the named Grace partition (short 2 h, medium 1 day, long 7 days)."""
+    limit = PARTITION_LIMIT_MIN[str(partition)]
+    return min(int(minutes), int(limit))
 
 
 def call_runtime_min(wildcards) -> int:
@@ -143,7 +155,7 @@ rule fetch_region:
         bai=data("work/{sample}/{chrom}.bam.bai"),
     resources:
         mem_mb=lambda wc, attempt: 4000 * attempt,
-        runtime=lambda wc, attempt: FETCH_RUNTIME_MIN * attempt,
+        runtime=lambda wc, attempt: _cap(FETCH_RUNTIME_MIN * attempt, "medium"),
     params:
         reference=config["reference"],
         cram=lambda wildcards: config["cram"][wildcards.sample],
@@ -163,7 +175,7 @@ rule call:
     threads: int(config.get("threads", 4))
     resources:
         mem_mb=lambda wc, attempt: call_mem_mb(wc) * attempt,
-        runtime=lambda wc, attempt: call_runtime_min(wc) * attempt,
+        runtime=lambda wc, attempt: _cap(call_runtime_min(wc) * attempt, "medium"),
     params:
         reference=config["reference"],
         gaps=config["gaps"],
@@ -187,7 +199,7 @@ rule merge:
         results("{sample}/merged.tab"),
     resources:
         mem_mb=lambda wc, attempt: 8000 * attempt,
-        runtime=lambda wc, attempt: MERGE_RUNTIME_MIN * attempt,
+        runtime=lambda wc, attempt: _cap(MERGE_RUNTIME_MIN * attempt, "short"),
     params:
         beds=merge_filter_bed_args(),
     conda:
@@ -207,7 +219,7 @@ rule index_haps:
         data("haps/{sample}.{which}.mmi"),
     resources:
         mem_mb=lambda wc, attempt: 16000 * attempt,
-        runtime=lambda wc, attempt: index_runtime_min(wc) * attempt,
+        runtime=lambda wc, attempt: _cap(index_runtime_min(wc) * attempt, "medium"),
     params:
         reference=config["reference"],
     conda:
@@ -236,7 +248,7 @@ rule label:
     threads: label_threads
     resources:
         mem_mb=lambda wc, attempt: label_mem_mb(wc) * attempt,
-        runtime=lambda wc, attempt: label_runtime_min(wc) * attempt,
+        runtime=lambda wc, attempt: _cap(label_runtime_min(wc) * attempt, "medium"),
     params:
         reference=config["reference"],
         unreliable=config.get("unreliable", ""),
@@ -258,7 +270,7 @@ rule dataset:
         summary=labels("dataset.summary.json"),
     resources:
         mem_mb=lambda wc, attempt: 4000 * attempt,
-        runtime=lambda wc, attempt: DATASET_RUNTIME_MIN * attempt,
+        runtime=lambda wc, attempt: _cap(DATASET_RUNTIME_MIN * attempt, "short"),
     conda:
         "../environment.yml"
     shell:

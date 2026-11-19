@@ -7,14 +7,14 @@ Paper mode is the default. Every numeric default in `python/arcsv2/config.py` co
 ## Layout
 
 - `python/arcsv2/` — CLI, configuration, caller, features, labels, training, VCF, and the results dashboard
-- `core/arcsv-core/` — Rust kernels (library model, cliques, normalizer, paths, affected length); not wired in yet; see Part C step 5
+- `core/arcsv-core/` — Rust kernels used by the default `engine=rust` path through `arcsv2_native`
 - `tests/` — pytest
 - `scripts/simulate.py` — deterministic paired-end simulator
 - `scripts/simulate_haplotypes.py` — two haplotypes, truth, and reads for label tests
 - `workflows/` — Snakemake cohort skeleton, including `label.smk`
 - `tests/oracle/` — install and run the original ARC-SV as the parity oracle
 
-The Python engine is the reference implementation of §4 and is what `arcsv2 call` runs. The Rust crate implements the same kernels and is checked by `cargo test`. SAM input, features, and training run as pure Python on Windows. BAM/CRAM (`pysam`) and haplotype labeling (`mappy`) need the Linux container in `docs/CROSS_PLATFORM.md`.
+The Python engine is the reference implementation of §4. `arcsv2 call` defaults to `engine=rust` via `arcsv2_native`. The Rust crate implements the same kernels and is checked by `cargo test`. SAM input, features, and training run as pure Python on Windows. BAM/CRAM (`pysam`) and haplotype labeling (`mappy`) need the Linux container in `docs/CROSS_PLATFORM.md`.
 
 ## Install
 
@@ -65,7 +65,7 @@ arcsv2 batch --manifest samples.tsv --out results/batch1 --chroms chr20
 
 ### Quick start (c) Cluster (SLURM + Singularity)
 
-See **`docs/CLUSTER.md`**. On Texas A&M Grace: pull
+See **`docs/CLUSTER_TAMU.md`**. On Texas A&M Grace: pull
 `ghcr.io/dtquocbao/arcsv2:1.6.1` inside a compute job with `module load WebProxy`
 (no image builds on Grace).
 
