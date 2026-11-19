@@ -11,7 +11,8 @@ Paper mode is the default. Every numeric default in `python/arcsv2/config.py` co
 - `tests/` — pytest
 - `scripts/simulate.py` — deterministic paired-end simulator
 - `scripts/simulate_haplotypes.py` — two haplotypes, truth, and reads for label tests
-- `workflows/` — Snakemake cohort skeleton, including `label.smk`
+- `workflows/` — Snakemake label workflow (`label.smk`), call-only `Snakefile`, and SLURM profiles `slurm`, `slurm-grace`, `slurm-faster`
+- `scripts/hpc/` — Grace pull, controller install, launch, and service-unit report
 - `tests/oracle/` — install and run the original ARC-SV as the parity oracle
 
 The Python engine is the reference implementation of §4. `arcsv2 call` defaults to `engine=rust` via `arcsv2_native`. The Rust crate implements the same kernels and is checked by `cargo test`. SAM input, features, and training run as pure Python on Windows. BAM/CRAM (`pysam`) and haplotype labeling (`mappy`) need the Linux container in `docs/CROSS_PLATFORM.md`.
@@ -53,7 +54,7 @@ On Windows, macOS, or Linux, `docker compose -f compose.yaml build cli` (or `.\s
 The launcher uses a local `arcsv2:studio` image if present, otherwise loads the sibling `.tar`, otherwise **pulls** `ghcr.io/arcsv2/arcsv2:studio` (override with `ARCSV2_STUDIO_IMAGE`). On Apple Silicon the launcher runs the `linux/amd64` image with Docker emulation.  
 Developers with a checkout: `Start ARC-SV.bat --build` or `./scripts/start-arcsv.sh --build`.
 
-Command line: **`arcsv2 run`**. Cluster: **`docs/CLUSTER.md`**. Fixes: **`docs/TROUBLESHOOTING.md`**.
+Command line: **`arcsv2 run`**. Grace: **`docs/CLUSTER_TAMU.md`**. SLURM notes: **`docs/CLUSTER.md`**. Fixes: **`docs/TROUBLESHOOTING.md`**.
 
 ### Quick start (b) Command line
 
@@ -65,9 +66,62 @@ arcsv2 batch --manifest samples.tsv --out results/batch1 --chroms chr20
 
 ### Quick start (c) Cluster (SLURM + Singularity)
 
-See **`docs/CLUSTER_TAMU.md`**. On Texas A&M Grace: pull
-`ghcr.io/dtquocbao/arcsv2:1.6.1` inside a compute job with `module load WebProxy`
-(no image builds on Grace).
+Grace copy-paste runbook: **`docs/CLUSTER_TAMU.md`**. General SLURM layout,
+prefetch, and resource table: **`docs/CLUSTER.md`**. VISION is not a target
+for the caller or for labeling: **`docs/CLUSTER_VISION.md`**.
+
+On Grace the binary is `singularity` (`/usr/bin/singularity`). Snakemake 8
+still calls the deployment method `apptainer`; the profiles point
+`APPTAINER_CMD` and `SINGULARITY_CMD` at `singularity`. Images are not built
+on Grace. Pull `ghcr.io/dtquocbao/arcsv2:1.6.1` on a compute node (account
+`132702112504`, partition `short`). The package is private: export
+`GHCR_TOKEN` in that shell first. `scripts/hpc/pull_sif.sh` passes it to
+Singularity and does not print or save it.
+
+```bash
+git clone https://github.com/dtquocbao/arcsv2.git $SCRATCH/arcsv2/repo
+cd $SCRATCH/arcsv2/repo
+srun -A 132702112504 -p short -c 4 --mem=30G -t 01:00:00 --pty \
+  bash scripts/hpc/pull_sif.sh
+bash scripts/hpc/smoke_sif.sh
+```
+
+Then install the controller on a short compute job (`scripts/hpc/setup_controller.sh`)
+and launch from the repo. Paths stay absolute under `/scratch`. Singularity
+binds `/scratch`, so cluster configs do not remap the tree to `/data`.
+
+```bash
+bash scripts/hpc/run_label.sh workflows/config/<your-label.yaml>
+```
+
+| Profile | Use |
+|:--|:--|
+| `workflows/profiles/slurm` | Generic SLURM executor. No account and no partition. |
+| `workflows/profiles/slurm-grace` | Account `132702112504`. Default partition `medium` (1 day). `merge` and `dataset` use `short` (2 h). |
+| `workflows/profiles/slurm-faster` | Account `142702113847`. Partition `cpu` (confirm with `sinfo` before the first submit). |
+
+`runtime` is minutes. A retry multiplies runtime and memory by `attempt`, then
+`_cap` keeps the request inside the Grace partition: `short` 120, `medium`
+1440, `long` 10080. `merge` and `dataset` start at 30 minutes so attempt 2
+still fits on `short`. Call walltime is `max(60, ceil(chrom_Mb × 0.5))`
+minutes (chr1 is 125). `workflows/config/label.grace.example.yaml` sets
+`label_mem_mb: 30000` and 4 threads so a label job is billed for 4 cores
+under Grace's `max(cores, memory / 7.5 GB)` rule. Laptop `label.yaml` is
+unchanged.
+
+`run_label.sh` writes `$SCRATCH/arcsv2/logs/run_manifest.<timestamp>.txt`
+with `git describe --always --dirty`, the commit, the SIF sha256, the
+Snakemake version, and the config path. After a run,
+`bash scripts/hpc/su_report.sh <snakemake log>` prints per-rule service units
+from `sacct`. "SU per genome" is `fetch_region` + `call` + `merge`. The H4
+hand-off measures that cost first by targeting one sample's `merged.tab`,
+then runs `index_haps` and `label` in a second invocation.
+
+`index_haps` builds the minimap2 index and then runs `arcsv2 mmi-validate`.
+The smoke check fails if `mappy` or `pysam` is missing, if chr1 or chr20 is
+absent, or if the reference cannot be read. The probes are
+chr20:40,000,000–40,001,000 and the same window on chr1, outside the chr20
+centromere. `ml-label` repeats the check before mapping.
 
 ### Chr20 benchmark (original vs ARC-SV2)
 
@@ -141,7 +195,8 @@ Fast locus check (minutes): `python scripts/check_golden.py --fast`.
 Default config `workflows/config/label.yaml` uses the same caller settings
 (writes to `results/` / `labels/`). Method notes: `docs/METHOD.md`,
 deviations: `docs/PARITY.md`, history: `docs/HISTORY.md`.
-SLURM + Apptainer: `docs/CLUSTER.md`.
+On Grace, use absolute `/scratch` paths and `bash scripts/hpc/run_label.sh`
+(`docs/CLUSTER_TAMU.md`), not `data_root: /data`.
 
 ## Call
 
@@ -170,7 +225,9 @@ arcsv2 ml-predict --model model_v1 --calls merged.tab -o final.tab
 
 ## Labels
 
-`ml-label` builds the alt and reference sequences from `blocks_point` and keeps 150 bp of each outer block next to the event. A single soft clip inside an uncovered interval refines the point estimate. For `mid` junctions, labeling tries positions inside that interval and records `label_bp_shift` when a shift validates the call. It aligns both to the two haplotype assemblies with minimap2. A call is 1 when the alt passes on at least one haplotype and the alt and reference do not both pass on the same haplotype, so a heterozygote whose other haplotype is reference is 1. Insertions (`_` or `=`) are NA. The dashboard block drawing still uses `blocks`. Details are in `docs/LABELS_PLAN.md` and `docs/METHOD.md`.
+`ml-label` builds the alt and reference sequences from `blocks_point` and keeps 150 bp of each outer block next to the event. A single soft clip inside an uncovered interval refines the point estimate. For `mid` junctions, labeling tries positions inside that interval and records `label_bp_shift` when a shift validates the call. It aligns both to the two haplotype assemblies with minimap2. Before that,
+`arcsv2 mmi-validate` rejects a too-small `.mmi` and a smoke alignment that
+does not hit. The workflow runs the same command at the end of `index_haps`. A call is 1 when the alt passes on at least one haplotype and the alt and reference do not both pass on the same haplotype, so a heterozygote whose other haplotype is reference is 1. Insertions (`_` or `=`) are NA. The dashboard block drawing still uses `blocks`. Details are in `docs/LABELS_PLAN.md` and `docs/METHOD.md`.
 
 Labeling needs the Linux container (`docs/CROSS_PLATFORM.md`). Inside it, tools are on `PATH`, including for `bash -lc` and a replaced entrypoint, so omit `--use-conda`. The wrappers set `PYTHONPATH=/work/python`.
 
@@ -180,7 +237,7 @@ A local dress rehearsal, 40 events on 2 Mb, is `make pilot-large` (or `python sc
 
 ## What is checked in tests
 
-Library KDE and robustness π, discordant-pair cliques and FDR, split-read types, soft-clip order invariance, uniform breakpoint intervals, affected length, the complex-type table, a constructed deletion call, `blocks_point`, 150 bp label flanks, the pilot check (label 1 on called events, misses reported), feature rows, label criteria, merge-filter allele frequency, VCF records, a deterministic simulator checksum, and dashboard truth-matching (correct, wrong genotype, wrong type, missed, false call). The container job also runs the mappy and pysam tests and the 200 kb label workflow.
+Library KDE and robustness π, discordant-pair cliques and FDR, split-read types, soft-clip order invariance, uniform breakpoint intervals, affected length, the complex-type table, a constructed deletion call, `blocks_point`, 150 bp label flanks, the pilot check (label 1 on called events, misses reported), feature rows, label criteria, merge-filter allele frequency, VCF records, a deterministic simulator checksum, and dashboard truth-matching (correct, wrong genotype, wrong type, missed, false call). Cluster tests check the three SLURM profiles (dry-run when Snakemake 8.30 and the SLURM plugin are installed), the Grace runtime cap, and that `mmi-validate` fails closed. The container job also runs the mappy and pysam tests and the 200 kb label workflow.
 
 Oracle parity against `example/expected_output.tab` needs the original install and the example BAM. See `docs/PARITY.md`.
 
