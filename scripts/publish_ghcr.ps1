@@ -9,7 +9,10 @@ param(
     [string]$VersionTag = $(if ($env:VERSION_TAG) { $env:VERSION_TAG } else { "1.6.1" })
 )
 
-$ErrorActionPreference = "Stop"
+# Continue, not Stop: Docker Desktop on WSL prints warnings (e.g. blkio) to stderr,
+# which Windows PowerShell 5.1 turns into terminating errors under Stop. Each docker
+# call below is checked with $LASTEXITCODE instead.
+$ErrorActionPreference = "Continue"
 $Registry = "ghcr.io/$GhcrUser/arcsv2"
 
 docker info 2>$null | Out-Null

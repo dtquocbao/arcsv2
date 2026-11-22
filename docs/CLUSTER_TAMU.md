@@ -10,7 +10,7 @@ Create it on `$SCRATCH`, never in `$HOME` (10k-file quota). Run the installer
 from a short compute job:
 
 ```bash
-srun -A 132702112504 -p short -c 2 --mem=8G -t 01:00:00 --pty bash
+srun -A 132702112504 -p short -N 1 -n 1 -c 2 --mem=8G -t 01:00:00 --pty bash
 bash /path/to/arcsv2/scripts/hpc/setup_controller.sh
 ```
 
@@ -49,6 +49,18 @@ To avoid streaming, prefetch CRAM + `.crai` in one `short` job (Aspera, or
 The commands are in `docs/CLUSTER.md`. After `merge`, delete that sample's
 BAMs and CRAM (H5). Delete each `.mmi` after `label`.
 
+## Grace gotchas (found during H3, 2026-11-22)
+
+- `srun`/`sbatch` need `-N 1 -n 1` (job_submit rejects jobs without `--nodes` or `--ntasks`) and `--mem`.
+- `/sw/local/bin/sbatch` is a site wrapper ahead of `/usr/bin/sbatch`. It exits 0 when a submission is rejected and breaks the plugin's quoted `--wrap`, so Snakemake hangs with "No active jobs". `run_label.sh` puts `/usr/bin/sbatch` first on PATH via `$SCRATCH/arcsv2/bin/slurm-direct`; the manifest records `sbatch=`. Server-side job_submit checks still apply. `sbatch --wrap` typed by hand also goes through the wrapper, so write job files instead.
+- The image has micromamba, not `conda`. Snakemake 8 runs `conda info` inside the container for any rule with `conda:`, so `label.smk` sets `conda:` to None when a SIF is in use.
+- Interactive `singularity exec` does not bind `/scratch` by default on Grace; pass `-B /scratch` (the Snakemake jobs were fine).
+- After an interrupted run: `--unlock`, then `--rerun-incomplete`.
+- Long work goes in `sbatch` jobs, not interactive `srun`: portal/SSH disconnects kill `srun --pty`. tmux sessions live on one login node (`ssh grace5.hprc.tamu.edu` to return).
+- The OnDemand web shell inserts blank lines on paste; use SSH from a terminal for heredocs.
+
+H3 result on Grace (2026-11-22): fast and full golden PASS (HG01884 280 rows, NA19700 271, dataset 376, precision 0.5904), 14 steps in ~25 min.
+
 ## Hand-off: H1, then H3, then H4
 
 Run these on Grace. Clone the pushed `master` (do not check out only the tag):
@@ -78,7 +90,7 @@ cd $SCRATCH/arcsv2/repo
 mkdir -p $SCRATCH/arcsv2/sif
 # Export GHCR_TOKEN in this shell first when the package is private.
 # pull_sif.sh passes it to Singularity and does not print or save it.
-srun -A 132702112504 -p short -c 4 --mem=30G -t 01:00:00 --pty \
+srun -A 132702112504 -p short -N 1 -n 1 -c 4 --mem=30G -t 01:00:00 --pty \
   bash scripts/hpc/pull_sif.sh
 bash scripts/hpc/smoke_sif.sh
 ```
@@ -87,7 +99,7 @@ Then install the controller, still on a compute node. Login nodes are capped
 at 8 cores.
 
 ```bash
-srun -A 132702112504 -p short -c 2 --mem=8G -t 01:00:00 --pty bash
+srun -A 132702112504 -p short -N 1 -n 1 -c 2 --mem=8G -t 01:00:00 --pty bash
 bash $SCRATCH/arcsv2/repo/scripts/hpc/setup_controller.sh
 ```
 
@@ -149,9 +161,9 @@ After the DAG finishes, from the repo:
 
 ```bash
 export ARCSV2_SIF=$SCRATCH/arcsv2/sif/arcsv2_1.6.1.sif
-singularity exec "$ARCSV2_SIF" python scripts/check_golden.py --fast \
+singularity exec -B /scratch "$ARCSV2_SIF" python scripts/check_golden.py --fast \
   --results /scratch/user/dtquocbao/arcsv2/data/results_caller_v1
-singularity exec "$ARCSV2_SIF" python scripts/check_golden.py \
+singularity exec -B /scratch "$ARCSV2_SIF" python scripts/check_golden.py \
   --results /scratch/user/dtquocbao/arcsv2/data/results_caller_v1 \
   --labels /scratch/user/dtquocbao/arcsv2/data/labels_caller_v1
 ```

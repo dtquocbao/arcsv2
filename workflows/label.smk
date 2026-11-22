@@ -30,6 +30,11 @@ _SIF = str(config.get("container") or os.environ.get("ARCSV2_SIF") or "").strip(
 if _SIF:
     container: _SIF
 
+# Rules declare conda: for host runs. Inside the SIF the tools are already on
+# PATH and the image has micromamba, not conda; Snakemake 8 still runs
+# `conda info` in the container when a rule has conda:, so drop it there.
+_CONDA_ENV = None if _SIF else "../environment.yml"
+
 DATA = config.get("data_root", ".").rstrip("/") or "."
 RESULTS = config.get("results_dir", "results").rstrip("/") or "results"
 LABELS = config.get("labels_dir", "labels").rstrip("/") or "labels"
@@ -160,7 +165,7 @@ rule fetch_region:
         reference=config["reference"],
         cram=lambda wildcards: config["cram"][wildcards.sample],
     conda:
-        "../environment.yml"
+        _CONDA_ENV
     shell:
         "samtools view -u -T {params.reference:q} {params.cram:q} {wildcards.chrom:q} "
         "| samtools sort -o {output.bam:q}\n"
@@ -182,7 +187,7 @@ rule call:
         engine=config.get("engine", "rust"),
         out=lambda wildcards: results(f"{wildcards.sample}/{wildcards.chrom}"),
     conda:
-        "../environment.yml"
+        _CONDA_ENV
     shell:
         "arcsv2 call -i {input.bam:q} -R {params.reference:q} -G {params.gaps:q} "
         "-o {params.out:q} --region {wildcards.chrom:q} --threads {threads} "
@@ -203,7 +208,7 @@ rule merge:
     params:
         beds=merge_filter_bed_args(),
     conda:
-        "../environment.yml"
+        _CONDA_ENV
     shell:
         "arcsv2 merge-filter {input:q} {params.beds} -o {output:q}"
 
@@ -223,7 +228,7 @@ rule index_haps:
     params:
         reference=config["reference"],
     conda:
-        "../environment.yml"
+        _CONDA_ENV
     shell:
         "minimap2 -d {output:q} {input:q} && "
         "arcsv2 mmi-validate {output:q} --fasta {input:q} --reference {params.reference:q}"
@@ -254,7 +259,7 @@ rule label:
         unreliable=config.get("unreliable", ""),
         sequential="--sequential" if config.get("sequential") else "",
     conda:
-        "../environment.yml"
+        _CONDA_ENV
     shell:
         "arcsv2 ml-label --calls {input.calls:q} --reference {params.reference:q} "
         "--hap1 {input.hap1:q} --hap2 {input.hap2:q} "
@@ -272,6 +277,6 @@ rule dataset:
         mem_mb=lambda wc, attempt: 4000 * attempt,
         runtime=lambda wc, attempt: _cap(DATASET_RUNTIME_MIN * attempt, "short"),
     conda:
-        "../environment.yml"
+        _CONDA_ENV
     shell:
         "arcsv2 ml-dataset {input:q} -o {output.tsv:q}"

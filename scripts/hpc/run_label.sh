@@ -53,6 +53,18 @@ mkdir -p "${SINGULARITY_CACHEDIR}"
 export APPTAINER_CMD="${APPTAINER_CMD:-singularity}"
 export SINGULARITY_CMD="${SINGULARITY_CMD:-singularity}"
 
+# Grace puts a wrapper at /sw/local/bin/sbatch ahead of the real binary. It
+# exits 0 when a submission is rejected and mangles the long quoted --wrap
+# command the SLURM plugin sends, so Snakemake waits forever on a job that was
+# never queued. Call the real sbatch. Site job_submit checks still run on the
+# SLURM server.
+if [[ -x /usr/bin/sbatch ]]; then
+  SBATCH_DIR="${PREFIX}/bin/slurm-direct"
+  mkdir -p "${SBATCH_DIR}"
+  ln -sfn /usr/bin/sbatch "${SBATCH_DIR}/sbatch"
+  export PATH="${SBATCH_DIR}:${PATH}"
+fi
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "${ROOT}"
 
@@ -72,6 +84,7 @@ MANIFEST="${LOGDIR}/run_manifest.${STAMP}.txt"
     printf 'sif_sha256=missing\n'
   fi
   printf 'snakemake=%s\n' "$(snakemake --version)"
+  printf 'sbatch=%s\n' "$(command -v sbatch)"
 } > "${MANIFEST}"
 echo "run manifest: ${MANIFEST}"
 
