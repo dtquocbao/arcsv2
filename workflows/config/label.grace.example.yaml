@@ -13,3 +13,11 @@
 label_mem_mb: 30000
 label_threads: 4
 threads: 4
+# Call sizing from H4 (HG01884 whole genome, 2026-11-22):
+#   chr9 was OOM-killed at the length-scaled 5.1 GB; chr3 timed out at
+#   0.5 min/Mb (99 min) with 1,800 of 7,741 loci genotyped. Both retries cost
+#   SU (chr3 about 6.7 SU). A 4-thread call is billed for 4 cores up to 30 GB,
+#   so a 28 GB floor is free. Walltime is billed as used, so a loose limit is
+#   free too; only a killed attempt costs.
+mem_mb_floor: 28000
+call_min_per_mb: 2.0

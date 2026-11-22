@@ -88,7 +88,9 @@ MANIFEST="${LOGDIR}/run_manifest.${STAMP}.txt"
 } > "${MANIFEST}"
 echo "run manifest: ${MANIFEST}"
 
+# Extra args (targets, flags) go before --configfile: it takes several files,
+# so a target placed after it would be read as another config file.
 snakemake -s workflows/label.smk \
   --profile workflows/profiles/slurm-grace \
-  --configfile "${CONFIGFILE}" \
-  "$@"
+  "$@" \
+  --configfile "${CONFIGFILE}"
