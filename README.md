@@ -81,18 +81,34 @@ Singularity and does not print or save it.
 ```bash
 git clone https://github.com/dtquocbao/arcsv2.git $SCRATCH/arcsv2/repo
 cd $SCRATCH/arcsv2/repo
-srun -A 132702112504 -p short -c 4 --mem=30G -t 01:00:00 --pty \
+# Grace rejects a job that omits --nodes or --ntasks. -N 1 -n 1 supplies both.
+srun -A 132702112504 -p short -N 1 -n 1 -c 4 --mem=30G -t 01:00:00 --pty \
   bash scripts/hpc/pull_sif.sh
 bash scripts/hpc/smoke_sif.sh
+# Or, from the repo so SLURM's spooled copy can still find pull_sif.sh:
+#   cd $SCRATCH/arcsv2/repo && sbatch scripts/hpc/pull_sif.sbatch
 ```
 
-Then install the controller on a short compute job (`scripts/hpc/setup_controller.sh`)
-and launch from the repo. Paths stay absolute under `/scratch`. Singularity
-binds `/scratch`, so cluster configs do not remap the tree to `/data`.
+Then install the controller on a short compute job (`scripts/hpc/setup_controller.sh`,
+same `-N 1 -n 1 --mem` flags) and launch from the repo. Paths stay absolute
+under `/scratch`. Do not remap them to `/data`. Snakemake's Singularity jobs
+see `/scratch`. An interactive `singularity exec` on Grace does not, so pass
+`-B /scratch`. A portal or SSH drop kills `srun --pty`; long work belongs in
+`sbatch`, and a tmux session stays on the login node you opened it on
+(`grace5.hprc.tamu.edu`).
 
 ```bash
-bash scripts/hpc/run_label.sh workflows/config/<your-label.yaml>
+bash scripts/hpc/run_label.sh workflows/config/<your-label.yaml> [snakemake args]
 ```
+
+Put a Snakemake target after the config file. The script moves those extra
+arguments to before `--configfile`, which would otherwise treat the target as
+another config. `run_label.sh` also puts `/usr/bin/sbatch` ahead of Grace's
+`/sw/local/bin/sbatch` wrapper. That wrapper exits 0 on a rejected submission
+and breaks the plugin's `--wrap`, so Snakemake sits at "No active jobs". When
+`ARCSV2_SIF` is set, `label.smk` clears each rule's `conda:` directive: the
+image has micromamba, not `conda`, and Snakemake 8 would run `conda info`
+inside the container.
 
 | Profile | Use |
 |:--|:--|
@@ -103,19 +119,27 @@ bash scripts/hpc/run_label.sh workflows/config/<your-label.yaml>
 `runtime` is minutes. A retry multiplies runtime and memory by `attempt`, then
 `_cap` keeps the request inside the Grace partition: `short` 120, `medium`
 1440, `long` 10080. `merge` and `dataset` start at 30 minutes so attempt 2
-still fits on `short`. Call walltime is `max(60, ceil(chrom_Mb × 0.5))`
-minutes (chr1 is 125). `workflows/config/label.grace.example.yaml` sets
-`label_mem_mb: 30000` and 4 threads so a label job is billed for 4 cores
-under Grace's `max(cores, memory / 7.5 GB)` rule. Laptop `label.yaml` is
-unchanged.
+still fits on `short`. The workflow default for a call is
+`max(60, ceil(chrom_Mb × 0.5))` minutes (chr1 is 125) and a 4 GB memory floor.
+Laptop `label.yaml` keeps those defaults.
+`workflows/config/label.grace.example.yaml` is the Grace overlay: 4 threads,
+`label_mem_mb: 30000` (billed as 4 cores under `max(cores, memory / 7.5 GB)`),
+`mem_mb_floor: 28000`, and `call_min_per_mb: 2.0`. The H4 whole-genome run
+(HG01884, 2026-11-22) OOM-killed chr9 at the length-scaled 5.1 GB and timed
+out chr3 at 99 minutes (0.5 min/Mb, 1,800 of 7,741 loci genotyped). A 4-thread
+job is already billed for 4 cores up to 30 GB, and walltime is billed as
+used, so the higher floor and the looser limit do not add charge unless a
+retry is killed.
 
 `run_label.sh` writes `$SCRATCH/arcsv2/logs/run_manifest.<timestamp>.txt`
 with `git describe --always --dirty`, the commit, the SIF sha256, the
-Snakemake version, and the config path. After a run,
-`bash scripts/hpc/su_report.sh <snakemake log>` prints per-rule service units
-from `sacct`. "SU per genome" is `fetch_region` + `call` + `merge`. The H4
-hand-off measures that cost first by targeting one sample's `merged.tab`,
-then runs `index_haps` and `label` in a second invocation.
+Snakemake version, the config path, and the `sbatch` binary it used. After a
+run, `bash scripts/hpc/su_report.sh <snakemake log>` prints per-rule service
+units from `sacct`. "SU per genome" is `fetch_region` + `call` + `merge`.
+The H4 hand-off measures that cost first by passing the sample `merged.tab`
+after the config file, then runs `index_haps` and `label` in a second
+invocation. An interrupted DAG needs `snakemake --unlock`, then
+`--rerun-incomplete`.
 
 `index_haps` builds the minimap2 index and then runs `arcsv2 mmi-validate`.
 The smoke check fails if `mappy` or `pysam` is missing, if chr1 or chr20 is
@@ -193,10 +217,14 @@ python scripts/check_golden.py \
 
 Fast locus check (minutes): `python scripts/check_golden.py --fast`.
 Default config `workflows/config/label.yaml` uses the same caller settings
-(writes to `results/` / `labels/`). Method notes: `docs/METHOD.md`,
+(writes to `results/` / `labels/`). The caller-v1 `gaps.bed` and
+`unreliable.bed` are in `export/ref_beds/`. Method notes: `docs/METHOD.md`,
 deviations: `docs/PARITY.md`, history: `docs/HISTORY.md`.
 On Grace, use absolute `/scratch` paths and `bash scripts/hpc/run_label.sh`
-(`docs/CLUSTER_TAMU.md`), not `data_root: /data`.
+(`docs/CLUSTER_TAMU.md`), not `data_root: /data`. H3 there on 2026-11-22
+matched this baseline: fast and full golden PASS (HG01884 280 rows, NA19700
+271, dataset 376, precision 0.5904) in about 25 minutes. `check_golden.py`
+inside an interactive `singularity exec` needs `-B /scratch`.
 
 ## Call
 
@@ -207,7 +235,8 @@ arcsv2 run --input sample.cram --reference GRCh38 --out results/run1 --chroms ch
 arcsv2 batch --manifest workflows/config/batch_run.tsv --out results/batch1 --chroms chr20
 
 arcsv2 call -i sample.sam -R ref.fa -G gaps.bed -o out/ --region chr20 --seed 204178949
-# Paper BEDs (once): python scripts/fetch_filter_beds.py --dest /data/ref
+# Caller-v1 gaps and unreliable BEDs: export/ref_beds/. Other paper BEDs, once:
+#   python scripts/fetch_filter_beds.py --dest /data/ref
 arcsv2 merge-filter out/*/arcsv_out.tab \
   --simple-repeats /data/ref/simple_repeats.bed \
   --segdups /data/ref/segdups.bed \
