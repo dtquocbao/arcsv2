@@ -363,3 +363,42 @@ def feature_names(sample: dict[str, float] | None = None) -> list[str]:
 
 
 SCHEMA = FEATURE_SCHEMA
+
+# Columns produced by the labeler. They are outcomes, not inputs.
+LABELER_COLUMNS = frozenset(
+    {
+        "reason",
+        "identity",
+        "mapq",
+        "max_indel",
+        "label_bp_shift",
+        "best_hap",
+        "gt_concordant",
+        "ref_validated",
+        "strand",
+    }
+)
+
+# Context already stored on dataset_v0. frac_blacklist is constant 0.0 in ML-0
+# (the blacklist BED was not fetched) and is not a feature.
+CONTEXT_FEATURES = (
+    "frac_simple_repeat",
+    "frac_segdup",
+    "frac_gap",
+    "gc_flank_500",
+    "coverage_ratio",
+    "length_is_lower_bound",
+)
+
+FEATURE_SCHEMA_F2 = "arcsv2-f2"
+
+
+def assert_features_allowed(names: list[str]) -> None:
+    """Refuse labeler outputs if they show up in a feature list."""
+    banned = []
+    for name in names:
+        base = name[: -len("_missing")] if name.endswith("_missing") else name
+        if name in LABELER_COLUMNS or base in LABELER_COLUMNS:
+            banned.append(name)
+    if banned:
+        raise ValueError(f"labeler columns cannot be features: {banned}")

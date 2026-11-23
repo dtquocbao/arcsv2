@@ -401,12 +401,23 @@ def _chromosome_holdout(
     return {"status": "ok", "chromosomes": per}
 
 
-def fit_labeled_calls(rows: list[dict[str, str]]) -> dict:
+def fit_labeled_calls(
+    rows: list[dict[str, str]],
+    features: str = "f1",
+    model: str = "logistic",
+) -> dict:
     """Per-class logistic models, out-of-fold thresholds, and the training PCA.
 
     ``rows`` are call-table records with a ``label`` of 0 or 1. Insertions are
     left out. The coefficients are stored in the manifest; nothing is pickled.
+
+    The default ``features="f1"`` and ``model="logistic"`` path is the ML-0
+    trainer. Other combinations are fit in ``arcsv2.ml1``.
     """
+    if features != "f1" or model != "logistic":
+        from arcsv2.ml1 import fit_selected
+
+        return fit_selected(rows, features=features, model=model)
     from arcsv2.features import fit_pca_arrays
 
     grouped: dict[str, list[dict[str, str]]] = {}

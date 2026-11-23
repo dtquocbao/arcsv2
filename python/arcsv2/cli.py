@@ -474,11 +474,14 @@ def ml_annotate_cmd(
 def ml_train_cmd(
     out: Path = typer.Option(..., "--out", "-o"),
     labels: Path | None = typer.Option(None, "--labels", help="TSV class label score"),
+    features: str = typer.Option("f1", "--features", help="f1 (default) or f1+context"),
+    model: str = typer.Option("logistic", "--model", help="logistic (default), xgboost, rf, or auto"),
 ) -> None:
     """Write a manifest. A call table with ``label`` fits per-class logistics.
 
     A three-column ``class label score`` file only sets thresholds on the paper
     presets. Fitted coefficients and the training PCA are stored in the manifest.
+    ``--features f1 --model logistic`` is the ML-0 trainer.
     """
     from arcsv2.config import FEATURE_SCHEMA
     from arcsv2.train import PAPER_PRESETS, choose_threshold, fit_labeled_calls, write_manifest
@@ -489,7 +492,10 @@ def ml_train_cmd(
         header = text[0].split("\t") if text else []
         if "label" in header and "svtype" in header:
             rows = [dict(zip(header, line.split("\t"))) for line in text[1:] if line]
-            payload = fit_labeled_calls(rows)
+            if features == "f1" and model == "logistic":
+                payload = fit_labeled_calls(rows)
+            else:
+                payload = fit_labeled_calls(rows, features=features, model=model)
             write_manifest(out / "manifest.json", payload)
             typer.echo(f"wrote {out / 'manifest.json'}")
             return
@@ -538,6 +544,19 @@ def ml_predict_cmd(
         for row in scored:
             handle.write("\t".join(row.get(col, "NA") for col in [*header, *extra]) + "\n")
     typer.echo(f"wrote {len(scored)} scored calls to {out}")
+
+
+@app.command("ml-eval")
+def ml_eval_cmd(
+    labels: Path = typer.Option(..., "--labels"),
+    out: Path = typer.Option(..., "--out", "-o"),
+    max_samples: int | None = typer.Option(None, "--max-samples"),
+    n_boot: int = typer.Option(1000, "--n-boot"),
+) -> None:
+    """Outer-fold comparison of logistic, XGBoost, and the sr>0 rule."""
+    from arcsv2.ml1 import write_evaluation
+
+    write_evaluation(labels, out, max_samples=max_samples, n_boot=n_boot)
 
 
 @app.command("dashboard")
