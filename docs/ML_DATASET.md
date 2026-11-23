@@ -174,6 +174,17 @@ Overall non-NA precision: **81.95%** (106,547 / 130,009).
 | chr22 | 828 | 428 | 948 | 65.92% |
 | chrX | 3,044 | 1,123 | 2,584 | 73.05% |
 
+## ml-train wall time
+
+`arcsv2 ml-train --labels export/ml0/dataset.tsv` (130,009 labeled rows, 40 samples):
+
+| Run | Code | Wall | Peak RSS |
+|:--|:--|--:|--:|
+| Grace job 20653724 (1 core) | previous trainer | 38 min 02 s | 2.37 GB |
+| Laptop, this tree | featurize-once trainer | 150.5 s | 2.25 GiB |
+
+Job 20653417 hit the 30 min limit before this path existed. The laptop number is not a Grace measurement; this tree has not been rerun in the SIF.
+
 ## Notes
 
 - Blacklist omitted (HTTP 403) — see `docs/PARITY.md`.

@@ -192,15 +192,30 @@ class PcaModel:
         )
 
 
+def fit_pca_arrays(rearr: np.ndarray, refs: np.ndarray) -> PcaModel:
+    """PCA on stacked rearrangement rows and reference-indicator rows.
+
+    ``rearr`` is ``rearrangement_matrix(...).ravel()`` per call. ``refs`` is
+    ``reference_indicator(...)`` per call. Each SVD runs once.
+    """
+    rearr_mean, rearr_components = _center_components(rearr)
+    ref_mean, ref_components = _center_components(refs)
+    return PcaModel(rearr_mean, rearr_components, ref_mean, ref_components)
+
+
 def fit_pca(rows: list[dict[str, str]]) -> PcaModel:
-    rearr = np.stack([rearrangement_matrix(r.get("reference", ""), r.get("rearrangement", "")).ravel() for r in rows]) if rows else np.zeros((1, _BLOCK_SLOTS * _ALT_CHANNELS))
-    refs = np.stack([reference_indicator(r.get("reference", "")) for r in rows]) if rows else np.zeros((1, _BLOCK_SLOTS))
-    return PcaModel(
-        rearr_mean=_center_components(rearr)[0],
-        rearr_components=_center_components(rearr)[1],
-        ref_mean=_center_components(refs)[0],
-        ref_components=_center_components(refs)[1],
-    )
+    if rows:
+        rearr = np.stack(
+            [
+                rearrangement_matrix(r.get("reference", ""), r.get("rearrangement", "")).ravel()
+                for r in rows
+            ]
+        )
+        refs = np.stack([reference_indicator(r.get("reference", "")) for r in rows])
+    else:
+        rearr = np.zeros((1, _BLOCK_SLOTS * _ALT_CHANNELS))
+        refs = np.zeros((1, _BLOCK_SLOTS))
+    return fit_pca_arrays(rearr, refs)
 
 
 def _center_components(matrix: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
