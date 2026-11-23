@@ -252,6 +252,20 @@ arcsv2 ml-predict --model model_v1 --calls merged.tab -o final.tab
 
 `--mode paper` sets the §4.12 defaults, including a path cap of 1,000. `-R` supplies chromosome length and `-G` marks assembly gaps. `call` writes `graph_log.txt` beside the table and prints stage progress to stderr (BAM load, discover, build_graph, genotype). The table appends `blocks` (locus intervals, breakpoint gaps left uncovered), `blocks_point` (the same blocks closed at the soft-clip base, or at the interval midpoint when there is no clip), and `bp_point_source` (`clip` or `mid` per internal junction).
 
+## Train
+
+`ml-train` fits one logistic model per class (deletion, duplication, inversion, complex). Insertions are left out. Each class is featurized once. Out-of-fold fits, the final fit, and chromosome hold-out index that cache and refit only the PCA. The manifest keeps the same keys. Thresholds, `grouping`, and `chromosome_holdout` match the previous trainer. `ml-predict` still reads an old manifest.
+
+Compare two manifests with:
+
+```bash
+python scripts/compare_manifest.py old.json new.json
+```
+
+Thresholds must be identical. Other floats may differ by at most 1e-9 absolute and 1e-9 relative. The script prints `PASS` or `FAIL` and the largest absolute and relative difference.
+
+On `export/ml0/dataset.tsv` (130,009 labeled rows, 40 samples) the previous trainer took 38 min 02 s on Grace (job 20653724, 1 core, peak RSS 2.37 GB). This trainer took 150.5 s on a laptop (peak RSS 2.25 GiB). That laptop figure is not a Grace measurement. Numbers and the dataset layout are in `docs/ML_DATASET.md`.
+
 ## Labels
 
 `ml-label` builds the alt and reference sequences from `blocks_point` and keeps 150 bp of each outer block next to the event. A single soft clip inside an uncovered interval refines the point estimate. For `mid` junctions, labeling tries positions inside that interval and records `label_bp_shift` when a shift validates the call. It aligns both to the two haplotype assemblies with minimap2. Before that,
@@ -266,7 +280,7 @@ A local dress rehearsal, 40 events on 2 Mb, is `make pilot-large` (or `python sc
 
 ## What is checked in tests
 
-Library KDE and robustness π, discordant-pair cliques and FDR, split-read types, soft-clip order invariance, uniform breakpoint intervals, affected length, the complex-type table, a constructed deletion call, `blocks_point`, 150 bp label flanks, the pilot check (label 1 on called events, misses reported), feature rows, label criteria, merge-filter allele frequency, VCF records, a deterministic simulator checksum, and dashboard truth-matching (correct, wrong genotype, wrong type, missed, false call). Cluster tests check the three SLURM profiles (dry-run when Snakemake 8.30 and the SLURM plugin are installed), the Grace runtime cap, and that `mmi-validate` fails closed. The container job also runs the mappy and pysam tests and the 200 kb label workflow.
+Library KDE and robustness π, discordant-pair cliques and FDR, split-read types, soft-clip order invariance, uniform breakpoint intervals, affected length, the complex-type table, a constructed deletion call, `blocks_point`, 150 bp label flanks, the pilot check (label 1 on called events, misses reported), feature rows, label criteria, merge-filter allele frequency, VCF records, a deterministic simulator checksum, and dashboard truth-matching (correct, wrong genotype, wrong type, missed, false call). `tests/test_train_perf.py` checks that cached PCA columns and vectorized scores match `featurize_row` and `_logistic_prob`, and that `fit_labeled_calls` reproduces `tests/fixtures/train_perf/manifest.json`. Cluster tests check the three SLURM profiles (dry-run when Snakemake 8.30 and the SLURM plugin are installed), the Grace runtime cap, and that `mmi-validate` fails closed. The container job also runs the mappy and pysam tests and the 200 kb label workflow.
 
 Oracle parity against `example/expected_output.tab` needs the original install and the example BAM. See `docs/PARITY.md`.
 
