@@ -181,9 +181,10 @@ Overall non-NA precision: **81.95%** (106,547 / 130,009).
 | Run | Code | Wall | Peak RSS |
 |:--|:--|--:|--:|
 | Grace job 20653724 (1 core) | previous trainer | 38 min 02 s | 2.37 GB |
+| Grace job 20655284 (1 core) | featurize-once trainer (0d7d3bf, repo code via PYTHONPATH in the 1.6.1 SIF) | 2 min 30 s | 2.55 GB |
 | Laptop, this tree | featurize-once trainer | 150.5 s | 2.25 GiB |
 
-Job 20653417 hit the 30 min limit before this path existed. The laptop number is not a Grace measurement; this tree has not been rerun in the SIF.
+On Grace the new trainer is about 15x faster, and `scripts/compare_manifest.py` on the two Grace manifests prints PASS with max_abs 0 over 8,728 floats: the output is identical. Run the compare inside the SIF (`singularity exec -B /scratch <sif> python scripts/compare_manifest.py ...`); the login nodes' system python3 is too old. Laptop-vs-Grace manifests differ in the 7th to 9th decimal of thresholds and ~0.4% in coefficients because of different numpy/scikit-learn builds, not the code. Job 20653417 hit the 30 min limit before this path existed.
 
 ## Notes
 
