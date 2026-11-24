@@ -256,7 +256,7 @@ arcsv2 ml-predict --model model_v1 --calls merged.tab -o final.tab
 
 `ml-train` fits one logistic model per class (deletion, duplication, inversion, complex). Insertions are left out. Each class is featurized once. Out-of-fold fits, the final fit, and chromosome hold-out index that cache and refit only the PCA. With no extra flags the manifest keeps the same keys. Thresholds, `grouping`, and `chromosome_holdout` match the previous trainer. `ml-predict` still reads an old manifest.
 
-`--features f1+context` adds repeat, segdup, gap, GC, coverage, and a lower-bound length flag, and writes schema `arcsv2-f2`. `--model` is `logistic` (default), `xgboost`, `rf`, or `auto`. `arcsv2 ml-eval` compares those models on sample-grouped outer folds. The comparison is in `docs/ML1_RESULTS.md` after it has been run.
+`--features f1+context` adds repeat, segdup, gap, GC, coverage, and a lower-bound length flag, and writes schema `arcsv2-f2`. `--model` is `logistic` (default), `xgboost`, `rf`, or `auto`. `arcsv2 ml-eval` compares those models on sample-grouped outer folds. `--outer-group chrom` uses chromosome folds instead. The comparison is in `docs/ML1_RESULTS.md` after it has been run.
 
 Compare two manifests with:
 

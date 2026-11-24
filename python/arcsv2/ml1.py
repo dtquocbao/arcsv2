@@ -428,10 +428,11 @@ def _inner_oof(
     params: dict,
     drop_pca: bool = False,
     pca_cache: dict | None = None,
+    group_col: str = "sample",
 ):
     from sklearn.model_selection import GroupKFold
 
-    groups = [rows[i].get("sample") or "" for i in train_idx]
+    groups = [rows[i].get(group_col) or "" for i in train_idx]
     n_groups = len(set(groups))
     n_splits = min(INNER_SPLITS, n_groups)
     scores: list[float | None] = [None] * len(train_idx)
@@ -471,6 +472,7 @@ def _select_params(
     candidates: list[dict],
     drop_pca: bool = False,
     pca_cache: dict | None = None,
+    group_col: str = "sample",
 ):
     best = None
     errors = []
@@ -486,7 +488,7 @@ def _select_params(
                 )
             )
         scores, status = _inner_oof(
-            rows, y, cache, context, train_idx, feature_set, family, params, drop_pca, pca_cache
+            rows, y, cache, context, train_idx, feature_set, family, params, drop_pca, pca_cache, group_col
         )
         if scores is None:
             errors.append({"params": _public_params(params), "error": status})
@@ -632,6 +634,29 @@ def _outer_sample_folds(rows: list[dict[str, str]], n_splits: int) -> list[tuple
     return folds
 
 
+def _outer_chrom_folds(rows: list[dict[str, str]], n_splits: int) -> list[tuple[list[str], list[str]]]:
+    """GroupKFold over chromosomes. Folds are balanced by row count.
+
+    sklearn assigns the heaviest remaining chromosome to the lightest fold,
+    so a large chromosome is not paired with another large one.
+    """
+    from sklearn.model_selection import GroupKFold
+
+    chroms = [row.get("chrom") or "" for row in rows]
+    n_groups = len(set(chroms))
+    usable = min(n_splits, n_groups)
+    if usable < 2:
+        raise ValueError(f"need at least 2 chromosomes, got {n_groups}")
+    splitter = GroupKFold(n_splits=usable)
+    dummy = np.zeros((len(rows), 1))
+    folds = []
+    for train_idx, test_idx in splitter.split(dummy, groups=chroms):
+        train = sorted({chroms[i] for i in train_idx})
+        test = sorted({chroms[i] for i in test_idx})
+        folds.append((train, test))
+    return folds
+
+
 def _pack_model(kind: str, model, names: list[str], medians, pca, params: dict) -> dict:
     payload: dict = {
         "format": kind,
@@ -741,11 +766,32 @@ def evaluate(
     n_splits: int = OUTER_SPLITS,
     n_boot: int = N_BOOT,
     include_rf: str = "inversion",
+    outer_group: str = "sample",
+    ablation: bool = True,
 ) -> dict:
-    """Outer-fold report. ``include_rf`` is ``inversion`` or ``all`` or ``none``."""
+    """Outer-fold report. ``include_rf`` is ``inversion`` or ``all`` or ``none``.
+
+    ``outer_group`` is ``sample`` (stratified by superpopulation) or ``chrom``.
+    Chromosome folds use ``GroupKFold`` on the outside and the inside. The
+    bootstrap is still over samples.
+    """
+    if outer_group not in ("sample", "chrom"):
+        raise ValueError(f"unknown outer group {outer_group}")
     rows = training_rows(rows)
-    folds = _outer_sample_folds(rows, n_splits)
-    _log(f"ml-eval rows={len(rows)} samples={len({r.get('sample') for r in rows})} folds={len(folds)}")
+    if outer_group == "chrom":
+        folds = _outer_chrom_folds(rows, n_splits)
+        outer_name = "GroupKFold"
+        stratify = None
+        group_col = "chrom"
+    else:
+        folds = _outer_sample_folds(rows, n_splits)
+        outer_name = "StratifiedGroupKFold"
+        stratify = "superpopulation"
+        group_col = "sample"
+    _log(
+        f"ml-eval rows={len(rows)} samples={len({r.get('sample') for r in rows})} "
+        f"folds={len(folds)} outer_group={outer_group}"
+    )
     grouped: dict[str, list[dict[str, str]]] = {}
     for row in rows:
         grouped.setdefault(class_of_row(row) or "", []).append(row)
@@ -759,20 +805,24 @@ def evaluate(
         _log(f"class {kind} n={len(group)} pos={sum(y)} neg={len(y) - sum(y)}")
         cache = _class_cache(group)
         context = context_matrix(group)
-        by_sample: dict[str, list[int]] = {}
+        by_group: dict[str, list[int]] = {}
         for i, row in enumerate(group):
-            by_sample.setdefault(row.get("sample") or "", []).append(i)
+            by_group.setdefault(row.get(group_col) or "", []).append(i)
         families = [
             ("logistic", "f1", False),
             ("logistic", "f1+context", False),
-            ("logistic", "f1+context", True),
+        ]
+        if ablation:
+            families.append(("logistic", "f1+context", True))
+        families.extend([
             ("xgboost", "f1", False),
             ("xgboost", "f1+context", False),
-            ("xgboost", "f1+context", True),
-        ]
+        ])
+        if ablation:
+            families.append(("xgboost", "f1+context", True))
         if include_rf == "all" or (include_rf == "inversion" and kind == "inversion"):
             families.extend([("rf", "f1", False), ("rf", "f1+context", False)])
-        models = {"sr>0": _rule_report(group, y, folds, by_sample, n_boot)}
+        models = {"sr>0": _rule_report(group, y, folds, by_group, n_boot)}
         importance = {}
         held: dict[str, dict] = {}
         pca_cache: dict = {}
@@ -790,13 +840,23 @@ def evaluate(
             pooled_thr_p: list[float | None] = []
             pooled_i: list[int] = []
             candidates = _candidate_list(kind, family)
-            for fold_i, (train_samples, test_samples) in enumerate(folds, start=1):
-                train_idx = [i for sample in train_samples for i in by_sample.get(sample, [])]
-                test_idx = [i for sample in test_samples for i in by_sample.get(sample, [])]
+            for fold_i, (train_keys, test_keys) in enumerate(folds, start=1):
+                train_idx = [i for key in train_keys for i in by_group.get(key, [])]
+                test_idx = [i for key in test_keys for i in by_group.get(key, [])]
                 if len(train_idx) < 2 or len({y[i] for i in train_idx}) < 2 or not test_idx:
                     continue
                 best, errors = _select_params(
-                    group, y, cache, context, train_idx, feature_set, family, candidates, drop_pca, pca_cache
+                    group,
+                    y,
+                    cache,
+                    context,
+                    train_idx,
+                    feature_set,
+                    family,
+                    candidates,
+                    drop_pca,
+                    pca_cache,
+                    group_col,
                 )
                 paper_errors.extend(errors)
                 if best is None:
@@ -873,13 +933,14 @@ def evaluate(
             block["auto"] = _auto_decision(block["models"])
     return {
         "protocol": {
-            "outer": "StratifiedGroupKFold",
+            "outer": outer_name,
             "outer_splits": len(folds),
-            "outer_group": "sample",
-            "outer_stratify": "superpopulation",
+            "outer_group": outer_group,
+            "outer_stratify": stratify,
             "inner": "GroupKFold",
             "inner_splits": INNER_SPLITS,
-            "inner_group": "sample",
+            "inner_group": group_col,
+            "bootstrap": "sample",
             "bootstrap_samples": n_boot,
             "seed": _seed(),
             "n_jobs": N_JOBS,
@@ -1269,6 +1330,9 @@ def write_evaluation(
     *,
     max_samples: int | None = None,
     n_boot: int = N_BOOT,
+    outer_group: str = "sample",
+    include_rf: str = "inversion",
+    ablation: bool = True,
 ) -> dict:
     """Run ``evaluate`` and write ``report.json`` plus ``report.md``."""
     import json
@@ -1283,7 +1347,13 @@ def write_evaluation(
     stop, peak = _rss_sampler()
     started = time.perf_counter()
     try:
-        report = evaluate(rows, n_boot=n_boot)
+        report = evaluate(
+            rows,
+            n_boot=n_boot,
+            outer_group=outer_group,
+            include_rf=include_rf,
+            ablation=ablation,
+        )
     finally:
         stop.set()
     report["wall_s"] = time.perf_counter() - started
@@ -1322,13 +1392,26 @@ def _rss_sampler():
     return stop, peak
 
 
+def _protocol_sentence(report: dict) -> str:
+    protocol = report.get("protocol") or {}
+    if protocol.get("outer_group") == "chrom":
+        return (
+            "Outer `GroupKFold` by chromosome, balanced by row count. "
+            "Hyperparameters and thresholds use inner `GroupKFold` on the training chromosomes. "
+            "Intervals are 95% bootstrap-over-samples percentiles."
+        )
+    return (
+        "Outer `StratifiedGroupKFold` by sample, stratified by superpopulation. "
+        "Hyperparameters and thresholds are chosen with inner `GroupKFold` on the "
+        "training samples only. Intervals are 95% bootstrap-over-samples percentiles."
+    )
+
+
 def render_markdown(report: dict) -> str:
     lines = [
         "# ML-1 model comparison",
         "",
-        "Outer `StratifiedGroupKFold` by sample, stratified by superpopulation. "
-        "Hyperparameters and thresholds are chosen with inner `GroupKFold` on the "
-        "training samples only. Intervals are 95% bootstrap-over-samples percentiles.",
+        _protocol_sentence(report),
         "",
         report["notes"]["frac_blacklist"] + ".",
         report["notes"]["coverage_ratio"] + ".",

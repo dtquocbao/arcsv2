@@ -552,11 +552,22 @@ def ml_eval_cmd(
     out: Path = typer.Option(..., "--out", "-o"),
     max_samples: int | None = typer.Option(None, "--max-samples"),
     n_boot: int = typer.Option(1000, "--n-boot"),
+    outer_group: str = typer.Option("sample", "--outer-group", help="sample (default) or chrom"),
+    include_rf: str = typer.Option("inversion", "--include-rf", help="inversion, all, or none"),
+    ablation: bool = typer.Option(True, "--ablation/--no-ablation"),
 ) -> None:
     """Outer-fold comparison of logistic, XGBoost, and the sr>0 rule."""
     from arcsv2.ml1 import write_evaluation
 
-    write_evaluation(labels, out, max_samples=max_samples, n_boot=n_boot)
+    write_evaluation(
+        labels,
+        out,
+        max_samples=max_samples,
+        n_boot=n_boot,
+        outer_group=outer_group,
+        include_rf=include_rf,
+        ablation=ablation,
+    )
 
 
 @app.command("dashboard")

@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 from arcsv2.features import assert_features_allowed
-from arcsv2.ml1 import evaluate, score_rows
+from arcsv2.ml1 import _outer_chrom_folds, evaluate, score_rows, training_rows
 from arcsv2.predict import predict_rows
 from arcsv2.train import class_of_row, fit_labeled_calls, load_manifest
 
@@ -59,3 +59,22 @@ def test_ml1_eval_is_deterministic_on_the_fixture():
     assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
     assert "sr>0" in first["classes"]["deletion"]["models"]
     assert "xgboost f1+context no-pca" in first["classes"]["complex"]["models"]
+    assert first["protocol"]["outer_group"] == "sample"
+    assert first["protocol"]["inner_group"] == "sample"
+
+
+def test_chrom_folds_hold_out_whole_chromosomes():
+    rows = training_rows(_rows())
+    folds = _outer_chrom_folds(rows, 5)
+    assert len(folds) == 5
+    seen: list[str] = []
+    by_chrom: dict[str, int] = {}
+    for row in rows:
+        by_chrom[row["chrom"]] = by_chrom.get(row["chrom"], 0) + 1
+    sizes = []
+    for train, test in folds:
+        assert set(train).isdisjoint(test)
+        seen.extend(test)
+        sizes.append(sum(by_chrom[chrom] for chrom in test))
+    assert sorted(seen) == sorted(by_chrom)
+    assert max(sizes) <= 3 * min(sizes)

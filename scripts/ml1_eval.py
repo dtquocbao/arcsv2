@@ -17,8 +17,19 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--max-samples", type=int, default=None, help="One superpopulation, this many samples")
     parser.add_argument("--n-boot", type=int, default=1000)
+    parser.add_argument("--outer-group", choices=("sample", "chrom"), default="sample")
+    parser.add_argument("--include-rf", choices=("inversion", "all", "none"), default="inversion")
+    parser.add_argument("--no-ablation", action="store_true", help="Skip the PCA-dropped models")
     args = parser.parse_args(argv)
-    write_evaluation(args.labels, args.out, max_samples=args.max_samples, n_boot=args.n_boot)
+    write_evaluation(
+        args.labels,
+        args.out,
+        max_samples=args.max_samples,
+        n_boot=args.n_boot,
+        outer_group=args.outer_group,
+        include_rf=args.include_rf,
+        ablation=not args.no_ablation,
+    )
 
 
 if __name__ == "__main__":

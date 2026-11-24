@@ -91,6 +91,35 @@ Every fitted model's AP interval lies entirely above the `sr>0` interval. On thi
 
 Auto choice: `logistic f1+context`. Random forest f1 has the highest point estimate of recall at precision ≥ 0.95 (0.972), and its interval is [0.938, 1.000]. Logistic f1+context (0.952) sits inside that interval, so the simpler model is kept. With 241 rows that interval still runs from 0.94 to 1.00, so the ranking among the models that clear precision 0.95 is not resolved.
 
+## Locus holdout
+
+Same four models, same grid, same thresholds, and the same bootstrap over samples. The outer split is `GroupKFold(5)` on chromosome, balanced by row count, and the inner split is `GroupKFold(4)` on chromosome. Random forest and the PCA ablation were left out of this run. Laptop wall time 6,906 s (1 h 55 min), peak RSS 2,661,638,144 bytes (2.48 GiB). Output: `export/ml0/ml1_eval/chrom/`.
+
+| Class | Model | AP sample | AP chrom | P@R≥0.90 sample | P@R≥0.90 chrom | R@P≥0.95 sample | R@P≥0.95 chrom |
+|:--|:--|---:|---:|---:|---:|---:|---:|
+| deletion | sr>0 | 0.949 | 0.949 | 0.953 | 0.953 | 0.955 | 0.955 |
+| deletion | logistic f1 | 0.978 | 0.976 | 0.969 | 0.969 | 0.958 | 0.957 |
+| deletion | logistic f1+context | 0.978 | 0.976 | 0.969 | 0.969 | 0.958 | 0.957 |
+| deletion | xgboost f1 | 0.995 | 0.981 | 0.992 | 0.973 | 0.985 | 0.966 |
+| deletion | xgboost f1+context | 0.996 | 0.982 | 0.994 | 0.974 | 0.991 | 0.969 |
+| duplication | sr>0 | 0.925 | 0.925 | 0.931 | 0.931 | not reachable | not reachable |
+| duplication | logistic f1 | 0.971 | 0.968 | 0.964 | 0.960 | 0.947 | 0.945 |
+| duplication | logistic f1+context | 0.973 | 0.968 | 0.963 | 0.961 | 0.947 | 0.945 |
+| duplication | xgboost f1 | 0.990 | 0.967 | 0.986 | 0.961 | 0.977 | 0.941 |
+| duplication | xgboost f1+context | 0.992 | 0.972 | 0.990 | 0.963 | 0.982 | 0.945 |
+| complex | sr>0 | 0.680 | 0.680 | 0.444 | 0.515 | not reachable | not reachable |
+| complex | logistic f1 | 0.897 | 0.873 | 0.723 | 0.704 | 0.537 | not reachable |
+| complex | logistic f1+context | 0.898 | 0.873 | 0.732 | 0.705 | 0.550 | not reachable |
+| complex | xgboost f1 | 0.955 | 0.914 | 0.854 | 0.738 | 0.831 | 0.564 |
+| complex | xgboost f1+context | 0.959 | 0.914 | 0.872 | 0.739 | 0.843 | 0.598 |
+| inversion | sr>0 | 0.660 | 0.660 | 0.643 | 0.601 | not reachable | not reachable |
+| inversion | logistic f1 | 0.970 | 0.843 | 0.930 | 0.686 | 0.841 | 0.131 |
+| inversion | logistic f1+context | 0.985 | 0.856 | 0.971 | 0.654 | 0.952 | 0.366 |
+| inversion | xgboost f1 | 0.971 | 0.775 | 0.986 | 0.684 | 0.972 | 0.379 |
+| inversion | xgboost f1+context | 0.975 | 0.800 | 0.979 | 0.700 | 0.972 | not reachable |
+
+Holding out whole chromosomes takes every other call on the test chromosome out of training. Deletion hardly moves: logistic average precision stays at 0.976–0.978, and xgboost f1+context falls from 0.996 to 0.982, with precision at recall ≥ 0.90 falling from 0.994 to 0.974. Duplication’s xgboost advantage goes away (0.992 down to 0.972) and auto switches to logistic f1. Complex xgboost f1+context falls from 0.959 to 0.914 average precision and from 0.872 to 0.739 precision at recall ≥ 0.90; recall at precision ≥ 0.95 falls from 0.843 to 0.598. Inversion is the large drop. Sample holdout had every model at average precision 0.970–0.985 and precision 0.93–0.99 at recall ≥ 0.90. On unseen chromosomes the best average precision is 0.856 (logistic f1+context, interval [0.823, 0.888]) and precision at that recall target is 0.654–0.700. Those intervals still sit above the `sr>0` interval [0.611, 0.712], so the models still beat the rule on average precision, but the high precision in the sample-holdout table was learning the locus. XGBoost falls further than logistic (0.775–0.800 against 0.843–0.856).
+
 ## PCA ablation
 
 Same folds, four PCA columns removed (`rearr_pc1`, `rearr_pc2`, `ref_pc1`, `ref_pc2`). The difference is no-pca minus with-pca.
@@ -166,4 +195,4 @@ Inversion, `xgboost f1+context`: split_support_min (16), n_bp_no_split_support (
 
 ## What would move complex and inversion
 
-Complex is the class that still misses the precision target at high recall: the best precision at recall ≥ 0.90 is 0.872, and precision ≥ 0.95 only appears once recall falls to 0.843. The gain list is split-read support and a few rearrangement counts; the six context columns do not enter the top 15, `coverage_ratio` is missing on all 210,141 rows, and `frac_blacklist` is constant. Another tree depth will not close that gap — depths 6 and 10 won, and depth 143 never did. More labeled complex calls, and features that are not a restatement of `sr_support`, are what the numbers point to. Inversion already beats `sr>0` on average precision, with the rule's interval 0.101 wide and the tightest model interval 0.014 wide, but 241 rows leave the recall-at-precision-0.95 interval at [0.938, 1.000]. That is too wide to pick a model, which is why auto stays with logistic f1+context. More labeled inversions, across samples, are what would shrink it.
+Complex is the class that still misses the precision target at high recall: the best precision at recall ≥ 0.90 is 0.872, and precision ≥ 0.95 only appears once recall falls to 0.843. The gain list is split-read support and a few rearrangement counts; the six context columns do not enter the top 15, `coverage_ratio` is missing on all 210,141 rows, and `frac_blacklist` is constant. Another tree depth will not close that gap — depths 6 and 10 won, and depth 143 never did. More labeled complex calls, and features that are not a restatement of `sr_support`, are what the numbers point to. Inversion already beats `sr>0` on average precision, with the rule's interval 0.101 wide and the tightest model interval 0.014 wide, but 241 rows leave the recall-at-precision-0.95 interval at [0.938, 1.000]. That is too wide to pick a model, which is why auto stays with logistic f1+context. More labeled inversions, across samples, are what would shrink it. The locus-holdout section shows how much of the inversion and complex precision depends on seeing the same chromosome in training.
