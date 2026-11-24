@@ -26,8 +26,10 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import shutil
 import sys
+import urllib.error
 import urllib.request
 from collections import defaultdict
 from pathlib import Path
@@ -44,9 +46,68 @@ SEGDUPS_URL = (
     "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/genomicSuperDups.txt.gz"
 )
 BLACKLIST_URL = "https://cf.10xgenomics.com/supp/genome/GRCh38/svblacklist.bed"
+# Boyle-Lab/Blacklist lists/hg38-blacklist.v2.bed.gz at this commit.
+# Genomic-assay blacklist (low mappability and high-signal regions). Used only
+# when the 10x SV blacklist download fails. It is not the 10x SV blacklist.
+ENCODE_BLACKLIST_COMMIT = "d0527cdea356bf57d30535b48783804ca8d21031"
+ENCODE_BLACKLIST_URL = (
+    "https://github.com/Boyle-Lab/Blacklist/raw/"
+    f"{ENCODE_BLACKLIST_COMMIT}/lists/hg38-blacklist.v2.bed.gz"
+)
+ENCODE_BLACKLIST_SHA256 = "c92e763af17271446194991e71917ac220593a5a3d40a06667be24178ef08cf2"
 
 # RepeatMasker classes that match the paper's >85% simple-repeat/low-complexity/satellite/STR cut.
 RMSK_REPEAT_CLASSES = frozenset({"Low_complexity", "Satellite", "Simple_repeat"})
+
+
+def write_blacklist_source(dest: Path, source: str, url: str, sha256: str) -> None:
+    """Record which blacklist was written. ENCODE v2 is a substitute, not the 10x track."""
+    if source == "10x":
+        note = "10x Genomics SV blacklist"
+    else:
+        note = (
+            "ENCODE blacklist v2 (Boyle-Lab/Blacklist). Genomic-assay blacklist "
+            "(low mappability and high-signal regions). Substitute used only because "
+            "the 10x SV blacklist download failed. This is not the 10x SV blacklist."
+        )
+    text = f"source={source}\nurl={url}\nsha256={sha256}\nnote={note}\n"
+    dest.mkdir(parents=True, exist_ok=True)
+    (dest / "blacklist.source.txt").write_text(text, encoding="utf-8")
+    print(f"blacklist source={source} recorded in {dest / 'blacklist.source.txt'}")
+
+
+def fetch_blacklist(raw: Path, download=None) -> tuple[Path, str, str]:
+    """Plain-text blacklist BED plus ``(source, sha256)``.
+
+    10x is first. Pinned ENCODE v2 is used only when that download fails.
+    """
+    if download is None:
+        download = _download
+    tenx = raw / "svblacklist.bed"
+    try:
+        path = download(BLACKLIST_URL, tenx)
+    except (urllib.error.URLError, TimeoutError) as exc:
+        print(
+            f"10x blacklist unavailable ({exc}); using ENCODE blacklist v2 "
+            "(genomic-assay substitute, not the 10x SV blacklist)",
+            file=sys.stderr,
+        )
+    else:
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        return path, "10x", digest
+
+    gz = raw / "hg38-blacklist.v2.bed.gz"
+    download(ENCODE_BLACKLIST_URL, gz)
+    digest = hashlib.sha256(gz.read_bytes()).hexdigest()
+    if digest != ENCODE_BLACKLIST_SHA256:
+        gz.unlink(missing_ok=True)
+        raise SystemExit(
+            f"ENCODE blacklist sha256 {digest} != pinned {ENCODE_BLACKLIST_SHA256}"
+        )
+    plain = raw / "hg38-blacklist.v2.bed"
+    with gzip.open(gz, "rb") as src, plain.open("wb") as out:
+        shutil.copyfileobj(src, out)
+    return plain, "encode_v2", digest
 
 
 def _download(url: str, dest: Path) -> Path:
@@ -156,7 +217,9 @@ def build_filter_beds(dest: Path, *, dry_run: bool = False) -> dict[str, Path]:
     rmsk_path = _download(*sources["rmsk"])
     microsat_path = _download(*sources["microsat"])
     segdups_src = _download(*sources["segdups"])
-    blacklist_src = _download(*sources["blacklist"])
+    blacklist_src, blacklist_source, blacklist_sha = fetch_blacklist(raw)
+    url = BLACKLIST_URL if blacklist_source == "10x" else ENCODE_BLACKLIST_URL
+    write_blacklist_source(dest, blacklist_source, url, blacklist_sha)
 
     # UCSC simpleRepeat / microsat / genomicSuperDups: bin, chrom, chromStart, chromEnd, ...
     repeats: list[tuple[str, int, int]] = []

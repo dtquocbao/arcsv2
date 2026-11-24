@@ -2,12 +2,15 @@
 # Launch the label workflow on Grace with the SLURM executor plugin.
 # Usage: bash scripts/hpc/run_label.sh <configfile> [extra snakemake args]
 #
-# The controller is one process. Run it in tmux on a login node, or as a
-# 1-core job on the long partition so it stays up for the whole DAG.
-# TODO(Bao): confirm HPRC policy on long-running login processes.
+# The controller is one process. Submit it with scripts/hpc/run_label.sbatch
+# (1 core, 4 GB, long partition, 7 days) so it survives a disconnect.
+# Snakemake then submits from that compute node. /usr/bin/sbatch is placed
+# on PATH below because /sw/local/bin/sbatch exits 0 when a job is rejected.
 #
-#   tmux new -s arcsv2
-#   bash scripts/hpc/run_label.sh workflows/config/label.yaml
+#   /usr/bin/sbatch scripts/hpc/run_label.sbatch workflows/config/label.ml2.batch01.yaml
+#
+# Batches are 10 samples. Peak scratch per batch is not measured yet (that is
+# the pilot). This script refuses to start when $SCRATCH has under 150 GB free.
 #
 # Compute nodes have no internet. http_proxy / https_proxy are exported here
 # (SLURM's default --export=ALL forwards them) and the profile's apptainer-args
@@ -87,6 +90,13 @@ MANIFEST="${LOGDIR}/run_manifest.${STAMP}.txt"
   printf 'sbatch=%s\n' "$(command -v sbatch)"
 } > "${MANIFEST}"
 echo "run manifest: ${MANIFEST}"
+
+# Hard stop between batches. 150 GiB free, measured in 1 KiB blocks.
+free_kb="$(df -Pk "${SCRATCH}" | awk 'NR==2 {print $4}')"
+if (( free_kb < 150 * 1024 * 1024 )); then
+  echo "STOP: ${SCRATCH} has $((free_kb / 1024 / 1024)) GB free; need 150 GB before the next batch." >&2
+  exit 1
+fi
 
 # Extra args (targets, flags) go before --configfile: it takes several files,
 # so a target placed after it would be read as another config file.

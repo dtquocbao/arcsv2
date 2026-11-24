@@ -470,6 +470,31 @@ def ml_annotate_cmd(
     typer.echo(f"wrote annotations to {out}")
 
 
+@app.command("ml-coverage")
+def ml_coverage_cmd(
+    calls: Path = typer.Option(..., "--calls", help="arcsv_out.tab or merged.tab"),
+    reads: str = typer.Option(..., "--reads", help="BAM path or CRAM URL"),
+    out: Path = typer.Option(..., "--out", "-o", help="coverage.tsv keyed by call id"),
+    reference: Path | None = typer.Option(None, "--reference", "-R", help="Required for a CRAM"),
+    gaps: Path | None = typer.Option(None, "--gaps", help="BED of gaps excluded from the chromosome median"),
+) -> None:
+    """Mean depth inside each call, on its flanks, and the chromosome median.
+
+    Depth is ``samtools bedcov -Q 20``. Spans longer than 50 kb use 20 evenly
+    spaced 1 kb windows. ``coverage_ratio`` is NA when the flank depth is 0.
+    This does not rewrite the call table.
+    """
+    from arcsv2.coverage import write_coverage
+
+    if reads.lower().startswith(("http://", "https://", "s3://")) and reference is None:
+        raise typer.BadParameter("a CRAM URL needs --reference")
+    try:
+        n = write_coverage(calls, reads, out, reference=reference, gaps=gaps)
+    except (RuntimeError, ValueError) as exc:
+        raise typer.BadParameter(str(exc)) from None
+    typer.echo(f"wrote {n} coverage rows to {out}")
+
+
 @app.command("ml-train")
 def ml_train_cmd(
     out: Path = typer.Option(..., "--out", "-o"),

@@ -173,6 +173,7 @@ def test_runtime_stays_inside_grace_partition():
         "index_haps": lambda attempt: ns["index_runtime_min"](wc) * attempt,
         "label": lambda attempt: ns["label_runtime_min"](wc) * attempt,
         "dataset": lambda attempt: ns["DATASET_RUNTIME_MIN"] * attempt,
+        "coverage": lambda attempt: ns["COVERAGE_RUNTIME_MIN"] * attempt,
     }
     text = (ROOT / "workflows/label.smk").read_text(encoding="utf-8")
     for rule, base in bases.items():

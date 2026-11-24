@@ -63,6 +63,7 @@ PARTITION_LIMIT_MIN = {"short": 120, "medium": 1440, "long": 10080}
 FETCH_RUNTIME_MIN = 90
 MERGE_RUNTIME_MIN = 30
 DATASET_RUNTIME_MIN = 30
+COVERAGE_RUNTIME_MIN = 30
 
 
 def _cap(minutes, partition) -> int:
@@ -123,6 +124,18 @@ def hap_fasta(sample, which):
     return data(f"haps/{sample}.{which}.fa")
 
 
+def coverage_flags() -> str:
+    """Reference and gaps for ``arcsv2 ml-coverage``. Empty paths are omitted."""
+    parts: list[str] = []
+    reference = str(config.get("reference") or "").strip()
+    if reference:
+        parts.extend(["--reference", shlex.quote(reference)])
+    gaps = str(config.get("gaps") or "").strip()
+    if gaps:
+        parts.extend(["--gaps", shlex.quote(gaps)])
+    return " ".join(parts)
+
+
 def merge_filter_bed_args():
     """Optional paper merge-filter BED flags from config (empty = skip).
 
@@ -156,8 +169,11 @@ rule all:
 
 rule fetch_region:
     output:
-        bam=data("work/{sample}/{chrom}.bam"),
-        bai=data("work/{sample}/{chrom}.bam.bai"),
+        # temp() so the per-chromosome BAM and index are removed once call and
+        # coverage have both finished. coverage lists them as inputs, so they
+        # stay until the depth table is written.
+        bam=temp(data("work/{sample}/{chrom}.bam")),
+        bai=temp(data("work/{sample}/{chrom}.bam.bai")),
     resources:
         mem_mb=lambda wc, attempt: 4000 * attempt,
         runtime=lambda wc, attempt: _cap(FETCH_RUNTIME_MIN * attempt, "medium"),
@@ -193,10 +209,42 @@ rule call:
         "-o {params.out:q} --region {wildcards.chrom:q} --threads {threads} "
         "--engine {params.engine}"
 
+rule coverage:
+    """Depth columns for this chromosome. Does not rewrite arcsv_out.tab.
+
+    PYTHONPATH=python loads this repo's arcsv2 so the frozen 1.6.1 image,
+    which has no ml-coverage command, still runs the working tree. The call
+    rule does not set PYTHONPATH, so the caller stays the image build.
+    """
+    input:
+        calls=results("{sample}/{chrom}/arcsv_out.tab"),
+        bam=data("work/{sample}/{chrom}.bam"),
+        bai=data("work/{sample}/{chrom}.bam.bai"),
+    output:
+        results("{sample}/{chrom}/coverage.tsv"),
+    resources:
+        mem_mb=lambda wc, attempt: 4000 * attempt,
+        runtime=lambda wc, attempt: _cap(COVERAGE_RUNTIME_MIN * attempt, "short"),
+    params:
+        extra=coverage_flags(),
+    conda:
+        _CONDA_ENV
+    shell:
+        "PYTHONPATH=python arcsv2 ml-coverage --calls {input.calls:q} "
+        "--reads {input.bam:q} {params.extra} -o {output:q}"
+
+
 rule merge:
     input:
-        lambda wildcards: expand(
+        tabs=lambda wildcards: expand(
             results("{sample}/{chrom}/arcsv_out.tab"),
+            sample=wildcards.sample,
+            chrom=config["chroms"],
+        ),
+        # Coverage must be in this DAG so the temp BAM is not deleted first.
+        # merge-filter still sees only the call tables, so merged.tab is unchanged.
+        cov=lambda wildcards: expand(
+            results("{sample}/{chrom}/coverage.tsv"),
             sample=wildcards.sample,
             chrom=config["chroms"],
         ),
@@ -210,7 +258,7 @@ rule merge:
     conda:
         _CONDA_ENV
     shell:
-        "arcsv2 merge-filter {input:q} {params.beds} -o {output:q}"
+        "arcsv2 merge-filter {input.tabs:q} {params.beds} -o {output:q}"
 
 rule index_haps:
     """Build one haplotype index, then reject a too-small or unloadable .mmi.
@@ -221,7 +269,8 @@ rule index_haps:
     input:
         lambda wildcards: hap_fasta(wildcards.sample, wildcards.which),
     output:
-        data("haps/{sample}.{which}.mmi"),
+        # Removed once label, the only consumer, has finished.
+        temp(data("haps/{sample}.{which}.mmi")),
     resources:
         mem_mb=lambda wc, attempt: 16000 * attempt,
         runtime=lambda wc, attempt: _cap(index_runtime_min(wc) * attempt, "medium"),

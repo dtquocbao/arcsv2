@@ -25,3 +25,5 @@ set-resources:
     slurm_partition: "short"
   merge:
     slurm_partition: "short"
+  coverage:
+    slurm_partition: "short"

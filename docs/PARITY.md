@@ -73,6 +73,16 @@ removed after the v2fix9 INS/complex regression.
    `label.ml0_s4.yaml`) set `blacklist: ""` rather than substituting another track.
    Merge-filter still applies `simple_repeats`, `segdups`, and `gaps`. Dataset context
    column `frac_blacklist` is therefore 0 for all rows.
+8. **Blacklist fallback** — `scripts/fetch_filter_beds.py` still requests the 10x
+   SV blacklist first. When that download fails it uses ENCODE blacklist v2
+   (Boyle-Lab/Blacklist commit `d0527cdea356bf57d30535b48783804ca8d21031`,
+   `lists/hg38-blacklist.v2.bed.gz`, sha256
+   `c92e763af17271446194991e71917ac220593a5a3d40a06667be24178ef08cf2`).
+   ENCODE v2 is a genomic-assay blacklist (low mappability and high-signal
+   regions). It is a substitute for the 10x SV blacklist, not that track.
+   `blacklist.source.txt` next to the BED records which file was written.
+   ML-0 `frac_blacklist` stays 0 until that BED is applied in dataset v1.
+   Recomputing it needs only call coordinates (`minbp`, `maxbp`) and the BED.
 
 ## Oracle
 
