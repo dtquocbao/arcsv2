@@ -760,6 +760,32 @@ def _candidate_list(kind: str, family: str) -> list[dict]:
     raise ValueError(f"unknown model family {family}")
 
 
+def apply_exclude_splits(
+    rows: list[dict[str, str]], splits: list[str]
+) -> tuple[list[dict[str, str]], dict]:
+    """Drop rows whose ``split`` is in ``splits`` before any fold is built.
+
+    An empty ``splits`` list leaves the table unchanged. Logistic regression
+    later fills a missing ``coverage_ratio`` with the training-fold median and
+    adds a missing indicator. XGBoost keeps that value as NaN.
+    """
+    names = [name for name in splits if name]
+    if not names:
+        return rows, {"splits": [], "rows": 0, "samples": 0, "sample_ids": []}
+    if rows and "split" not in rows[0]:
+        raise ValueError("dataset has no split column; --exclude-split cannot be applied")
+    drop = set(names)
+    excluded = [row for row in rows if row.get("split") in drop]
+    kept = [row for row in rows if row.get("split") not in drop]
+    sample_ids = sorted({row.get("sample") or "" for row in excluded})
+    return kept, {
+        "splits": list(names),
+        "rows": len(excluded),
+        "samples": len(sample_ids),
+        "sample_ids": sample_ids,
+    }
+
+
 def evaluate(
     rows: list[dict[str, str]],
     *,
@@ -768,15 +794,28 @@ def evaluate(
     include_rf: str = "inversion",
     outer_group: str = "sample",
     ablation: bool = True,
+    exclude_splits: list[str] | None = None,
 ) -> dict:
     """Outer-fold report. ``include_rf`` is ``inversion`` or ``all`` or ``none``.
 
     ``outer_group`` is ``sample`` (stratified by superpopulation) or ``chrom``.
     Chromosome folds use ``GroupKFold`` on the outside and the inside. The
-    bootstrap is still over samples.
+    bootstrap is still over samples. ``exclude_splits`` drops those rows before
+    folds are built.
+
+    Missing context values, including ``coverage_ratio``, are not imputed in
+    the table. Logistic regression fills each one with the median of the
+    training fold and appends a 0/1 missing indicator. XGBoost leaves NaN in
+    the matrix so the tree can split on missingness.
     """
     if outer_group not in ("sample", "chrom"):
         raise ValueError(f"unknown outer group {outer_group}")
+    rows, excluded = apply_exclude_splits(rows, list(exclude_splits or []))
+    if excluded["rows"]:
+        _log(
+            f"excluded split={','.join(excluded['splits'])} "
+            f"samples={excluded['samples']} rows={excluded['rows']}"
+        )
     rows = training_rows(rows)
     if outer_group == "chrom":
         folds = _outer_chrom_folds(rows, n_splits)
@@ -956,6 +995,7 @@ def evaluate(
             "labeler_columns_excluded": sorted(LABELER_COLUMNS),
         },
         "library_versions": library_versions(),
+        "excluded": excluded,
         "folds": [{"train": train, "test": test} for train, test in folds],
         "classes": report_classes,
     }
@@ -1333,6 +1373,7 @@ def write_evaluation(
     outer_group: str = "sample",
     include_rf: str = "inversion",
     ablation: bool = True,
+    exclude_splits: list[str] | None = None,
 ) -> dict:
     """Run ``evaluate`` and write ``report.json`` plus ``report.md``."""
     import json
@@ -1353,6 +1394,7 @@ def write_evaluation(
             outer_group=outer_group,
             include_rf=include_rf,
             ablation=ablation,
+            exclude_splits=exclude_splits,
         )
     finally:
         stop.set()
@@ -1417,9 +1459,18 @@ def render_markdown(report: dict) -> str:
         report["notes"]["coverage_ratio"] + ".",
         report["notes"]["paper_presets"],
         "",
+    ]
+    excluded = report.get("excluded") or {}
+    if excluded.get("rows"):
+        lines.append(
+            f"Excluded split `{', '.join(excluded.get('splits') or [])}`: "
+            f"{excluded['samples']} samples, {excluded['rows']} rows."
+        )
+        lines.append("")
+    lines.extend([
         "## Per class",
         "",
-    ]
+    ])
     header = (
         "| Model | n | AP | AP CI | ROC AUC | Precision @ recall≥0.90 | Recall @ recall≥0.90 | "
         "Recall @ precision≥0.95 |"

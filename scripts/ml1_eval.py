@@ -20,6 +20,12 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--outer-group", choices=("sample", "chrom"), default="sample")
     parser.add_argument("--include-rf", choices=("inversion", "all", "none"), default="inversion")
     parser.add_argument("--no-ablation", action="store_true", help="Skip the PCA-dropped models")
+    parser.add_argument(
+        "--exclude-split",
+        action="append",
+        default=[],
+        help="Drop rows with this split before folds. Repeatable.",
+    )
     args = parser.parse_args(argv)
     write_evaluation(
         args.labels,
@@ -29,6 +35,7 @@ def main(argv: list[str] | None = None) -> None:
         outer_group=args.outer_group,
         include_rf=args.include_rf,
         ablation=not args.no_ablation,
+        exclude_splits=args.exclude_split,
     )
 
 

@@ -6,7 +6,11 @@
 #   JobID,JobName,Elapsed,AllocCPUS,ReqMem,MaxRSS
 # Service units use the Grace rule: elapsed hours times
 # max(AllocCPUS, requested GB / 7.5). ReqMem suffixes: M = mebibytes, G = gibibytes,
-# and a trailing c means per-CPU. "SU per genome" is fetch_region + call + merge.
+# and a trailing c means per-CPU.
+# Do not switch to sacct's billing= field. On the 120-genome run it suggested
+# about 2,330 SU, while myproject charged about 8,000.
+# "SU per genome" is (fetch_region + call + merge) divided by the number of
+# distinct sample= names in the log. A log with no sample= counts as 1.
 set -euo pipefail
 
 if [[ $# -ne 1 || ! -f "${1:-}" ]]; then
@@ -17,9 +21,13 @@ LOG="$1"
 
 declare -A SMK_RULE=()
 declare -A RULE_IDS=()
+declare -A SAMPLE_SET=()
 current_rule=""
 
 while IFS= read -r line || [[ -n "$line" ]]; do
+  if [[ "$line" =~ sample=([A-Za-z0-9]+) ]]; then
+    SAMPLE_SET["${BASH_REMATCH[1]}"]=1
+  fi
   if [[ "$line" =~ ^rule[[:space:]]+([^:]+): ]]; then
     current_rule="${BASH_REMATCH[1]}"
     continue
@@ -143,4 +151,9 @@ for rule in $(printf '%s\n' "${!RULE_SU[@]}" | sort); do
     genome="$(awk -v a="$genome" -v b="${RULE_SU[$rule]}" 'BEGIN { printf "%.4f", a + b }')"
   fi
 done
-printf 'SU per genome %s\n' "$genome"
+n_samples=${#SAMPLE_SET[@]}
+if (( n_samples < 1 )); then
+  n_samples=1
+fi
+per="$(awk -v t="$genome" -v n="$n_samples" 'BEGIN { printf "%.4f", t / n }')"
+printf 'SU per genome (fetch+call+merge / %s samples) %s\n' "$n_samples" "$per"

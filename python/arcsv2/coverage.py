@@ -14,6 +14,7 @@ import random
 import shutil
 import subprocess
 import tempfile
+import time
 from pathlib import Path
 
 SEED = 204178949
@@ -23,6 +24,8 @@ WINDOW_BP = 1_000
 FLANK_BP = 1_000
 N_SAMPLE_WINDOWS = 20
 N_CHROM_WINDOWS = 200
+BEDCOV_CHUNK = 500
+BEDCOV_RETRIES = 5
 
 COLUMNS = (
     "id",
@@ -265,17 +268,26 @@ def write_coverage_tsv(path: Path, rows: list[dict[str, str]]) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def bedcov(
+def _parse_bedcov(text: str) -> dict[str, int]:
+    totals: dict[str, int] = {}
+    for line in text.splitlines():
+        parts = line.split("\t")
+        if len(parts) < 5:
+            continue
+        totals[parts[3]] = int(parts[-1])
+    return totals
+
+
+def _bedcov_once(
     reads: str,
     regions: list[tuple[str, int, int, str]],
     *,
-    reference: Path | None = None,
-    mapq: int = MAPQ,
+    reference: Path | None,
+    mapq: int,
 ) -> dict[str, int]:
-    """Sum of per-base depths for each named region. MAPQ threshold is ``mapq``."""
-    if not regions:
-        return {}
-    if shutil.which("samtools") is None:
+    """One samtools bedcov call. The depth sum is identical for any chunking of ``regions``."""
+    samtools = shutil.which("samtools")
+    if samtools is None:
         raise RuntimeError("samtools is not on PATH")
     with tempfile.TemporaryDirectory() as tmp:
         bed = Path(tmp) / "windows.bed"
@@ -283,7 +295,7 @@ def bedcov(
             "".join(f"{chrom}\t{start}\t{end}\t{name}\n" for chrom, start, end, name in regions),
             encoding="utf-8",
         )
-        cmd = ["samtools", "bedcov", "-Q", str(mapq)]
+        cmd = [samtools, "bedcov", "-Q", str(mapq)]
         if reference is not None:
             cmd.extend(["--reference", str(reference)])
         cmd.extend([str(bed), reads])
@@ -291,12 +303,69 @@ def bedcov(
     if proc.returncode != 0:
         detail = (proc.stderr or proc.stdout or "samtools bedcov failed").strip()
         raise RuntimeError(detail)
+    return _parse_bedcov(proc.stdout)
+
+
+def _read_chunk_cache(path: Path) -> dict[str, int]:
     totals: dict[str, int] = {}
-    for line in proc.stdout.splitlines():
-        parts = line.split("\t")
-        if len(parts) < 5:
+    for line in path.read_text(encoding="utf-8").splitlines():
+        name, value = line.split("\t")
+        totals[name] = int(value)
+    return totals
+
+
+def _write_chunk_cache(path: Path, totals: dict[str, int]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines = [f"{name}\t{totals[name]}" for name in sorted(totals)]
+    path.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+
+
+def bedcov(
+    reads: str,
+    regions: list[tuple[str, int, int, str]],
+    *,
+    reference: Path | None = None,
+    mapq: int = MAPQ,
+    chunk_size: int = BEDCOV_CHUNK,
+    retries: int = BEDCOV_RETRIES,
+    cache_dir: Path | None = None,
+    sleeper=time.sleep,
+) -> dict[str, int]:
+    """Sum of per-base depths for each named region. MAPQ threshold is ``mapq``.
+
+    Regions go out in chunks. A failed chunk is retried up to ``retries`` times
+    with backoff 5 s, 15 s, 45 s, and so on. A finished chunk is cached under
+    ``cache_dir`` so a rerun skips it. Chunking does not change the totals.
+    """
+    if not regions:
+        return {}
+    if chunk_size < 1:
+        raise ValueError("chunk_size must be positive")
+    totals: dict[str, int] = {}
+    chunks = [regions[i : i + chunk_size] for i in range(0, len(regions), chunk_size)]
+    for index, chunk in enumerate(chunks):
+        cache = None if cache_dir is None else cache_dir / f"chunk_{index:05d}.tsv"
+        if cache is not None and cache.is_file():
+            totals.update(_read_chunk_cache(cache))
             continue
-        totals[parts[3]] = int(parts[-1])
+        delay = 5.0
+        part: dict[str, int] | None = None
+        last = "samtools bedcov failed"
+        for attempt in range(retries):
+            try:
+                part = _bedcov_once(reads, chunk, reference=reference, mapq=mapq)
+                break
+            except RuntimeError as exc:
+                last = str(exc)
+                if attempt + 1 == retries:
+                    raise
+                sleeper(delay)
+                delay *= 3
+        if part is None:
+            raise RuntimeError(last)
+        if cache is not None:
+            _write_chunk_cache(cache, part)
+        totals.update(part)
     return totals
 
 
@@ -343,6 +412,7 @@ def coverage_rows(
     seed: int = SEED,
     totals: dict[str, int] | None = None,
     lengths: dict[str, int] | None = None,
+    cache_dir: Path | None = None,
 ) -> list[dict[str, str]]:
     """Depth columns for ``calls``.
 
@@ -356,7 +426,7 @@ def coverage_rows(
     gaps_for = {chrom: read_gaps(gaps, chrom) for chrom in lengths}
     regions, meta = plan_regions(calls, lengths, gaps_for, seed=seed)
     if totals is None:
-        totals = bedcov(reads, regions, reference=reference)
+        totals = bedcov(reads, regions, reference=reference, cache_dir=cache_dir)
     return rows_from_totals(calls, meta, totals)
 
 
@@ -370,6 +440,8 @@ def write_coverage(
     seed: int = SEED,
 ) -> int:
     calls = read_calls(calls_path)
-    rows = coverage_rows(calls, reads, reference=reference, gaps=gaps, seed=seed)
+    cache = out.parent / f".{out.name}.chunks"
+    rows = coverage_rows(calls, reads, reference=reference, gaps=gaps, seed=seed, cache_dir=cache)
     write_coverage_tsv(out, rows)
+    shutil.rmtree(cache, ignore_errors=True)
     return len(rows)

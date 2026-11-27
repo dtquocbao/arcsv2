@@ -580,19 +580,33 @@ def ml_eval_cmd(
     outer_group: str = typer.Option("sample", "--outer-group", help="sample (default) or chrom"),
     include_rf: str = typer.Option("inversion", "--include-rf", help="inversion, all, or none"),
     ablation: bool = typer.Option(True, "--ablation/--no-ablation"),
+    exclude_split: list[str] = typer.Option(
+        [],
+        "--exclude-split",
+        help="Drop rows with this split value before folds. Repeatable.",
+    ),
 ) -> None:
-    """Outer-fold comparison of logistic, XGBoost, and the sr>0 rule."""
+    """Outer-fold comparison of logistic, XGBoost, and the sr>0 rule.
+
+    ``--exclude-split`` drops those rows before any fold is built. Logistic
+    regression fills a missing coverage ratio with the training-fold median
+    and adds a missing indicator. XGBoost keeps NaN.
+    """
     from arcsv2.ml1 import write_evaluation
 
-    write_evaluation(
-        labels,
-        out,
-        max_samples=max_samples,
-        n_boot=n_boot,
-        outer_group=outer_group,
-        include_rf=include_rf,
-        ablation=ablation,
-    )
+    try:
+        write_evaluation(
+            labels,
+            out,
+            max_samples=max_samples,
+            n_boot=n_boot,
+            outer_group=outer_group,
+            include_rf=include_rf,
+            ablation=ablation,
+            exclude_splits=exclude_split,
+        )
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from None
 
 
 @app.command("dashboard")

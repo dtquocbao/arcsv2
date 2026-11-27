@@ -322,7 +322,53 @@ def test_su_report_sums_fetch_call_merge(tmp_path: Path):
         env=env,
     )
     assert proc.returncode == 0, proc.stderr or proc.stdout
-    assert "SU per genome 4.7604" in proc.stdout
+    assert "SU per genome (fetch+call+merge / 1 samples) 4.7604" in proc.stdout
     assert "fetch_region 1 0.5000" in proc.stdout
     assert "call 1 4.0000" in proc.stdout
     assert "merge 1 0.2604" in proc.stdout
+
+
+@pytest.mark.skipif(_bash() is None, reason="bash is not installed")
+def test_su_report_divides_by_sample_count(tmp_path: Path):
+    bindir = tmp_path / "bin"
+    bindir.mkdir()
+    sacct = bindir / "sacct"
+    sacct.write_text(
+        "#!/bin/bash\n"
+        "printf '%s\\n' \\\n"
+        "  '200|fetch|00:30:00|1|4000M|' \\\n"
+        "  '100|call|01:00:00|4|4000M|' \\\n"
+        "  '300|merge|00:15:00|1|8000M|'\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    sacct.chmod(0o755)
+    log = tmp_path / "snakemake.log"
+    log.write_text(
+        "rule fetch_region:\n"
+        "    jobid: 1\n"
+        "    wildcards: sample=HG1\n"
+        "Job 1 has been submitted with SLURM jobid 200 (log: x).\n"
+        "rule call:\n"
+        "    jobid: 2\n"
+        "    wildcards: sample=HG2\n"
+        "Job 2 has been submitted with SLURM jobid 100 (log: x).\n"
+        "rule merge:\n"
+        "    jobid: 3\n"
+        "    wildcards: sample=HG1\n"
+        "Job 3 has been submitted with SLURM jobid 300 (log: x).\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    env = dict(os.environ)
+    env["PATH"] = str(bindir) + os.pathsep + env.get("PATH", "")
+    proc = subprocess.run(
+        [_bash(), str(ROOT / "scripts" / "hpc" / "su_report.sh"), str(log)],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+        env=env,
+    )
+    assert proc.returncode == 0, proc.stderr or proc.stdout
+    assert "SU per genome (fetch+call+merge / 2 samples) 2.3802" in proc.stdout
