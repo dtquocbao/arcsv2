@@ -24,6 +24,7 @@ import csv
 import gzip
 import importlib.util
 import json
+import sys
 import math
 import os
 from collections import Counter
@@ -371,6 +372,24 @@ def _dedupe(rows: list[dict]) -> list[dict]:
     return [kept[key] for key in order]
 
 
+def _coerce_numeric(frame: "pd.DataFrame") -> "pd.DataFrame":
+    """Turn object columns that hold only numbers (as text or float) into floats.
+
+    ML-0 rows arrive as text from dataset_v0 while ML2 context columns are
+    computed as floats, so a column can mix '0.0' and 0.0. Columns with any
+    non-numeric value (sample, chrom, call_id, ...) are left alone.
+    """
+    for col in frame.columns:
+        if frame[col].dtype != object:
+            continue
+        values = frame[col].replace({"NA": None, "": None, "nan": None})
+        try:
+            frame[col] = pd.to_numeric(values, errors="raise")
+        except (ValueError, TypeError):
+            continue
+    return frame
+
+
 def build(args: argparse.Namespace) -> int:
     data_root = args.data_root
     config_dir = args.config_dir or (Path(__file__).resolve().parents[1] / "workflows" / "config")
@@ -461,9 +480,12 @@ def build(args: argparse.Namespace) -> int:
     try:
         import pyarrow  # noqa: F401
 
-        frame.to_parquet(parquet_path, index=False)
+        _coerce_numeric(frame.copy()).to_parquet(parquet_path, index=False)
         wrote_parquet = True
     except ImportError:
+        parquet_path = None
+    except Exception as exc:  # parquet is optional; the TSV is the primary output
+        print(f"warning: skipped parquet ({exc})", file=sys.stderr)
         parquet_path = None
 
     inputs = {
